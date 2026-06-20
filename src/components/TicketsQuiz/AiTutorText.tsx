@@ -14,11 +14,13 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const rafRef = useRef(0);
-  const hasPlayedRef = useRef(false);
 
   useEffect(() => {
-    if (!open || hasPlayedRef.current) return;
-    hasPlayedRef.current = true;
+    cancelAnimationFrame(rafRef.current);
+    if (!open) return;
+
+    setDisplayed("");
+    setDone(false);
 
     let i = 0;
     let last = 0;
@@ -42,7 +44,9 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
 
     rafRef.current = requestAnimationFrame(step);
 
-    return () => cancelAnimationFrame(rafRef.current);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+    };
   }, [open, text]);
 
   return (

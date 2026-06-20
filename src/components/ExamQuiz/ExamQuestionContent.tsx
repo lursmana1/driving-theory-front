@@ -37,13 +37,12 @@ export default function ExamQuestionContent({
         }}
       >
         {!!question.hasImg && (
-          <div className="mb-3 w-full min-w-0 shrink-0">
+          <div className="mb-3 w-full min-w-0 shrink-0 relative h-44 sm:h-72 lg:h-[280px]">
             <Image
               src={"/" + question.img}
               alt={question.question || ""}
-              className="m-auto h-auto max-h-44 sm:max-h-72 lg:max-h-[280px]"
-              width={1000}
-              height={410}
+              fill
+              sizes="(min-width: 1024px) 800px, 100vw"
               priority
             />
           </div>

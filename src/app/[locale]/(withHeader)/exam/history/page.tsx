@@ -144,6 +144,7 @@ export default async function ExamHistoryPage({ searchParams }: PageProps) {
             wrongLabel={t("wrongCount")}
             correctLabel={t("correctCount")}
             totalLabel={t("totalQuestions")}
+            unansweredLabel={t("unanswered")}
           />
         </div>
 

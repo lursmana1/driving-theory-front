@@ -1,5 +1,23 @@
 [
-  { "rank": 1, "initials": "გმ", "user": "გიორგი მ.", "xp": "12,450 XP", "trophy": "gold" },
-  { "rank": 2, "initials": "ნნ", "user": "ნიკა კ.", "xp": "11,200 XP", "trophy": "silver" },
-  { "rank": 3, "initials": "ეთ", "user": "ეკა თ.", "xp": "10,890 XP", "trophy": "bronze" }
+  {
+    "rank": 1,
+    "user": "გიორგი მ.",
+    "sub": "12 გამოცდა ჩაბარებული",
+    "pct": "98%",
+    "medal": "gold"
+  },
+  {
+    "rank": 2,
+    "user": "ანა კ.",
+    "sub": "15 გამოცდა ჩაბარებული",
+    "pct": "96%",
+    "medal": "silver"
+  },
+  {
+    "rank": 3,
+    "user": "ნიკა ბ.",
+    "sub": "10 გამოცდა ჩაბარებული",
+    "pct": "95%",
+    "medal": "bronze"
+  }
 ]

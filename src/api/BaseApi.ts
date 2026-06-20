@@ -11,6 +11,8 @@ function getClientLocale(): string {
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  // Prevent server/client components from hanging indefinitely when backend is down.
+  timeout: 8000,
   headers: {
     "Content-Type": "application/json",
     "Accept-Language": "ka",

@@ -14,11 +14,22 @@ export default async function BlogsPage({ searchParams }: PageProps) {
   const page = Number(sp.page ?? "1");
   const locale = await getLocale();
 
-  const res = await BaseApi.get<BlogsResponse>("/blogs", {
-    params: { page, size: BLOGS_PAGE_SIZE },
-  });
+  let data: BlogsResponse["data"] = [];
+  let resPage = page;
+  let total = 0;
+  let backendUnavailable = false;
 
-  const { data, page: resPage, total } = res.data;
+  try {
+    const res = await BaseApi.get<BlogsResponse>("/blogs", {
+      params: { page, size: BLOGS_PAGE_SIZE },
+    });
+    data = res.data.data;
+    resPage = res.data.page;
+    total = res.data.total;
+  } catch {
+    backendUnavailable = true;
+  }
+
   const pagination = {
     page: resPage ?? page,
     total: total ?? data.length,
@@ -30,6 +41,11 @@ export default async function BlogsPage({ searchParams }: PageProps) {
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-8">
           Blogs
         </h2>
+        {backendUnavailable && (
+          <p className="text-center text-slate-500 py-6">
+            Service unavailable. Please try again later.
+          </p>
+        )}
         {data.length === 0 ? (
           <p className="text-slate-500 py-12">No posts yet.</p>
         ) : (

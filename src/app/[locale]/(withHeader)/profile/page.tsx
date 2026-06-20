@@ -26,12 +26,7 @@ export default async function ProfilePage() {
           <span className="text-sm text-slate-500">ელფოსტა</span>
           <p className="font-medium">{user.email}</p>
         </div>
-        {user.type && (
-          <div>
-            <span className="text-sm text-slate-500">ტიპი</span>
-            <p className="font-medium">{user.type}</p>
-          </div>
-        )}
+       
         <div className="pt-4 border-t border-slate-200">
           <Link
             href="/auth/logout"

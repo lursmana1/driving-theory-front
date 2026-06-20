@@ -1,10 +1,14 @@
 import { Link } from "@/i18n/navigation";
 import { navLinks } from "@/CONSTS/navLinks";
+import type { HeaderVariant } from "./headerVariants";
+import { headerNavLink } from "./headerVariants";
 
-const navLinkClass =
-  "shrink-0 rounded-md px-1.5 py-1.5 text-[11px] font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 sm:px-2 sm:text-xs md:px-3 md:py-2 md:text-sm";
+type HeaderNavProps = {
+  variant?: HeaderVariant;
+};
 
-export default function HeaderNav() {
+export default function HeaderNav({ variant = "default" }: HeaderNavProps) {
+  const navLinkClass = headerNavLink[variant];
   return (
     <nav
       aria-label="Main navigation"

@@ -5,6 +5,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
+import type { HeaderVariant } from "@/layoutComponents/Header/headerVariants";
 
 const localeConfig: Record<string, { label: string; flag: string }> = {
   ka: { label: "ქართული", flag: "/languages/flag-ge.svg" },
@@ -14,9 +15,12 @@ const localeConfig: Record<string, { label: string; flag: string }> = {
 
 export default function LocaleSwitcher({
   className = "",
+  variant = "default",
 }: {
   className?: string;
+  variant?: HeaderVariant;
 }) {
+  const isLanding = variant === "landing";
   const locale = useLocale();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -42,7 +46,11 @@ export default function LocaleSwitcher({
         aria-expanded={open}
         aria-haspopup="listbox"
         aria-label="Select language"
-        className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 sm:px-3 sm:py-2"
+        className={
+          isLanding
+            ? "flex items-center gap-2 rounded-lg border border-white/15 bg-[#242933] px-2.5 py-1.5 text-white shadow-sm transition-colors hover:border-white/25 hover:bg-[#2a3140] focus:border-sky-400/50 focus:outline-none focus:ring-2 focus:ring-sky-400/25 sm:px-3 sm:py-2"
+            : "flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 sm:px-3 sm:py-2"
+        }
       >
         <Image
           src={current.flag}
@@ -52,7 +60,7 @@ export default function LocaleSwitcher({
           className="h-4 w-4 shrink-0 rounded-sm object-cover"
         />
         <svg
-          className={`h-3.5 w-3.5 shrink-0 text-slate-500 transition-transform sm:h-4 sm:w-4 ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 shrink-0 transition-transform sm:h-4 sm:w-4 ${isLanding ? "text-white" : "text-slate-500"} ${open ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -69,7 +77,7 @@ export default function LocaleSwitcher({
       {open && (
         <ul
           role="listbox"
-          className="absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
+          className="absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-white/15  bg-[#242933] py-1 shadow-lg"
         >
           {routing.locales.map((loc) => {
             const config = localeConfig[loc];
@@ -82,7 +90,7 @@ export default function LocaleSwitcher({
                   onClick={() => setOpen(false)}
                   className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors ${
                     isActive
-                      ? "bg-blue-50 text-blue-700"
+                      ? "bg-[#242933] text-slate-900"
                       : "text-slate-700 hover:bg-slate-50"
                   }`}
                 >
@@ -95,7 +103,7 @@ export default function LocaleSwitcher({
                   />
                   {isActive && (
                     <svg
-                      className="ml-auto h-4 w-4 text-blue-600"
+                      className="ml-auto h-4 w-4 text-[#1A73E8]"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >

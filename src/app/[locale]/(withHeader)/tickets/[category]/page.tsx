@@ -32,8 +32,18 @@ export default async function TicketsCategoryPage({
   const subjects = sp.subjects ?? "";
   const questionId = sp.questionId ?? "";
 
-  const [categories, questionsRes]: [Category[], QuestionsResponse] =
-    await Promise.all([
+  let categories: Category[] = [];
+  let questionsRes: QuestionsResponse = {
+    items: [],
+    page: 1,
+    size,
+    total: 0,
+    totalPages: 0,
+  };
+  let backendUnavailable = false;
+
+  try {
+    [categories, questionsRes] = await Promise.all([
       BaseApi.get("/categories").then((r) => r.data),
       BaseApi.get(`/questions/${questionId ? questionId : ""}`, {
         params: {
@@ -45,6 +55,10 @@ export default async function TicketsCategoryPage({
         },
       }).then((r) => r.data),
     ]);
+  } catch {
+    backendUnavailable = true;
+  }
+  console.log(questionsRes, "questionsRes");
 
   const rawItems = questionsRes?.items ?? questionsRes;
   const questions = Array.isArray(rawItems)
@@ -58,15 +72,20 @@ export default async function TicketsCategoryPage({
     total: questionsRes?.total ?? questions.length,
   };
 
-  console.log(questions, "zd");
-
   return (
     <div className="section space-y-6 py-8">
+      {backendUnavailable && (
+        <p className="text-center text-slate-500">
+          Service unavailable. Please try again later.
+        </p>
+      )}
       {/* Top categories - 2 cols mobile, 1 col desktop */}
-      <CategoryCardsGrid
-        categories={categories}
-        activeCategoryId={categoryId}
-      />
+      {!backendUnavailable && (
+        <CategoryCardsGrid
+          categories={categories}
+          activeCategoryId={categoryId}
+        />
+      )}
 
       {/* 2-column layout: content first on mobile, sidebar left on desktop */}
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 items-start">

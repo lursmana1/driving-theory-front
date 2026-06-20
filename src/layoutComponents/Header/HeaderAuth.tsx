@@ -1,31 +1,37 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { useUser } from "@/contexts/UserContext";
+import type { HeaderVariant } from "./headerVariants";
+import { headerAuthLink } from "./headerVariants";
 
-export default function HeaderAuth() {
+type HeaderAuthProps = {
+  variant?: HeaderVariant;
+};
+
+export default function HeaderAuth({ variant = "default" }: HeaderAuthProps) {
   const user = useUser();
+  const t = useTranslations("Auth");
+  const linkClass = headerAuthLink[variant];
 
   return (
-    <div className="hidden shrink-0 items-center gap-1 md:flex md:gap-2">
-      <LocaleSwitcher />
-
-      {user ? (
-        <Link
-          href="/profile"
-          className="shrink-0 rounded-md px-2 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 sm:px-3 sm:py-2 sm:text-sm"
-        >
-          {user.name || user.email}
-        </Link>
-      ) : (
-        <Link
-          href="/auth"
-          className="shrink-0 rounded-md px-2 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900 sm:px-3 sm:py-2 sm:text-sm"
-        >
-          შესვლა
-        </Link>
-      )}
-    </div>
+    <>
+      <div className="flex shrink-0 items-center">
+        <LocaleSwitcher variant={variant} />
+      </div>
+      <div className="hidden shrink-0 items-center md:flex md:gap-2">
+        {user ? (
+          <Link href="/profile" className={linkClass}>
+            {user.name || user.email}
+          </Link>
+        ) : (
+          <Link href="/auth" className={linkClass}>
+            {t("login")}
+          </Link>
+        )}
+      </div>
+    </>
   );
 }

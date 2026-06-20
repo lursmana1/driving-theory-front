@@ -1,4 +1,5 @@
 export const navLinks = [
+  { href: "/", label: "მთავარი" },
   // { href: "/subjectpicker", label: "ტესტი" },
   // { href: "#", label: "ლიდერბორდი" },
   // { href: "#faq", label: "FAQ" },

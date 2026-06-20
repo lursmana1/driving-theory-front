@@ -20,6 +20,8 @@ export async function getServerBaseApi(): Promise<AxiosInstance> {
 
   const instance = axios.create({
     baseURL: baseUrl,
+    // Avoid long hangs when backend is unreachable.
+    timeout: 8000,
     headers: {
       "Content-Type": "application/json",
       "Accept-Language": acceptLanguage,

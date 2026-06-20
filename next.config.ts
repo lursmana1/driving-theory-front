@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  allowedDevOrigins: ["10.0.0.153"],
 
   experimental: {
     optimizePackageImports: ["react", "react-dom"],

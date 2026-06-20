@@ -2,7 +2,7 @@ import Modal from "antd/es/modal/Modal";
 import { useTranslations } from "next-intl";
 import type { FinishExamResponse } from "@/api/examAttempts";
 import { Button } from "antd";
-
+import Image from "next/image";
 type ExamRetryModalProps = {
   handleRestart: () => void;
   mistake: number;
@@ -28,16 +28,21 @@ const ExamRetryModal = (props: ExamRetryModalProps) => {
       okText={t("restart")}
     >
       <div className="text-center py-4">
-        <h1 className="text-2xl font-bold text-red-600 mb-4">
+        <h1 className="md:text-2xl text-lg font-bold text-red-600 font-georgian  mb-4">
           {t("examFailed")}
         </h1>
-        <p className="mb-2">{t("mistakeCount", { count: props.mistake })}</p>
+        <Image
+          className="w-full h-auto"
+          src="/gif/school-paper.gif"
+          alt="exam failed"
+          width={100}
+          height={100}
+        />
         {props.finishResult && props.finishResult.durationSeconds > 0 && (
           <p className="mb-2 text-slate-600">
-            {formatDuration(props.finishResult.durationSeconds)}
+            გამოცდის დრო : {formatDuration(props.finishResult.durationSeconds)}
           </p>
         )}
-        <p className="mb-4">{t("tryAgain")}</p>
       </div>
     </Modal>
   );
