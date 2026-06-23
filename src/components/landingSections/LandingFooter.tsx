@@ -24,57 +24,59 @@ export default async function LandingFooter() {
             </p>
           </div>
 
-          <nav aria-label={t("footerPlatform")}>
-            <h3 className={LANDING.headingFooter}>{t("footerPlatform")}</h3>
-            <ul className="mt-4 space-y-2 text-sm text-slate-600">
-              <li>
-                <Link href="/exam" className={footerLink}>
-                  {t("footerSimulation")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/subjectpicker" className={footerLink}>
-                  {t("footerTopics")}
-                </Link>
-              </li>
-              <li>
-                <Link href="/leaderboard" className={footerLink}>
-                  {t("footerLeaderboard")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className={footerLink}>
-                  {t("footerPrizes")}
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          <div className="grid grid-cols-2 gap-8 md:contents">
+            <nav aria-label={t("footerPlatform")}>
+              <h3 className={LANDING.headingFooter}>{t("footerPlatform")}</h3>
+              <ul className="mt-4 space-y-2 text-sm text-slate-600">
+                <li>
+                  <Link href="/exam" className={footerLink}>
+                    {t("footerSimulation")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/subjectpicker" className={footerLink}>
+                    {t("footerTopics")}
+                  </Link>
+                </li>
+                {/* <li>
+                  <Link href="/leaderboard" className={footerLink}>
+                    {t("footerLeaderboard")}
+                  </Link>
+                </li> */}
+                {/* <li>
+                  <Link href="#" className={footerLink}>
+                    {t("footerPrizes")}
+                  </Link>
+                </li> */}
+              </ul>
+            </nav>
 
-          <nav aria-label={t("footerResources")}>
-            <h3 className={LANDING.headingFooter}>{t("footerResources")}</h3>
-            <ul className="mt-4 space-y-2 text-sm text-slate-600">
-              <li>
-                <Link href="#faq" className={footerLink}>
-                  {t("footerFaq")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className={footerLink}>
-                  {t("footerHelp")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className={footerLink}>
-                  {t("footerTermsLink")}
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className={footerLink}>
-                  {t("footerContact")}
-                </Link>
-              </li>
-            </ul>
-          </nav>
+            <nav aria-label={t("footerResources")}>
+              <h3 className={LANDING.headingFooter}>{t("footerResources")}</h3>
+              <ul className="mt-4 space-y-2 text-sm text-slate-600">
+                <li>
+                  <Link href="#faq" className={footerLink}>
+                    {t("footerFaq")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className={footerLink}>
+                    {t("footerHelp")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className={footerLink}>
+                    {t("footerTermsLink")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="#" className={footerLink}>
+                    {t("footerContact")}
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 md:flex-row">

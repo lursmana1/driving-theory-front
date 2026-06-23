@@ -24,6 +24,16 @@ function secondsUntil(endDateIso: string): number {
   return Math.max(0, Math.floor((end - now) / 1000));
 }
 
+function resolveInitialSeconds(
+  endDate: string | null | undefined,
+  initialSeconds: number,
+): number {
+  if (!endDate) return initialSeconds;
+  const remaining = secondsUntil(endDate);
+  // Stale server deadline — don't start at 0:00 and instantly fail the exam.
+  return remaining > 0 ? remaining : initialSeconds;
+}
+
 export default function ExamCountDown({
   initialSeconds,
   endDate,
@@ -32,15 +42,18 @@ export default function ExamCountDown({
   restartKey = 0,
 }: ExamTimerProps) {
   const computedInitial = useMemo(
-    () => (endDate ? secondsUntil(endDate) : initialSeconds),
+    () => resolveInitialSeconds(endDate, initialSeconds),
     [endDate, initialSeconds, restartKey],
   );
   const [secondsLeft, setSecondsLeft] = useState(computedInitial);
   const onTimeUpRef = useRef(onTimeUp);
+  const prevSecondsRef = useRef(computedInitial);
   onTimeUpRef.current = onTimeUp;
 
   useEffect(() => {
-    setSecondsLeft(endDate ? secondsUntil(endDate) : initialSeconds);
+    const next = resolveInitialSeconds(endDate, initialSeconds);
+    setSecondsLeft(next);
+    prevSecondsRef.current = next;
   }, [endDate, initialSeconds, restartKey]);
 
   useEffect(() => {
@@ -54,7 +67,10 @@ export default function ExamCountDown({
   }, [paused, secondsLeft]);
 
   useEffect(() => {
-    if (secondsLeft === 0) onTimeUpRef.current();
+    if (prevSecondsRef.current > 0 && secondsLeft === 0) {
+      onTimeUpRef.current();
+    }
+    prevSecondsRef.current = secondsLeft;
   }, [secondsLeft]);
 
   const label = useMemo(() => formatTime(secondsLeft), [secondsLeft]);

@@ -15,8 +15,10 @@ export const headerAuthLink: Record<HeaderVariant, string> = {
 };
 
 /** Desktop “Start exam” pill — shared shadow differs slightly on landing */
+export const examCtaPillBase =
+  "rounded-full bg-linear-to-r from-sky-500 to-violet-600 font-semibold text-white shadow-md shadow-sky-500/25 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50";
+
 export function headerExamCtaClass(isLanding: boolean): string {
-  const base =
-    "hidden h-10 items-center justify-center rounded-full bg-linear-to-r from-sky-500 to-violet-600 px-4 text-sm font-semibold text-white transition hover:brightness-110 md:inline-flex";
-  return isLanding ? `${base} shadow-lg shadow-sky-500/20` : `${base} shadow-md`;
+  const base = `hidden h-10 items-center justify-center px-4 text-sm md:inline-flex ${examCtaPillBase}`;
+  return isLanding ? `${base} shadow-lg shadow-sky-500/20` : base;
 }

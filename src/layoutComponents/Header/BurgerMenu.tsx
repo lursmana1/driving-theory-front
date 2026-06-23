@@ -2,7 +2,6 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { navLinks } from "@/CONSTS/navLinks";
 import { useUser } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
@@ -110,12 +109,12 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                 </ul>
 
                 <div className="mt-6 border-t border-white/10 pt-6">
-                  <div className="flex min-h-12 items-center justify-between gap-4">
+                  <div className="flex min-h-12 items-center">
                     {user ? (
                       <Link
                         href="/profile"
                         onClick={closeMenu}
-                        className="inline-flex min-h-10 flex-1 items-center text-base font-medium text-white/95 hover:text-white"
+                        className="inline-flex min-h-10 items-center text-base font-medium text-white/95 hover:text-white"
                       >
                         <span className="line-clamp-2 break-all text-left">
                           {user.name || user.email}
@@ -125,18 +124,15 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                       <Link
                         href="/auth"
                         onClick={closeMenu}
-                        className="inline-flex min-h-10 flex-1 items-center text-base font-medium text-white/95 hover:text-white"
+                        className="inline-flex min-h-10 items-center text-base font-medium text-white/95 hover:text-white"
                       >
                         {tAuth("login")}
                       </Link>
                     )}
-                    <div className="flex shrink-0 items-center self-center">
-                      <LocaleSwitcher variant="landing" />
-                    </div>
                   </div>
 
                   <Link
-                    href="/exam"
+                    href="/subjectpicker"
                     onClick={closeMenu}
                     className="mt-5 flex min-h-12 w-full items-center justify-center rounded-full bg-linear-to-r from-[#2b65f0] to-[#8e44ad] px-6 text-center text-base font-semibold text-white shadow-lg shadow-indigo-900/40 transition hover:brightness-110"
                   >

@@ -28,7 +28,7 @@ export default function HeaderShell() {
           <HeaderNav variant={isLanding ? "landing" : "default"} />
         </div>
         <div className="flex shrink-0 items-center gap-2 md:gap-3">
-          <Link href="/exam" className={headerExamCtaClass(isLanding)}>
+          <Link href="/subjectpicker" className={headerExamCtaClass(isLanding)}>
             {t("headerStartExam")}
           </Link>
           <HeaderAuth variant={isLanding ? "landing" : "default"} />

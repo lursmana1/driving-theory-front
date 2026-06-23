@@ -1,6 +1,9 @@
-import { Button } from "antd";
 import Modal from "antd/es/modal/Modal";
 import { useTranslations } from "next-intl";
+import {
+  formatExamDuration,
+  resolveExamDurationSeconds,
+} from "@/utills/helpers/formatExamDuration";
 
 type ExamSuccessModalProps = {
   handleRestart: () => void;
@@ -10,14 +13,9 @@ type ExamSuccessModalProps = {
   totalCount: number;
 };
 
-function formatDuration(seconds: number): string {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-
 const ExamSuccessModal = (props: ExamSuccessModalProps) => {
   const t = useTranslations("Exam");
+  const duration = resolveExamDurationSeconds(0, props.durationSeconds);
 
   return (
     <Modal
@@ -40,9 +38,9 @@ const ExamSuccessModal = (props: ExamSuccessModalProps) => {
           {props.correctCount}/{props.totalCount} (
           {Math.round((props.correctCount / props.totalCount) * 100)}%)
         </p>
-        {props.durationSeconds > 0 && (
+        {duration > 0 && (
           <p className="mb-4 text-slate-600">
-            {formatDuration(props.durationSeconds)}
+            {formatExamDuration(duration)}
           </p>
         )}
         <p className="mb-4">{t("retake")}</p>

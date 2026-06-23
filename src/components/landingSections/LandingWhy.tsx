@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import landingFeatures from "@/data/landingFeatures.json";
 import { LANDING, featureEmoji, featureIconClass } from "@/CONSTS/landing";
-import { LandingEyebrow } from "./LandingEyebrow";
 
 export default async function LandingWhy() {
   const t = await getTranslations("Home");
@@ -19,20 +18,22 @@ export default async function LandingWhy() {
       aria-labelledby="why-title"
     >
       <div className="section">
-        <LandingEyebrow tone="light">{t("whySectionLabel")}</LandingEyebrow>
         <h2
           id="why-title"
-          className={`mx-auto mt-3 max-w-3xl text-center ${LANDING.headingSection}`}
+          className={`mx-auto max-w-3xl text-center ${LANDING.headingSection}`}
         >
           {t("whyTitle")}
         </h2>
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto mt-14 grid max-w-md grid-cols-1 gap-6 sm:max-w-5xl sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feat) => (
             <article
               key={feat.key}
-              className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="rounded-2xl border border-slate-200/80 bg-white p-6 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:text-left"
             >
-              <div className={featureIconClass(feat.tone)} aria-hidden>
+              <div
+                className={`${featureIconClass(feat.tone)} mx-auto sm:mx-0`}
+                aria-hidden
+              >
                 {featureEmoji(feat.tone)}
               </div>
               <h3 className={LANDING.headingCard}>{feat.title}</h3>

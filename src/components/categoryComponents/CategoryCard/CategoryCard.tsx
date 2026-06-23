@@ -1,6 +1,7 @@
 import { Category } from "@/lib/types/category";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
 
 type CategoryCardProps = {
   category: Category;
@@ -24,7 +25,7 @@ const CategoryCard = ({ category, isActive }: CategoryCardProps) => {
       `}
     >
       <Image
-        src={`/svg/${category.iconKey}.svg`}
+        src={getCategoryIconSrc(category.iconKey)}
         width={28}
         height={28}
         alt={category.name}

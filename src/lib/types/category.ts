@@ -6,6 +6,8 @@ export interface Category {
   iconKey: string;
   questionsCount: number;
   subjectCount: number;
+  examTotalQuestions: number;
+  examPassScore: number;
 }
 export interface CategoryWithSubjects extends Category {
   subjects: Subject[];

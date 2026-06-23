@@ -9,7 +9,7 @@ import { formatDate } from "@/utills/helpers/formatDate";
 import { Link } from "@/i18n/navigation";
 import { WeakQuestionsChart } from "@/components/ExamHistory/WeakQuestionsChart";
 import { WeakSubjectsChart } from "@/components/ExamHistory/WeakSubjectsChart";
-import { subjects } from "@/CONSTS/subjectDummy";
+import { getLocalizedSubjects } from "@/CONSTS/subjects";
 
 type PageProps = {
   searchParams?: Promise<{ page?: string; size?: string }>;
@@ -60,6 +60,7 @@ export default async function ExamHistoryPage({ searchParams }: PageProps) {
 
   const locale = await getLocale();
   const t = await getTranslations("Exam");
+  const subjects = getLocalizedSubjects(locale);
 
   return (
     <main className="section py-8">

@@ -1,10 +1,10 @@
 import BaseApi from "@/api/BaseApi";
+import { licenseCategories } from "@/CONSTS/categories";
 import { TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import CategoryCardsGrid from "@/components/categoryComponents/CategoryCardsGrid/CategoryCardsGrid";
 import TicketsQuizList from "@/components/TicketsQuiz/TicketsQuizList";
 import QuestionIdSearch from "@/components/QuestionIdSearch/QuestionIdSearch";
-import { Category } from "@/lib/types/category";
 import { type QuestionsResponse } from "@/lib/types/exam";
 import SubjectAsideMenu from "@/components/SubjectAsideMenu/SubjectAsideMenu";
 import { Suspense } from "react";
@@ -32,7 +32,6 @@ export default async function TicketsCategoryPage({
   const subjects = sp.subjects ?? "";
   const questionId = sp.questionId ?? "";
 
-  let categories: Category[] = [];
   let questionsRes: QuestionsResponse = {
     items: [],
     page: 1,
@@ -40,25 +39,21 @@ export default async function TicketsCategoryPage({
     total: 0,
     totalPages: 0,
   };
-  let backendUnavailable = false;
+  let questionsUnavailable = false;
 
   try {
-    [categories, questionsRes] = await Promise.all([
-      BaseApi.get("/categories").then((r) => r.data),
-      BaseApi.get(`/questions/${questionId ? questionId : ""}`, {
-        params: {
-          category: categoryId,
-          subjects,
-          page,
-          size,
-          lang: locale,
-        },
-      }).then((r) => r.data),
-    ]);
+    questionsRes = await BaseApi.get(`/questions/${questionId ? questionId : ""}`, {
+      params: {
+        category: categoryId,
+        subjects,
+        page,
+        size,
+        lang: locale,
+      },
+    }).then((r) => r.data);
   } catch {
-    backendUnavailable = true;
+    questionsUnavailable = true;
   }
-  console.log(questionsRes, "questionsRes");
 
   const rawItems = questionsRes?.items ?? questionsRes;
   const questions = Array.isArray(rawItems)
@@ -74,25 +69,20 @@ export default async function TicketsCategoryPage({
 
   return (
     <div className="section space-y-6 py-8">
-      {backendUnavailable && (
+      <CategoryCardsGrid
+        categories={licenseCategories}
+        activeCategoryId={categoryId}
+      />
+
+      {questionsUnavailable && (
         <p className="text-center text-slate-500">
           Service unavailable. Please try again later.
         </p>
       )}
-      {/* Top categories - 2 cols mobile, 1 col desktop */}
-      {!backendUnavailable && (
-        <CategoryCardsGrid
-          categories={categories}
-          activeCategoryId={categoryId}
-        />
-      )}
 
-      {/* 2-column layout: content first on mobile, sidebar left on desktop */}
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 items-start">
-        {/* LEFT - sidebar on desktop, below content on mobile */}
         <SubjectAsideMenu category={category} sp={sp} />
 
-        {/* RIGHT - main content */}
         <main className="space-y-6 order-1 lg:order-2">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Suspense

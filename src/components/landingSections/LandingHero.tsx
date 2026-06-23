@@ -39,11 +39,11 @@ export default async function LandingHero() {
             {t("heroDescription")}
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/exam" className={LANDING.heroPrimaryCta}>
+          <div className="mx-auto mt-10 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
+            <Link href="/subjectpicker" className={LANDING.heroPrimaryCta}>
               {t("heroCta1")}
             </Link>
-            <Link href="/subjectpicker" className={LANDING.heroSecondaryCta}>
+            <Link href="/tickets" className={LANDING.heroSecondaryCta}>
               {t("heroCta2")}
             </Link>
           </div>

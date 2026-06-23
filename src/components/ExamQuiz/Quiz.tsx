@@ -1,12 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import type { ExamQuestion } from "@/lib/types/exam";
-import {
-  EXAM_TOTAL_QUESTIONS,
-  EXAM_DURATION_SECONDS,
-  PASS_SCORE,
-} from "@/CONSTS/QuizExamConstats";
+import type { CategoryExamRules } from "@/CONSTS/categories";
+import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
+import { isActiveExamEndDate } from "@/utills/helpers/formatExamDuration";
 import { useExamQuiz } from "@/utills/helpers/hooks/exam";
 
 import ExamCountDown from "../ExamCountDown/ExamCountDown";
@@ -23,6 +20,7 @@ type ExamQuizProps = {
   questions: ExamQuestion[];
   attemptId?: number | null;
   endDate?: string | null;
+  examRules: CategoryExamRules;
   onRestart?: () => void;
 };
 
@@ -30,9 +28,16 @@ export default function ExamQuiz({
   questions,
   attemptId = null,
   endDate = null,
+  examRules,
   onRestart,
 }: ExamQuizProps) {
-  const exam = useExamQuiz(questions, attemptId, endDate, onRestart);
+  const exam = useExamQuiz(
+    questions,
+    attemptId,
+    endDate,
+    onRestart,
+    examRules,
+  );
 
   if (!exam.safeQuestions.length || !exam.q) return null;
 
@@ -53,14 +58,14 @@ export default function ExamQuiz({
           timeLabel={
             <ExamCountDown
               initialSeconds={EXAM_DURATION_SECONDS}
-              endDate={endDate ?? undefined}
+              endDate={isActiveExamEndDate(endDate) ? endDate : null}
               paused={examEnded}
               restartKey={exam.timerRestartKey}
               onTimeUp={exam.handleTimeUp}
             />
           }
           currentQuestion={nav.index + 1}
-          totalQuestions={EXAM_TOTAL_QUESTIONS}
+          totalQuestions={examRules.totalQuestions}
           correct={exam.score}
           mistakes={exam.mistake}
           questionId={q.id}
@@ -109,13 +114,16 @@ export default function ExamQuiz({
           handleRestart={exam.handleRestart}
           mistake={exam.mistake}
           finishResult={exam.finishResult}
+          elapsedSeconds={exam.elapsedSeconds}
         />
       )}
 
       {examFinished && (exam.finishResult || !attemptId) && (
         <ExamSuccessModal
           handleRestart={exam.handleRestart}
-          passed={exam.finishResult?.passed ?? exam.score >= PASS_SCORE}
+          passed={
+            exam.finishResult?.passed ?? exam.score >= examRules.passScore
+          }
           durationSeconds={exam.finishResult?.durationSeconds ?? 0}
           correctCount={exam.score}
           totalCount={exam.safeQuestions.length}

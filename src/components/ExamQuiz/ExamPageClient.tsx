@@ -5,17 +5,20 @@ import { useTransition } from "react";
 import { Link } from "@/i18n/navigation";
 import ExamQuiz from "./Quiz";
 import type { ExamQuestion } from "@/lib/types/exam";
+import type { CategoryExamRules } from "@/CONSTS/categories";
 
 type ExamPageClientProps = {
   questions: ExamQuestion[];
   attemptId: number | null;
   endDate: string | null;
+  examRules: CategoryExamRules;
 };
 
 export default function ExamPageClient({
   questions,
   attemptId,
   endDate,
+  examRules,
 }: ExamPageClientProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -54,6 +57,8 @@ export default function ExamPageClient({
         <ExamQuiz
           questions={questions}
           attemptId={attemptId}
+          endDate={endDate}
+          examRules={examRules}
           onRestart={onRestart}
         />
       </div>

@@ -1,4 +1,5 @@
 import { fetchExamServerSafe } from "@/api/examAttemptsServer";
+import { getExamRules, resolveCategoryId } from "@/CONSTS/categories";
 import ExamPageClient from "@/components/ExamQuiz/ExamPageClient";
 
 type ExamPageProps = {
@@ -26,14 +27,17 @@ export default async function ExamPage({
     subjects = subjectsRaw.split(",");
   }
 
-  const category = categoryRaw ? Number(categoryRaw) : 1;
+  const categoryId = resolveCategoryId(
+    categoryRaw ? Number(categoryRaw) : undefined,
+  );
+  const examRules = getExamRules(categoryId);
   const subjectsStr = subjects.join(",");
 
   const { questions, attemptId, endDate } = await fetchExamServerSafe({
     lang: locale as "ka" | "en" | "ru",
     subjects: subjectsStr || undefined,
-    categories: String(category),
-    count: 30,
+    categories: String(categoryId),
+    count: examRules.totalQuestions,
   });
 
   return (
@@ -41,6 +45,7 @@ export default async function ExamPage({
       questions={questions}
       attemptId={attemptId}
       endDate={endDate}
+      examRules={examRules}
     />
   );
 }

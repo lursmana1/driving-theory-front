@@ -17,9 +17,9 @@ export const LANDING = {
   gradientCta:
     "inline-flex items-center justify-center rounded-full bg-linear-to-r from-sky-500 to-violet-600 font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:brightness-110",
   heroPrimaryCta:
-    "inline-flex h-12 min-w-[200px] items-center justify-center rounded-full bg-linear-to-r from-sky-500 to-violet-600 px-8 font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:brightness-110",
+    "inline-flex h-12 w-full sm:w-auto sm:min-w-[200px] items-center justify-center rounded-full bg-linear-to-r from-sky-500 to-violet-600 px-8 font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:brightness-110",
   heroSecondaryCta:
-    "inline-flex h-12 min-w-[200px] items-center justify-center rounded-full border border-white/25 bg-white/5 px-8 font-semibold text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/10",
+    "inline-flex h-12 w-full sm:w-auto sm:min-w-[200px] items-center justify-center rounded-full border border-white/25 bg-white/5 px-8 font-semibold text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/10",
   statTile:
     "rounded-2xl border border-white/10 bg-white/4 px-5 py-4 text-center backdrop-blur-sm",
   howSection:

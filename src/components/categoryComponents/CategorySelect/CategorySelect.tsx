@@ -6,7 +6,7 @@ import { Select } from "antd";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { Category } from "@/lib/types/category";
-import { useTranslations } from "next-intl";
+import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
 
 type CategorySelectProps = {
   categories: Category[];
@@ -20,7 +20,6 @@ const CategorySelect = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const t = useTranslations("Categories");
 
   const handleSelect = (id: number) => {
     const sp = new URLSearchParams(searchParams.toString());
@@ -35,7 +34,7 @@ const CategorySelect = ({
     label: (
       <span className="inline-flex items-center gap-3">
         <Image
-          src={`/svg/${cat.iconKey}.svg`}
+          src={getCategoryIconSrc(cat.iconKey)}
           width={28}
           height={28}
           alt={cat.name}
@@ -60,15 +59,15 @@ const CategorySelect = ({
         return (
           <div className="flex items-center gap-4 py-1">
             <Image
-              src={`/svg/${cat.iconKey}.svg`}
+              src={getCategoryIconSrc(cat.iconKey)}
               width={28}
               height={28}
               alt={cat.name}
               className="w-7 h-7 shrink-0 opacity-80"
             />
             <span className="text-base font-semibold">{cat.name}</span>
-            <span className="text-sm text-gray-400 ml-auto">
-              {t("questionCount", { count: cat.questionsCount })}
+            <span className="ml-auto text-sm font-semibold tabular-nums text-slate-500">
+              {cat.examTotalQuestions}
             </span>
           </div>
         );

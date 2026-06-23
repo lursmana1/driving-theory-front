@@ -37,13 +37,15 @@ export async function LandingHowSteps() {
         </h2>
         <p className="mt-4 text-center text-base text-slate-400">{t("howSubtitle")}</p>
 
-        <div className="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-14 md:mt-16 md:grid-cols-3 md:gap-8 lg:gap-10">
+        <div className="mx-auto mt-14 grid max-w-md grid-cols-1 gap-0 md:mt-16 md:max-w-5xl md:grid-cols-3 md:gap-8 lg:gap-10">
           {steps.map((step, i) => (
             <article
               key={step.n}
-              className="flex min-w-0 flex-col items-start text-left"
+              className={`flex min-w-0 flex-col items-center px-2 py-10 text-center md:items-start md:px-0 md:py-0 md:text-left ${
+                i < lastIndex ? "border-b border-white/10 md:border-b-0" : ""
+              }`}
             >
-              <div className="mb-8 flex w-full min-h-16 items-center">
+              <div className="mb-6 flex w-full min-h-16 items-center justify-center md:mb-8 md:justify-start">
                 {i > 0 && <div className={`mr-4 ${connectorClass}`} aria-hidden />}
                 <div
                   className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-2xl font-bold ${stepBadgeClass(!!step.successStep)}`}

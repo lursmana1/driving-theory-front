@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { ExamQuestion } from "@/lib/types/exam";
+import QuestionImage from "@/components/QuestionImage/QuestionImage";
 
 type ExamQuestionContentProps = {
   question: ExamQuestion;
@@ -36,16 +36,13 @@ export default function ExamQuestionContent({
           transition: dragOffset !== 0 ? "none" : undefined,
         }}
       >
-        {!!question.hasImg && (
-          <div className="mb-3 w-full min-w-0 shrink-0 relative h-44 sm:h-72 lg:h-[280px]">
-            <Image
-              src={"/" + question.img}
-              alt={question.question || ""}
-              fill
-              sizes="(min-width: 1024px) 800px, 100vw"
-              priority
-            />
-          </div>
+        {!!question.hasImg && question.img && (
+          <QuestionImage
+            src={question.img}
+            alt={question.question || ""}
+            className="mb-3 max-h-44 sm:max-h-72 lg:max-h-[280px]"
+            priority
+          />
         )}
 
         <p className="font-georgian min-w-0 wrap-break-word rounded-md border border-white bg-black/50 p-3 text-sm text-white sm:p-4 mb-3 sm:mb-4">

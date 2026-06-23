@@ -1,6 +1,5 @@
 [
   { "key": "whyFeat1", "tone": "blue" },
   { "key": "whyFeat2", "tone": "violet" },
-  { "key": "whyFeat3", "tone": "emerald" },
-  { "key": "whyFeat4", "tone": "amber" }
+  { "key": "whyFeat3", "tone": "emerald" }
 ]

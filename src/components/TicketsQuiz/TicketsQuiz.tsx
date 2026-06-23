@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { getAiTutorText, type ExamQuestion } from "@/lib/types/exam";
-import Image from "next/image";
+import QuestionImage from "@/components/QuestionImage/QuestionImage";
 import QuizButton from "../QuizButton/QuizButton";
 import ExamFooter from "../ExamFooter/ExamFooter";
 import QuestionExplanation from "../QuestionExplanation/QuestionExplanation";
@@ -43,13 +43,11 @@ export default function TicketQuiz({
         />
 
         <div>
-          {!!question.hasImg && (
-            <Image
-              src={"/" + question.img}
+          {!!question.hasImg && question.img && (
+            <QuestionImage
+              src={question.img}
               alt={question.question || ""}
-              className="m-auto h-auto max-h-110"
-              width={1000}
-              height={410}
+              className="max-h-110"
               priority
             />
           )}

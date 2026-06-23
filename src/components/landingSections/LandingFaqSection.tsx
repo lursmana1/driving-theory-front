@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import LandingFaq from "./LandingFaq";
 import landingFaq from "@/data/landingFaq.json";
-import { LandingEyebrow } from "./LandingEyebrow";
 import { LANDING } from "@/CONSTS/landing";
 
 export default async function LandingFaqSection() {
@@ -20,10 +19,9 @@ export default async function LandingFaqSection() {
       aria-labelledby="faq-title"
     >
       <div className="section">
-        <LandingEyebrow tone="light">{t("faqEyebrow")}</LandingEyebrow>
         <h2
           id="faq-title"
-          className={`mx-auto mt-3 max-w-2xl text-center ${LANDING.headingSection}`}
+          className={`mx-auto max-w-2xl text-center ${LANDING.headingSection}`}
         >
           {t("faqSectionTitle")}
         </h2>

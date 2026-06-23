@@ -1,7 +1,7 @@
-import { subjects } from "@/CONSTS/subjectDummy";
+import { getLocalizedSubjects } from "@/CONSTS/subjects";
 import SubjectMenuCard from "./SubjectMenuCard";
 import SubjectAllCard from "./SubjectAllCard";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import SubjectSelectMobile from "./SubjectSelets";
 
 type SubjectAsideMenuProps = {
@@ -14,7 +14,9 @@ type SubjectAsideMenuProps = {
 };
 
 const SubjectAsideMenu = async ({ category, sp }: SubjectAsideMenuProps) => {
+  const locale = await getLocale();
   const t = await getTranslations("Tickets");
+  const subjects = getLocalizedSubjects(locale);
 
   return (
     <aside className="z-10 w-full shrink-0 space-y-4 lg:w-72 lg:sticky lg:top-20">
