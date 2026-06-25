@@ -39,13 +39,12 @@ const ExamRetryModal = ({
       footer={null}
       width={480}
       styles={{
-        content: {
+        body: {
           padding: 0,
           borderRadius: "1rem",
           overflow: "hidden",
           boxShadow: "0 24px 48px -12px rgba(15, 23, 42, 0.35)",
         },
-        body: { padding: 0 },
       }}
     >
       <div className="font-georgian bg-white">
