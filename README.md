@@ -1,4 +1,4 @@
-# prava.ge
+# driving theory front
 
 > Georgian driving license theory exam prep — practice tickets, timed exams, and progress tracking.
 
