@@ -1,17 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
-import BaseApi from "@/api/BaseApi";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-const googleAuthUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
+function getBackendBaseUrl(): string {
+  return (process.env.NEXT_PUBLIC_BACKEND_URL ?? "").trim().replace(/\/$/, "");
+}
 
 export default function AuthForm() {
   const [mode, setMode] = useState<"login" | "register">("login");
   const t = useTranslations("Auth");
+
+  const googleAuthUrl = useMemo(() => {
+    const base = getBackendBaseUrl();
+    if (!base) return "#";
+    return `${base}/auth/google`;
+  }, []);
 
   // es gadawyobia global stateshi unda inaxebodes
   // useEffect(() => {
