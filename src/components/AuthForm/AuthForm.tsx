@@ -1,40 +1,30 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { getAuthConfig } from "@/api/auth";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-function getBackendBaseUrl(): string {
-  return (process.env.NEXT_PUBLIC_BACKEND_URL ?? "").trim().replace(/\/$/, "");
+function fallbackGoogleLoginUrl(): string {
+  const base = (process.env.NEXT_PUBLIC_BACKEND_URL ?? "").trim().replace(/\/$/, "");
+  return base ? `${base}/auth/google` : "#";
 }
 
 export default function AuthForm() {
   const [mode, setMode] = useState<"login" | "register">("login");
+  const [googleAuthUrl, setGoogleAuthUrl] = useState(fallbackGoogleLoginUrl);
   const t = useTranslations("Auth");
 
-  const googleAuthUrl = useMemo(() => {
-    const base = getBackendBaseUrl();
-    if (!base) return "#";
-    return `${base}/auth/google`;
+  useEffect(() => {
+    getAuthConfig()
+      .then((config) => {
+        if (config.googleLoginUrl) setGoogleAuthUrl(config.googleLoginUrl);
+      })
+      .catch(() => {
+        setGoogleAuthUrl(fallbackGoogleLoginUrl());
+      });
   }, []);
-
-  // es gadawyobia global stateshi unda inaxebodes
-  // useEffect(() => {
-  //   BaseApi.get("/auth/me")
-  //     .then((res) => {
-  //       router.replace("/");
-  //     })
-  //     .catch(() => setChecking(false));
-  // }, [router]);
-
-  // if (checking) {
-  //   return (
-  //     <div className="flex min-h-[60vh] items-center justify-center">
-  //       <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-blue-600" />
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center py-12">

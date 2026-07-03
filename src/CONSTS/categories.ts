@@ -11,6 +11,17 @@ export type CategoryExamRules = {
   maxMistakes: number;
 };
 
+export function toCategoryExamRules(rule: {
+  questionCount: number;
+  minCorrectToPass: number;
+}): CategoryExamRules {
+  return {
+    totalQuestions: rule.questionCount,
+    passScore: rule.minCorrectToPass,
+    maxMistakes: rule.questionCount - rule.minCorrectToPass,
+  };
+}
+
 export function getCategoryById(id: number): Category | undefined {
   return licenseCategories.find((c) => c.id === id);
 }

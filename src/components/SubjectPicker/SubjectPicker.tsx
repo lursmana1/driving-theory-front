@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Checkbox } from "antd";
+import { getExamRulesForCategory } from "@/api/examAttempts";
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import { examCtaPillBase } from "@/layoutComponents/Header/headerVariants";
 import { Subject } from "@/lib/types/subject";
@@ -73,6 +74,12 @@ export default function SubjectPicker({
 }: SubjectPickerProps) {
   const router = useRouter();
   const t = useTranslations("SubjectPicker");
+  const [rules, setRules] = useState(examRules);
+
+  useEffect(() => {
+    setRules(examRules);
+    getExamRulesForCategory(categoryId).then(setRules);
+  }, [categoryId, examRules]);
 
   const allIds = useMemo(() => subjects.map((s) => s.id), [subjects]);
   const [selected, setSelected] = useState<number[]>(allIds);
@@ -120,15 +127,15 @@ export default function SubjectPicker({
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-b border-slate-100 px-5 py-4 sm:justify-around sm:px-8">
           <div className="flex items-center gap-2 text-sm text-slate-700 sm:text-base">
             <ClockIcon />
-            <span>{t("examTime", { count: examRules.totalQuestions })}</span>
+            <span>{t("examTime", { count: rules.totalQuestions })}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-700 sm:text-base">
             <QuestionIcon />
-            <span>{t("examQuestions", { count: examRules.totalQuestions })}</span>
+            <span>{t("examQuestions", { count: rules.totalQuestions })}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-700 sm:text-base">
             <MistakeIcon />
-            <span>{t("examMistakes", { count: examRules.maxMistakes })}</span>
+            <span>{t("examMistakes", { count: rules.maxMistakes })}</span>
           </div>
         </div>
 

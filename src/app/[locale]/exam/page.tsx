@@ -1,4 +1,3 @@
-import { fetchExamServerSafe } from "@/api/examAttemptsServer";
 import { getExamRules, resolveCategoryId } from "@/CONSTS/categories";
 import ExamPageClient from "@/components/ExamQuiz/ExamPageClient";
 
@@ -30,22 +29,13 @@ export default async function ExamPage({
   const categoryId = resolveCategoryId(
     categoryRaw ? Number(categoryRaw) : undefined,
   );
-  const examRules = getExamRules(categoryId);
-  const subjectsStr = subjects.join(",");
-
-  const { questions, attemptId, endDate } = await fetchExamServerSafe({
-    lang: locale as "ka" | "en" | "ru",
-    subjects: subjectsStr || undefined,
-    categories: String(categoryId),
-    count: examRules.totalQuestions,
-  });
 
   return (
     <ExamPageClient
-      questions={questions}
-      attemptId={attemptId}
-      endDate={endDate}
-      examRules={examRules}
+      locale={locale}
+      categoryId={categoryId}
+      subjects={subjects.join(",")}
+      examRulesFallback={getExamRules(categoryId)}
     />
   );
 }

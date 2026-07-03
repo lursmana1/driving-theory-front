@@ -1,5 +1,19 @@
+import axios from "axios";
 import BaseApi from "./BaseApi";
+import {
+  getExamRules,
+  toCategoryExamRules,
+  type CategoryExamRules,
+} from "@/CONSTS/categories";
 import type { ExamQuestion } from "@/lib/types/exam";
+import { getAccessToken } from "@/lib/authToken";
+import { normalizeQuestions } from "@/utills/helpers/normalizeQuestions";
+
+export type ExamRuleEntry = {
+  categoryId: number;
+  questionCount: number;
+  minCorrectToPass: number;
+};
 
 export type StartExamParams = {
   lang?: string;
@@ -13,7 +27,46 @@ export type StartExamResponse = {
   attemptId: number;
   endDate: string;
   questions: ExamQuestion[];
+  questionCount?: number;
+  minCorrectToPass?: number;
 };
+
+export function examRulesFromStartResponse(
+  data: Pick<StartExamResponse, "questionCount" | "minCorrectToPass">,
+  categoryId: number,
+): CategoryExamRules {
+  if (
+    data.questionCount != null &&
+    data.minCorrectToPass != null
+  ) {
+    return toCategoryExamRules({
+      questionCount: data.questionCount,
+      minCorrectToPass: data.minCorrectToPass,
+    });
+  }
+  return getExamRules(categoryId);
+}
+
+export async function getExamRulesApi(): Promise<ExamRuleEntry[]> {
+  const res = await BaseApi.get<ExamRuleEntry[] | { data: ExamRuleEntry[] }>(
+    "/exam-attempts/rules",
+  );
+  const payload = res.data;
+  return Array.isArray(payload) ? payload : (payload.data ?? []);
+}
+
+export async function getExamRulesForCategory(
+  categoryId: number,
+): Promise<CategoryExamRules> {
+  try {
+    const rules = await getExamRulesApi();
+    const match = rules.find((r) => r.categoryId === categoryId);
+    if (match) return toCategoryExamRules(match);
+  } catch {
+    // fall back to static rules when API is unavailable or requires auth
+  }
+  return getExamRules(categoryId);
+}
 
 export type SubmitAnswerResponse = {
   correct: boolean;
@@ -59,6 +112,101 @@ export async function startPersonalizedExam(
     `/exam-attempts/start?${searchParams.toString()}`,
   );
   return res.data;
+}
+
+export type FetchExamClientParams = {
+  lang: string;
+  subjects?: string;
+  categories?: string;
+  count?: number;
+};
+
+export type FetchExamClientResult = {
+  questions: ExamQuestion[];
+  attemptId: number | null;
+  endDate: string | null;
+  examRules: CategoryExamRules;
+  error?: "insufficient_questions" | "load_failed";
+};
+
+async function fetchRandomExamQuestions(
+  params: FetchExamClientParams,
+  examRules: CategoryExamRules,
+): Promise<FetchExamClientResult> {
+  const searchParams = new URLSearchParams({
+    lang: params.lang,
+    count: String(params.count ?? examRules.totalQuestions),
+    category: params.categories ?? "1",
+  });
+  if (params.subjects) searchParams.set("subjects", params.subjects);
+
+  const res = await BaseApi.get(`/questions/random?${searchParams}`);
+  return {
+    questions: normalizeQuestions(res.data),
+    attemptId: null,
+    endDate: null,
+    examRules,
+  };
+}
+
+/** Start exam from the browser so Bearer token is available (production cross-origin). */
+export async function fetchExamClient(
+  params: FetchExamClientParams,
+): Promise<FetchExamClientResult> {
+  const categoryId = Number(params.categories ?? "1");
+  const examRules = getExamRules(Number.isFinite(categoryId) ? categoryId : 1);
+
+  if (getAccessToken()) {
+    try {
+      const data = await startPersonalizedExam({
+        lang: params.lang,
+        subjects: params.subjects,
+        categories: params.categories,
+        count: params.count ?? examRules.totalQuestions,
+      });
+
+      return {
+        questions: normalizeQuestions(data.questions),
+        attemptId: data.attemptId ?? null,
+        endDate: data.endDate ?? null,
+        examRules: examRulesFromStartResponse(data, categoryId),
+      };
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const status = err.response?.status;
+        const message = String(err.response?.data?.message ?? "");
+
+        if (
+          status === 400 &&
+          message.toLowerCase().includes("insufficient")
+        ) {
+          return {
+            questions: [],
+            attemptId: null,
+            endDate: null,
+            examRules,
+            error: "insufficient_questions",
+          };
+        }
+
+        if (status === 401 || status === 403) {
+          return fetchRandomExamQuestions(params, examRules);
+        }
+      }
+    }
+  }
+
+  try {
+    return await fetchRandomExamQuestions(params, examRules);
+  } catch {
+    return {
+      questions: [],
+      attemptId: null,
+      endDate: null,
+      examRules,
+      error: "load_failed",
+    };
+  }
 }
 
 export async function finishExam(

@@ -7,6 +7,17 @@ export type AuthResponse = {
   user: User;
 };
 
+export type AuthConfig = {
+  googleLoginUrl: string;
+  googleCallbackUrl?: string;
+  apiPublicUrl?: string;
+};
+
+export async function getAuthConfig(): Promise<AuthConfig> {
+  const res = await BaseApi.get<AuthConfig>("/auth/config");
+  return res.data;
+}
+
 export async function login(
   email: string,
   password: string,
