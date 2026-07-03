@@ -2,7 +2,7 @@
 
 import { Form, Input, Button } from "antd";
 import { useTranslations } from "next-intl";
-import BaseApi from "@/api/BaseApi";
+import { register as registerApi } from "@/api/auth";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
 
@@ -20,14 +20,16 @@ export default function RegisterForm() {
     confirmPassword: string;
   }) => {
     try {
-      await BaseApi.post("/auth/register", {
+      const { user } = await registerApi({
         name: values.name,
         surname: values.surname,
         email: values.email,
         password: values.password,
       });
-      await refresh();
-      router.push("/profile");
+      if (user) {
+        await refresh();
+        router.push("/profile");
+      }
     } catch (err) {
       console.error(err);
     }

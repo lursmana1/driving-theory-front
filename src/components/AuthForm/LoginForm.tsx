@@ -1,7 +1,6 @@
 "use client";
 
-import BaseApi from "@/api/BaseApi";
-import { Form, Input, Button } from "antd";
+import { login as loginApi } from "@/api/auth";import { Form, Input, Button } from "antd";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
@@ -20,9 +19,11 @@ export default function LoginForm() {
     password: string;
   }) => {
     try {
-      await BaseApi.post("/auth/login", { email, password });
-      await refresh();
-      router.push("/profile");
+      const { user } = await loginApi(email, password);
+      if (user) {
+        await refresh();
+        router.push("/profile");
+      }
     } catch {
       // TODO: show error message to user
     }

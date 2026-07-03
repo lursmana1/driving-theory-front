@@ -1,31 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-
-function getLandingPath() {
-  const locale = typeof window !== "undefined" ? window.location.pathname.split("/")[1] || "ka" : "ka";
-  return `/${locale}`;
-}
+import { logout } from "@/api/auth";
+import { useRouter } from "@/i18n/navigation";
 
 export default function LogoutClient() {
-  useEffect(() => {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    if (!baseUrl) {
-      window.location.href = getLandingPath();
-      return;
-    }
+  const router = useRouter();
 
-    fetch(`${baseUrl}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    })
-      .then(() => {
-        window.location.href = getLandingPath();
-      })
-      .catch(() => {
-        window.location.href = getLandingPath();
+  useEffect(() => {
+    logout()
+      .catch(() => {})
+      .finally(() => {
+        router.replace("/");
       });
-  }, []);
+  }, [router]);
 
   return (
     <div className="flex min-h-[40vh] items-center justify-center">

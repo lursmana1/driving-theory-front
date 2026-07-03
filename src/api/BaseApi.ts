@@ -1,5 +1,6 @@
 import axios from "axios";
 import { routing } from "@/i18n/routing";
+import { getAccessToken } from "@/lib/authToken";
 
 function getClientLocale(): string {
   if (typeof window === "undefined") return routing.defaultLocale;
@@ -22,6 +23,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   config.headers["Accept-Language"] = getClientLocale();
+  const token = getAccessToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   if (config.data instanceof FormData) {
     delete config.headers["Content-Type"];
   }
