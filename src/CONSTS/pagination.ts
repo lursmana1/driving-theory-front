@@ -4,6 +4,9 @@ export const DEFAULT_PAGE_SIZE = 10;
 /** Items per page for tickets (same as default) */
 export const TICKETS_PAGE_SIZE = DEFAULT_PAGE_SIZE;
 
+/** Items per page for profile exam history */
+export const EXAM_HISTORY_PAGE_SIZE = DEFAULT_PAGE_SIZE;
+
 /** Items per page for blogs */
 export const BLOGS_PAGE_SIZE = 9;
 

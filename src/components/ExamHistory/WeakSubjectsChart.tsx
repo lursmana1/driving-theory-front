@@ -1,10 +1,24 @@
 "use client";
 
+import { useMemo } from "react";
+import { Link } from "@/i18n/navigation";
+import type { ExamQuestion } from "@/lib/types/exam";
+import {
+  getQuestionPreview,
+  getQuestionTicketPath,
+} from "@/utills/helpers/questionLinks";
+
 type WeakSubject = {
   subjectId: number;
   wrongCount: number;
   correctCount: number;
   totalQuestions: number;
+};
+
+type WeakQuestion = {
+  questionId: number;
+  wrongCount: number;
+  question: unknown;
 };
 
 type SubjectInfo = {
@@ -15,18 +29,23 @@ type SubjectInfo = {
 type WeakSubjectsChartProps = {
   data: WeakSubject[];
   subjects: SubjectInfo[];
+  weakQuestions?: WeakQuestion[];
   title: string;
+  weakQuestionsTitle?: string;
+  questionLabel?: string;
   wrongLabel: string;
   correctLabel: string;
   totalLabel?: string;
-  /** Label for total − wrong − correct (gray segment). */
   unansweredLabel?: string;
 };
 
 export function WeakSubjectsChart({
   data,
   subjects,
+  weakQuestions = [],
   title,
+  weakQuestionsTitle,
+  questionLabel = "Question",
   wrongLabel,
   correctLabel,
   totalLabel = "total",
@@ -35,7 +54,33 @@ export function WeakSubjectsChart({
   const getSubjectName = (id: number) =>
     subjects.find((s) => s.id === id)?.name ?? `#${id}`;
 
-  if (data.length === 0) {
+  const questionsBySubject = useMemo(() => {
+    const map = new Map<number, WeakQuestion[]>();
+    for (const item of weakQuestions) {
+      const q = item.question as Partial<ExamQuestion> | undefined;
+      const subjectId = q?.subject;
+      if (subjectId == null) continue;
+      const list = map.get(subjectId) ?? [];
+      list.push(item);
+      map.set(subjectId, list);
+    }
+    for (const [, list] of map) {
+      list.sort((a, b) => b.wrongCount - a.wrongCount);
+    }
+    return map;
+  }, [weakQuestions]);
+
+  const ungroupedQuestions = useMemo(() => {
+    const groupedIds = new Set<number>();
+    for (const list of questionsBySubject.values()) {
+      for (const item of list) groupedIds.add(item.questionId);
+    }
+    return weakQuestions
+      .filter((item) => !groupedIds.has(item.questionId))
+      .sort((a, b) => b.wrongCount - a.wrongCount);
+  }, [weakQuestions, questionsBySubject]);
+
+  if (data.length === 0 && weakQuestions.length === 0) {
     return null;
   }
 
@@ -52,6 +97,7 @@ export function WeakSubjectsChart({
           const wrongPct = pool > 0 ? (wrong / pool) * 100 : 0;
           const correctPct = pool > 0 ? (correct / pool) * 100 : 0;
           const unansweredPct = pool > 0 ? (unanswered / pool) * 100 : 0;
+          const subjectQuestions = questionsBySubject.get(item.subjectId) ?? [];
 
           return (
             <div key={item.subjectId} className="group">
@@ -100,10 +146,116 @@ export function WeakSubjectsChart({
               <div className="mt-1 text-xs text-slate-500">
                 {pool} {totalLabel}
               </div>
+
+              {subjectQuestions.length > 0 && (
+                <ul className="mt-2 space-y-1 border-l-2 border-rose-100 pl-3">
+                  {subjectQuestions.map((wq) => {
+                    const preview = getQuestionPreview(wq.question, 64);
+                    const href = getQuestionTicketPath(
+                      wq.questionId,
+                      wq.question,
+                    );
+
+                    return (
+                      <li key={wq.questionId}>
+                        <Link
+                          href={href}
+                          className="block rounded-md py-1 text-xs text-slate-600 transition hover:bg-slate-50 hover:text-blue-700"
+                        >
+                          <span className="font-medium text-slate-700">
+                            #{wq.questionId}
+                          </span>
+                          {preview ? (
+                            <span className="ml-1.5 text-slate-600">
+                              {preview}
+                            </span>
+                          ) : null}
+                          <span className="ml-1.5 text-rose-600">
+                            · {wq.wrongCount} {wrongLabel}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
           );
         })}
       </div>
+
+      {ungroupedQuestions.length > 0 && (
+        <div className="mt-6 border-t border-slate-100 pt-4">
+          {weakQuestionsTitle ? (
+            <h3 className="mb-3 text-sm font-semibold text-slate-800">
+              {weakQuestionsTitle}
+            </h3>
+          ) : null}
+          <ul className="space-y-1.5">
+            {ungroupedQuestions.map((item) => {
+              const preview = getQuestionPreview(item.question);
+              const href = getQuestionTicketPath(item.questionId, item.question);
+
+              return (
+                <li key={item.questionId}>
+                  <Link
+                    href={href}
+                    className="flex items-start justify-between gap-2 rounded-lg px-2 py-1.5 text-sm transition hover:bg-slate-50"
+                  >
+                    <span className="min-w-0 text-slate-700 hover:text-blue-700">
+                      <span className="font-medium">
+                        {questionLabel} #{item.questionId}
+                      </span>
+                      {preview ? (
+                        <span className="mt-0.5 block text-xs text-slate-500">
+                          {preview}
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="shrink-0 rounded bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
+                      {item.wrongCount} {wrongLabel}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {data.length === 0 && weakQuestions.length > 0 && (
+        <ul className="space-y-1.5">
+          {[...weakQuestions]
+            .sort((a, b) => b.wrongCount - a.wrongCount)
+            .map((item) => {
+              const preview = getQuestionPreview(item.question);
+              const href = getQuestionTicketPath(item.questionId, item.question);
+
+              return (
+                <li key={item.questionId}>
+                  <Link
+                    href={href}
+                    className="flex items-start justify-between gap-2 rounded-lg px-2 py-1.5 text-sm transition hover:bg-slate-50"
+                  >
+                    <span className="min-w-0 text-slate-700 hover:text-blue-700">
+                      <span className="font-medium">
+                        {questionLabel} #{item.questionId}
+                      </span>
+                      {preview ? (
+                        <span className="mt-0.5 block text-xs text-slate-500">
+                          {preview}
+                        </span>
+                      ) : null}
+                    </span>
+                    <span className="shrink-0 rounded bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
+                      {item.wrongCount} {wrongLabel}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+        </ul>
+      )}
     </div>
   );
 }

@@ -43,17 +43,17 @@ export default function Pagination({
 
   return (
     <nav
-      className="flex flex-wrap items-center justify-between gap-4"
+      className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4"
       aria-label="Pagination"
     >
-      <p className="text-sm text-slate-500">
+      <p className="text-center text-sm text-slate-500 sm:text-left">
         <span className="font-medium text-slate-700">
           {start}–{end}
         </span>{" "}
         of <span className="font-medium text-slate-700">{total}</span>
       </p>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center justify-center gap-1 sm:justify-end">
         <button
           type="button"
           onClick={() => goTo(currentPage - 1)}
