@@ -24,11 +24,7 @@ export default async function LandingHero() {
 
       <div className="section relative">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-sky-100/90 backdrop-blur-sm">
-            {t("heroBadge")}
-          </p>
-
-          <h1 id="hero-title" className={`mt-8 ${LANDING.headingHero}`}>
+          <h1 id="hero-title" className={LANDING.headingHero}>
             <span className="text-white">{t("heroTitlePrefix")}</span>
             <span className="bg-linear-to-r from-sky-400 via-blue-400 to-violet-400 bg-clip-text text-transparent">
               {t("heroTitleHighlight")}

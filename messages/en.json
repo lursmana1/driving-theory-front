@@ -109,7 +109,9 @@
     "topics": "Topics",
     "examTime": "Time: {count} min",
     "examQuestions": "Questions: {count}",
-    "examMistakes": "Mistakes: {count}"
+    "examMistakes": "Mistakes: {count}",
+    "notStarted": "Not started",
+    "covered": "Covered"
   },
   "Exam": {
     "loading": "Loading...",
@@ -176,14 +178,27 @@
     "statTotal": "Total exams",
     "statPassed": "Passed",
     "statFailed": "Failed",
+    "statUnfinished": "Unfinished",
     "statPassRate": "Pass rate",
     "recentTitle": "Recent exams",
     "colDate": "Date",
+    "colCategory": "Category",
     "colScore": "Score",
     "colDuration": "Duration",
     "colResult": "Result",
+    "paginationRange": "{start}–{end} of {total}",
     "passed": "Passed",
     "failed": "Failed",
-    "loading": "Loading..."
+    "unfinished": "Unfinished",
+    "loading": "Loading...",
+    "readinessTitle": "Readiness score",
+    "readinessSubtitle": "How ready you are for the exam",
+    "readyBadge": "Ready",
+    "subjectsCovered": "Topics covered",
+    "weakSubjects": "Weak topics",
+    "attemptsUsed": "Exams taken",
+    "readinessError": "Could not load readiness score",
+    "readinessNoneHint": "Complete at least one exam to see your score",
+    "poolExposure": "Question pool exposure"
   }
 }

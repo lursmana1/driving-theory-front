@@ -25,7 +25,7 @@ const CategoryCard = ({ category, isActive }: CategoryCardProps) => {
       `}
     >
       <Image
-        src={getCategoryIconSrc(category.iconKey)}
+        src={getCategoryIconSrc(category.iconKey, category.id)}
         width={28}
         height={28}
         alt={category.name}

@@ -5,19 +5,29 @@ import "dayjs/locale/en";
 
 const supportedLocales = ["ka", "en", "ru"] as const;
 
+const DATE_TIME_FORMATS: Record<(typeof supportedLocales)[number], string> = {
+  ka: "D MMM YYYY, HH:mm",
+  en: "MMM D, YYYY, h:mm A",
+  ru: "D MMM YYYY, HH:mm",
+};
+
 /**
  * Format date with locale. Uses dayjs for proper month/day names per locale.
- * @param date - Date string or Date object
- * @param locale - Locale code (ka, en, ru)
- * @param format - dayjs format string (default: "D MMM YYYY" e.g. "1 Mar 2026")
  */
 export function formatDate(
   date: Date | string,
   locale: string = "ka",
-  format: string = "D MMM YYYY"
+  format?: string,
 ): string {
   const localeKey = supportedLocales.includes(locale as (typeof supportedLocales)[number])
     ? (locale as (typeof supportedLocales)[number])
     : "ka";
-  return dayjs(date).locale(localeKey).format(format);
+  return dayjs(date)
+    .locale(localeKey)
+    .format(format ?? DATE_TIME_FORMATS[localeKey]);
+}
+
+/** Locale-aware date + time for exam history, profile, etc. */
+export function formatDateTime(date: Date | string, locale: string = "ka"): string {
+  return formatDate(date, locale);
 }

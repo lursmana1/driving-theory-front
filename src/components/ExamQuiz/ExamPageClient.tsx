@@ -14,7 +14,6 @@ type ExamPageClientProps = {
   locale: string;
   categoryId: number;
   subjects: string;
-  examRulesFallback: CategoryExamRules;
 };
 
 type ExamLoadState = {
@@ -23,7 +22,7 @@ type ExamLoadState = {
   questions: ExamQuestion[];
   attemptId: number | null;
   endDate: string | null;
-  examRules: CategoryExamRules;
+  examRules: CategoryExamRules | null;
   error?: FetchExamClientResult["error"];
   examKey: number;
 };
@@ -32,7 +31,6 @@ export default function ExamPageClient({
   locale,
   categoryId,
   subjects,
-  examRulesFallback,
 }: ExamPageClientProps) {
   const [state, setState] = useState<ExamLoadState>({
     loading: true,
@@ -40,7 +38,7 @@ export default function ExamPageClient({
     questions: [],
     attemptId: null,
     endDate: null,
-    examRules: examRulesFallback,
+    examRules: null,
     examKey: 0,
   });
 
@@ -57,7 +55,6 @@ export default function ExamPageClient({
         lang: locale,
         subjects: subjects || undefined,
         categories: String(categoryId),
-        count: examRulesFallback.totalQuestions,
       });
 
       setState((prev) => ({
@@ -71,7 +68,7 @@ export default function ExamPageClient({
         examKey: restarting ? prev.examKey + 1 : prev.examKey,
       }));
     },
-    [locale, categoryId, subjects, examRulesFallback.totalQuestions],
+    [locale, categoryId, subjects],
   );
 
   useEffect(() => {
@@ -109,7 +106,7 @@ export default function ExamPageClient({
     );
   }
 
-  if (!state.questions.length) {
+  if (!state.questions.length || !state.examRules) {
     return (
       <div className="bg-[#193e4a] min-h-dvh flex items-center justify-center">
         <div className="text-white text-center">

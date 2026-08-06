@@ -1,12 +1,13 @@
 import axios from "axios";
 import BaseApi from "./BaseApi";
 import {
-  getExamRules,
-  toCategoryExamRules,
-  type CategoryExamRules,
-} from "@/CONSTS/categories";
+  examRulesFromCategory,
+  getCategoryById,
+} from "@/api/categories";
+import { toCategoryExamRules, type CategoryExamRules } from "@/CONSTS/categories";
 import type { ExamQuestion } from "@/lib/types/exam";
 import { getAccessToken } from "@/lib/authToken";
+import { markStatsStale } from "@/lib/statsRefresh";
 import { normalizeQuestions } from "@/utills/helpers/normalizeQuestions";
 
 export type ExamRuleEntry = {
@@ -33,39 +34,37 @@ export type StartExamResponse = {
 
 export function examRulesFromStartResponse(
   data: Pick<StartExamResponse, "questionCount" | "minCorrectToPass">,
-  categoryId: number,
-): CategoryExamRules {
-  if (
-    data.questionCount != null &&
-    data.minCorrectToPass != null
-  ) {
+): CategoryExamRules | null {
+  if (data.questionCount != null && data.minCorrectToPass != null) {
     return toCategoryExamRules({
       questionCount: data.questionCount,
       minCorrectToPass: data.minCorrectToPass,
     });
   }
-  return getExamRules(categoryId);
-}
-
-export async function getExamRulesApi(): Promise<ExamRuleEntry[]> {
-  const res = await BaseApi.get<ExamRuleEntry[] | { data: ExamRuleEntry[] }>(
-    "/exam-attempts/rules",
-  );
-  const payload = res.data;
-  return Array.isArray(payload) ? payload : (payload.data ?? []);
+  return null;
 }
 
 export async function getExamRulesForCategory(
   categoryId: number,
 ): Promise<CategoryExamRules> {
   try {
-    const rules = await getExamRulesApi();
-    const match = rules.find((r) => r.categoryId === categoryId);
-    if (match) return toCategoryExamRules(match);
+    const res = await BaseApi.get<ExamRuleEntry | ExamRuleEntry[]>(
+      "/exam-attempts/rules",
+      { params: { category: categoryId } },
+    );
+    const payload = res.data;
+    const entry = Array.isArray(payload)
+      ? payload.find((r) => r.categoryId === categoryId) ?? payload[0]
+      : payload;
+    if (entry?.questionCount != null && entry?.minCorrectToPass != null) {
+      return toCategoryExamRules(entry);
+    }
   } catch {
-    // fall back to static rules when API is unavailable or requires auth
+    // try category detail next
   }
-  return getExamRules(categoryId);
+
+  const category = await getCategoryById(categoryId);
+  return examRulesFromCategory(category);
 }
 
 export type SubmitAnswerResponse = {
@@ -88,6 +87,8 @@ export type AttemptSummary = {
   completedAt: string | null;
   passed: boolean | null;
   durationSeconds: number | null;
+  /** License category IDs stored on the attempt (may be empty on legacy rows) */
+  categories?: number[];
 };
 
 export type AttemptsHistoryResponse = {
@@ -149,12 +150,24 @@ async function fetchRandomExamQuestions(
   };
 }
 
-/** Start exam from the browser so Bearer token is available (production cross-origin). */
 export async function fetchExamClient(
   params: FetchExamClientParams,
 ): Promise<FetchExamClientResult> {
   const categoryId = Number(params.categories ?? "1");
-  const examRules = getExamRules(Number.isFinite(categoryId) ? categoryId : 1);
+  const safeCategoryId = Number.isFinite(categoryId) ? categoryId : 1;
+
+  let examRules: CategoryExamRules;
+  try {
+    examRules = await getExamRulesForCategory(safeCategoryId);
+  } catch {
+    return {
+      questions: [],
+      attemptId: null,
+      endDate: null,
+      examRules: { totalQuestions: 0, passScore: 0, maxMistakes: 0 },
+      error: "load_failed",
+    };
+  }
 
   if (getAccessToken()) {
     try {
@@ -165,11 +178,13 @@ export async function fetchExamClient(
         count: params.count ?? examRules.totalQuestions,
       });
 
+      const rulesFromStart = examRulesFromStartResponse(data);
+
       return {
         questions: normalizeQuestions(data.questions),
         attemptId: data.attemptId ?? null,
         endDate: data.endDate ?? null,
-        examRules: examRulesFromStartResponse(data, categoryId),
+        examRules: rulesFromStart ?? examRules,
       };
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -215,6 +230,7 @@ export async function finishExam(
   const res = await BaseApi.post<FinishExamResponse>(
     `/exam-attempts/${attemptId}/finish`,
   );
+  markStatsStale();
   return res.data;
 }
 
@@ -241,33 +257,6 @@ export async function getAttemptsHistory(
     params: { page, size },
   });
   return res.data;
-}
-
-export type WeakQuestion = {
-  questionId: number;
-  wrongCount: number;
-  question: unknown;
-};
-
-export type WeakSubject = {
-  subjectId: number;
-  wrongCount: number;
-  correctCount: number;
-  totalQuestions: number;
-};
-
-export async function getWeakQuestions(): Promise<WeakQuestion[]> {
-  const res = await BaseApi.get<{ data: WeakQuestion[] }>(
-    "/user-stats/weak-questions",
-  );
-  return res.data?.data ?? [];
-}
-
-export async function getWeakSubjects(): Promise<WeakSubject[]> {
-  const res = await BaseApi.get<{ data: WeakSubject[] }>(
-    "/user-stats/weak-subjects",
-  );
-  return res.data?.data ?? [];
 }
 
 export async function submitAnswer(

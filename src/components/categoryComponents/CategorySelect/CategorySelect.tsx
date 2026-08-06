@@ -34,7 +34,7 @@ const CategorySelect = ({
     label: (
       <span className="inline-flex items-center gap-3">
         <Image
-          src={getCategoryIconSrc(cat.iconKey)}
+          src={getCategoryIconSrc(cat.iconKey, cat.id)}
           width={28}
           height={28}
           alt={cat.name}
@@ -59,7 +59,7 @@ const CategorySelect = ({
         return (
           <div className="flex items-center gap-4 py-1">
             <Image
-              src={getCategoryIconSrc(cat.iconKey)}
+              src={getCategoryIconSrc(cat.iconKey, cat.id)}
               width={28}
               height={28}
               alt={cat.name}

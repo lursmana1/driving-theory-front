@@ -13,6 +13,13 @@ export const BLOGS_PAGE_SIZE = 9;
 /** URL search param key for page number */
 export const PAGE_PARAM = "page";
 
+/** Exam history table — date, category, score, duration, result */
+export const EXAM_HISTORY_TABLE_GRID =
+  "md:grid md:grid-cols-[minmax(9rem,22%)_minmax(2.5rem,10%)_minmax(5rem,16%)_minmax(6rem,18%)_minmax(8rem,34%)] md:items-center md:gap-x-6";
+
+/** Pagination controls span score + duration + result columns in exam history footer */
+export const EXAM_HISTORY_PAGINATION_COL_SPAN = "md:col-span-4";
+
 /** Show all page numbers when total pages <= this */
 export const VISIBLE_PAGES_THRESHOLD = 7;
 

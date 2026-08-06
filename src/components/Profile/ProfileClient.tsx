@@ -1,32 +1,35 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
+import { getCategories } from "@/api/categories";
 import {
   getAttemptsHistory,
-  getWeakQuestions,
-  getWeakSubjects,
   type AttemptSummary,
-  type WeakQuestion,
-  type WeakSubject,
 } from "@/api/examAttempts";
-import { getLocalizedSubjects } from "@/CONSTS/subjects";
+import type { Category } from "@/lib/types/category";
+import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
+import ProfileOverviewSection from "@/components/Profile/ProfileOverviewSection";
 import {
   EXAM_HISTORY_PAGE_SIZE,
+  EXAM_HISTORY_TABLE_GRID,
   PAGE_PARAM,
 } from "@/CONSTS/pagination";
-import { formatDate } from "@/utills/helpers/formatDate";
+import { formatDateTime } from "@/utills/helpers/formatDate";
+import { subscribeStatsRefresh } from "@/lib/statsRefresh";
 import Pagination from "@/components/Pagination/Pagination";
-import { WeakQuestionsChart } from "@/components/ExamHistory/WeakQuestionsChart";
-import { WeakSubjectsChart } from "@/components/ExamHistory/WeakSubjectsChart";
 
 function formatDuration(seconds: number | null): string {
   if (seconds == null) return "—";
-  const m = Math.floor(seconds / 60);
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
@@ -42,18 +45,30 @@ function initialsOf(name: string): string {
 function computeStats(attempts: AttemptSummary[]) {
   const passed = attempts.filter((a) => a.passed === true).length;
   const failed = attempts.filter((a) => a.passed === false).length;
+  const unfinished = attempts.filter((a) => a.passed == null).length;
   const decided = passed + failed;
   const passRate = decided > 0 ? Math.round((passed / decided) * 100) : 0;
-  return { passed, failed, passRate };
+  return { passed, failed, unfinished, passRate };
+}
+
+function getAttemptCategoryLabel(
+  attempt: AttemptSummary,
+  categoryById: Map<number, string>,
+): string {
+  const categoryId = attempt.categories?.[0];
+  if (categoryId == null) return "—";
+  return categoryById.get(categoryId) ?? `#${categoryId}`;
 }
 
 function ExamHistoryRow({
   attempt,
   locale,
+  categoryLabel,
   t,
 }: {
   attempt: AttemptSummary;
   locale: string;
+  categoryLabel: string;
   t: (key: string) => string;
 }) {
   const resultLabel =
@@ -61,22 +76,26 @@ function ExamHistoryRow({
       ? t("passed")
       : attempt.passed === false
         ? t("failed")
-        : "—";
+        : t("unfinished");
   const resultClass =
     attempt.passed === true
       ? "text-emerald-600"
       : attempt.passed === false
         ? "text-rose-600"
-        : "text-slate-400";
+        : "text-amber-600";
 
   return (
     <li className="border-b border-slate-100 last:border-b-0">
       {/* Mobile: stacked card */}
-      <div className="space-y-2 px-4 py-4 sm:hidden">
+      <div className="space-y-2 px-4 py-4 md:hidden">
         <time dateTime={attempt.createdAt} className="block text-sm font-medium text-slate-800">
-          {formatDate(attempt.createdAt, locale, "D MMM YYYY, HH:mm")}
+          {formatDateTime(attempt.createdAt, locale)}
         </time>
         <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
+          <div>
+            <dt className="text-slate-500">{t("colCategory")}</dt>
+            <dd className="font-semibold text-slate-900">{categoryLabel}</dd>
+          </div>
           <div>
             <dt className="text-slate-500">{t("colScore")}</dt>
             <dd className="font-semibold text-slate-900">
@@ -97,17 +116,18 @@ function ExamHistoryRow({
       </div>
 
       {/* Desktop: table row */}
-      <div className="hidden grid-cols-[1fr_auto_auto_auto] items-center gap-4 px-5 py-3.5 text-sm sm:grid">
+      <div className={`hidden px-5 py-3.5 text-sm ${EXAM_HISTORY_TABLE_GRID}`}>
         <time dateTime={attempt.createdAt} className="text-slate-700">
-          {formatDate(attempt.createdAt, locale, "D MMM YYYY, HH:mm")}
+          {formatDateTime(attempt.createdAt, locale)}
         </time>
-        <span className="text-right font-medium text-slate-900">
+        <span className="font-semibold text-slate-800">{categoryLabel}</span>
+        <span className="text-right font-medium tabular-nums text-slate-900">
           {attempt.correctCount}/{attempt.questionCount}
         </span>
-        <span className="text-right text-slate-600">
+        <span className="text-right tabular-nums text-slate-600 whitespace-nowrap">
           {formatDuration(attempt.durationSeconds)}
         </span>
-        <span className={`text-right font-medium ${resultClass}`}>
+        <span className={`text-right font-medium whitespace-nowrap ${resultClass}`}>
           {resultLabel}
         </span>
       </div>
@@ -127,16 +147,28 @@ export default function ProfileClient() {
     1,
     parseInt(searchParams.get(PAGE_PARAM) ?? "1", 10) || 1,
   );
+  const readinessCategoryId = Math.max(
+    0,
+    parseInt(searchParams.get("category") ?? String(DEFAULT_CATEGORY_ID), 10) ||
+      DEFAULT_CATEGORY_ID,
+  );
 
   const [attempts, setAttempts] = useState<AttemptSummary[]>([]);
-  const [total, setTotal] = useState(0);
-  const [stats, setStats] = useState({ passed: 0, failed: 0, passRate: 0 });
-  const [weakQuestions, setWeakQuestions] = useState<WeakQuestion[]>([]);
-  const [weakSubjects, setWeakSubjects] = useState<WeakSubject[]>([]);
-  const [overviewLoading, setOverviewLoading] = useState(true);
+  const [categories, setCategories] = useState<Category[]>([]);
+  /** All-categories total from GET /exam-attempts — includes unfinished; not comparable to per-category completedAttemptsTotal */
+  const [historyTotal, setHistoryTotal] = useState(0);
+  const [stats, setStats] = useState({
+    passed: 0,
+    failed: 0,
+    unfinished: 0,
+    passRate: 0,
+  });
+  const [historyStatsLoading, setHistoryStatsLoading] = useState(true);
   const [historyLoading, setHistoryLoading] = useState(true);
 
-  const subjects = useMemo(() => getLocalizedSubjects(locale), [locale]);
+  useEffect(() => {
+    getCategories().then(setCategories).catch(() => setCategories([]));
+  }, []);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -148,28 +180,28 @@ export default function ProfileClient() {
     if (!user) return;
     let active = true;
 
-    (async () => {
-      setOverviewLoading(true);
-      const [statsHistory, wq, ws] = await Promise.all([
-        getAttemptsHistory(1, 100).catch(() => ({
-          data: [],
-          total: 0,
-          page: 1,
-          totalPages: 1,
-        })),
-        getWeakQuestions().catch(() => []),
-        getWeakSubjects().catch(() => []),
-      ]);
+    const loadStats = async () => {
+      setHistoryStatsLoading(true);
+      // Global exam counts: all categories, passed + failed + unfinished (answered attempts)
+      const statsHistory = await getAttemptsHistory(1, 100).catch(() => ({
+        data: [],
+        total: 0,
+        page: 1,
+        totalPages: 1,
+      }));
       if (!active) return;
-      setTotal(statsHistory.total);
+      setHistoryTotal(statsHistory.total);
       setStats(computeStats(statsHistory.data));
-      setWeakQuestions(wq);
-      setWeakSubjects(ws);
-      setOverviewLoading(false);
-    })();
+      setHistoryStatsLoading(false);
+    };
 
+    loadStats();
+    const unsubscribe = subscribeStatsRefresh(() => {
+      if (active) loadStats();
+    });
     return () => {
       active = false;
+      unsubscribe();
     };
   }, [user]);
 
@@ -177,7 +209,7 @@ export default function ProfileClient() {
     if (!user) return;
     let active = true;
 
-    (async () => {
+    const loadHistory = async () => {
       setHistoryLoading(true);
       const history = await getAttemptsHistory(
         page,
@@ -190,12 +222,17 @@ export default function ProfileClient() {
       }));
       if (!active) return;
       setAttempts(history.data);
-      setTotal(history.total);
+      setHistoryTotal(history.total);
       setHistoryLoading(false);
-    })();
+    };
 
+    loadHistory();
+    const unsubscribe = subscribeStatsRefresh(() => {
+      if (active) loadHistory();
+    });
     return () => {
       active = false;
+      unsubscribe();
     };
   }, [user, page]);
 
@@ -214,10 +251,17 @@ export default function ProfileClient() {
     [user.name, user.surname].filter(Boolean).join(" ") || user.email;
   const initials = initialsOf(displayName) || user.email[0]?.toUpperCase();
 
+  const categoryById = new Map(categories.map((c) => [c.id, c.name]));
+
   const statTiles = [
-    { label: t("statTotal"), value: total, tone: "text-slate-900" },
+    { label: t("statTotal"), value: historyTotal, tone: "text-slate-900" },
     { label: t("statPassed"), value: stats.passed, tone: "text-emerald-600" },
     { label: t("statFailed"), value: stats.failed, tone: "text-rose-600" },
+    {
+      label: t("statUnfinished"),
+      value: stats.unfinished,
+      tone: "text-amber-600",
+    },
     {
       label: t("statPassRate"),
       value: `${stats.passRate}%`,
@@ -252,14 +296,14 @@ export default function ProfileClient() {
       </section>
 
       {/* Stat tiles */}
-      <section className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
+      <section className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5 sm:gap-4">
         {statTiles.map((tile) => (
           <div
             key={tile.label}
             className="rounded-xl border border-slate-200 bg-white p-3 text-center shadow-sm sm:rounded-2xl sm:p-4"
           >
             <p className={`text-xl font-bold sm:text-3xl ${tile.tone}`}>
-              {overviewLoading ? "—" : tile.value}
+              {historyStatsLoading ? "—" : tile.value}
             </p>
             <p className="mt-1 text-[11px] leading-tight text-slate-500 sm:text-sm">
               {tile.label}
@@ -267,6 +311,10 @@ export default function ProfileClient() {
           </div>
         ))}
       </section>
+
+      <Suspense fallback={null}>
+        <ProfileOverviewSection defaultCategoryId={readinessCategoryId} />
+      </Suspense>
 
       {/* Exam history */}
       <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
@@ -282,11 +330,12 @@ export default function ProfileClient() {
           </Link>
         </div>
 
-        <div className="hidden border-b border-slate-100 bg-slate-50 px-5 py-3 text-xs font-medium text-slate-500 md:grid md:grid-cols-[1fr_auto_auto_auto] md:gap-4">
+        <div className={`hidden border-b border-slate-100 bg-slate-50 px-5 py-3 text-xs font-medium text-slate-500 ${EXAM_HISTORY_TABLE_GRID}`}>
           <span>{t("colDate")}</span>
-          <span className="text-right">{t("colScore")}</span>
-          <span className="text-right">{t("colDuration")}</span>
-          <span className="text-right">{t("colResult")}</span>
+          <span>{t("colCategory")}</span>
+          <span className="text-right whitespace-nowrap">{t("colScore")}</span>
+          <span className="text-right whitespace-nowrap">{t("colDuration")}</span>
+          <span className="text-right whitespace-nowrap">{t("colResult")}</span>
         </div>
 
         <ul>
@@ -304,50 +353,39 @@ export default function ProfileClient() {
                 key={attempt.id}
                 attempt={attempt}
                 locale={locale}
+                categoryLabel={getAttemptCategoryLabel(attempt, categoryById)}
                 t={t}
               />
             ))
           )}
         </ul>
 
-        {!historyLoading && total > EXAM_HISTORY_PAGE_SIZE && (
-          <div className="border-t border-slate-100 px-4 py-4 sm:px-5">
-            <Suspense fallback={null}>
-              <Pagination
-                page={page}
-                total={total}
-                pathname="/profile"
-                pageSize={EXAM_HISTORY_PAGE_SIZE}
-              />
-            </Suspense>
+        {!historyLoading && historyTotal > EXAM_HISTORY_PAGE_SIZE && (
+          <div className="border-t border-slate-100 bg-slate-50/50">
+            <div className={`hidden px-5 py-3 ${EXAM_HISTORY_TABLE_GRID}`}>
+              <Suspense fallback={null}>
+                <Pagination
+                  page={page}
+                  total={historyTotal}
+                  pathname="/profile"
+                  pageSize={EXAM_HISTORY_PAGE_SIZE}
+                  layout="table"
+                />
+              </Suspense>
+            </div>
+            <div className="px-4 py-4 md:hidden">
+              <Suspense fallback={null}>
+                <Pagination
+                  page={page}
+                  total={historyTotal}
+                  pathname="/profile"
+                  pageSize={EXAM_HISTORY_PAGE_SIZE}
+                />
+              </Suspense>
+            </div>
           </div>
         )}
       </section>
-
-      {/* Charts */}
-      {!overviewLoading &&
-        (weakQuestions.length > 0 || weakSubjects.length > 0) && (
-          <section className="grid grid-cols-1 gap-4 sm:gap-6 xl:grid-cols-2">
-            <WeakQuestionsChart
-              data={weakQuestions}
-              title={tExam("weakQuestionsTitle")}
-              questionLabel={tExam("question")}
-              wrongLabel={tExam("wrongCount")}
-            />
-            <WeakSubjectsChart
-              data={weakSubjects}
-              subjects={subjects}
-              weakQuestions={weakQuestions}
-              title={tExam("weakSubjectsTitle")}
-              weakQuestionsTitle={tExam("weakQuestionsTitle")}
-              questionLabel={tExam("question")}
-              wrongLabel={tExam("wrongCount")}
-              correctLabel={tExam("correctCount")}
-              totalLabel={tExam("totalQuestions")}
-              unansweredLabel={tExam("unanswered")}
-            />
-          </section>
-        )}
     </main>
   );
 }

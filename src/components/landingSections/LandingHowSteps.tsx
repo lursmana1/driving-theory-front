@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import landingSteps from "@/data/landingSteps.json";
-import { LandingEyebrow } from "./LandingEyebrow";
 import { LANDING } from "@/CONSTS/landing";
 
 function stepBadgeClass(successStep: boolean) {
@@ -28,10 +27,9 @@ export async function LandingHowSteps() {
   return (
     <section className={LANDING.howSection} aria-labelledby="how-title">
       <div className="section relative">
-        <LandingEyebrow tone="dark">{t("howSectionLabel")}</LandingEyebrow>
         <h2
           id="how-title"
-          className={`mt-3 text-center ${LANDING.headingSectionDark}`}
+          className={`text-center ${LANDING.headingSectionDark}`}
         >
           {t("howTitle")}
         </h2>

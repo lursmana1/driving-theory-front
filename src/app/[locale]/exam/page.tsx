@@ -1,4 +1,4 @@
-import { getExamRules, resolveCategoryId } from "@/CONSTS/categories";
+import { resolveCategoryId } from "@/CONSTS/categories";
 import ExamPageClient from "@/components/ExamQuiz/ExamPageClient";
 
 type ExamPageProps = {
@@ -35,7 +35,6 @@ export default async function ExamPage({
       locale={locale}
       categoryId={categoryId}
       subjects={subjects.join(",")}
-      examRulesFallback={getExamRules(categoryId)}
     />
   );
 }

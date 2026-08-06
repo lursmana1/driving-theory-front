@@ -1,6 +1,7 @@
 import axios from "axios";
 import { routing } from "@/i18n/routing";
-import { getAccessToken } from "@/lib/authToken";
+import { getAccessToken, clearAccessToken } from "@/lib/authToken";
+import { getApiBaseUrl } from "@/lib/apiBaseUrl";
 
 function getClientLocale(): string {
   if (typeof window === "undefined") return routing.defaultLocale;
@@ -11,14 +12,15 @@ function getClientLocale(): string {
 }
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: getApiBaseUrl(),
   // Prevent server/client components from hanging indefinitely when backend is down.
   timeout: 8000,
   headers: {
     "Content-Type": "application/json",
     "Accept-Language": "ka",
   },
-  withCredentials: true,
+  // Bearer from localStorage (response.tokens.access_token) — no cross-origin cookies.
+  withCredentials: false,
 });
 
 instance.interceptors.request.use((config) => {
@@ -32,6 +34,29 @@ instance.interceptors.request.use((config) => {
   }
   return config;
 });
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (
+      axios.isAxiosError(error) &&
+      error.response?.status === 401 &&
+      typeof window !== "undefined"
+    ) {
+      const url = error.config?.url ?? "";
+      const isAuthRoute =
+        url.includes("/auth/login") ||
+        url.includes("/auth/register") ||
+        url.includes("/auth/me");
+      if (!isAuthRoute && getAccessToken()) {
+        clearAccessToken();
+        const locale = getClientLocale();
+        window.location.href = `/${locale}/auth`;
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
 /** Update Accept-Language for all future requests (e.g. when user switches locale). */
 export function setApiLocale(locale: string) {

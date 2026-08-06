@@ -118,13 +118,14 @@ export default function ExamQuiz({
         />
       )}
 
-      {examFinished && (exam.finishResult || !attemptId) && (
+      {examFinished && !examFailed && (exam.finishResult || !attemptId) && (
         <ExamSuccessModal
           handleRestart={exam.handleRestart}
           passed={
             exam.finishResult?.passed ?? exam.score >= examRules.passScore
           }
           durationSeconds={exam.finishResult?.durationSeconds ?? 0}
+          elapsedSeconds={exam.elapsedSeconds}
           correctCount={exam.score}
           totalCount={exam.safeQuestions.length}
         />

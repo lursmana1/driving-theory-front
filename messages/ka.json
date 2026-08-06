@@ -109,7 +109,9 @@
     "topics": "თემები",
     "examTime": "დრო: {count} წთ",
     "examQuestions": "კითხვები: {count}",
-    "examMistakes": "შეცდომა: {count}"
+    "examMistakes": "შეცდომა: {count}",
+    "notStarted": "არ დაწყებულა",
+    "covered": "დაფარული"
   },
   "Exam": {
     "loading": "იტვირთება...",
@@ -127,7 +129,7 @@
     "historyEmpty": "ჯერ არ არის გამოცდები",
     "startNew": "ახალი გამოცდის დაწყება",
     "weakQuestionsTitle": "გასაუმჯობესებელი კითხვები",
-    "weakSubjectsTitle": "სუსტი საკითხები",
+    "weakSubjectsTitle": "სუსტი თემები",
     "question": "კითხვა",
     "wrongCount": "შეცდომა",
     "correctCount": "სწორი",
@@ -176,14 +178,27 @@
     "statTotal": "სულ გამოცდა",
     "statPassed": "ჩაბარებული",
     "statFailed": "ჩაჭრილი",
+    "statUnfinished": "დაუსრულებელი",
     "statPassRate": "ჩაბარების %",
     "recentTitle": "ბოლო გამოცდები",
     "colDate": "თარიღი",
+    "colCategory": "კატეგორია",
     "colScore": "ქულა",
     "colDuration": "ხანგრძლივობა",
     "colResult": "შედეგი",
+    "paginationRange": "{start}–{end} სულ {total}-დან",
     "passed": "ჩაბარდა",
     "failed": "ჩაიჭრა",
-    "loading": "იტვირთება..."
+    "unfinished": "დაუსრულებელი",
+    "loading": "იტვირთება...",
+    "readinessTitle": "მზაობის ქულა",
+    "readinessSubtitle": "რამდენად მზად ხარ გამოცდისთვის",
+    "readyBadge": "მზად ხარ",
+    "subjectsCovered": "დაფარული თემები",
+    "weakSubjects": "სუსტი თემები",
+    "attemptsUsed": "გამოცდები",
+    "readinessError": "მზაობის ქულა ვერ ჩაიტვირთა",
+    "readinessNoneHint": "გაიარე მინიმუმ ერთი გამოცდა, რომ ქულა გამოჩნდეს",
+    "poolExposure": "კითხვების დაფარვა"
   }
 }

@@ -109,7 +109,9 @@
     "topics": "Темы",
     "examTime": "Время: {count} мин",
     "examQuestions": "Вопросы: {count}",
-    "examMistakes": "Ошибки: {count}"
+    "examMistakes": "Ошибки: {count}",
+    "notStarted": "Не начато",
+    "covered": "Пройдено"
   },
   "Exam": {
     "loading": "Загрузка...",
@@ -176,14 +178,27 @@
     "statTotal": "Всего экзаменов",
     "statPassed": "Сдано",
     "statFailed": "Не сдано",
+    "statUnfinished": "Незавершённые",
     "statPassRate": "% сдачи",
     "recentTitle": "Последние экзамены",
     "colDate": "Дата",
+    "colCategory": "Категория",
     "colScore": "Балл",
     "colDuration": "Длительность",
     "colResult": "Результат",
+    "paginationRange": "{start}–{end} из {total}",
     "passed": "Сдан",
     "failed": "Не сдан",
-    "loading": "Загрузка..."
+    "unfinished": "Незавершён",
+    "loading": "Загрузка...",
+    "readinessTitle": "Оценка готовности",
+    "readinessSubtitle": "Насколько вы готовы к экзамену",
+    "readyBadge": "Готов",
+    "subjectsCovered": "Пройденные темы",
+    "weakSubjects": "Слабые темы",
+    "attemptsUsed": "Экзамены",
+    "readinessError": "Не удалось загрузить оценку готовности",
+    "readinessNoneHint": "Пройдите хотя бы один экзамен, чтобы увидеть оценку",
+    "poolExposure": "Охват вопросов"
   }
 }

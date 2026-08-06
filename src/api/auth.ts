@@ -2,10 +2,23 @@ import BaseApi from "@/api/BaseApi";
 import type { User } from "@/lib/auth";
 import { clearAccessToken, setAccessToken } from "@/lib/authToken";
 
-export type AuthResponse = {
+export type AuthTokens = {
   access_token: string;
-  user: User;
+  refresh_token?: string;
 };
+
+export type AuthResponse = {
+  user: User;
+  /** Legacy top-level token (same-origin cookie era) */
+  access_token?: string;
+  /** Bearer token lives here on cross-origin API */
+  tokens?: AuthTokens;
+};
+
+function persistAuthTokens(data: AuthResponse): void {
+  const token = data.tokens?.access_token ?? data.access_token;
+  if (token) setAccessToken(token);
+}
 
 export type AuthConfig = {
   googleLoginUrl: string;
@@ -26,9 +39,7 @@ export async function login(
     email,
     password,
   });
-  if (res.data.access_token) {
-    setAccessToken(res.data.access_token);
-  }
+  persistAuthTokens(res.data);
   return res.data;
 }
 
@@ -39,9 +50,7 @@ export async function register(payload: {
   password: string;
 }): Promise<AuthResponse> {
   const res = await BaseApi.post<AuthResponse>("/auth/register", payload);
-  if (res.data.access_token) {
-    setAccessToken(res.data.access_token);
-  }
+  persistAuthTokens(res.data);
   return res.data;
 }
 

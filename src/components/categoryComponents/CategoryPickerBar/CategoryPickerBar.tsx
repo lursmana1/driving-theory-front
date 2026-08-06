@@ -10,6 +10,7 @@ import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
 type CategoryPickerBarProps = {
   categories: Category[];
   activeCategoryId: number;
+  pathname?: string;
 };
 
 function ChevronIcon({ direction }: { direction: "left" | "right" }) {
@@ -34,6 +35,7 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
 export default function CategoryPickerBar({
   categories,
   activeCategoryId,
+  pathname = "/subjectpicker",
 }: CategoryPickerBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -46,7 +48,7 @@ export default function CategoryPickerBar({
     const sp = new URLSearchParams(searchParams.toString());
     sp.set("category", String(id));
     startTransition(() => {
-      router.push(`/subjectpicker?${sp.toString()}`);
+      router.push(`${pathname}?${sp.toString()}`);
     });
   };
 
@@ -117,7 +119,7 @@ export default function CategoryPickerBar({
               }`}
             >
               <Image
-                src={getCategoryIconSrc(cat.iconKey)}
+                src={getCategoryIconSrc(cat.iconKey, cat.id)}
                 width={32}
                 height={32}
                 alt=""

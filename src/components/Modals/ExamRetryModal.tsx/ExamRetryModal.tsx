@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Modal from "antd/es/modal/Modal";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -31,13 +32,27 @@ const ExamRetryModal = ({
     finishResult?.durationSeconds,
   );
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Enter") return;
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+      if (tag === "button") return;
+      e.preventDefault();
+      handleRestart();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [handleRestart]);
+
   return (
     <Modal
       open
       centered
-      closable={false}
+      closable
+      mask={{ closable: true }}
       footer={null}
       width={480}
+      onCancel={handleRestart}
       styles={{
         body: {
           padding: 0,
@@ -85,6 +100,7 @@ const ExamRetryModal = ({
         <div className="flex flex-col gap-2.5 border-t border-slate-200 bg-slate-50 px-8 py-6">
           <button
             type="button"
+            autoFocus
             onClick={handleRestart}
             className="w-full rounded-xl bg-linear-to-r from-sky-500 to-violet-600 py-3 text-sm font-semibold text-white shadow-md shadow-violet-500/20 transition hover:brightness-110"
           >
