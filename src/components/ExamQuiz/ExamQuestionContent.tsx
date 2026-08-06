@@ -1,5 +1,7 @@
 import type { ExamQuestion } from "@/lib/types/exam";
+import { getQuestionAudioUrl } from "@/lib/types/exam";
 import QuestionImage from "@/components/QuestionImage/QuestionImage";
+import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
 
 type ExamQuestionContentProps = {
   question: ExamQuestion;
@@ -17,6 +19,7 @@ export default function ExamQuestionContent({
   isSwipeEnabled,
 }: ExamQuestionContentProps) {
   const qId = String(question.id);
+  const questionAudioUrl = getQuestionAudioUrl(question);
 
   return (
     <div
@@ -45,9 +48,18 @@ export default function ExamQuestionContent({
           />
         )}
 
-        <p className="font-georgian min-w-0 wrap-break-word rounded-md border border-white bg-black/50 p-3 text-sm text-white sm:p-4 mb-3 sm:mb-4">
-          {question.question}
-        </p>
+        <div className="mb-3 flex items-start gap-3 sm:mb-4">
+          {questionAudioUrl && (
+            <QuestionAudioButton
+              id={`question-audio-${qId}`}
+              src={questionAudioUrl}
+              namespace="Exam"
+            />
+          )}
+          <p className="font-georgian min-w-0 flex-1 wrap-break-word rounded-md border border-white bg-black/50 p-3 text-sm text-white sm:p-4">
+            {question.question}
+          </p>
+        </div>
       </div>
     </div>
   );

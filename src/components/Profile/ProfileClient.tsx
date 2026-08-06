@@ -18,7 +18,7 @@ import {
   EXAM_HISTORY_TABLE_GRID,
   PAGE_PARAM,
 } from "@/CONSTS/pagination";
-import { formatDateTime } from "@/utills/helpers/formatDate";
+import { formatAttemptDateTime } from "@/utills/helpers/formatDate";
 import { subscribeStatsRefresh } from "@/lib/statsRefresh";
 import Pagination from "@/components/Pagination/Pagination";
 
@@ -88,8 +88,11 @@ function ExamHistoryRow({
     <li className="border-b border-slate-100 last:border-b-0">
       {/* Mobile: stacked card */}
       <div className="space-y-2 px-4 py-4 md:hidden">
-        <time dateTime={attempt.createdAt} className="block text-sm font-medium text-slate-800">
-          {formatDateTime(attempt.createdAt, locale)}
+        <time
+          dateTime={attempt.completedAt ?? attempt.createdAt}
+          className="block text-sm font-medium text-slate-800"
+        >
+          {formatAttemptDateTime(attempt, locale)}
         </time>
         <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
           <div>
@@ -117,8 +120,8 @@ function ExamHistoryRow({
 
       {/* Desktop: table row */}
       <div className={`hidden px-5 py-3.5 text-sm ${EXAM_HISTORY_TABLE_GRID}`}>
-        <time dateTime={attempt.createdAt} className="text-slate-700">
-          {formatDateTime(attempt.createdAt, locale)}
+        <time dateTime={attempt.completedAt ?? attempt.createdAt} className="text-slate-700">
+          {formatAttemptDateTime(attempt, locale)}
         </time>
         <span className="font-semibold text-slate-800">{categoryLabel}</span>
         <span className="text-right font-medium tabular-nums text-slate-900">

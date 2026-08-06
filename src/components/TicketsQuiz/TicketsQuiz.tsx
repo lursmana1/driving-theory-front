@@ -1,14 +1,14 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
-import { getAiTutorText, type ExamQuestion } from "@/lib/types/exam";
+import { useTranslations } from "next-intl";
+import { getAiTutorText, getQuestionAudioUrl, type ExamQuestion } from "@/lib/types/exam";
 import QuestionImage from "@/components/QuestionImage/QuestionImage";
 import QuizButton from "../QuizButton/QuizButton";
 import ExamFooter from "../ExamFooter/ExamFooter";
 import QuestionExplanation from "../QuestionExplanation/QuestionExplanation";
 import { getAnswers } from "@/utills/helpers/getAnswers";
-import { AiTutorReadButton } from "./AiTutorReadButton";
 import { AiTutorText } from "./AiTutorText";
+import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
 
 type TicketQuizProps = {
   question: ExamQuestion;
@@ -24,10 +24,10 @@ export default function TicketQuiz({
   onSelect,
 }: TicketQuizProps) {
   const t = useTranslations("Tickets");
-  const locale = useLocale();
   const answers = getAnswers(question);
   const qId = String(question.id);
   const aiTutorText = getAiTutorText(question);
+  const questionAudioUrl = getQuestionAudioUrl(question);
 
   const handleSelect = (key: string) => {
     onSelect(qId, key);
@@ -52,15 +52,17 @@ export default function TicketQuiz({
             />
           )}
 
-          <p className="font-georgian p-4 text-white text-sm border border-white bg-black/50 rounded-md mb-4">
-            {question.question}
-          </p>
+          <div className="mb-4 flex items-start gap-3">
+            {questionAudioUrl && (
+              <QuestionAudioButton id={`question-audio-${qId}`} src={questionAudioUrl} />
+            )}
+            <p className="font-georgian min-w-0 flex-1 p-4 text-white text-sm border border-white bg-black/50 rounded-md">
+              {question.question}
+            </p>
+          </div>
 
           {aiTutorText !== "" && (
-            <div className="mb-4 space-y-2">
-              <div className="flex flex-wrap items-center gap-3">
-                <AiTutorReadButton id={qId} text={aiTutorText} lang={locale} />
-              </div>
+            <div className="mb-4">
               <AiTutorText text={aiTutorText} label={t("aiTutorShowText")} />
             </div>
           )}

@@ -134,7 +134,9 @@
     "wrongCount": "ошибок",
     "correctCount": "правильно",
     "totalQuestions": "всего",
-    "unanswered": "без ответа"
+    "unanswered": "без ответа",
+    "questionListen": "Слушать вопрос",
+    "questionStop": "Стоп"
   },    
   "Categories": {
     "questionCount": "{count} вопросов"
@@ -146,7 +148,12 @@
     "ticketExplanation": "Объяснение билета",
     "aiTutorListen": "Слушать объяснение ИИ",
     "aiTutorStop": "Стоп",
-    "aiTutorShowText": "Билет AI объяснение"
+    "aiTutorShowText": "Билет AI объяснение",
+    "questionListen": "Слушать вопрос",
+    "questionStop": "Стоп",
+    "questionIdPlaceholder": "ID вопроса",
+    "search": "Поиск",
+    "clearSearch": "Очистить"
   },
   "Auth": {
     "noAccount": "Нет аккаунта?",

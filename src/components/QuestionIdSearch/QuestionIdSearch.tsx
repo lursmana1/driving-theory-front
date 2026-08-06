@@ -1,5 +1,8 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
 
 function ClearIcon() {
@@ -20,8 +23,6 @@ function ClearIcon() {
     </svg>
   );
 }
-import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 type QuestionIdSearchProps = {
   category: string;
@@ -32,6 +33,7 @@ export default function QuestionIdSearch({
   category,
   currentParams,
 }: QuestionIdSearchProps) {
+  const t = useTranslations("Tickets");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -72,7 +74,7 @@ export default function QuestionIdSearch({
     <div className="flex w-full overflow-hidden rounded-lg bg-slate-50 md:w-auto md:min-w-48">
       <input
         type="text"
-        placeholder="Question ID"
+        placeholder={t("questionIdPlaceholder")}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSearch(value)}
@@ -82,7 +84,7 @@ export default function QuestionIdSearch({
         <button
           type="button"
           onClick={handleClear}
-          aria-label="Clear"
+          aria-label={t("clearSearch")}
           className="h-12 shrink-0 border-0 bg-transparent px-2 text-slate-400 transition hover:text-slate-600 focus:outline-none focus:ring-0"
         >
           <ClearIcon />
@@ -93,7 +95,7 @@ export default function QuestionIdSearch({
         onClick={() => handleSearch(value)}
         className="h-12 shrink-0 border-0 bg-slate-100 px-4 text-slate-700 transition hover:bg-slate-200 focus:outline-none focus:ring-0"
       >
-        Search
+        {t("search")}
       </button>
     </div>
   );

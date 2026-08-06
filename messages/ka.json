@@ -134,7 +134,9 @@
     "wrongCount": "შეცდომა",
     "correctCount": "სწორი",
     "totalQuestions": "სულ",
-    "unanswered": "უპასუხო"
+    "unanswered": "უპასუხო",
+    "questionListen": "მოუსმინე კითხვას",
+    "questionStop": "გაჩერება"
   },
   "Categories": {
     "questionCount": "{count} კითხვა"
@@ -146,7 +148,12 @@
     "ticketExplanation": "ბილეთის განმარტება",
     "aiTutorListen": "მოუსმინე AI-ს",
     "aiTutorStop": "გაჩერება",
-    "aiTutorShowText": "ბილეთის AI განმარტება"
+    "aiTutorShowText": "ბილეთის AI განმარტება",
+    "questionListen": "მოუსმინე კითხვას",
+    "questionStop": "გაჩერება",
+    "questionIdPlaceholder": "კითხვის ID",
+    "search": "ძებნა",
+    "clearSearch": "გასუფთავება"
   },
   "Auth": {
     "noAccount": "არ გაქვთ ანგარიში?",

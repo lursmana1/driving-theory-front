@@ -20,6 +20,14 @@ export interface ExamQuestion {
   aiTutor?: string | null;
 }
 
+/** Non-empty question audio URL from API, or null when missing / still generating. */
+export function getQuestionAudioUrl(q: ExamQuestion): string | null {
+  const raw = q.audio;
+  if (typeof raw !== "string") return null;
+  const url = raw.trim();
+  return url.length > 0 ? url : null;
+}
+
 /** Resolve tutor text whether API sent snake_case or camelCase. */
 export function getAiTutorText(q: ExamQuestion): string {
   const raw = q.ai_tutor ?? q.aiTutor;

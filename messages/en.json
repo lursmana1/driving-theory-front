@@ -134,7 +134,9 @@
     "wrongCount": "wrong",
     "correctCount": "correct",
     "totalQuestions": "total",
-    "unanswered": "unanswered"
+    "unanswered": "unanswered",
+    "questionListen": "Listen to question",
+    "questionStop": "Stop"
   },
   "Categories": {
     "questionCount": "{count} questions"
@@ -146,7 +148,12 @@
     "ticketExplanation": "Ticket explanation",
     "aiTutorListen": "Listen to AI tutor",
     "aiTutorStop": "Stop",
-    "aiTutorShowText": "Ticket AI explanation"
+    "aiTutorShowText": "Ticket AI explanation",
+    "questionListen": "Listen to question",
+    "questionStop": "Stop",
+    "questionIdPlaceholder": "Question ID",
+    "search": "Search",
+    "clearSearch": "Clear"
   },
   "Auth": {
     "noAccount": "Don't have an account?",
