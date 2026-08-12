@@ -1,4 +1,5 @@
 import BaseApi from "./BaseApi";
+import { cache } from "react";
 import { resolveCategoryIconKey } from "@/CONSTS/categoryAssets";
 import { enrichSubjectsWithLocalizedNames } from "@/CONSTS/subjects";
 import type { Category, CategoryWithSubjects } from "@/lib/types/category";
@@ -33,19 +34,18 @@ export function examRulesFromCategory(category: Category): CategoryExamRules {
   };
 }
 
-export async function getCategories(): Promise<Category[]> {
+export const getCategories = cache(async (): Promise<Category[]> => {
   const res = await BaseApi.get<Category[]>("/categories");
   return (res.data ?? []).map(normalizeCategory);
-}
+});
 
-export async function getCategoryById(
-  id: number,
-  locale?: string,
-): Promise<CategoryWithSubjects> {
-  const res = await BaseApi.get<CategoryWithSubjects>(`/categories/${id}`);
-  const rawSubjects = res.data.subjects ?? [];
-  const subjects = locale
-    ? enrichSubjectsWithLocalizedNames(rawSubjects, locale)
-    : rawSubjects;
-  return { ...normalizeCategory(res.data), subjects };
-}
+export const getCategoryById = cache(
+  async (id: number, locale?: string): Promise<CategoryWithSubjects> => {
+    const res = await BaseApi.get<CategoryWithSubjects>(`/categories/${id}`);
+    const rawSubjects = res.data.subjects ?? [];
+    const subjects = locale
+      ? enrichSubjectsWithLocalizedNames(rawSubjects, locale)
+      : rawSubjects;
+    return { ...normalizeCategory(res.data), subjects };
+  },
+);

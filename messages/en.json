@@ -111,7 +111,13 @@
     "examQuestions": "Questions: {count}",
     "examMistakes": "Mistakes: {count}",
     "notStarted": "Not started",
-    "covered": "Covered"
+    "covered": "Covered",
+    "selectedCount": "{selected} / {total} topics",
+    "allTopicsSelectedHint": "All topics selected — tap to customize",
+    "customSelectionHint": "Tap to change topic selection",
+    "searchTopics": "Search topics...",
+    "noTopicsFound": "No topics match your search",
+    "loadError": "Service temporarily unavailable. Please try again later."
   },
   "Exam": {
     "loading": "Loading...",
@@ -153,7 +159,9 @@
     "questionStop": "Stop",
     "questionIdPlaceholder": "Question ID",
     "search": "Search",
-    "clearSearch": "Clear"
+    "clearSearch": "Clear",
+    "loadError": "Service temporarily unavailable. Please try again later.",
+    "questionNotFound": "Question #{id} not found."
   },
   "Auth": {
     "noAccount": "Don't have an account?",

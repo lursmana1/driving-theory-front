@@ -71,3 +71,25 @@ export function getCategoryIconSrc(
   const resolved = resolveCategoryIconKey(iconKey, categoryId);
   return CATEGORY_ICONS[resolved];
 }
+
+const CATEGORY_SHORT_LABEL: Record<CategoryIconKey, string> = {
+  AA1: "A1",
+  BB1: "B1",
+  AM: "AM",
+  C: "C",
+  C1: "C1",
+  D: "D",
+  D1: "D1",
+  TS: "T/S",
+  TRAM: "Tram",
+  ARMY: "Mil",
+};
+
+/** Compact license label for tables (e.g. B1, A1, AM). */
+export function getCategoryShortLabel(
+  categoryId: number,
+  iconKey?: string | null,
+): string {
+  const key = resolveCategoryIconKey(iconKey, categoryId);
+  return CATEGORY_SHORT_LABEL[key] ?? key;
+}

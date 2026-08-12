@@ -3,9 +3,17 @@ import type { ExamQuestion } from "@/lib/types/exam";
 export function getQuestionTicketPath(
   questionId: number | string,
   question?: unknown,
+  fallbackCategoryId?: number,
 ): string {
   const q = question as Partial<ExamQuestion> | undefined;
-  const category = q?.categories?.[0] ?? 1;
+  const categories = q?.categories ?? [];
+  const category =
+    (fallbackCategoryId != null &&
+      categories.includes(fallbackCategoryId) &&
+      fallbackCategoryId) ||
+    categories[0] ||
+    fallbackCategoryId ||
+    1;
   return `/tickets/${category}?questionId=${questionId}`;
 }
 

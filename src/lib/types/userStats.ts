@@ -65,12 +65,3 @@ export type OverviewWeakQuestion = {
   totalAttempts?: number;
   question: unknown;
 };
-
-export type UserStatsOverview = {
-  readiness: ReadinessScore;
-  subjectProgress?: SubjectProgress[];
-  weakSubjects: OverviewWeakSubject[];
-  weakQuestions: OverviewWeakQuestion[];
-  questionPool?: QuestionPoolStats;
-  examRules: ExamRulesPayload;
-};

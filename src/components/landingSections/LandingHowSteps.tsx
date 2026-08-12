@@ -12,6 +12,32 @@ function stepBadgeClass(successStep: boolean) {
 const connectorClass =
   "hidden h-[3px] min-w-5 flex-1 rounded-full bg-linear-to-r from-white/15 via-sky-400/45 to-white/20 shadow-[0_0_16px_rgba(56,189,248,0.2)] md:block";
 
+function stepArticleClass(index: number, lastIndex: number) {
+  const border =
+    index < lastIndex ? "border-b border-white/10 md:border-b-0" : "";
+  const base = `flex min-w-0 flex-col items-center px-2 py-10 text-center md:px-0 md:py-0 ${border}`;
+
+  if (index === 0) {
+    return `${base} md:items-start md:text-left`;
+  }
+  if (index === 1) {
+    return `${base} md:items-center md:text-center`;
+  }
+  return `${base} md:items-end md:text-right`;
+}
+
+function stepBadgeRowClass(index: number) {
+  const base = "mb-6 flex w-full min-h-16 items-center justify-center md:mb-8";
+
+  if (index === 0) {
+    return `${base} md:justify-start`;
+  }
+  if (index === 1) {
+    return base;
+  }
+  return `${base} md:justify-end`;
+}
+
 export async function LandingHowSteps() {
   const t = await getTranslations("Home");
 
@@ -37,13 +63,8 @@ export async function LandingHowSteps() {
 
         <div className="mx-auto mt-14 grid max-w-md grid-cols-1 gap-0 md:mt-16 md:max-w-5xl md:grid-cols-3 md:gap-8 lg:gap-10">
           {steps.map((step, i) => (
-            <article
-              key={step.n}
-              className={`flex min-w-0 flex-col items-center px-2 py-10 text-center md:items-start md:px-0 md:py-0 md:text-left ${
-                i < lastIndex ? "border-b border-white/10 md:border-b-0" : ""
-              }`}
-            >
-              <div className="mb-6 flex w-full min-h-16 items-center justify-center md:mb-8 md:justify-start">
+            <article key={step.n} className={stepArticleClass(i, lastIndex)}>
+              <div className={stepBadgeRowClass(i)}>
                 {i > 0 && <div className={`mr-4 ${connectorClass}`} aria-hidden />}
                 <div
                   className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-2xl font-bold ${stepBadgeClass(!!step.successStep)}`}

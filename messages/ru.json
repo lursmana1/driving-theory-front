@@ -111,7 +111,13 @@
     "examQuestions": "Вопросы: {count}",
     "examMistakes": "Ошибки: {count}",
     "notStarted": "Не начато",
-    "covered": "Пройдено"
+    "covered": "Пройдено",
+    "selectedCount": "{selected} / {total} тем",
+    "allTopicsSelectedHint": "Выбраны все темы — нажмите, чтобы изменить",
+    "customSelectionHint": "Нажмите, чтобы изменить выбор тем",
+    "searchTopics": "Поиск тем...",
+    "noTopicsFound": "Темы не найдены",
+    "loadError": "Сервис временно недоступен. Попробуйте позже."
   },
   "Exam": {
     "loading": "Загрузка...",
@@ -153,7 +159,9 @@
     "questionStop": "Стоп",
     "questionIdPlaceholder": "ID вопроса",
     "search": "Поиск",
-    "clearSearch": "Очистить"
+    "clearSearch": "Очистить",
+    "loadError": "Сервис временно недоступен. Попробуйте позже.",
+    "questionNotFound": "Вопрос #{id} не найден."
   },
   "Auth": {
     "noAccount": "Нет аккаунта?",

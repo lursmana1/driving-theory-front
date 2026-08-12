@@ -3,14 +3,15 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
 import type { Category } from "@/lib/types/category";
 import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
+import { buildCategoryPickerQuery } from "@/lib/searchParams";
 
 type CategoryPickerBarProps = {
   categories: Category[];
   activeCategoryId: number;
   pathname?: string;
+  searchParams?: Record<string, string>;
 };
 
 function ChevronIcon({ direction }: { direction: "left" | "right" }) {
@@ -24,7 +25,11 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
       aria-hidden
     >
       {direction === "left" ? (
-        <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        <path
+          d="M15 18l-6-6 6-6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       ) : (
         <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
       )}
@@ -36,19 +41,18 @@ export default function CategoryPickerBar({
   categories,
   activeCategoryId,
   pathname = "/subjectpicker",
+  searchParams = {},
 }: CategoryPickerBarProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const trackRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Map<number, HTMLButtonElement>>(new Map());
 
   const handleSelect = (id: number) => {
     if (id === activeCategoryId) return;
-    const sp = new URLSearchParams(searchParams.toString());
-    sp.set("category", String(id));
+    const query = buildCategoryPickerQuery(searchParams, id);
     startTransition(() => {
-      router.push(`${pathname}?${sp.toString()}`);
+      router.replace(`${pathname}?${query}`);
     });
   };
 
@@ -67,19 +71,19 @@ export default function CategoryPickerBar({
     activeEl?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
-      inline: "center",
+      inline: "nearest",
     });
   }, [activeCategoryId]);
 
   return (
     <div
-      className={`relative ${isPending ? "pointer-events-none opacity-60" : ""}`}
+      className={`relative -mx-6 sm:-mx-8 ${isPending ? "pointer-events-none opacity-60" : ""}`}
     >
       <button
         type="button"
         aria-label="Previous categories"
         onClick={() => scrollByStep("left")}
-        className="absolute left-0 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex"
+        className="absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex sm:left-6"
       >
         <ChevronIcon direction="left" />
       </button>
@@ -88,7 +92,7 @@ export default function CategoryPickerBar({
         type="button"
         aria-label="Next categories"
         onClick={() => scrollByStep("right")}
-        className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex"
+        className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex sm:right-6"
       >
         <ChevronIcon direction="right" />
       </button>
@@ -97,7 +101,7 @@ export default function CategoryPickerBar({
         ref={trackRef}
         role="tablist"
         aria-label="License category"
-        className="flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth px-1 py-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-3 sm:px-10 [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth px-6 py-1 scroll-px-6 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-3 sm:px-8 sm:scroll-px-8 [&::-webkit-scrollbar]:hidden"
       >
         {categories.map((cat) => {
           const active = cat.id === activeCategoryId;

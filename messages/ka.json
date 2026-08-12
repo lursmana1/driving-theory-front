@@ -111,7 +111,13 @@
     "examQuestions": "კითხვები: {count}",
     "examMistakes": "შეცდომა: {count}",
     "notStarted": "არ დაწყებულა",
-    "covered": "დაფარული"
+    "covered": "დაფარული",
+    "selectedCount": "{selected} / {total} თემა",
+    "allTopicsSelectedHint": "ყველა თემა არჩეულია — დააჭირე შესაცვლელად",
+    "customSelectionHint": "დააჭირე თემების შესაცვლელად",
+    "searchTopics": "თემების ძებნა...",
+    "noTopicsFound": "თემა ვერ მოიძებნა",
+    "loadError": "სერვისი დროებით მიუწვდომელია. სცადეთ მოგვიანებით."
   },
   "Exam": {
     "loading": "იტვირთება...",
@@ -153,7 +159,9 @@
     "questionStop": "გაჩერება",
     "questionIdPlaceholder": "კითხვის ID",
     "search": "ძებნა",
-    "clearSearch": "გასუფთავება"
+    "clearSearch": "გასუფთავება",
+    "loadError": "სერვისი დროებით მიუწვდომელია. სცადეთ მოგვიანებით.",
+    "questionNotFound": "კითხვა #{id} ვერ მოიძებნა."
   },
   "Auth": {
     "noAccount": "არ გაქვთ ანგარიში?",

@@ -1,25 +1,20 @@
 import axios from "axios";
 import BaseApi from "./BaseApi";
 import type {
-  ReadinessScore,
-  SubjectProgress,
-  UserStatsOverview,
+  ExamRulesPayload,
   OverviewWeakQuestion,
   OverviewWeakSubject,
+  QuestionPoolStats,
+  ReadinessScore,
+  SubjectProgress,
 } from "@/lib/types/userStats";
 
-export type WeakQuestion = {
-  questionId: number;
-  wrongCount: number;
-  question: unknown;
-};
+export type WeakQuestion = OverviewWeakQuestion;
 
-export type WeakSubject = {
-  subjectId: number;
-  wrongCount: number;
-  correctCount: number;
-  totalQuestions: number;
-  name?: string;
+export type WeakSubject = OverviewWeakSubject;
+
+export type ReadinessResponse = ReadinessScore & {
+  examRules?: ExamRulesPayload;
 };
 
 function unwrapArray<T>(payload: unknown): T[] {
@@ -31,26 +26,10 @@ function unwrapArray<T>(payload: unknown): T[] {
   return [];
 }
 
-function normalizeOverview(raw: UserStatsOverview): UserStatsOverview {
-  return {
-    ...raw,
-    subjectProgress: unwrapArray<SubjectProgress>(raw.subjectProgress),
-    weakSubjects: unwrapArray<OverviewWeakSubject>(raw.weakSubjects),
-    weakQuestions: unwrapArray<OverviewWeakQuestion>(raw.weakQuestions),
-  };
-}
-
-export async function getUserStatsOverview(
+export async function getReadiness(
   categoryId: number,
-): Promise<UserStatsOverview> {
-  const res = await BaseApi.get<UserStatsOverview>("/user-stats/overview", {
-    params: { category: categoryId },
-  });
-  return normalizeOverview(res.data);
-}
-
-export async function getReadiness(categoryId: number): Promise<ReadinessScore> {
-  const res = await BaseApi.get<ReadinessScore>("/user-stats/readiness", {
+): Promise<ReadinessResponse> {
+  const res = await BaseApi.get<ReadinessResponse>("/user-stats/readiness", {
     params: { category: categoryId },
   });
   return res.data;
@@ -67,27 +46,37 @@ export async function getSubjectProgress(
 }
 
 export async function getWeakQuestions(
-  categoryId?: number,
+  categoryId: number,
 ): Promise<WeakQuestion[]> {
   const res = await BaseApi.get<{ data: WeakQuestion[] } | WeakQuestion[]>(
     "/user-stats/weak-questions",
-    { params: categoryId != null ? { category: categoryId } : undefined },
+    { params: { category: categoryId } },
   );
   return unwrapArray(res.data);
 }
 
 export async function getWeakSubjects(
-  categoryId?: number,
+  categoryId: number,
 ): Promise<WeakSubject[]> {
   const res = await BaseApi.get<{ data: WeakSubject[] } | WeakSubject[]>(
     "/user-stats/weak-subjects",
-    { params: categoryId != null ? { category: categoryId } : undefined },
+    { params: { category: categoryId } },
   );
   return unwrapArray(res.data);
+}
+
+export async function getQuestionPool(
+  categoryId: number,
+): Promise<QuestionPoolStats> {
+  const res = await BaseApi.get<QuestionPoolStats>(
+    "/user-stats/question-pool",
+    { params: { category: categoryId } },
+  );
+  return res.data;
 }
 
 export function isAuthError(err: unknown): boolean {
   return axios.isAxiosError(err) && err.response?.status === 401;
 }
 
-export type { OverviewWeakQuestion, OverviewWeakSubject, UserStatsOverview };
+export type { OverviewWeakQuestion, OverviewWeakSubject };

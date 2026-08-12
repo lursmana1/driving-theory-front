@@ -79,18 +79,10 @@ export default async function LandingFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 md:flex-row">
+        <div className="mt-12 border-t border-slate-200 pt-8">
           <p className="text-center text-sm text-slate-500 md:text-left">
             {t("footerCopyright", { year })}
           </p>
-          <div className="flex gap-6 text-sm text-slate-500">
-            <Link href="#" className="hover:text-slate-700">
-              {t("footerPrivacyLink")}
-            </Link>
-            <Link href="#" className="hover:text-slate-900">
-              {t("footerCookies")}
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

@@ -4,7 +4,13 @@ import {
   examRulesFromCategory,
   getCategoryById,
 } from "@/api/categories";
-import { toCategoryExamRules, type CategoryExamRules } from "@/CONSTS/categories";
+import {
+  inferCategoryIdFromExamRules,
+  toCategoryExamRules,
+  type CategoryExamRules,
+} from "@/CONSTS/categories";
+import { getCategoryShortLabel } from "@/CONSTS/categoryAssets";
+import type { Category } from "@/lib/types/category";
 import type { ExamQuestion } from "@/lib/types/exam";
 import { getAccessToken } from "@/lib/authToken";
 import { markStatsStale } from "@/lib/statsRefresh";
@@ -82,14 +88,36 @@ export type AttemptSummary = {
   questionCount: number;
   answeredCount: number;
   correctCount: number;
+  minCorrectToPass?: number | null;
   createdAt: string;
   endDate: string | null;
   completedAt: string | null;
   passed: boolean | null;
   durationSeconds: number | null;
-  /** License category IDs stored on the attempt (may be empty on legacy rows) */
+  /** Stored on the attempt; omitted from list API until backend includes it */
   categories?: number[];
+  categoryId?: number | null;
 };
+
+export function resolveAttemptCategoryId(attempt: AttemptSummary): number | null {
+  if (attempt.categoryId != null) return attempt.categoryId;
+  if (attempt.categories?.length) return attempt.categories[0];
+  return inferCategoryIdFromExamRules(
+    attempt.questionCount,
+    attempt.minCorrectToPass,
+  );
+}
+
+export function getAttemptCategoryLabel(
+  attempt: AttemptSummary,
+  categories: Category[],
+): string {
+  const categoryId = resolveAttemptCategoryId(attempt);
+  if (categoryId == null) return "—";
+  const cat = categories.find((c) => c.id === categoryId);
+  if (cat) return getCategoryShortLabel(cat.id, cat.iconKey);
+  return getCategoryShortLabel(categoryId);
+}
 
 export type AttemptsHistoryResponse = {
   data: AttemptSummary[];

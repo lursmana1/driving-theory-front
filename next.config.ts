@@ -22,7 +22,13 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["10.0.0.153"],
 
   experimental: {
-    optimizePackageImports: ["react", "react-dom"],
+    optimizePackageImports: [
+      "react",
+      "react-dom",
+      "antd",
+      "next-intl",
+      "@ant-design/icons",
+    ],
   },
 };
 

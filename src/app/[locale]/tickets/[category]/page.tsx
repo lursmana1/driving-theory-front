@@ -1,13 +1,14 @@
-import BaseApi from "@/api/BaseApi";
+import { Suspense } from "react";
+import { getTranslations } from "next-intl/server";
+import { getServerBaseApi } from "@/api/ServerBaseApi";
 import { licenseCategories } from "@/CONSTS/categories";
 import { TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import CategoryCardsGrid from "@/components/categoryComponents/CategoryCardsGrid/CategoryCardsGrid";
 import TicketsQuizList from "@/components/TicketsQuiz/TicketsQuizList";
 import QuestionIdSearch from "@/components/QuestionIdSearch/QuestionIdSearch";
-import { type QuestionsResponse } from "@/lib/types/exam";
+import type { ExamQuestion, QuestionsResponse } from "@/lib/types/exam";
 import SubjectAsideMenu from "@/components/SubjectAsideMenu/SubjectAsideMenu";
-import { Suspense } from "react";
 
 type PageProps = {
   params: Promise<{ locale: string; category: string }>;
@@ -30,42 +31,49 @@ export default async function TicketsCategoryPage({
   const page = Number(sp.page ?? "1");
   const size = TICKETS_PAGE_SIZE;
   const subjects = sp.subjects ?? "";
-  const questionId = sp.questionId ?? "";
+  const questionId = sp.questionId?.trim() ?? "";
 
-  let questionsRes: QuestionsResponse = {
-    items: [],
-    page: 1,
-    size,
-    total: 0,
-    totalPages: 0,
-  };
+  const t = await getTranslations("Tickets");
+
+  let questions: ExamQuestion[] = [];
+  let pagination = { page: 1, total: 0 };
   let questionsUnavailable = false;
 
   try {
-    questionsRes = await BaseApi.get(`/questions/${questionId ? questionId : ""}`, {
-      params: {
-        category: categoryId,
-        subjects,
-        page,
-        size,
-        lang: locale,
-      },
-    }).then((r) => r.data);
+    const api = await getServerBaseApi();
+
+    if (questionId) {
+      const res = await api.get<ExamQuestion | null>(`/questions/${questionId}`, {
+        params: { lang: locale },
+      });
+      const question = res.data;
+      questions = question ? [question] : [];
+      pagination = { page: 1, total: questions.length };
+    } else {
+      const res = await api.get<QuestionsResponse>("/questions", {
+        params: {
+          category: categoryId,
+          subjects,
+          page,
+          size,
+          lang: locale,
+        },
+      });
+      const questionsRes = res.data;
+      const rawItems = questionsRes?.items ?? questionsRes;
+      questions = Array.isArray(rawItems)
+        ? rawItems
+        : rawItems
+          ? [rawItems]
+          : [];
+      pagination = {
+        page: questionsRes?.page ?? page,
+        total: questionsRes?.total ?? questions.length,
+      };
+    }
   } catch {
     questionsUnavailable = true;
   }
-
-  const rawItems = questionsRes?.items ?? questionsRes;
-  const questions = Array.isArray(rawItems)
-    ? rawItems
-    : rawItems
-      ? [rawItems]
-      : [];
-
-  const pagination = {
-    page: questionsRes?.page ?? 1,
-    total: questionsRes?.total ?? questions.length,
-  };
 
   return (
     <div className="section space-y-6 py-8">
@@ -75,8 +83,12 @@ export default async function TicketsCategoryPage({
       />
 
       {questionsUnavailable && (
+        <p className="text-center text-slate-500">{t("loadError")}</p>
+      )}
+
+      {!questionsUnavailable && questionId && questions.length === 0 && (
         <p className="text-center text-slate-500">
-          Service unavailable. Please try again later.
+          {t("questionNotFound", { id: questionId })}
         </p>
       )}
 
@@ -92,23 +104,27 @@ export default async function TicketsCategoryPage({
             >
               <QuestionIdSearch category={category} currentParams={sp} />
             </Suspense>
-            <Pagination
-              page={pagination.page}
-              total={pagination.total}
-              pathname={`/tickets/${category}`}
-              pageSize={TICKETS_PAGE_SIZE}
-            />
+            <Suspense fallback={null}>
+              <Pagination
+                page={pagination.page}
+                total={pagination.total}
+                pathname={`/tickets/${category}`}
+                pageSize={TICKETS_PAGE_SIZE}
+              />
+            </Suspense>
           </div>
 
           <TicketsQuizList questions={questions} />
 
           <div className="flex flex-wrap justify-end gap-4">
-            <Pagination
-              page={pagination.page}
-              total={pagination.total}
-              pathname={`/tickets/${category}`}
-              pageSize={TICKETS_PAGE_SIZE}
-            />
+            <Suspense fallback={null}>
+              <Pagination
+                page={pagination.page}
+                total={pagination.total}
+                pathname={`/tickets/${category}`}
+                pageSize={TICKETS_PAGE_SIZE}
+              />
+            </Suspense>
           </div>
         </main>
       </div>

@@ -3,6 +3,10 @@
 import { useMemo, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import type { ExamQuestion } from "@/lib/types/exam";
+import type {
+  OverviewWeakQuestion,
+  OverviewWeakSubject,
+} from "@/lib/types/userStats";
 import {
   getQuestionPreview,
   getQuestionTicketPath,
@@ -11,29 +15,16 @@ import {
 import { resolveSubjectDisplayName } from "@/CONSTS/subjects";
 import { useLocale } from "next-intl";
 
-type WeakSubject = {
-  subjectId: number;
-  wrongCount: number;
-  correctCount: number;
-  totalQuestions: number;
-  name?: string;
-};
-
-type WeakQuestion = {
-  questionId: number;
-  wrongCount: number;
-  question: unknown;
-};
-
 type SubjectInfo = {
   id: number;
   name: string;
 };
 
 type WeakSubjectsChartProps = {
-  data: WeakSubject[];
+  data: OverviewWeakSubject[];
   subjects: SubjectInfo[];
-  weakQuestions?: WeakQuestion[];
+  weakQuestions?: OverviewWeakQuestion[];
+  categoryId?: number;
   title: string;
   questionLabel?: string;
   wrongLabel: string;
@@ -63,6 +54,7 @@ export function WeakSubjectsChart({
   data,
   subjects,
   weakQuestions = [],
+  categoryId,
   title,
   questionLabel = "Question",
   wrongLabel,
@@ -71,7 +63,9 @@ export function WeakSubjectsChart({
   unansweredLabel,
 }: WeakSubjectsChartProps) {
   const locale = useLocale();
-  const [openSubjectIds, setOpenSubjectIds] = useState<Set<number>>(() => new Set());
+  const [openSubjectIds, setOpenSubjectIds] = useState<Set<number>>(
+    () => new Set(),
+  );
 
   const toggleSubject = (subjectId: number) => {
     setOpenSubjectIds((prev) => {
@@ -90,7 +84,7 @@ export function WeakSubjectsChart({
     );
 
   const questionsBySubject = useMemo(() => {
-    const map = new Map<number, WeakQuestion[]>();
+    const map = new Map<number, OverviewWeakQuestion[]>();
     for (const item of weakQuestions) {
       const q = item.question as Partial<ExamQuestion> | undefined;
       const subjectId = q?.subject;
@@ -190,7 +184,8 @@ export function WeakSubjectsChart({
                     {pool} {totalLabel}
                     {hasQuestions ? (
                       <span className="ml-2 text-slate-400">
-                        · {subjectQuestions.length} {questionLabel.toLowerCase()}
+                        · {subjectQuestions.length}{" "}
+                        {questionLabel.toLowerCase()}
                       </span>
                     ) : null}
                   </div>
@@ -250,6 +245,7 @@ export function WeakSubjectsChart({
                     const href = getQuestionTicketPath(
                       wq.questionId,
                       wq.question,
+                      categoryId,
                     );
 
                     return (

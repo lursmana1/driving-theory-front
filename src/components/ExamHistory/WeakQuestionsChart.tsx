@@ -1,20 +1,16 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import type { OverviewWeakQuestion } from "@/lib/types/userStats";
 import {
   getQuestionPreview,
   getQuestionTicketPath,
 } from "@/utills/helpers/questionLinks";
 
-type WeakQuestion = {
-  questionId: number;
-  wrongCount: number;
-  question: unknown;
-};
-
 type WeakQuestionsChartProps = {
-  data: WeakQuestion[];
+  data: OverviewWeakQuestion[];
   maxWrongCount?: number;
+  categoryId?: number;
   title: string;
   questionLabel: string;
   wrongLabel: string;
@@ -23,6 +19,7 @@ type WeakQuestionsChartProps = {
 export function WeakQuestionsChart({
   data,
   maxWrongCount,
+  categoryId,
   title,
   questionLabel,
   wrongLabel,
@@ -40,7 +37,11 @@ export function WeakQuestionsChart({
       <div className="space-y-3">
         {data.map((item) => {
           const preview = getQuestionPreview(item.question);
-          const href = getQuestionTicketPath(item.questionId, item.question);
+          const href = getQuestionTicketPath(
+            item.questionId,
+            item.question,
+            categoryId,
+          );
 
           return (
             <div key={item.questionId} className="group">
@@ -53,7 +54,9 @@ export function WeakQuestionsChart({
                     {questionLabel} #{item.questionId}
                   </span>
                   {preview ? (
-                    <span className="mt-0.5 block text-slate-800">{preview}</span>
+                    <span className="mt-0.5 block text-slate-800">
+                      {preview}
+                    </span>
                   ) : null}
                 </Link>
                 <span className="shrink-0 rounded bg-rose-100 px-2 py-0.5 font-medium text-rose-700">

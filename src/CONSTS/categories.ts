@@ -52,3 +52,33 @@ export function getExamRules(categoryId: number): CategoryExamRules {
     maxMistakes,
   };
 }
+
+/** Guess category when history API omits categories (matches question + pass rules). */
+export function inferCategoryIdFromExamRules(
+  questionCount: number,
+  minCorrectToPass: number | null | undefined,
+): number | null {
+  if (minCorrectToPass != null) {
+    const exact = licenseCategories.find((c) => {
+      const rules = getExamRules(c.id);
+      return (
+        rules.totalQuestions === questionCount &&
+        rules.passScore === minCorrectToPass
+      );
+    });
+    if (exact) return exact.id;
+  }
+
+  const byCount = licenseCategories.filter(
+    (c) => getExamRules(c.id).totalQuestions === questionCount,
+  );
+  if (byCount.length === 1) return byCount[0].id;
+
+  // Legacy rows without minCorrectToPass — best-effort defaults
+  if (questionCount === 20) return 0;
+  if (questionCount === 30) return 1;
+  if (questionCount === 35) return 5;
+  if (questionCount === 40) return 3;
+
+  return null;
+}
