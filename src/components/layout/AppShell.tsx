@@ -12,13 +12,17 @@ export function AppShell({
   locale: string;
 }) {
   const pathname = usePathname();
-  const isExam = pathname === "/exam" || pathname.startsWith("/exam/");
+  const isMinimalChrome =
+    pathname === "/exam" ||
+    pathname.startsWith("/exam/") ||
+    pathname === "/auth" ||
+    pathname.startsWith("/auth/");
 
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
 
-  if (isExam) {
+  if (isMinimalChrome) {
     return <>{children}</>;
   }
 

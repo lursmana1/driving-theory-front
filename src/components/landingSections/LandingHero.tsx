@@ -6,11 +6,6 @@ export default async function LandingHero() {
   const t = await getTranslations("Home");
 
   const bullets = [t("heroBullet1"), t("heroBullet2"), t("heroBullet3")];
-  const heroStats = [
-    { val: t("heroStat1Val"), label: t("heroStat1Label") },
-    { val: t("heroStat2Val"), label: t("heroStat2Label") },
-    { val: t("heroStat3Val"), label: t("heroStat3Label") },
-  ];
 
   return (
     <section className={LANDING.heroBg} aria-labelledby="hero-title">
@@ -49,15 +44,6 @@ export default async function LandingHero() {
               <li key={item}>{item}</li>
             ))}
           </ul>
-        </div>
-
-        <div className="mx-auto mt-14 grid max-w-3xl gap-4 sm:grid-cols-3">
-          {heroStats.map((s) => (
-            <div key={s.label} className={LANDING.statTile}>
-              <p className="text-2xl font-bold text-white md:text-3xl">{s.val}</p>
-              <p className="mt-1 text-xs text-slate-400 md:text-sm">{s.label}</p>
-            </div>
-          ))}
         </div>
       </div>
     </section>

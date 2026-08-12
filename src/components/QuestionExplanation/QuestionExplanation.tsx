@@ -23,7 +23,7 @@ export default function QuestionExplanation({
   return (
     <>
       <div
-        className={`flex items-center justify-between rounded-md border border-white/30 bg-black/30 px-3 py-2 ${compact ? "mb-3" : "mb-4"}`}
+        className={`flex items-center justify-between ${compact ? "mb-3" : "mb-3 sm:mb-4"}`}
       >
         <span className="font-georgian text-sm font-medium text-white">
           {questionIndex != null ? `${questionIndex}. ` : ""}#{questionId}

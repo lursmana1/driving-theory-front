@@ -39,7 +39,7 @@ function ChevronIcon({ open }: { open: boolean }) {
       viewBox="0 0 20 20"
       fill="currentColor"
       aria-hidden
-      className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+      className={`mt-0.5 h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
     >
       <path
         fillRule="evenodd"
@@ -47,6 +47,84 @@ function ChevronIcon({ open }: { open: boolean }) {
         clipRule="evenodd"
       />
     </svg>
+  );
+}
+
+function StatBadges({
+  wrong,
+  correct,
+  unanswered,
+  wrongLabel,
+  correctLabel,
+  unansweredLabel,
+}: {
+  wrong: number;
+  correct: number;
+  unanswered: number;
+  wrongLabel: string;
+  correctLabel: string;
+  unansweredLabel?: string;
+}) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      <span className="rounded-md bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
+        {wrong} {wrongLabel}
+      </span>
+      <span className="rounded-md bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">
+        {correct} {correctLabel}
+      </span>
+      {unansweredLabel != null && unanswered > 0 && (
+        <span className="rounded-md bg-slate-200 px-2 py-1 text-xs font-medium text-slate-600">
+          {unanswered} {unansweredLabel}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function ProgressBar({
+  wrongPct,
+  correctPct,
+  unansweredPct,
+  wrongLabel,
+  correctLabel,
+  wrong,
+  correct,
+  unanswered,
+  unansweredLabel,
+}: {
+  wrongPct: number;
+  correctPct: number;
+  unansweredPct: number;
+  wrongLabel: string;
+  correctLabel: string;
+  wrong: number;
+  correct: number;
+  unanswered: number;
+  unansweredLabel?: string;
+}) {
+  return (
+    <div className="flex h-2.5 overflow-hidden rounded-full bg-slate-100 sm:h-3">
+      <div
+        className="bg-linear-to-r from-rose-400 to-rose-500 transition-all duration-500"
+        style={{ width: `${wrongPct}%` }}
+        title={`${wrongLabel}: ${wrong}`}
+      />
+      <div
+        className="bg-linear-to-r from-emerald-400 to-emerald-500 transition-all duration-500"
+        style={{ width: `${correctPct}%` }}
+        title={`${correctLabel}: ${correct}`}
+      />
+      <div
+        className="bg-linear-to-r from-slate-300 to-slate-400 transition-all duration-500"
+        style={{ width: `${unansweredPct}%` }}
+        title={
+          unansweredLabel
+            ? `${unansweredLabel}: ${unanswered}`
+            : `${unanswered}`
+        }
+      />
+    </div>
   );
 }
 
@@ -104,9 +182,11 @@ export function WeakSubjectsChart({
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold text-slate-800">{title}</h2>
-      <div className="space-y-2">
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+      <h2 className="mb-4 text-base font-semibold text-slate-800 sm:text-lg">
+        {title}
+      </h2>
+      <div className="space-y-3">
         {data.map((item) => {
           const wrong = Math.max(0, Number(item.wrongCount) || 0);
           const correct = Math.max(0, Number(item.correctCount) || 0);
@@ -120,6 +200,49 @@ export function WeakSubjectsChart({
           const isOpen = openSubjectIds.has(item.subjectId);
           const hasQuestions = subjectQuestions.length > 0;
           const panelId = `weak-subject-panel-${item.subjectId}`;
+          const subjectName = getSubjectName(item.subjectId, item);
+
+          const body = (
+            <div className="space-y-2.5">
+              <div className="flex items-start gap-2">
+                {hasQuestions ? <ChevronIcon open={isOpen} /> : null}
+                <p className="min-w-0 flex-1 text-sm font-medium leading-snug text-slate-800 sm:text-base">
+                  {subjectName}
+                </p>
+              </div>
+
+              <StatBadges
+                wrong={wrong}
+                correct={correct}
+                unanswered={unanswered}
+                wrongLabel={wrongLabel}
+                correctLabel={correctLabel}
+                unansweredLabel={unansweredLabel}
+              />
+
+              <ProgressBar
+                wrongPct={wrongPct}
+                correctPct={correctPct}
+                unansweredPct={unansweredPct}
+                wrongLabel={wrongLabel}
+                correctLabel={correctLabel}
+                wrong={wrong}
+                correct={correct}
+                unanswered={unanswered}
+                unansweredLabel={unansweredLabel}
+              />
+
+              <p className="text-xs text-slate-500 sm:text-sm">
+                {pool} {totalLabel}
+                {hasQuestions ? (
+                  <span className="text-slate-400">
+                    {" "}
+                    · {subjectQuestions.length} {questionLabel.toLowerCase()}
+                  </span>
+                ) : null}
+              </p>
+            </div>
+          );
 
           return (
             <div
@@ -133,104 +256,12 @@ export function WeakSubjectsChart({
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => toggleSubject(item.subjectId)}
-                  className="w-full px-3 py-3 text-left transition hover:bg-slate-50"
+                  className="w-full px-3 py-3.5 text-left transition hover:bg-slate-50 sm:px-4"
                 >
-                  <div className="mb-1.5 flex items-start justify-between gap-2">
-                    <span className="flex min-w-0 items-start gap-2">
-                      <ChevronIcon open={isOpen} />
-                      <span
-                        className="truncate text-sm font-medium text-slate-700"
-                        title={getSubjectName(item.subjectId, item)}
-                      >
-                        {getSubjectName(item.subjectId, item)}
-                      </span>
-                    </span>
-                    <span className="flex shrink-0 flex-wrap justify-end gap-2 text-xs">
-                      <span className="rounded bg-rose-100 px-2 py-0.5 font-medium text-rose-700">
-                        {wrong} {wrongLabel}
-                      </span>
-                      <span className="rounded bg-emerald-100 px-2 py-0.5 font-medium text-emerald-700">
-                        {correct} {correctLabel}
-                      </span>
-                      {unansweredLabel != null && unanswered > 0 && (
-                        <span className="rounded bg-slate-200 px-2 py-0.5 font-medium text-slate-600">
-                          {unanswered} {unansweredLabel}
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex h-3 overflow-hidden rounded-full bg-slate-100">
-                    <div
-                      className="bg-linear-to-r from-rose-400 to-rose-500 transition-all duration-500"
-                      style={{ width: `${wrongPct}%` }}
-                      title={`${wrongLabel}: ${wrong}`}
-                    />
-                    <div
-                      className="bg-linear-to-r from-emerald-400 to-emerald-500 transition-all duration-500"
-                      style={{ width: `${correctPct}%` }}
-                      title={`${correctLabel}: ${correct}`}
-                    />
-                    <div
-                      className="bg-linear-to-r from-slate-300 to-slate-400 transition-all duration-500"
-                      style={{ width: `${unansweredPct}%` }}
-                      title={
-                        unansweredLabel
-                          ? `${unansweredLabel}: ${unanswered}`
-                          : `${unanswered}`
-                      }
-                    />
-                  </div>
-                  <div className="mt-1 text-xs text-slate-500">
-                    {pool} {totalLabel}
-                    {hasQuestions ? (
-                      <span className="ml-2 text-slate-400">
-                        · {subjectQuestions.length}{" "}
-                        {questionLabel.toLowerCase()}
-                      </span>
-                    ) : null}
-                  </div>
+                  {body}
                 </button>
               ) : (
-                <div className="px-3 py-3">
-                  <div className="mb-1.5 flex items-baseline justify-between gap-2">
-                    <span
-                      className="truncate text-sm font-medium text-slate-700"
-                      title={getSubjectName(item.subjectId, item)}
-                    >
-                      {getSubjectName(item.subjectId, item)}
-                    </span>
-                    <span className="flex shrink-0 flex-wrap justify-end gap-2 text-xs">
-                      <span className="rounded bg-rose-100 px-2 py-0.5 font-medium text-rose-700">
-                        {wrong} {wrongLabel}
-                      </span>
-                      <span className="rounded bg-emerald-100 px-2 py-0.5 font-medium text-emerald-700">
-                        {correct} {correctLabel}
-                      </span>
-                      {unansweredLabel != null && unanswered > 0 && (
-                        <span className="rounded bg-slate-200 px-2 py-0.5 font-medium text-slate-600">
-                          {unanswered} {unansweredLabel}
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex h-3 overflow-hidden rounded-full bg-slate-100">
-                    <div
-                      className="bg-linear-to-r from-rose-400 to-rose-500 transition-all duration-500"
-                      style={{ width: `${wrongPct}%` }}
-                    />
-                    <div
-                      className="bg-linear-to-r from-emerald-400 to-emerald-500 transition-all duration-500"
-                      style={{ width: `${correctPct}%` }}
-                    />
-                    <div
-                      className="bg-linear-to-r from-slate-300 to-slate-400 transition-all duration-500"
-                      style={{ width: `${unansweredPct}%` }}
-                    />
-                  </div>
-                  <div className="mt-1 text-xs text-slate-500">
-                    {pool} {totalLabel}
-                  </div>
-                </div>
+                <div className="px-3 py-3.5 sm:px-4">{body}</div>
               )}
 
               {hasQuestions && isOpen && (
@@ -238,10 +269,10 @@ export function WeakSubjectsChart({
                   id={panelId}
                   role="region"
                   aria-labelledby={`weak-subject-trigger-${item.subjectId}`}
-                  className="space-y-1 border-t border-slate-200 bg-white px-3 py-2"
+                  className="space-y-2 border-t border-slate-200 bg-white px-3 py-3 sm:px-4"
                 >
                   {subjectQuestions.map((wq) => {
-                    const preview = getQuestionPreview(wq.question, 64);
+                    const preview = getQuestionPreview(wq.question, 500);
                     const href = getQuestionTicketPath(
                       wq.questionId,
                       wq.question,
@@ -252,19 +283,21 @@ export function WeakSubjectsChart({
                       <li key={wq.questionId}>
                         <Link
                           href={href}
-                          className="block rounded-md py-1 text-xs text-slate-600 transition hover:bg-slate-50 hover:text-blue-700"
+                          className="block rounded-lg border border-slate-100 bg-slate-50/80 p-3 transition hover:border-sky-200 hover:bg-sky-50/50"
                         >
-                          <span className="font-medium text-slate-700">
-                            #{wq.questionId}
-                          </span>
-                          {preview ? (
-                            <span className="ml-1.5 text-slate-600">
-                              {preview}
+                          <div className="flex items-start justify-between gap-3">
+                            <span className="shrink-0 text-sm font-semibold text-slate-800">
+                              #{wq.questionId}
                             </span>
+                            <span className="shrink-0 rounded-md bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
+                              {wq.wrongCount} {wrongLabel}
+                            </span>
+                          </div>
+                          {preview ? (
+                            <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                              {preview}
+                            </p>
                           ) : null}
-                          <span className="ml-1.5 text-rose-600">
-                            · {wq.wrongCount} {wrongLabel}
-                          </span>
                         </Link>
                       </li>
                     );

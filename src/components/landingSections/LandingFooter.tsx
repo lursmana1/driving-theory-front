@@ -59,21 +59,6 @@ export default async function LandingFooter() {
                     {t("footerFaq")}
                   </Link>
                 </li>
-                <li>
-                  <Link href="#" className={footerLink}>
-                    {t("footerHelp")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className={footerLink}>
-                    {t("footerTermsLink")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className={footerLink}>
-                    {t("footerContact")}
-                  </Link>
-                </li>
               </ul>
             </nav>
           </div>

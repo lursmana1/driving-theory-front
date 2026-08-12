@@ -36,7 +36,7 @@ export function WeakQuestionsChart({
       <h2 className="mb-4 text-lg font-semibold text-slate-800">{title}</h2>
       <div className="space-y-3">
         {data.map((item) => {
-          const preview = getQuestionPreview(item.question);
+          const preview = getQuestionPreview(item.question, 200);
           const href = getQuestionTicketPath(
             item.questionId,
             item.question,
@@ -45,21 +45,21 @@ export function WeakQuestionsChart({
 
           return (
             <div key={item.questionId} className="group">
-              <div className="mb-1 flex items-start justify-between gap-2 text-sm">
+              <div className="mb-2 space-y-2">
                 <Link
                   href={href}
-                  className="min-w-0 flex-1 text-left font-medium text-slate-700 underline-offset-2 hover:text-blue-700 hover:underline"
+                  className="block min-w-0 text-left underline-offset-2 hover:text-blue-700 hover:underline"
                 >
-                  <span className="text-slate-500">
+                  <span className="text-xs font-medium text-slate-500 sm:text-sm">
                     {questionLabel} #{item.questionId}
                   </span>
                   {preview ? (
-                    <span className="mt-0.5 block text-slate-800">
+                    <span className="mt-1 block text-sm leading-relaxed text-slate-800 sm:text-base">
                       {preview}
                     </span>
                   ) : null}
                 </Link>
-                <span className="shrink-0 rounded bg-rose-100 px-2 py-0.5 font-medium text-rose-700">
+                <span className="inline-flex rounded-md bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
                   {item.wrongCount} {wrongLabel}
                 </span>
               </div>

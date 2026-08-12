@@ -6,6 +6,26 @@ type QuizButtonProps = {
   correctAnswer: string;
 };
 
+function getAnswerStyles(
+  hasSelected: boolean,
+  isThisSelected: boolean,
+  isThisCorrect: boolean,
+) {
+  if (!hasSelected) {
+    return "cursor-pointer text-white active:bg-white/10";
+  }
+
+  if (isThisCorrect) {
+    return "bg-[#05c300c9] text-white";
+  }
+
+  if (isThisSelected) {
+    return "bg-[#ff3346a8] text-white";
+  }
+
+  return "text-white opacity-55";
+}
+
 const QuizButton = ({
   selectAnswer,
   answerKey,
@@ -17,33 +37,19 @@ const QuizButton = ({
   const isThisSelected = selectedAnswer === answerKey;
   const isThisCorrect = answerKey === correctAnswer;
 
-  const base =
-    "w-full min-w-0 text-left font-georgian text-white flex items-center gap-2 sm:gap-4 rounded border transition p-3 sm:p-4 leading-snug";
-
-  const stateClass = hasSelected
-    ? isThisCorrect
-      ? "bg-[#05c300c9] border-[#c3e6cb] text-black"
-      : isThisSelected
-        ? "bg-[#ff3346a8] border-[#f5c6cb] text-black"
-        : "border-gray-300 opacity-70"
-    : "border-gray-300 hover:border-blue-300 cursor-pointer"; // ✅ NO background
-
   return (
     <button
       type="button"
       onClick={() => selectAnswer(answerKey)}
       disabled={hasSelected}
-      className={`${base} ${stateClass}`}
+      className={`flex w-full min-w-0 items-start gap-3 rounded-lg p-2 text-left font-georgian leading-snug transition sm:items-center sm:gap-4 sm:p-3 ${getAnswerStyles(hasSelected, isThisSelected, isThisCorrect)}`}
     >
-      {/* Key badge */}
-      <div className="w-9 h-9 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg bg-gray-200 text-black font-semibold text-base sm:text-lg shrink-0">
+      <span className="flex h-12 min-w-12 w-12 shrink-0 items-center justify-center rounded-md border border-gray-400 bg-gray-100 text-lg font-bold text-black shadow-sm sm:h-12 sm:min-w-14 sm:w-14">
         {answerKey}
-      </div>
-
-      {/* Text */}
-      <div className="wrap-break-word min-w-0 overflow-hidden">
+      </span>
+      <span className="min-w-0 flex-1 pt-1 text-[15px] leading-relaxed wrap-break-word sm:pt-0 sm:text-base">
         {answerText}
-      </div>
+      </span>
     </button>
   );
 };

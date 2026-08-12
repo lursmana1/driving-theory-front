@@ -14,10 +14,13 @@ type ExamFooterProps = {
   correctAnswer?: string;
   };
 
+const footerKeyButtonBase =
+  "flex flex-1 sm:flex-none items-center justify-center min-w-11 h-11 sm:min-w-14 sm:h-14 rounded-md border border-gray-400 font-bold text-base sm:text-lg shadow-sm transition";
+
 const ExamFooter = (props: ExamFooterProps) => {
   const navigationVisibility = !!props.showNext;
   return (
-    <div className="flex justify-between items-center gap-2 bg-red-50 min-h-14 w-full px-2 sm:px-4 py-2 rounded-lg shrink-0">
+    <div className="flex w-full shrink-0 items-center justify-between gap-2 px-1 py-2 sm:px-2">
       {navigationVisibility && (
         <button
           onClick={props.showPrevious}
@@ -33,28 +36,35 @@ const ExamFooter = (props: ExamFooterProps) => {
         </button>
       )}
 
-      {/* Question Numbers - flex-1 fill on mobile, centered on tablet+ */}
-      <div className="flex gap-1 sm:gap-2 overflow-x-auto justify-start sm:justify-center flex-1 min-w-0 py-1 scrollbar-thin">
+      <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto py-1 scrollbar-thin sm:justify-center">
         {props.questions.map((question) => {
-          const disabled = !!props.selectedAnswer;
+          const hasSelected = Boolean(props.selectedAnswer);
+          const isCorrect = question.key === props.correctAnswer;
+          const isSelected = question.key === props.selectedAnswer;
+
+          let stateClass =
+            "cursor-pointer border-gray-400 bg-gray-100 text-black hover:bg-gray-200";
+
+          if (hasSelected) {
+            if (isCorrect) {
+              stateClass =
+                "cursor-default border-[#c3e6cb] bg-[#05c300c9] text-white";
+            } else if (isSelected) {
+              stateClass =
+                "cursor-default border-[#f5c6cb] bg-[#ff3346a8] text-white";
+            } else {
+              stateClass =
+                "cursor-default border-gray-300 bg-gray-200 text-gray-500 opacity-60";
+            }
+          }
+
           return (
             <button
               key={question.key}
-              onClick={() => !disabled && props.selectAnswer(question.key)}
-              className={`
-                flex items-center justify-center
-                flex-1 sm:flex-none min-w-6 sm:min-w-0
-                border border-gray-400
-                w-8 h-8 sm:w-10 sm:h-10
-                rounded-md
-                font-bold text-sm sm:text-base
-                transition
-                ${
-                  disabled
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-60"
-                    : "bg-gray-100 text-black cursor-pointer hover:bg-gray-200"
-                }
-              `}
+              type="button"
+              onClick={() => !hasSelected && props.selectAnswer(question.key)}
+              disabled={hasSelected}
+              className={`${footerKeyButtonBase} ${stateClass}`}
             >
               {question.key}
             </button>

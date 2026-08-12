@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { useAuth } from "@/contexts/UserContext";
 import { getAuthConfig } from "@/api/auth";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
@@ -12,9 +14,17 @@ function fallbackGoogleLoginUrl(): string {
 }
 
 export default function AuthForm() {
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [googleAuthUrl, setGoogleAuthUrl] = useState(fallbackGoogleLoginUrl);
   const t = useTranslations("Auth");
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace("/profile");
+    }
+  }, [authLoading, user, router]);
 
   useEffect(() => {
     getAuthConfig()
@@ -25,6 +35,14 @@ export default function AuthForm() {
         setGoogleAuthUrl(fallbackGoogleLoginUrl());
       });
   }, []);
+
+  if (authLoading || user) {
+    return (
+      <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center py-12">
+        <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center py-12">
