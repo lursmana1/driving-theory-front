@@ -13,12 +13,14 @@ type QuestionAudioButtonProps = {
   id: string;
   src: string;
   namespace?: "Tickets" | "Exam";
+  size?: "default" | "compact";
 };
 
 export function QuestionAudioButton({
   id,
   src,
   namespace = "Tickets",
+  size = "default",
 }: QuestionAudioButtonProps) {
   const t = useTranslations(namespace);
   const [playing, setPlaying] = useState(false);
@@ -47,6 +49,8 @@ export function QuestionAudioButton({
     audio.play().catch(() => stopGlobalAudio());
   }, [id, playing, src]);
 
+  const compact = size === "compact";
+
   return (
     <button
       type="button"
@@ -54,12 +58,14 @@ export function QuestionAudioButton({
       title={playing ? t("questionStop") : t("questionListen")}
       aria-label={playing ? t("questionStop") : t("questionListen")}
       aria-pressed={playing}
-      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/40 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-white/40 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
+        compact ? "h-8 w-8" : "h-11 w-11"
+      }`}
     >
       {playing ? (
-        <StopIcon className="h-5 w-5" />
+        <StopIcon className={compact ? "h-3.5 w-3.5" : "h-5 w-5"} />
       ) : (
-        <SpeakerIcon className="h-5 w-5" />
+        <SpeakerIcon className={compact ? "h-3.5 w-3.5" : "h-5 w-5"} />
       )}
     </button>
   );

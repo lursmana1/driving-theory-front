@@ -8,6 +8,7 @@ type QuestionExplanationProps = {
   questionIndex?: number;
   explanation: string | null | undefined;
   compact?: boolean;
+  actions?: React.ReactNode;
 };
 
 export default function QuestionExplanation({
@@ -15,6 +16,7 @@ export default function QuestionExplanation({
   questionIndex,
   explanation,
   compact = false,
+  actions,
 }: QuestionExplanationProps) {
   const t = useTranslations("Tickets");
   const [showExplanation, setShowExplanation] = useState(false);
@@ -23,28 +25,29 @@ export default function QuestionExplanation({
   return (
     <>
       <div
-        className={`flex items-center justify-between ${compact ? "mb-3" : "mb-3 sm:mb-4"}`}
+        className={`flex items-center justify-between rounded-md border border-white/30 bg-black/30 px-3 py-2 ${compact ? "mb-3" : "mb-4"}`}
       >
         <span className="font-georgian text-sm font-medium text-white">
           {questionIndex != null ? `${questionIndex}. ` : ""}#{questionId}
         </span>
-        {hasExplanation ? (
-          <button
-            type="button"
-            onClick={() => setShowExplanation((v) => !v)}
-            aria-label="Show explanation"
-            aria-expanded={showExplanation}
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
-              showExplanation
-                ? "bg-emerald-500/80 text-white"
-                : "bg-white/25 text-white hover:bg-white/40"
-            }`}
-          >
-            ?
-          </button>
-        ) : (
-          <span className="h-8 w-8" />
-        )}
+        <div className="flex items-center gap-2">
+          {actions}
+          {hasExplanation ? (
+            <button
+              type="button"
+              onClick={() => setShowExplanation((v) => !v)}
+              aria-label="Show explanation"
+              aria-expanded={showExplanation}
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
+                showExplanation
+                  ? "bg-emerald-500/80 text-white"
+                  : "bg-white/25 text-white hover:bg-white/40"
+              }`}
+            >
+              ?
+            </button>
+          ) : null}
+        </div>
       </div>
 
       {hasExplanation && showExplanation && (

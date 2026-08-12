@@ -12,18 +12,18 @@ function getAnswerStyles(
   isThisCorrect: boolean,
 ) {
   if (!hasSelected) {
-    return "cursor-pointer text-white active:bg-white/10";
+    return "cursor-pointer border-gray-300 text-white hover:border-blue-300";
   }
 
   if (isThisCorrect) {
-    return "bg-[#05c300c9] text-white";
+    return "border-[#c3e6cb] bg-[#05c300c9] text-white";
   }
 
   if (isThisSelected) {
-    return "bg-[#ff3346a8] text-white";
+    return "border-[#f5c6cb] bg-[#ff3346a8] text-white";
   }
 
-  return "text-white opacity-55";
+  return "border-gray-300 text-white opacity-70";
 }
 
 const QuizButton = ({
@@ -42,14 +42,12 @@ const QuizButton = ({
       type="button"
       onClick={() => selectAnswer(answerKey)}
       disabled={hasSelected}
-      className={`flex w-full min-w-0 items-start gap-3 rounded-lg p-2 text-left font-georgian leading-snug transition sm:items-center sm:gap-4 sm:p-3 ${getAnswerStyles(hasSelected, isThisSelected, isThisCorrect)}`}
+      className={`flex w-full min-w-0 items-center gap-2 rounded border p-3 text-left font-georgian leading-snug transition sm:gap-4 sm:p-4 ${getAnswerStyles(hasSelected, isThisSelected, isThisCorrect)}`}
     >
-      <span className="flex h-12 min-w-12 w-12 shrink-0 items-center justify-center rounded-md border border-gray-400 bg-gray-100 text-lg font-bold text-black shadow-sm sm:h-12 sm:min-w-14 sm:w-14">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-gray-400 bg-gray-100 text-base font-bold text-black shadow-sm sm:h-12 sm:w-14 sm:text-lg">
         {answerKey}
       </span>
-      <span className="min-w-0 flex-1 pt-1 text-[15px] leading-relaxed wrap-break-word sm:pt-0 sm:text-base">
-        {answerText}
-      </span>
+      <span className="min-w-0 overflow-hidden wrap-break-word">{answerText}</span>
     </button>
   );
 };

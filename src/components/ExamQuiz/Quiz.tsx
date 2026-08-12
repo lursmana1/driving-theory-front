@@ -1,6 +1,7 @@
 "use client";
 
 import type { ExamQuestion } from "@/lib/types/exam";
+import { getQuestionAudioUrl } from "@/lib/types/exam";
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
 import { isActiveExamEndDate } from "@/utills/helpers/formatExamDuration";
@@ -11,10 +12,10 @@ import ExamFooter from "../ExamFooter/ExamFooter";
 import ExamHeader from "../ExamHeader/ExamHeader";
 import ExamRetryModal from "../Modals/ExamRetryModal.tsx/ExamRetryModal";
 import ExamSuccessModal from "../Modals/ExamSucessModal/ExamSucessModal";
-import QuizButton from "../QuizButton/QuizButton";
 import ExamAnswerButtons from "./ExamAnswerButtons";
 import ExamAutoAdvanceCheckbox from "./ExamAutoAdvanceCheckbox";
 import ExamQuestionContent from "./ExamQuestionContent";
+import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
 
 type ExamQuizProps = {
   questions: ExamQuestion[];
@@ -51,6 +52,8 @@ export default function ExamQuiz({
     examEnded,
   } = exam;
 
+  const questionAudioUrl = getQuestionAudioUrl(q);
+
   return (
     <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden bg-[#193e4a]">
       <div className="shrink-0 p-3 sm:p-4">
@@ -69,6 +72,16 @@ export default function ExamQuiz({
           correct={exam.score}
           mistakes={exam.mistake}
           questionId={q.id}
+          actions={
+            questionAudioUrl ? (
+              <QuestionAudioButton
+                id={`exam-audio-${q.id}`}
+                src={questionAudioUrl}
+                namespace="Exam"
+                size="compact"
+              />
+            ) : null
+          }
         />
       </div>
 

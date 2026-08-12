@@ -10,6 +10,7 @@ type ExamHeaderProps = {
   correct: number;
   mistakes: number;
   questionId: string | number;
+  actions?: ReactNode;
 };
 
 const cellBase =
@@ -25,6 +26,7 @@ const ExamHeader = ({
   correct,
   mistakes,
   questionId,
+  actions,
 }: ExamHeaderProps) => {
   return (
     <div className="w-full min-w-0 flex justify-center mb-3 sm:mb-4">
@@ -50,6 +52,8 @@ const ExamHeader = ({
             <span className="text-yellow-300">#{questionId}</span>
           </div>
         </div>
+
+        {actions}
 
         <Link href="/" className={logoCell} aria-label="prava.ge">
           <Image

@@ -35,11 +35,20 @@ export default function TicketQuiz({
 
   return (
     <>
-      <div className="relative scroll-mt-4 bg-[#193e4a] bg-[url('/png/download.png')] bg-contain bg-center bg-no-repeat px-3 py-3 sm:px-4 sm:py-4">
+      <div className="relative h-auto scroll-mt-4 bg-[#193e4a] bg-[url('/png/download.png')] bg-contain bg-center bg-no-repeat p-4">
         <QuestionExplanation
           questionId={question.id}
           questionIndex={questionIndex}
           explanation={question.question_explained}
+          actions={
+            questionAudioUrl ? (
+              <QuestionAudioButton
+                id={`question-audio-${qId}`}
+                src={questionAudioUrl}
+                size="compact"
+              />
+            ) : null
+          }
         />
 
         <div>
@@ -52,22 +61,17 @@ export default function TicketQuiz({
             />
           )}
 
-          <div className="mb-3 flex items-start gap-2.5 sm:mb-4 sm:gap-3">
-            {questionAudioUrl && (
-              <QuestionAudioButton id={`question-audio-${qId}`} src={questionAudioUrl} />
-            )}
-            <p className="font-georgian min-w-0 flex-1 text-[15px] leading-relaxed text-white sm:rounded-md sm:border sm:border-white sm:bg-black/50 sm:p-4 sm:text-sm">
-              {question.question}
-            </p>
-          </div>
+          <p className="font-georgian mb-4 min-w-0 rounded-md border border-white bg-black/50 p-4 text-sm text-white">
+            {question.question}
+          </p>
 
           {aiTutorText !== "" && (
-            <div className="mb-3 sm:mb-4">
+            <div className="mb-4">
               <AiTutorText text={aiTutorText} label={t("aiTutorShowText")} />
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 sm:gap-2 sm:items-stretch">
+          <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-2 sm:grid-cols-2">
             {answers.map((a) => (
               <QuizButton
                 key={a.key}
