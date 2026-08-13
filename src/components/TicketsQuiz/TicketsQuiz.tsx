@@ -61,7 +61,7 @@ export default function TicketQuiz({
             />
           )}
 
-          <p className="font-georgian mb-4 min-w-0 rounded-md border border-white bg-black/50 p-4 text-sm text-white">
+          <p className="font-georgian mb-4 min-w-0 rounded-md border border-white bg-black/50 p-4 text-sm font-medium tracking-wide text-white">
             {question.question}
           </p>
 

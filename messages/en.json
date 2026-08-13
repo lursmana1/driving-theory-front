@@ -35,7 +35,7 @@
     "mockAnswer2": "Go first",
     "whyTitle": "Platform features",
     "whyFeat1Title": "AI explanations",
-    "whyFeat1Text": "Get a logical explanation for each question that helps you understand and remember the material.",
+    "whyFeat1Text": "Get a logical explanation for each question in text and voice, which helps you understand and remember the material.",
     "whyFeat2Title": "Readiness score",
     "whyFeat2Text": "The system shows your real readiness for the exam — you know exactly when you're ready.",
     "whyFeat3Title": "30-question exam",
@@ -215,5 +215,23 @@
     "readinessError": "Could not load readiness score",
     "readinessNoneHint": "Complete at least one exam to see your score",
     "poolExposure": "Question pool exposure"
+  },
+  "Meta": {
+    "homeTitle": "prava.ge",
+    "homeDescription": "Driving theory exam prep platform in Georgia",
+    "ticketsTitle": "Tickets",
+    "ticketsDescription": "Practice tickets by category and topic",
+    "subjectpickerTitle": "Exam",
+    "subjectpickerDescription": "Choose topics and start the exam",
+    "examTitle": "Exam",
+    "examDescription": "Theory exam",
+    "profileTitle": "Profile",
+    "profileDescription": "Your progress and exam history",
+    "blogsTitle": "Blog",
+    "blogsDescription": "Articles about the driving theory exam",
+    "authTitle": "Sign in",
+    "authDescription": "Sign in or register",
+    "createBlogTitle": "Create blog",
+    "createBlogDescription": "New article"
   }
 }

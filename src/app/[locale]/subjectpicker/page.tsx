@@ -7,11 +7,17 @@ import StatsRefreshListener from "@/components/SubjectPicker/StatsRefreshListene
 import SubjectPickerContent from "@/components/SubjectPicker/SubjectPickerContent";
 import SubjectPickerSkeleton from "@/components/SubjectPicker/SubjectPickerSkeleton";
 import { searchParamsToRecord, type SearchParamsRecord } from "@/lib/searchParams";
+import { pageMeta } from "@/lib/pageMeta";
 
 type SubjectPickerPageProps = {
   params: Promise<{ locale: string }>;
   searchParams?: Promise<SearchParamsRecord>;
 };
+
+export async function generateMetadata({ params }: SubjectPickerPageProps) {
+  const { locale } = await params;
+  return pageMeta("subjectpicker", { locale });
+}
 
 export default async function SubjectPickerPage({
   params,

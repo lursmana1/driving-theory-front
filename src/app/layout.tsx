@@ -1,5 +1,6 @@
-import type { Viewport } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Georgian } from "next/font/google";
+import { siteMetadata } from "@/lib/site-metadata";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -18,6 +19,15 @@ const notoSansGeorgian = Noto_Sans_Georgian({
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteMetadata.url),
+  title: {
+    default: siteMetadata.name,
+    template: `%s | ${siteMetadata.shortTitle ?? siteMetadata.name}`,
+  },
+  description: siteMetadata.description,
+};
 
 export const viewport: Viewport = {
   width: "device-width",

@@ -4,12 +4,16 @@ import LandingHow from "@/components/landingSections/LandingHow";
 import LandingFaqSection from "@/components/landingSections/LandingFaqSection";
 import LandingCta from "@/components/landingSections/LandingCta";
 import LandingFooter from "@/components/landingSections/LandingFooter";
+import { pageMeta } from "@/lib/pageMeta";
 
-export const metadata = {
-  title: "prava.ge",
-  description: "პრავა.გე - სასწავლო პლატფორმა საქართველოში",
-  
+type PageProps = {
+  params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  return pageMeta("home", { locale });
+}
 
 export default function HomePage() {
   return (

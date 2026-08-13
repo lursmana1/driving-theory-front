@@ -4,10 +4,17 @@ import { BLOGS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import type { BlogsResponse } from "@/lib/types/blog";
 import { getLocale } from "next-intl/server";
+import { pageMeta } from "@/lib/pageMeta";
 
 type PageProps = {
+  params: Promise<{ locale: string }>;
   searchParams?: Promise<{ page?: string; size?: string }>;
 };
+
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  return pageMeta("blogs", { locale });
+}
 
 export default async function BlogsPage({ searchParams }: PageProps) {
   const sp = searchParams ? await searchParams : {};

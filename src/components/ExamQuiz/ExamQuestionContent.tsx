@@ -45,7 +45,7 @@ export default function ExamQuestionContent({
           />
         )}
 
-        <p className="font-georgian mb-3 min-w-0 flex-1 wrap-break-word rounded-md border border-white bg-black/50 p-3 text-sm text-white sm:mb-4 sm:p-4">
+        <p className="font-georgian mb-3 min-w-0 flex-1 wrap-break-word rounded-md border border-white bg-black/50 p-3 text-sm font-medium tracking-wide text-white sm:mb-4 sm:p-4">
           {question.question}
         </p>
       </div>

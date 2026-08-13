@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { getServerBaseApi } from "@/api/ServerBaseApi";
-import { licenseCategories } from "@/CONSTS/categories";
+import { getCategoryById, licenseCategories } from "@/CONSTS/categories";
 import { TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import CategoryCardsGrid from "@/components/categoryComponents/CategoryCardsGrid/CategoryCardsGrid";
@@ -9,6 +9,7 @@ import TicketsQuizList from "@/components/TicketsQuiz/TicketsQuizList";
 import QuestionIdSearch from "@/components/QuestionIdSearch/QuestionIdSearch";
 import type { ExamQuestion, QuestionsResponse } from "@/lib/types/exam";
 import SubjectAsideMenu from "@/components/SubjectAsideMenu/SubjectAsideMenu";
+import { pageMeta } from "@/lib/pageMeta";
 
 type PageProps = {
   params: Promise<{ locale: string; category: string }>;
@@ -19,6 +20,15 @@ type PageProps = {
     questionId?: string;
   }>;
 };
+
+export async function generateMetadata({ params }: PageProps) {
+  const { locale, category } = await params;
+  const cat = getCategoryById(Number(category));
+  return pageMeta("tickets", {
+    locale,
+    titleSuffix: cat?.name,
+  });
+}
 
 export default async function TicketsCategoryPage({
   params,

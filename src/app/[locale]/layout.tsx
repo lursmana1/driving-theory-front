@@ -1,12 +1,14 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { UserProvider } from "@/contexts/UserContext";
 import { AppShell } from "@/components/layout/AppShell";
 
+export const dynamicParams = true;
+
 export function generateStaticParams() {
-  return [{ locale: "ka" }, { locale: "en" }, { locale: "ru" }];
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 interface LocaleLayoutProps {
@@ -24,6 +26,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  setRequestLocale(locale);
   const messages = await getMessages();
 
   return (

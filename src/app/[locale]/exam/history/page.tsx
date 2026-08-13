@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { redirectTo } from "@/i18n/redirectTo";
 
 export default async function ExamHistoryPage() {
-  const locale = await getLocale();
-  redirect(`/${locale}/profile`);
+  await redirectTo("/profile");
 }

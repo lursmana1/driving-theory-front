@@ -1,7 +1,6 @@
-import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { redirectTo } from "@/i18n/redirectTo";
+import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 
 export default async function TicketsIndexPage() {
-  const locale = await getLocale();
-  redirect(`/${locale}/tickets/1`);
+  await redirectTo(`/tickets/${DEFAULT_CATEGORY_ID}`);
 }

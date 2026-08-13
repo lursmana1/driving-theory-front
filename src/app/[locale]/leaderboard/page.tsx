@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/i18n/redirectTo";
 
-// Leaderboard temporarily disabled site-wide.
-export default function LeaderboardPage() {
-  redirect("/");
+export default async function LeaderboardPage() {
+  await redirectTo("/");
 }

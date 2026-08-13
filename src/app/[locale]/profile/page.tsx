@@ -1,5 +1,15 @@
 import { Suspense } from "react";
 import ProfileClient from "@/components/Profile/ProfileClient";
+import { pageMeta } from "@/lib/pageMeta";
+
+type PageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  return pageMeta("profile", { locale });
+}
 
 function ProfileFallback() {
   return (

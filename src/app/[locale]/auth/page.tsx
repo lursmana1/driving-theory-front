@@ -1,5 +1,15 @@
 import { Link } from "@/i18n/navigation";
 import AuthForm from "@/components/AuthForm/AuthForm";
+import { pageMeta } from "@/lib/pageMeta";
+
+type PageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  return pageMeta("auth", { locale });
+}
 
 export default async function AuthPage() {
   return (

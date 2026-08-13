@@ -1,5 +1,6 @@
 import { resolveCategoryId } from "@/CONSTS/categories";
 import ExamPageClient from "@/components/ExamQuiz/ExamPageClient";
+import { pageMeta } from "@/lib/pageMeta";
 
 type ExamPageProps = {
   params: Promise<{ locale: string }>;
@@ -8,6 +9,11 @@ type ExamPageProps = {
     category?: string;
   }>;
 };
+
+export async function generateMetadata({ params }: ExamPageProps) {
+  const { locale } = await params;
+  return pageMeta("exam", { locale });
+}
 
 export default async function ExamPage({
   params,

@@ -1,12 +1,21 @@
 import CreateBlogForm from "@/components/CreateBlogForm/CreateBlogForm";
 import { getUser } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/i18n/redirectTo";
+import { pageMeta } from "@/lib/pageMeta";
+
+type PageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  return pageMeta("createBlog", { locale });
+}
 
 export default async function CreateBlogPage() {
   const user = await getUser();
-  console.log(user, "zd");
   if (user?.type !== "admin") {
-    redirect("/");
+    await redirectTo("/");
   }
 
   return (

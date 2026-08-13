@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { LANDING, LANDING_PIN_STRIPE_STYLE } from "@/CONSTS/landing";
+import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 
 export default async function LandingHero() {
   const t = await getTranslations("Home");
@@ -34,7 +35,7 @@ export default async function LandingHero() {
             <Link href="/subjectpicker" className={LANDING.heroPrimaryCta}>
               {t("heroCta1")}
             </Link>
-            <Link href="/tickets" className={LANDING.heroSecondaryCta}>
+            <Link href={`/tickets/${DEFAULT_CATEGORY_ID}`} className={LANDING.heroSecondaryCta}>
               {t("heroCta2")}
             </Link>
           </div>

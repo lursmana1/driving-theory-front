@@ -20,6 +20,9 @@
 # production
 /build
 
+# Cursor local agent rules (keep on this machine only)
+.cursor/
+
 # misc
 .DS_Store
 *.pem

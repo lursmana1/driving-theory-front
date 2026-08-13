@@ -7,8 +7,22 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { pageMeta } from "@/lib/pageMeta";
 
-type Props = { params: Promise<{ id: string }> };
+type Props = { params: Promise<{ locale: string; id: string }> };
+
+export async function generateMetadata({ params }: Props) {
+  const { locale, id } = await params;
+  try {
+    const res = await BaseApi.get<Blog>(`/blogs/${id}`);
+    return {
+      title: res.data.name,
+      description: res.data.description || res.data.name,
+    };
+  } catch {
+    return pageMeta("blogs", { locale });
+  }
+}
 
 const CalendarIcon = () => (
   <svg

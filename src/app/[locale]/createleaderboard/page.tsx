@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirectTo } from "@/i18n/redirectTo";
 
-// Create-leaderboard admin page temporarily disabled site-wide.
-export default function CreateLeaderboardPage() {
-  redirect("/");
+export default async function CreateLeaderboardPage() {
+  await redirectTo("/");
 }
