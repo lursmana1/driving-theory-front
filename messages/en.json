@@ -139,7 +139,7 @@
     "question": "Question",
     "wrongCount": "wrong",
     "correctCount": "correct",
-    "totalQuestions": "total",
+    "totalQuestions": "In total {count} questions",
     "unanswered": "unanswered",
     "questionListen": "Listen to question",
     "questionStop": "Stop"

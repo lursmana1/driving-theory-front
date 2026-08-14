@@ -9,12 +9,14 @@ import QuestionExplanation from "../QuestionExplanation/QuestionExplanation";
 import { getAnswers } from "@/utills/helpers/getAnswers";
 import { AiTutorText } from "./AiTutorText";
 import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
+import { QuizSceneBackground } from "@/components/QuizSceneBackground";
 
 type TicketQuizProps = {
   question: ExamQuestion;
   questionIndex?: number;
   selectedAnswer: string | null;
   onSelect: (questionId: string, key: string) => void;
+  priority?: boolean;
 };
 
 export default function TicketQuiz({
@@ -22,6 +24,7 @@ export default function TicketQuiz({
   questionIndex,
   selectedAnswer,
   onSelect,
+  priority = false,
 }: TicketQuizProps) {
   const t = useTranslations("Tickets");
   const answers = getAnswers(question);
@@ -35,23 +38,24 @@ export default function TicketQuiz({
 
   return (
     <>
-      <div className="relative h-auto scroll-mt-4 bg-[#193e4a] bg-[url('/png/download.png')] bg-contain bg-center bg-no-repeat p-4">
-        <QuestionExplanation
-          questionId={question.id}
-          questionIndex={questionIndex}
-          explanation={question.question_explained}
-          actions={
-            questionAudioUrl ? (
-              <QuestionAudioButton
-                id={`question-audio-${qId}`}
-                src={questionAudioUrl}
-                size="compact"
-              />
-            ) : null
-          }
-        />
+      <div className="relative h-auto scroll-mt-4 bg-[#193e4a] p-4">
+        <QuizSceneBackground priority={priority} />
+        <div className="relative z-10">
+          <QuestionExplanation
+            questionId={question.id}
+            questionIndex={questionIndex}
+            explanation={question.question_explained}
+            actions={
+              questionAudioUrl ? (
+                <QuestionAudioButton
+                  id={`question-audio-${qId}`}
+                  src={questionAudioUrl}
+                  size="compact"
+                />
+              ) : null
+            }
+          />
 
-        <div>
           {!!question.hasImg && question.img && (
             <QuestionImage
               src={question.img}

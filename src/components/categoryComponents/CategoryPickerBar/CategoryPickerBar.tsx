@@ -6,6 +6,7 @@ import { useRouter } from "@/i18n/navigation";
 import type { Category } from "@/lib/types/category";
 import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
 import { buildCategoryPickerQuery } from "@/lib/searchParams";
+import { Icon } from "@/components/Icon/Icon";
 
 type CategoryPickerBarProps = {
   categories: Category[];
@@ -13,29 +14,6 @@ type CategoryPickerBarProps = {
   pathname?: string;
   searchParams?: Record<string, string>;
 };
-
-function ChevronIcon({ direction }: { direction: "left" | "right" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      className="h-4 w-4"
-      aria-hidden
-    >
-      {direction === "left" ? (
-        <path
-          d="M15 18l-6-6 6-6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      ) : (
-        <path d="M9 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-      )}
-    </svg>
-  );
-}
 
 export default function CategoryPickerBar({
   categories,
@@ -85,7 +63,7 @@ export default function CategoryPickerBar({
         onClick={() => scrollByStep("left")}
         className="absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex sm:left-6"
       >
-        <ChevronIcon direction="left" />
+        <Icon name="chevronLeft" className="h-4 w-4" />
       </button>
 
       <button
@@ -94,7 +72,7 @@ export default function CategoryPickerBar({
         onClick={() => scrollByStep("right")}
         className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex sm:right-6"
       >
-        <ChevronIcon direction="right" />
+        <Icon name="chevronRight" className="h-4 w-4" />
       </button>
 
       <div

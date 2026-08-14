@@ -139,7 +139,7 @@
     "question": "კითხვა",
     "wrongCount": "შეცდომა",
     "correctCount": "სწორი",
-    "totalQuestions": "სულ",
+    "totalQuestions": "ჯამში {count} კითხვა",
     "unanswered": "უპასუხო",
     "questionListen": "მოუსმინე კითხვას",
     "questionStop": "გაჩერება"

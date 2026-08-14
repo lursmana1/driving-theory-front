@@ -139,7 +139,7 @@
     "question": "Вопрос",
     "wrongCount": "ошибок",
     "correctCount": "правильно",
-    "totalQuestions": "всего",
+    "totalQuestions": "всего {count} вопросов",
     "unanswered": "без ответа",
     "questionListen": "Слушать вопрос",
     "questionStop": "Стоп"

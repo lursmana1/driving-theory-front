@@ -7,14 +7,14 @@ import { useUser } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import type { HeaderVariant } from "./headerVariants";
-
-/** Dark drawer (matches landing / reference UI) */
-const drawerBg =
-  "border-b border-white/10 bg-[#0d1117] shadow-xl shadow-black/40";
-
-/** Same vertical rhythm + light text on dark */
-const mobileNavItem =
-  "flex min-h-12 w-full items-center rounded-lg px-0 py-3 text-base font-medium leading-snug text-white/95 transition-colors hover:bg-white/10 active:bg-white/15";
+import {
+  burgerAccountLink,
+  burgerDivider,
+  burgerDrawer,
+  burgerNavItem,
+  burgerOverlay,
+  examCtaPillBase,
+} from "./headerVariants";
 
 type BurgerMenuProps = {
   variant?: HeaderVariant;
@@ -79,7 +79,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
         createPortal(
           <>
             <div
-              className={`fixed inset-x-0 bottom-0 top-12 z-100 bg-black/55 backdrop-blur-sm transition-opacity duration-200 sm:top-14 md:hidden ${
+              className={`fixed inset-x-0 bottom-0 top-12 z-100 backdrop-blur-sm transition-opacity duration-200 sm:top-14 md:hidden ${burgerOverlay[variant]} ${
                 isClosing ? "opacity-0" : "opacity-100"
               }`}
               aria-hidden
@@ -89,7 +89,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
               id="mobile-menu"
               role="navigation"
               aria-label="Mobile navigation"
-              className={`fixed left-0 right-0 top-12 z-110 max-h-[min(100dvh-3rem,calc(100vh-3rem))] overflow-y-auto sm:top-14 md:hidden ${drawerBg} ${
+              className={`fixed left-0 right-0 top-12 z-110 max-h-[min(100dvh-3rem,calc(100vh-3rem))] overflow-y-auto sm:top-14 md:hidden ${burgerDrawer[variant]} ${
                 isClosing ? "burger-menu-exit" : "burger-menu-enter"
               }`}
             >
@@ -100,7 +100,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                       <Link
                         href={link.href}
                         onClick={closeMenu}
-                        className={mobileNavItem}
+                        className={burgerNavItem[variant]}
                       >
                         {link.label}
                       </Link>
@@ -108,13 +108,13 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                   ))}
                 </ul>
 
-                <div className="mt-6 border-t border-white/10 pt-6">
+                <div className={burgerDivider[variant]}>
                   <div className="flex min-h-12 items-center">
                     {user ? (
                       <Link
                         href="/profile"
                         onClick={closeMenu}
-                        className="inline-flex min-h-10 items-center text-base font-medium text-white/95 hover:text-white"
+                        className={burgerAccountLink[variant]}
                       >
                         <span className="line-clamp-2 break-all text-left">
                           {user.name || user.email}
@@ -124,7 +124,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                       <Link
                         href="/auth"
                         onClick={closeMenu}
-                        className="inline-flex min-h-10 items-center text-base font-medium text-white/95 hover:text-white"
+                        className={burgerAccountLink[variant]}
                       >
                         {tAuth("login")}
                       </Link>
@@ -134,7 +134,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                   <Link
                     href="/subjectpicker"
                     onClick={closeMenu}
-                    className="mt-5 flex min-h-12 w-full items-center justify-center rounded-full bg-linear-to-r from-[#2b65f0] to-[#8e44ad] px-6 text-center text-base font-semibold text-white shadow-lg shadow-indigo-900/40 transition hover:brightness-110"
+                    className={`mt-5 flex min-h-12 w-full items-center justify-center px-6 text-center text-base ${examCtaPillBase}`}
                   >
                     {tHome("headerStartExam")}
                   </Link>

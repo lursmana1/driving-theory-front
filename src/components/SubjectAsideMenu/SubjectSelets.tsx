@@ -3,6 +3,7 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "@/i18n/navigation";
+import { Icon } from "@/components/Icon/Icon";
 
 type Subject = { id: number; name: string };
 
@@ -119,14 +120,10 @@ export default function SubjectSelectMobile({
         className="flex h-12 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-lg border border-slate-300 bg-white px-3 py-2 text-left text-slate-900 focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
       >
         <span className="min-w-0 truncate">{selectedLabel}</span>
-        <svg
-          className={`h-5 w-5 shrink-0 text-slate-500 transition ${open ? "rotate-180" : ""}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <Icon
+          name="chevronDown"
+          className={`h-5 w-5 shrink-0 transition ${open ? "rotate-180" : ""}`}
+        />
       </button>
       {typeof document !== "undefined" && createPortal(dropdown, document.body)}
     </div>

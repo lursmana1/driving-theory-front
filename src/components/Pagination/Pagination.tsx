@@ -10,6 +10,7 @@ import {
   EXAM_HISTORY_PAGINATION_COL_SPAN,
 } from "@/CONSTS/pagination";
 import { getPageNumbers } from "@/utills/helpers/pagination";
+import { Icon } from "@/components/Icon/Icon";
 
 type PaginationProps = {
   page: number;
@@ -62,7 +63,7 @@ export default function Pagination({
         aria-label="Previous page"
         className={PAGINATION_STYLES.navButton}
       >
-        <ChevronLeft />
+        <Icon name="chevronLeft" className="h-4 w-4" />
       </button>
 
       <div className="flex items-center gap-0.5">
@@ -96,7 +97,7 @@ export default function Pagination({
         aria-label="Next page"
         className={PAGINATION_STYLES.navButton}
       >
-        <ChevronRight />
+        <Icon name="chevronRight" className="h-4 w-4" />
       </button>
     </div>
   );
@@ -118,31 +119,5 @@ export default function Pagination({
       <div className="text-center sm:text-left">{rangeLabel}</div>
       {controls}
     </nav>
-  );
-}
-
-function ChevronLeft() {
-  return (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M15 19l-7-7 7-7"
-      />
-    </svg>
-  );
-}
-
-function ChevronRight() {
-  return (
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9 5l7 7-7 7"
-      />
-    </svg>
   );
 }

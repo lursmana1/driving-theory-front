@@ -119,11 +119,21 @@ export function getAttemptCategoryLabel(
   return getCategoryShortLabel(categoryId);
 }
 
+export type AttemptCounts = {
+  total: number;
+  passed: number;
+  failed: number;
+  incomplete: number;
+  passRate: number;
+};
+
 export type AttemptsHistoryResponse = {
   data: AttemptSummary[];
   total: number;
   page: number;
+  pageSize: number;
   totalPages: number;
+  counts: AttemptCounts;
 };
 
 export async function startPersonalizedExam(

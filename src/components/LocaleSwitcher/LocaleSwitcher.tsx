@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import type { HeaderVariant } from "@/layoutComponents/Header/headerVariants";
+import { Icon } from "@/components/Icon/Icon";
 
 const localeConfig: Record<string, { label: string; flag: string }> = {
   ka: { label: "ქართული", flag: "/languages/flag-ge.svg" },
@@ -59,19 +60,10 @@ export default function LocaleSwitcher({
           height={16}
           className="h-4 w-4 shrink-0 rounded-sm object-cover"
         />
-        <svg
-          className={`h-3.5 w-3.5 shrink-0 transition-transform sm:h-4 sm:w-4 ${isLanding ? "text-white" : "text-slate-500"} ${open ? "rotate-180" : ""}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+        <Icon
+          name="chevronDown"
+          className={`h-3.5 w-3.5 shrink-0 transition-transform sm:h-4 sm:w-4 ${isLanding ? "brightness-0 invert" : ""} ${open ? "rotate-180" : ""}`}
+        />
       </button>
 
       {open && (
@@ -102,17 +94,7 @@ export default function LocaleSwitcher({
                     className="h-4 w-4 shrink-0 rounded-sm object-cover"
                   />
                   {isActive && (
-                    <svg
-                      className="ml-auto h-4 w-4 text-[#1A73E8]"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                    <Icon name="check" className="ml-auto h-4 w-4" />
                   )}
                 </Link>
               </li>

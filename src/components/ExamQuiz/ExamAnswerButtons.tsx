@@ -24,6 +24,7 @@ export default function ExamAnswerButtons({
             answerText={a.text as string}
             selectedAnswer={selectedAnswer || ""}
             correctAnswer={correctAnswer}
+            interactive={false}
           />
         ))}
       </div>

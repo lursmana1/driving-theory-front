@@ -15,6 +15,7 @@ import ExamSuccessModal from "../Modals/ExamSucessModal/ExamSucessModal";
 import ExamAnswerButtons from "./ExamAnswerButtons";
 import ExamAutoAdvanceCheckbox from "./ExamAutoAdvanceCheckbox";
 import ExamQuestionContent from "./ExamQuestionContent";
+import ExamImagePreloader from "./ExamImagePreloader";
 import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
 
 type ExamQuizProps = {
@@ -56,6 +57,10 @@ export default function ExamQuiz({
 
   return (
     <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden bg-[#193e4a]">
+      <ExamImagePreloader
+        questions={exam.safeQuestions}
+        currentIndex={nav.index}
+      />
       <div className="shrink-0 p-3 sm:p-4">
         <ExamHeader
           timeLabel={

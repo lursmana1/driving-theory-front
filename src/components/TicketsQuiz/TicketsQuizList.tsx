@@ -27,6 +27,7 @@ export default function TicketsQuizList({ questions }: TicketsQuizListProps) {
           questionIndex={index + 1}
           selectedAnswer={answersById[String(q.id)] ?? null}
           onSelect={handleSelect}
+          priority={index === 0}
         />
       ))}
     </div>

@@ -1,5 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { getQuestionImageSrc } from "@/utills/helpers/getQuestionImageSrc";
+import { useState } from "react";
+import {
+  getQuestionImageSrc,
+  QUESTION_IMAGE,
+} from "@/utills/helpers/getQuestionImageSrc";
 
 type QuestionImageProps = {
   src: string;
@@ -14,14 +20,43 @@ export default function QuestionImage({
   className = "",
   priority,
 }: QuestionImageProps) {
+  const resolved = getQuestionImageSrc(src);
+  return (
+    <QuestionImageView
+      key={resolved}
+      src={resolved}
+      alt={alt}
+      className={className}
+      priority={priority}
+    />
+  );
+}
+
+function QuestionImageView({
+  src,
+  alt,
+  className,
+  priority,
+}: {
+  src: string;
+  alt: string;
+  className: string;
+  priority?: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <Image
-      src={getQuestionImageSrc(src)}
+      src={src}
       alt={alt}
-      width={1000}
-      height={410}
+      width={QUESTION_IMAGE.width}
+      height={QUESTION_IMAGE.height}
+      sizes={QUESTION_IMAGE.sizes}
       priority={priority}
-      className={`mx-auto w-full object-contain ${className}`}
+      onLoad={() => setLoaded(true)}
+      className={`mx-auto w-full object-contain transition-opacity duration-300 ease-out ${
+        loaded ? "opacity-100" : "opacity-0"
+      } ${className}`}
       style={{ width: "100%", height: "auto" }}
     />
   );

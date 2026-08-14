@@ -14,22 +14,21 @@ type SitemapPath = {
   priority: number;
 };
 
-/** Public indexable modules. Auth, exam, profile, admin, and stub leaderboard stay out. */
+/** Public indexable modules. Only admin create + auth stay out of crawlers. */
 export const STATIC_SITEMAP_PATHS: SitemapPath[] = [
   { href: "/", changeFrequency: "weekly", priority: 1 },
   { href: "/subjectpicker", changeFrequency: "monthly", priority: 0.8 },
+  { href: "/exam", changeFrequency: "monthly", priority: 0.8 },
+  { href: "/profile", changeFrequency: "monthly", priority: 0.5 },
+  { href: "/leaderboard", changeFrequency: "daily", priority: 0.6 },
   { href: "/blogs", changeFrequency: "weekly", priority: 0.7 },
 ];
 
 export const ROBOTS_DISALLOW = [
   "/*/auth",
   "/*/auth/",
-  "/*/exam",
-  "/*/exam/",
-  "/*/profile",
   "/*/createblog",
   "/*/createleaderboard",
-  "/*/leaderboard",
 ];
 
 function absoluteUrl(href: string, locale: Locale): string {

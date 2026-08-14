@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { pageMeta } from "@/lib/pageMeta";
+import { Icon } from "@/components/Icon/Icon";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -23,44 +24,6 @@ export async function generateMetadata({ params }: Props) {
     return pageMeta("blogs", { locale });
   }
 }
-
-const CalendarIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="shrink-0 opacity-80"
-  >
-    <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
-    <line x1="16" x2="16" y1="2" y2="6" />
-    <line x1="8" x2="8" y1="2" y2="6" />
-    <line x1="3" x2="21" y1="10" y2="10" />
-  </svg>
-);
-
-const ClockIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="shrink-0 opacity-80"
-  >
-    <circle cx="12" cy="12" r="10" />
-    <polyline points="12 6 12 12 16 14" />
-  </svg>
-);
 
 export default async function BlogPage({ params }: Props) {
   const { id } = await params;
@@ -111,11 +74,11 @@ export default async function BlogPage({ params }: Props) {
               </span>
             )}
             <time dateTime={dateTime} className="flex items-center gap-2">
-              <CalendarIcon />
+              <Icon name="calendar" className="h-4 w-4 shrink-0 opacity-80" />
               {formatDate(blog.createdAt, locale, "MMMM D, YYYY")}
             </time>
             <span className="flex items-center gap-2">
-              <ClockIcon />
+              <Icon name="clock" className="h-4 w-4 shrink-0 opacity-80" />
               {getReadTime(blog.content ?? "")}
             </span>
           </div>
