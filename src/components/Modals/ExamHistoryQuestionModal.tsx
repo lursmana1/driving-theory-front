@@ -37,7 +37,7 @@ export function ExamHistoryQuestionModal({
       <TicketQuiz
         question={question}
         selectedAnswer={selectedAnswer}
-        onSelect={onSelect}
+        onSelect={(key) => onSelect(String(question.id), key)}
       />
     </Modal>
   );
