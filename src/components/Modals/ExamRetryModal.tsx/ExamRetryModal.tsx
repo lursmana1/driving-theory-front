@@ -64,12 +64,6 @@ const ExamRetryModal = ({
     >
       <div className="font-georgian bg-white">
         <div className="border-b border-slate-200 px-8 py-6 text-center">
-          <span
-            className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full bg-rose-50 text-xl"
-            aria-hidden
-          >
-            😔
-          </span>
           <h2 className="text-lg font-bold leading-snug text-slate-900 sm:text-xl">
             {t("examFailed")}
           </h2>

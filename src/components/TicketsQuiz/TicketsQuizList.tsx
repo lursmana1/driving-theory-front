@@ -20,16 +20,19 @@ export default function TicketsQuizList({ questions }: TicketsQuizListProps) {
 
   return (
     <div className="space-y-3">
-      {questions.map((q, index) => (
-        <TicketQuiz
-          key={q.id}
-          question={q}
-          questionIndex={index + 1}
-          selectedAnswer={answersById[String(q.id)] ?? null}
-          onSelect={handleSelect}
-          priority={index === 0}
-        />
-      ))}
+      {questions.map((q, index) => {
+        const id = String(q.id);
+        return (
+          <TicketQuiz
+            key={id}
+            question={q}
+            questionIndex={index + 1}
+            selectedAnswer={answersById[id] ?? null}
+            onSelect={(key) => handleSelect(id, key)}
+            priority={index === 0}
+          />
+        );
+      })}
     </div>
   );
 }

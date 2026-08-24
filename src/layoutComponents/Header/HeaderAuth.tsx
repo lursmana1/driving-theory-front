@@ -24,7 +24,7 @@ export default function HeaderAuth({ variant = "default" }: HeaderAuthProps) {
       <div className="hidden shrink-0 items-center md:flex md:gap-2">
         {user ? (
           <Link href="/profile" className={linkClass}>
-            {user.name || user.email}
+            {t("profile")}
           </Link>
         ) : (
           <Link href="/auth" className={linkClass}>

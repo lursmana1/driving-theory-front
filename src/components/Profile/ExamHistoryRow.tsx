@@ -1,7 +1,10 @@
 import type { AttemptSummary } from "@/api/examAttempts";
 import { EXAM_HISTORY_TABLE_GRID } from "@/CONSTS/pagination";
 import { formatAttemptDateTime } from "@/utills/helpers/formatDate";
-import { formatExamDuration } from "@/components/Profile/profileUtils";
+import {
+  formatExamDuration,
+  resolveAttemptDurationSeconds,
+} from "@/components/Profile/profileUtils";
 
 type ExamHistoryRowProps = {
   attempt: AttemptSummary;
@@ -41,7 +44,7 @@ export function ExamHistoryRow({
     <li className="border-b border-slate-100 last:border-b-0">
       <div className="space-y-2 px-4 py-4 md:hidden">
         <time
-          dateTime={attempt.completedAt ?? attempt.createdAt}
+          dateTime={attempt.createdAt}
           className="block text-sm font-medium text-slate-800"
         >
           {formatAttemptDateTime(attempt, locale)}
@@ -60,7 +63,7 @@ export function ExamHistoryRow({
           <div>
             <dt className="text-slate-500">{labels.colDuration}</dt>
             <dd className="font-medium text-slate-700">
-              {formatExamDuration(attempt.durationSeconds)}
+              {formatExamDuration(resolveAttemptDurationSeconds(attempt))}
             </dd>
           </div>
           <div className="col-span-2">
@@ -72,7 +75,7 @@ export function ExamHistoryRow({
 
       <div className={`hidden px-5 py-3.5 text-sm ${EXAM_HISTORY_TABLE_GRID}`}>
         <time
-          dateTime={attempt.completedAt ?? attempt.createdAt}
+          dateTime={attempt.createdAt}
           className="text-slate-700"
         >
           {formatAttemptDateTime(attempt, locale)}
@@ -82,7 +85,7 @@ export function ExamHistoryRow({
           {attempt.correctCount}/{attempt.questionCount}
         </span>
         <span className="text-right tabular-nums whitespace-nowrap text-slate-600">
-          {formatExamDuration(attempt.durationSeconds)}
+          {formatExamDuration(resolveAttemptDurationSeconds(attempt))}
         </span>
         <span className={`text-right font-medium whitespace-nowrap ${resultClass}`}>
           {resultLabel}

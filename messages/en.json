@@ -161,13 +161,15 @@
     "search": "Search",
     "clearSearch": "Clear",
     "loadError": "Service temporarily unavailable. Please try again later.",
-    "questionNotFound": "Question #{id} not found."
+    "questionNotFound": "Question #{id} not found.",
+    "answerSaveError": "Couldn't save your answer. Try again."
   },
   "Auth": {
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "register": "Register",
     "login": "Login",
+    "profile": "Profile",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm password",

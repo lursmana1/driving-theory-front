@@ -161,13 +161,15 @@
     "search": "ძებნა",
     "clearSearch": "გასუფთავება",
     "loadError": "სერვისი დროებით მიუწვდომელია. სცადეთ მოგვიანებით.",
-    "questionNotFound": "კითხვა #{id} ვერ მოიძებნა."
+    "questionNotFound": "კითხვა #{id} ვერ მოიძებნა.",
+    "answerSaveError": "პასუხი ვერ შეინახა. სცადეთ ხელახლა."
   },
   "Auth": {
     "noAccount": "არ გაქვთ ანგარიში?",
     "hasAccount": "უკვე გაქვთ ანგარიში?",
     "register": "რეგისტრაცია",
     "login": "შესვლა",
+    "profile": "პროფილი",
     "email": "ელფოსტა",
     "password": "პაროლი",
     "confirmPassword": "გაიმეორეთ პაროლი",

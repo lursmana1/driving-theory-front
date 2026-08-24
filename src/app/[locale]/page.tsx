@@ -15,7 +15,9 @@ export async function generateMetadata({ params }: PageProps) {
   return pageMeta("home", { locale });
 }
 
+
 export default function HomePage() {
+  console.log("HomePage");
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 font-georgian antialiased">
       <LandingHero />

@@ -83,6 +83,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                 isClosing ? "opacity-0" : "opacity-100"
               }`}
               aria-hidden
+              role="dialog"
               onClick={closeMenu}
             />
             <nav
@@ -116,9 +117,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                         onClick={closeMenu}
                         className={burgerAccountLink[variant]}
                       >
-                        <span className="line-clamp-2 break-all text-left">
-                          {user.name || user.email}
-                        </span>
+                        <span className="text-left">{tAuth("profile")}</span>
                       </Link>
                     ) : (
                       <Link

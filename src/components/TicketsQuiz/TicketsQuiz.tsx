@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { getAiTutorText, getQuestionAudioUrl, type ExamQuestion } from "@/lib/types/exam";
+import { usePracticeAnswers } from "@/utills/helpers/hooks/usePracticeAnswers";
 import QuestionImage from "@/components/QuestionImage/QuestionImage";
 import QuizButton from "../QuizButton/QuizButton";
 import ExamFooter from "../ExamFooter/ExamFooter";
@@ -11,11 +13,19 @@ import { AiTutorText } from "./AiTutorText";
 import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
 import { QuizSceneBackground } from "@/components/QuizSceneBackground";
 
+function questionNumericId(question: ExamQuestion): number {
+  const n =
+    typeof question.id === "number"
+      ? question.id
+      : parseInt(String(question.id), 10);
+  return Number.isFinite(n) ? n : NaN;
+}
+
 type TicketQuizProps = {
   question: ExamQuestion;
   questionIndex?: number;
   selectedAnswer: string | null;
-  onSelect: (questionId: string, key: string) => void;
+  onSelect: (key: string) => void;
   priority?: boolean;
 };
 
@@ -27,13 +37,32 @@ export default function TicketQuiz({
   priority = false,
 }: TicketQuizProps) {
   const t = useTranslations("Tickets");
+  const { recordAnswer } = usePracticeAnswers();
   const answers = getAnswers(question);
   const qId = String(question.id);
   const aiTutorText = getAiTutorText(question);
   const questionAudioUrl = getQuestionAudioUrl(question);
+  const postedRef = useRef(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const handleSelect = (key: string) => {
-    onSelect(qId, key);
+    if (selectedAnswer) return;
+    onSelect(key);
+    if (postedRef.current) return;
+    postedRef.current = true;
+    const id = questionNumericId(question);
+    if (!Number.isFinite(id) || !key.trim()) {
+      postedRef.current = false;
+      return;
+    }
+    void recordAnswer(id, key).then((ok) => {
+      if (ok) {
+        setSaveError(null);
+        return;
+      }
+      postedRef.current = false;
+      setSaveError(t("answerSaveError"));
+    });
   };
 
   return (
@@ -87,6 +116,12 @@ export default function TicketQuiz({
               />
             ))}
           </div>
+
+          {saveError ? (
+            <p className="mt-3 text-sm text-rose-300" role="alert">
+              {saveError}
+            </p>
+          ) : null}
         </div>
       </div>
 

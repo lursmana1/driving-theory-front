@@ -161,13 +161,15 @@
     "search": "Поиск",
     "clearSearch": "Очистить",
     "loadError": "Сервис временно недоступен. Попробуйте позже.",
-    "questionNotFound": "Вопрос #{id} не найден."
+    "questionNotFound": "Вопрос #{id} не найден.",
+    "answerSaveError": "Не удалось сохранить ответ. Попробуйте ещё раз."
   },
   "Auth": {
     "noAccount": "Нет аккаунта?",
     "hasAccount": "Уже есть аккаунт?",
     "register": "Регистрация",
     "login": "Войти",
+    "profile": "Профиль",
     "email": "Email",
     "password": "Пароль",
     "confirmPassword": "Подтвердите пароль",
