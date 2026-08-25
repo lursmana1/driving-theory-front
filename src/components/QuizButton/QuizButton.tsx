@@ -6,8 +6,6 @@ type QuizButtonProps = {
   correctAnswer: string;
   /** When false, the option is display-only (exam: pick from footer / keys). */
   interactive?: boolean;
-  /** TEMP test: outline the correct option before a pick. */
-  revealForTest?: boolean;
 };
 
 function getAnswerStyles(
@@ -40,13 +38,11 @@ const QuizButton = ({
   selectedAnswer,
   correctAnswer,
   interactive = true,
-  revealForTest = false,
 }: QuizButtonProps) => {
   const hasSelected = Boolean(selectedAnswer);
   const isThisSelected = selectedAnswer === answerKey;
   const isThisCorrect = answerKey === correctAnswer;
   const canClick = interactive && !hasSelected;
-  const testReveal = revealForTest && isThisCorrect && !hasSelected;
 
   return (
     <button
@@ -56,7 +52,7 @@ const QuizButton = ({
         selectAnswer(answerKey);
       }}
       disabled={!canClick}
-      className={`flex w-full min-w-0 items-center gap-2 rounded border p-3 text-left font-georgian leading-snug transition sm:gap-4 sm:p-4 ${getAnswerStyles(hasSelected, isThisSelected, isThisCorrect, interactive)} ${testReveal ? "ring-2 ring-yellow-400" : ""}`}
+      className={`flex w-full min-w-0 items-center gap-2 rounded border p-3 text-left font-georgian leading-snug transition sm:gap-4 sm:p-4 ${getAnswerStyles(hasSelected, isThisSelected, isThisCorrect, interactive)}`}
     >
       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-gray-400 bg-gray-100 text-base font-bold text-black shadow-sm sm:h-12 sm:w-14 sm:text-lg">
         {answerKey}

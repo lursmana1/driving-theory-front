@@ -15,16 +15,13 @@ export default async function LandingHero() {
         style={LANDING_PIN_STRIPE_STYLE}
         aria-hidden
       />
-      <div className="pointer-events-none absolute -left-32 top-24 h-72 w-72 rounded-full bg-sky-500/20 blur-[100px]" />
-      <div className="pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-violet-600/15 blur-[110px]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[#193e4a]/25 blur-[80px]" />
 
       <div className="section relative">
         <div className="mx-auto max-w-3xl text-center">
           <h1 id="hero-title" className={LANDING.headingHero}>
             <span className="text-white">{t("heroTitlePrefix")}</span>
-            <span className="bg-linear-to-r from-sky-400 via-blue-400 to-violet-400 bg-clip-text text-transparent">
-              {t("heroTitleHighlight")}
-            </span>
+            <span className="text-[#7eb8c2]">{t("heroTitleHighlight")}</span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-relaxed text-slate-300 md:text-lg">

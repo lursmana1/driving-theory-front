@@ -1,5 +1,4 @@
 import QuizButton from "../QuizButton/QuizButton";
-import { TEMP_SHOW_EXAM_ANSWERS } from "@/CONSTS/QuizExamConstats";
 
 type ExamAnswerButtonsProps = {
   answers: { key: string; text: string | null }[];
@@ -26,7 +25,6 @@ export default function ExamAnswerButtons({
             selectedAnswer={selectedAnswer || ""}
             correctAnswer={correctAnswer}
             interactive={false}
-            revealForTest={TEMP_SHOW_EXAM_ANSWERS}
           />
         ))}
       </div>

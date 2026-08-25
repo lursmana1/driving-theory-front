@@ -1,4 +1,3 @@
-import { TEMP_SHOW_EXAM_ANSWERS } from "@/CONSTS/QuizExamConstats";
 import Image from "next/image";
 import leftSide from "../../../public/png/left.png";
 import rightSide from "../../../public/png/right.png";
@@ -45,11 +44,6 @@ const ExamFooter = (props: ExamFooterProps) => {
 
           let stateClass =
             "cursor-pointer border-gray-400 bg-gray-100 text-black hover:bg-gray-200";
-
-          if (TEMP_SHOW_EXAM_ANSWERS && isCorrect && !hasSelected) {
-            stateClass =
-              "cursor-pointer border-yellow-400 bg-yellow-300 text-black ring-2 ring-yellow-400";
-          }
 
           if (hasSelected) {
             if (isCorrect) {

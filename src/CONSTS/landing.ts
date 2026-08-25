@@ -13,17 +13,17 @@ export const LANDING = {
   ctaSection:
     "relative overflow-hidden border-b border-white/5 bg-[#060b14] py-20 md:py-28",
   ctaGlow:
-    "pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/20 blur-[100px]",
+    "pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#193e4a]/50 blur-[100px]",
   gradientCta:
-    "inline-flex items-center justify-center rounded-full bg-linear-to-r from-sky-500 to-violet-600 font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:brightness-110",
+    "inline-flex items-center justify-center rounded-full bg-[#1f6b78] font-semibold text-white transition hover:bg-[#25808f]",
   heroPrimaryCta:
-    "inline-flex h-12 w-full sm:w-auto sm:min-w-[200px] items-center justify-center rounded-full bg-linear-to-r from-sky-500 to-violet-600 px-8 font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:brightness-110",
+    "inline-flex h-12 w-full sm:w-auto sm:min-w-[200px] items-center justify-center rounded-full bg-[#1f6b78] px-8 font-semibold text-white transition hover:bg-[#25808f]",
   heroSecondaryCta:
     "inline-flex h-12 w-full sm:w-auto sm:min-w-[200px] items-center justify-center rounded-full border border-white/25 bg-white/5 px-8 font-semibold text-white backdrop-blur-sm transition hover:border-white/40 hover:bg-white/10",
   howSection:
     "relative overflow-hidden border-b border-white/5 bg-[#0a1120] px-4 py-16 md:px-6 md:py-24",
   footerLogoMark:
-    "flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-sky-500 to-violet-600 text-sm font-bold text-white",
+    "flex h-10 w-10 items-center justify-center rounded-xl bg-[#193e4a] text-sm font-bold text-white",
 
   /** h2 — section titles on light backgrounds (use inside `.section`) */
   headingSection:
@@ -49,10 +49,10 @@ export const LANDING = {
 } as const;
 
 const FEATURE_GRADIENT: Record<FeatureTone, string> = {
-  blue: "from-sky-500 to-blue-600 shadow-sky-500/30",
-  violet: "from-violet-500 to-purple-600 shadow-violet-500/30",
-  emerald: "from-emerald-500 to-teal-600 shadow-emerald-500/30",
-  amber: "from-amber-500 to-orange-500 shadow-amber-500/30",
+  blue: "bg-[#1f5f6d]",
+  violet: "bg-[#193e4a]",
+  emerald: "bg-[#1a5c52]",
+  amber: "bg-[#6b4f1f]",
 };
 
 const FEATURE_ICON: Record<FeatureTone, string> = {
@@ -64,7 +64,7 @@ const FEATURE_ICON: Record<FeatureTone, string> = {
 
 export function featureIconClass(tone: string): string {
   const g = FEATURE_GRADIENT[tone as FeatureTone] ?? FEATURE_GRADIENT.blue;
-  return `mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br text-xl text-white shadow-lg ${g}`;
+  return `mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl text-xl text-white ${g}`;
 }
 
 export function featureEmoji(tone: string): string {

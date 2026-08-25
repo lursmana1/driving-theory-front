@@ -10,7 +10,7 @@ function stepBadgeClass(successStep: boolean) {
 }
 
 const connectorClass =
-  "hidden h-[3px] min-w-5 flex-1 rounded-full bg-linear-to-r from-white/15 via-sky-400/45 to-white/20 shadow-[0_0_16px_rgba(56,189,248,0.2)] md:block";
+  "hidden h-[2px] min-w-5 flex-1 rounded-full bg-white/15 md:block";
 
 function stepArticleClass(index: number, lastIndex: number) {
   const border =

@@ -1,8 +1,5 @@
 export const EXAM_DURATION_SECONDS = 1800; // 30 minutes
 
-/** TEMP: reveal correct exam answers for local testing. Set false / remove when done. */
-export const TEMP_SHOW_EXAM_ANSWERS = true;
-
 /** @deprecated Use getExamRules(categoryId) — kept as fallback for B category */
 export const EXAM_TOTAL_QUESTIONS = 30;
 

@@ -14,13 +14,12 @@ export const headerAuthLink: Record<HeaderVariant, string> = {
     "shrink-0 rounded-md px-2 py-1.5 text-xs font-medium text-white/85 hover:bg-white/10 hover:text-white sm:px-3 sm:py-2 sm:text-sm",
 };
 
-/** Desktop “Start exam” pill — shared shadow differs slightly on landing */
+/** Desktop “Start exam” pill */
 export const examCtaPillBase =
-  "rounded-full bg-linear-to-r from-sky-500 to-violet-600 font-semibold text-white shadow-md shadow-sky-500/25 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50";
+  "rounded-full bg-[#1f6b78] font-semibold text-white transition hover:bg-[#25808f] disabled:cursor-not-allowed disabled:opacity-50";
 
-export function headerExamCtaClass(isLanding: boolean): string {
-  const base = `hidden h-10 items-center justify-center px-4 text-sm md:inline-flex ${examCtaPillBase}`;
-  return isLanding ? `${base} shadow-lg shadow-sky-500/20` : base;
+export function headerExamCtaClass(_isLanding: boolean): string {
+  return `hidden h-10 items-center justify-center px-4 text-sm md:inline-flex ${examCtaPillBase}`;
 }
 
 export const burgerDrawer: Record<HeaderVariant, string> = {

@@ -3,10 +3,7 @@
 import type { ExamQuestion } from "@/lib/types/exam";
 import { getQuestionAudioUrl } from "@/lib/types/exam";
 import type { CategoryExamRules } from "@/CONSTS/categories";
-import {
-  EXAM_DURATION_SECONDS,
-  TEMP_SHOW_EXAM_ANSWERS,
-} from "@/CONSTS/QuizExamConstats";
+import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
 import { isActiveExamEndDate } from "@/utills/helpers/formatExamDuration";
 import { useExamQuiz } from "@/utills/helpers/hooks/exam";
 
@@ -64,11 +61,6 @@ export default function ExamQuiz({
         questions={exam.safeQuestions}
         currentIndex={nav.index}
       />
-      {TEMP_SHOW_EXAM_ANSWERS && (
-        <div className="shrink-0 bg-yellow-400 px-3 py-1.5 text-center text-sm font-bold text-black">
-          TEST: correct answer is {q.correct_answer}
-        </div>
-      )}
       <div className="shrink-0 p-3 sm:p-4">
         <ExamHeader
           timeLabel={
