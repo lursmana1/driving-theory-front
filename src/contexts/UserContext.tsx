@@ -13,7 +13,7 @@ import type { User } from "@/lib/auth";
 import {
   captureAccessTokenFromUrl,
   clearAccessToken,
-  getAccessToken,
+  markSession,
 } from "@/lib/authToken";
 
 type UserContextValue = {
@@ -30,16 +30,14 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Always ask the API: a Google session lives in an httpOnly cookie we can't read.
   const refresh = useCallback(async () => {
-    if (!getAccessToken()) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
-
     try {
       const res = await BaseApi.get<User>("/auth/me");
-      setUser(res.data ?? null);
+      const nextUser = res.data ?? null;
+      setUser(nextUser);
+      if (nextUser) markSession();
+      else clearAccessToken();
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
         clearAccessToken();

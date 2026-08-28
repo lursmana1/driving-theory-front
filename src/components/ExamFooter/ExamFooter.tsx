@@ -11,7 +11,10 @@ type ExamFooterProps = {
   showNext?: () => void;
   selectAnswer: (key: string) => void;
   selectedAnswer?: string;
+  /** Withheld during a live exam until the attempt is finished. */
   correctAnswer?: string;
+  /** Server verdict for the pick, used when `correctAnswer` is withheld. */
+  selectedCorrect?: boolean | null;
   };
 
 const footerKeyButtonBase =
@@ -42,19 +45,30 @@ const ExamFooter = (props: ExamFooterProps) => {
           const isCorrect = question.key === props.correctAnswer;
           const isSelected = question.key === props.selectedAnswer;
 
+          const correctClass =
+            "cursor-default border-[#c3e6cb] bg-[#05c300c9] text-white";
+          const wrongClass =
+            "cursor-default border-[#f5c6cb] bg-[#ff3346a8] text-white";
+          const mutedClass =
+            "cursor-default border-gray-300 bg-gray-200 text-gray-500 opacity-60";
+
           let stateClass =
             "cursor-pointer border-gray-400 bg-gray-100 text-black hover:bg-gray-200";
 
           if (hasSelected) {
-            if (isCorrect) {
+            if (props.correctAnswer) {
+              stateClass = isCorrect
+                ? correctClass
+                : isSelected
+                  ? wrongClass
+                  : mutedClass;
+            } else if (!isSelected) {
+              stateClass = mutedClass;
+            } else if (props.selectedCorrect == null) {
               stateClass =
-                "cursor-default border-[#c3e6cb] bg-[#05c300c9] text-white";
-            } else if (isSelected) {
-              stateClass =
-                "cursor-default border-[#f5c6cb] bg-[#ff3346a8] text-white";
+                "cursor-default border-slate-500 bg-slate-300 text-black";
             } else {
-              stateClass =
-                "cursor-default border-gray-300 bg-gray-200 text-gray-500 opacity-60";
+              stateClass = props.selectedCorrect ? correctClass : wrongClass;
             }
           }
 

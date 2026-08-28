@@ -50,7 +50,8 @@ const CategorySelect = ({
       id="category-select"
       value={activeCategoryId}
       onChange={handleSelect}
-      className="w-full [&_.ant-select-selector]:h-14! [&_.ant-select-selection-item]:text-lg! [&_.ant-select-selection-item]:leading-14!"
+      className="w-full [&_.ant-select-selector]:h-14! [&_.ant-select-selector]:bg-white! [&_.ant-select-selection-item]:text-lg! [&_.ant-select-selection-item]:leading-14!"
+      classNames={{ popup: { root: "bg-white!" } }}
       size="large"
       options={options}
       optionRender={(option) => {

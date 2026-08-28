@@ -12,7 +12,7 @@ import {
 import { getCategoryShortLabel } from "@/CONSTS/categoryAssets";
 import type { Category } from "@/lib/types/category";
 import type { ExamQuestion } from "@/lib/types/exam";
-import { getAccessToken } from "@/lib/authToken";
+import { hasSession } from "@/lib/authToken";
 import { markStatsStale } from "@/lib/statsRefresh";
 import { normalizeQuestions } from "@/utills/helpers/normalizeQuestions";
 
@@ -76,6 +76,15 @@ export async function getExamRulesForCategory(
 export type SubmitAnswerResponse = {
   correct: boolean;
 };
+
+/** The 30-minute window closed and the server already settled the attempt. */
+export function isAttemptExpiredError(err: unknown): boolean {
+  if (!axios.isAxiosError(err) || err.response?.status !== 400) return false;
+  const message = String(
+    (err.response.data as { message?: unknown } | undefined)?.message ?? "",
+  );
+  return message.toLowerCase().includes("expired");
+}
 
 export type FinishExamResponse = {
   completedAt: string;
@@ -158,6 +167,8 @@ export type FetchExamClientParams = {
   subjects?: string;
   categories?: string;
   count?: number;
+  /** Google sessions are cookie-only, so callers pass the resolved auth state. */
+  authenticated?: boolean;
 };
 
 export type FetchExamClientResult = {
@@ -207,7 +218,7 @@ export async function fetchExamClient(
     };
   }
 
-  if (getAccessToken()) {
+  if (params.authenticated ?? hasSession()) {
     try {
       const data = await startPersonalizedExam({
         lang: params.lang,

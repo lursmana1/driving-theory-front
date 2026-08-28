@@ -69,7 +69,11 @@ export default function LocaleSwitcher({
       {open && (
         <ul
           role="listbox"
-          className="absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-white/15  bg-[#242933] py-1 shadow-lg"
+          className={
+            isLanding
+              ? "absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-white/15 bg-[#242933] py-1 shadow-lg"
+              : "absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
+          }
         >
           {routing.locales.map((loc) => {
             const config = localeConfig[loc];
@@ -81,9 +85,13 @@ export default function LocaleSwitcher({
                   locale={loc as "ka" | "en" | "ru"}
                   onClick={() => setOpen(false)}
                   className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors ${
-                    isActive
-                      ? "bg-[#242933] text-slate-900"
-                      : "text-slate-700 hover:bg-slate-50"
+                    isLanding
+                      ? isActive
+                        ? "bg-[#2a3140] text-white"
+                        : "text-white/90 hover:bg-[#2a3140]"
+                      : isActive
+                        ? "bg-slate-100 text-slate-900"
+                        : "text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   <Image
@@ -94,7 +102,10 @@ export default function LocaleSwitcher({
                     className="h-4 w-4 shrink-0 rounded-sm object-cover"
                   />
                   {isActive && (
-                    <Icon name="check" className="ml-auto h-4 w-4" />
+                    <Icon
+                      name="check"
+                      className={`ml-auto h-4 w-4 ${isLanding ? "brightness-0 invert" : ""}`}
+                    />
                   )}
                 </Link>
               </li>

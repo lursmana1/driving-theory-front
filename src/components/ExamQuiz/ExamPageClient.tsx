@@ -8,6 +8,7 @@ import {
 } from "@/api/examAttempts";
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import type { ExamQuestion } from "@/lib/types/exam";
+import { useAuth } from "@/contexts/UserContext";
 import ExamQuiz from "./Quiz";
 
 type ExamPageClientProps = {
@@ -32,6 +33,8 @@ export default function ExamPageClient({
   categoryId,
   subjects,
 }: ExamPageClientProps) {
+  const { user, loading: authLoading } = useAuth();
+  const isAuthenticated = !!user;
   const [state, setState] = useState<ExamLoadState>({
     loading: true,
     restarting: false,
@@ -55,6 +58,7 @@ export default function ExamPageClient({
         lang: locale,
         subjects: subjects || undefined,
         categories: String(categoryId),
+        authenticated: isAuthenticated,
       });
 
       setState((prev) => ({
@@ -68,12 +72,14 @@ export default function ExamPageClient({
         examKey: restarting ? prev.examKey + 1 : prev.examKey,
       }));
     },
-    [locale, categoryId, subjects],
+    [locale, categoryId, subjects, isAuthenticated],
   );
 
+  // Wait for auth to resolve, otherwise a signed-in user starts an untracked exam.
   useEffect(() => {
+    if (authLoading) return;
     loadExam();
-  }, [loadExam]);
+  }, [authLoading, loadExam]);
 
   const onRestart = useCallback(() => {
     loadExam(true);

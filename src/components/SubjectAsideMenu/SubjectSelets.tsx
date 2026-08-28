@@ -51,7 +51,8 @@ export default function SubjectSelectMobile({
       <Select
         id="tickets-subject-select"
         size="large"
-        className="w-full min-w-0 [&_.ant-select-selector]:h-12! [&_.ant-select-selection-item]:leading-12!"
+        className="w-full min-w-0 [&_.ant-select-selector]:h-12! [&_.ant-select-selector]:bg-white! [&_.ant-select-selection-item]:leading-12!"
+        classNames={{ popup: { root: "bg-white!" } }}
         popupMatchSelectWidth
         listHeight={240}
         value={selected}

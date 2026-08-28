@@ -15,7 +15,11 @@ import { useExamProgress } from "@/utills/helpers/hooks/useExamProgress";
 import { useQuestionNavigation } from "@/utills/helpers/hooks/useQuizNavigation";
 import { useAutoAdvance } from "./useAutoAdvance";
 import { useExamRestart } from "./useExamRestart";
-import { submitAnswer, finishExam } from "@/api/examAttempts";
+import {
+  submitAnswer,
+  finishExam,
+  isAttemptExpiredError,
+} from "@/api/examAttempts";
 import {
   computeElapsedExamSeconds,
   getExamStartedAt,
@@ -37,6 +41,7 @@ export function useExamQuiz(
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [timerRestartKey, setTimerRestartKey] = useState(0);
   const [answersById, setAnswersById] = useState<Record<string, string>>({});
+  const [correctById, setCorrectById] = useState<Record<string, boolean>>({});
   const [finishResult, setFinishResult] = useState<FinishExamResponse | null>(
     null,
   );
@@ -59,6 +64,7 @@ export function useExamQuiz(
   const { score, mistake, totalAnswered } = useExamProgress(
     examQuestions,
     answersById,
+    correctById,
   );
 
   const examFinished = totalAnswered >= totalQuestions || isTimeUp;
@@ -132,6 +138,7 @@ export function useExamQuiz(
   const onReset = useCallback(() => {
     nav.reset();
     setAnswersById({});
+    setCorrectById({});
     setIsTimeUp(false);
     setFinishResult(null);
     setElapsedSeconds(0);
@@ -153,17 +160,30 @@ export function useExamQuiz(
         return { ...prev, [qId]: key };
       });
 
-      if (attemptId && q) {
-        submitAnswer(attemptId, q.id, key).catch(() => {});
-      }
-
-      if (nav.index < examQuestions.length - 1 && autoAdvance) {
+      const answeredIndex = nav.index;
+      // Hold the jump until the verdict lands, otherwise the colour never shows.
+      const scheduleAdvance = () => {
+        if (!autoAdvance || answeredIndex >= examQuestions.length - 1) return;
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
         timeoutRef.current = setTimeout(() => {
           answeringRef.current = false;
-          nav.next();
+          navNextRef.current();
           timeoutRef.current = null;
         }, AUTO_ADVANCE_DELAY_MS);
+      };
+
+      if (attemptId && q) {
+        submitAnswer(attemptId, q.id, key)
+          .then(({ correct }) => {
+            setCorrectById((prev) => ({ ...prev, [qId]: correct }));
+          })
+          .catch((err: unknown) => {
+            // Deadline passed — the server already closed the attempt.
+            if (isAttemptExpiredError(err)) setIsTimeUp(true);
+          })
+          .finally(scheduleAdvance);
+      } else {
+        scheduleAdvance();
       }
     },
     [
@@ -193,6 +213,8 @@ export function useExamQuiz(
     qId,
     answers,
     selectedAnswer,
+    /** null while the server verdict for the current pick is still in flight. */
+    selectedCorrect: qId in correctById ? correctById[qId] : null,
     nav,
     examFinished,
     examFailed,

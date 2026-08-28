@@ -1,16 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { login as loginApi } from "@/api/auth";
 import { Form, Input, Button } from "antd";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
+import { authErrorKey, type AuthErrorKey } from "@/utills/helpers/authErrorKey";
+import AuthFormError from "./AuthFormError";
 
 export default function LoginForm() {
   const t = useTranslations("Auth");
   const [form] = Form.useForm();
   const router = useRouter();
   const { refresh } = useAuth();
+  const [errorKey, setErrorKey] = useState<AuthErrorKey | null>(null);
 
   const onFinish = async ({
     email,
@@ -19,14 +23,15 @@ export default function LoginForm() {
     email: string;
     password: string;
   }) => {
+    setErrorKey(null);
     try {
       const { user } = await loginApi(email, password);
       if (user) {
         await refresh();
         router.push("/profile");
       }
-    } catch {
-      // TODO: show error message to user
+    } catch (err) {
+      setErrorKey(authErrorKey(err, "login"));
     }
   };
 
@@ -37,6 +42,7 @@ export default function LoginForm() {
       onFinish={onFinish}
       className="space-y-6 [&_.ant-form-item]:mb-0"
     >
+      <AuthFormError message={errorKey ? t(errorKey) : null} />
       <Form.Item
         name="email"
         label={t("email")}

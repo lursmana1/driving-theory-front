@@ -184,7 +184,12 @@
     "passwordsMismatch": "Passwords do not match",
     "loading": "Loading...",
     "continueWithGoogle": "Continue with Google",
-    "or": "or"
+    "or": "or",
+    "errorRateLimited": "Too many attempts. Please try again in a minute.",
+    "errorInvalidCredentials": "Incorrect email or password",
+    "errorEmailTaken": "That email is already registered",
+    "errorNetwork": "Can't reach the server. Check your connection.",
+    "errorGeneric": "Something went wrong. Please try again."
   },
   "Profile": {
     "title": "My Profile",

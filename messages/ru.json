@@ -184,7 +184,12 @@
     "passwordsMismatch": "Пароли не совпадают",
     "loading": "Загрузка...",
     "continueWithGoogle": "Войти через Google",
-    "or": "или"
+    "or": "или",
+    "errorRateLimited": "Слишком много попыток. Повторите через минуту.",
+    "errorInvalidCredentials": "Неверный email или пароль",
+    "errorEmailTaken": "Этот email уже зарегистрирован",
+    "errorNetwork": "Не удалось связаться с сервером. Проверьте соединение.",
+    "errorGeneric": "Что-то пошло не так. Попробуйте ещё раз."
   },
   "Profile": {
     "title": "Мой профиль",

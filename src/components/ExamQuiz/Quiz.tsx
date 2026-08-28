@@ -112,6 +112,7 @@ export default function ExamQuiz({
           answers={answers}
           selectedAnswer={selectedAnswer}
           correctAnswer={q.correct_answer}
+          selectedCorrect={exam.selectedCorrect}
           onSelect={exam.handleSelect}
         />
       </div>
@@ -120,6 +121,7 @@ export default function ExamQuiz({
         <ExamFooter
           questions={answers}
           correctAnswer={q.correct_answer}
+          selectedCorrect={exam.selectedCorrect}
           showPrevious={nav.prev}
           showNext={nav.next}
           selectAnswer={exam.handleSelect}

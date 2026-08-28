@@ -184,7 +184,12 @@
     "passwordsMismatch": "პაროლები არ ემთხვევა",
     "loading": "იტვირთება...",
     "continueWithGoogle": "გააგრძელეთ Google-ით",
-    "or": "ან"
+    "or": "ან",
+    "errorRateLimited": "ძალიან ბევრი მცდელობა. სცადეთ ერთი წუთის შემდეგ.",
+    "errorInvalidCredentials": "ელფოსტა ან პაროლი არასწორია",
+    "errorEmailTaken": "ეს ელფოსტა უკვე რეგისტრირებულია",
+    "errorNetwork": "სერვერთან კავშირი ვერ დამყარდა. შეამოწმეთ ინტერნეტი.",
+    "errorGeneric": "დაფიქსირდა შეცდომა. სცადეთ თავიდან."
   },
   "Profile": {
     "title": "ჩემი პროფილი",

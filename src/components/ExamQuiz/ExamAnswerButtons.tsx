@@ -3,7 +3,8 @@ import QuizButton from "../QuizButton/QuizButton";
 type ExamAnswerButtonsProps = {
   answers: { key: string; text: string | null }[];
   selectedAnswer: string | null;
-  correctAnswer: string;
+  correctAnswer?: string;
+  selectedCorrect?: boolean | null;
   onSelect: (key: string) => void;
 };
 
@@ -11,6 +12,7 @@ export default function ExamAnswerButtons({
   answers,
   selectedAnswer,
   correctAnswer,
+  selectedCorrect,
   onSelect,
 }: ExamAnswerButtonsProps) {
   return (
@@ -24,6 +26,7 @@ export default function ExamAnswerButtons({
             answerText={a.text as string}
             selectedAnswer={selectedAnswer || ""}
             correctAnswer={correctAnswer}
+            selectedCorrect={selectedCorrect}
             interactive={false}
           />
         ))}

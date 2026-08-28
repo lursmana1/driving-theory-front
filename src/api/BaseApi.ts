@@ -1,6 +1,6 @@
 import axios from "axios";
 import { routing } from "@/i18n/routing";
-import { getAccessToken, clearAccessToken } from "@/lib/authToken";
+import { getAccessToken, clearAccessToken, hasSession } from "@/lib/authToken";
 import { getApiBaseUrl } from "@/lib/apiBaseUrl";
 
 function getClientLocale(): string {
@@ -19,8 +19,8 @@ const instance = axios.create({
     "Content-Type": "application/json",
     "Accept-Language": "ka",
   },
-  // Bearer from localStorage (response.tokens.access_token) — no cross-origin cookies.
-  withCredentials: false,
+  // Bearer for email/password; httpOnly cookie for Google sign-in.
+  withCredentials: true,
 });
 
 instance.interceptors.request.use((config) => {
@@ -48,7 +48,7 @@ instance.interceptors.response.use(
         url.includes("/auth/login") ||
         url.includes("/auth/register") ||
         url.includes("/auth/me");
-      if (!isAuthRoute && getAccessToken()) {
+      if (!isAuthRoute && hasSession()) {
         clearAccessToken();
         const locale = getClientLocale();
         window.location.href = `/${locale}/auth`;

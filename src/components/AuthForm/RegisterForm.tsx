@@ -1,16 +1,20 @@
 "use client";
 
+import { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { useTranslations } from "next-intl";
 import { register as registerApi } from "@/api/auth";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
+import { authErrorKey, type AuthErrorKey } from "@/utills/helpers/authErrorKey";
+import AuthFormError from "./AuthFormError";
 
 export default function RegisterForm() {
   const t = useTranslations("Auth");
   const [form] = Form.useForm();
   const router = useRouter();
   const { refresh } = useAuth();
+  const [errorKey, setErrorKey] = useState<AuthErrorKey | null>(null);
 
   const onFinish = async (values: {
     name: string;
@@ -19,6 +23,7 @@ export default function RegisterForm() {
     password: string;
     confirmPassword: string;
   }) => {
+    setErrorKey(null);
     try {
       const { user } = await registerApi({
         name: values.name,
@@ -31,7 +36,7 @@ export default function RegisterForm() {
         router.push("/profile");
       }
     } catch (err) {
-      console.error(err);
+      setErrorKey(authErrorKey(err, "register"));
     }
   };
 
@@ -42,6 +47,8 @@ export default function RegisterForm() {
       onFinish={onFinish}
       className="space-y-6 [&_.ant-form-item]:mb-0"
     >
+      <AuthFormError message={errorKey ? t(errorKey) : null} />
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Form.Item
           name="name"
