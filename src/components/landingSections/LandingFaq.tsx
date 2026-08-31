@@ -17,7 +17,9 @@ export default function LandingFaq({ items }: LandingFaqProps) {
             </span>
           </summary>
           <div className="border-t border-slate-100 px-4 pb-4 pt-2">
-            <p className="text-sm leading-relaxed text-slate-600">{item.children}</p>
+            <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600">
+              {item.children}
+            </p>
           </div>
         </details>
       ))}

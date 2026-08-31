@@ -27,7 +27,6 @@ export default function ExamAnswerButtons({
             selectedAnswer={selectedAnswer || ""}
             correctAnswer={correctAnswer}
             selectedCorrect={selectedCorrect}
-            interactive={false}
           />
         ))}
       </div>

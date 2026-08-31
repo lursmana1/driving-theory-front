@@ -36,7 +36,7 @@
   }
 
   .section {
-    @apply w-full max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-10;
+    @apply w-full max-w-360 mx-auto px-6 sm:px-8 lg:px-10;
   }
 }
 
@@ -116,6 +116,42 @@
 
 .landing-faq__item[open] .landing-faq__content {
   animation: faqContentIn 0.25s ease-out;
+}
+
+/* How-it-works connectors: keep the grey line, slide the 03 border color along it */
+.how-steps-connector {
+  position: relative;
+  overflow: hidden;
+  background: rgb(255 255 255 / 0.15);
+}
+
+.how-steps-connector::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40%;
+  border-radius: inherit;
+  background: #34d399;
+  box-shadow: 0 0 8px rgb(52 211 153 / 0.5);
+  animation: howStepsRunner 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes howStepsRunner {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(150%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .how-steps-connector::after {
+    animation: none;
+    left: 30%;
+  }
 }
 
 /* Burger menu animations */
