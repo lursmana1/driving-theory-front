@@ -1,9 +1,52 @@
 import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
 
+function parseMs(iso?: string | null): number | null {
+  if (!iso) return null;
+  const ms = new Date(iso).getTime();
+  return Number.isFinite(ms) ? ms : null;
+}
+
+function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
+
+type ExamClockInput = {
+  createdAt?: string | null;
+  endDate?: string | null;
+  durationSeconds?: number;
+  now?: number;
+  /** Used only when the API sent neither createdAt nor endDate (guest exam). */
+  fallbackStartMs?: number;
+};
+
+/** Wall-clock exam window from `createdAt` / `endDate`. Safe to call on every tick. */
+export function getExamClock({
+  createdAt,
+  endDate,
+  durationSeconds = EXAM_DURATION_SECONDS,
+  now = Date.now(),
+  fallbackStartMs,
+}: ExamClockInput) {
+  const createdMs = parseMs(createdAt);
+  const deadlineMs = parseMs(endDate);
+  const startMs =
+    createdMs ??
+    (deadlineMs != null
+      ? deadlineMs - durationSeconds * 1000
+      : (fallbackStartMs ?? now));
+  const endMs = deadlineMs ?? startMs + durationSeconds * 1000;
+
+  return {
+    startMs,
+    endMs,
+    elapsedSeconds: clamp(Math.floor((now - startMs) / 1000), 0, durationSeconds),
+    remainingSeconds: clamp(Math.floor((endMs - now) / 1000), 0, durationSeconds),
+  };
+}
+
 export function isActiveExamEndDate(endDate?: string | null): boolean {
-  if (!endDate) return false;
-  const end = new Date(endDate).getTime();
-  return end > Date.now();
+  const end = parseMs(endDate);
+  return end != null && end > Date.now();
 }
 
 export function formatExamDuration(seconds: number): string {
@@ -13,7 +56,6 @@ export function formatExamDuration(seconds: number): string {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-/** Prefer client elapsed time; normalize backend ms/seconds mistakes. */
 export function resolveExamDurationSeconds(
   elapsedClient: number,
   backend?: number | null,
@@ -26,21 +68,4 @@ export function resolveExamDurationSeconds(
     return Math.min(EXAM_DURATION_SECONDS, Math.floor(backend / 1000));
   }
   return Math.min(EXAM_DURATION_SECONDS, backend);
-}
-
-export function getExamStartedAt(
-  endDate?: string | null,
-  fallbackNow = Date.now(),
-): number {
-  if (endDate) {
-    return new Date(endDate).getTime() - EXAM_DURATION_SECONDS * 1000;
-  }
-  return fallbackNow;
-}
-
-export function computeElapsedExamSeconds(startedAt: number): number {
-  return Math.min(
-    EXAM_DURATION_SECONDS,
-    Math.max(0, Math.floor((Date.now() - startedAt) / 1000)),
-  );
 }

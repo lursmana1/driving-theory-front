@@ -23,6 +23,7 @@ type ExamLoadState = {
   questions: ExamQuestion[];
   attemptId: number | null;
   endDate: string | null;
+  createdAt: string | null;
   examRules: CategoryExamRules | null;
   error?: FetchExamClientResult["error"];
   examKey: number;
@@ -41,6 +42,7 @@ export default function ExamPageClient({
     questions: [],
     attemptId: null,
     endDate: null,
+    createdAt: null,
     examRules: null,
     examKey: 0,
   });
@@ -67,6 +69,7 @@ export default function ExamPageClient({
         questions: result.questions,
         attemptId: result.attemptId,
         endDate: result.endDate,
+        createdAt: result.createdAt,
         examRules: result.examRules,
         error: result.error,
         examKey: restarting ? prev.examKey + 1 : prev.examKey,
@@ -143,6 +146,7 @@ export default function ExamPageClient({
           questions={state.questions}
           attemptId={state.attemptId}
           endDate={state.endDate}
+          createdAt={state.createdAt}
           examRules={state.examRules}
           onRestart={onRestart}
         />

@@ -20,11 +20,7 @@ import {
   finishExam,
   isAttemptExpiredError,
 } from "@/api/examAttempts";
-import {
-  computeElapsedExamSeconds,
-  getExamStartedAt,
-  isActiveExamEndDate,
-} from "@/utills/helpers/formatExamDuration";
+import { getExamClock } from "@/utills/helpers/formatExamDuration";
 
 export function useExamQuiz(
   questions: ExamQuestion[],
@@ -32,6 +28,7 @@ export function useExamQuiz(
   endDate?: string | null,
   onRestart?: () => void,
   examRules?: CategoryExamRules,
+  createdAt?: string | null,
 ) {
   const safeQuestions = useMemo(
     () => (Array.isArray(questions) ? questions : []),
@@ -47,8 +44,14 @@ export function useExamQuiz(
   );
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const finishCalledRef = useRef(false);
-  const activeEndDate = isActiveExamEndDate(endDate) ? endDate : null;
-  const startedAtRef = useRef(getExamStartedAt(activeEndDate));
+  const [guestStartMs] = useState(() => Date.now());
+
+  const readElapsed = useCallback(
+    () =>
+      getExamClock({ createdAt, endDate, fallbackStartMs: guestStartMs })
+        .elapsedSeconds,
+    [createdAt, endDate, guestStartMs],
+  );
 
   const { autoAdvance, handleAutoAdvanceChange, timeoutRef } = useAutoAdvance();
 
@@ -74,7 +77,7 @@ export function useExamQuiz(
   const callFinish = useCallback(async () => {
     if (finishCalledRef.current || !attemptId) return;
     finishCalledRef.current = true;
-    setElapsedSeconds(computeElapsedExamSeconds(startedAtRef.current));
+    setElapsedSeconds(readElapsed());
     try {
       const result = await finishExam(attemptId);
       setFinishResult(result);
@@ -85,7 +88,7 @@ export function useExamQuiz(
         durationSeconds: 0,
       });
     }
-  }, [attemptId]);
+  }, [attemptId, readElapsed]);
 
   const handleTimeUp = useCallback(() => {
     setIsTimeUp(true);
@@ -99,14 +102,8 @@ export function useExamQuiz(
   }, [callFinish, examEnded]);
 
   useEffect(() => {
-    startedAtRef.current = getExamStartedAt(activeEndDate);
-  }, [activeEndDate, timerRestartKey]);
-
-  useEffect(() => {
-    if (examFailed) {
-      setElapsedSeconds(computeElapsedExamSeconds(startedAtRef.current));
-    }
-  }, [examFailed]);
+    if (examFailed) setElapsedSeconds(readElapsed());
+  }, [examFailed, readElapsed]);
 
   useEffect(() => {
     if (examFinished && attemptId && !finishCalledRef.current) {
@@ -143,9 +140,8 @@ export function useExamQuiz(
     setFinishResult(null);
     setElapsedSeconds(0);
     finishCalledRef.current = false;
-    startedAtRef.current = getExamStartedAt(activeEndDate);
     setTimerRestartKey((k) => k + 1);
-  }, [nav.reset, activeEndDate]);
+  }, [nav.reset]);
 
   const { handleRestart } = useExamRestart({ onReset, onRestart });
 

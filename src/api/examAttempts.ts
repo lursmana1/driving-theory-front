@@ -33,6 +33,7 @@ export type StartExamParams = {
 export type StartExamResponse = {
   attemptId: number;
   endDate: string;
+  createdAt?: string;
   questions: ExamQuestion[];
   questionCount?: number;
   minCorrectToPass?: number;
@@ -175,6 +176,7 @@ export type FetchExamClientResult = {
   questions: ExamQuestion[];
   attemptId: number | null;
   endDate: string | null;
+  createdAt: string | null;
   examRules: CategoryExamRules;
   error?: "insufficient_questions" | "load_failed";
 };
@@ -195,6 +197,7 @@ async function fetchRandomExamQuestions(
     questions: normalizeQuestions(res.data),
     attemptId: null,
     endDate: null,
+    createdAt: null,
     examRules,
   };
 }
@@ -213,6 +216,7 @@ export async function fetchExamClient(
       questions: [],
       attemptId: null,
       endDate: null,
+      createdAt: null,
       examRules: { totalQuestions: 0, passScore: 0, maxMistakes: 0 },
       error: "load_failed",
     };
@@ -233,6 +237,7 @@ export async function fetchExamClient(
         questions: normalizeQuestions(data.questions),
         attemptId: data.attemptId ?? null,
         endDate: data.endDate ?? null,
+        createdAt: data.createdAt ?? null,
         examRules: rulesFromStart ?? examRules,
       };
     } catch (err) {
@@ -248,6 +253,7 @@ export async function fetchExamClient(
             questions: [],
             attemptId: null,
             endDate: null,
+            createdAt: null,
             examRules,
             error: "insufficient_questions",
           };
@@ -267,6 +273,7 @@ export async function fetchExamClient(
       questions: [],
       attemptId: null,
       endDate: null,
+      createdAt: null,
       examRules,
       error: "load_failed",
     };

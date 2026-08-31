@@ -4,7 +4,6 @@ import type { ExamQuestion } from "@/lib/types/exam";
 import { getQuestionAudioUrl } from "@/lib/types/exam";
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
-import { isActiveExamEndDate } from "@/utills/helpers/formatExamDuration";
 import { useExamQuiz } from "@/utills/helpers/hooks/exam";
 
 import ExamCountDown from "../ExamCountDown/ExamCountDown";
@@ -22,6 +21,7 @@ type ExamQuizProps = {
   questions: ExamQuestion[];
   attemptId?: number | null;
   endDate?: string | null;
+  createdAt?: string | null;
   examRules: CategoryExamRules;
   onRestart?: () => void;
 };
@@ -30,6 +30,7 @@ export default function ExamQuiz({
   questions,
   attemptId = null,
   endDate = null,
+  createdAt = null,
   examRules,
   onRestart,
 }: ExamQuizProps) {
@@ -39,6 +40,7 @@ export default function ExamQuiz({
     endDate,
     onRestart,
     examRules,
+    createdAt,
   );
 
   if (!exam.safeQuestions.length || !exam.q) return null;
@@ -65,10 +67,11 @@ export default function ExamQuiz({
         <ExamHeader
           timeLabel={
             <ExamCountDown
+              key={exam.timerRestartKey}
               initialSeconds={EXAM_DURATION_SECONDS}
-              endDate={isActiveExamEndDate(endDate) ? endDate : null}
+              endDate={endDate}
+              createdAt={createdAt}
               paused={examEnded}
-              restartKey={exam.timerRestartKey}
               onTimeUp={exam.handleTimeUp}
             />
           }

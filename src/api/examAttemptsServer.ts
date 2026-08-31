@@ -19,6 +19,7 @@ export type FetchExamResult = {
   questions: ExamQuestion[];
   attemptId: number | null;
   endDate: string | null;
+  createdAt: string | null;
   examRules: CategoryExamRules;
   error?: "insufficient_questions" | "start_failed";
 };
@@ -72,6 +73,7 @@ export async function fetchExamServer(
           questions: [],
           attemptId: null,
           endDate: null,
+          createdAt: null,
           examRules: fallbackRules,
           error: "insufficient_questions",
         };
@@ -87,6 +89,7 @@ export async function fetchExamServer(
       questions: normalizeQuestions(data.questions),
       attemptId: data.attemptId ?? null,
       endDate: data.endDate ?? null,
+      createdAt: data.createdAt ?? null,
       examRules: rulesFromStartData(data, categoryId),
     };
   } catch {
@@ -105,6 +108,7 @@ export async function fetchExamServerSafe(
       questions: [],
       attemptId: null,
       endDate: null,
+      createdAt: null,
       examRules: getExamRules(categoryId),
       error: "start_failed",
     };
@@ -133,6 +137,7 @@ async function fetchRandomQuestions(
     questions: normalizeQuestions(res.data),
     attemptId: null,
     endDate: null,
+    createdAt: null,
     examRules,
   };
 }

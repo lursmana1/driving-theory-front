@@ -1,15 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { getExamClock } from "@/utills/helpers/formatExamDuration";
 
 type ExamTimerProps = {
-  /** Fallback when endDate is not provided */
   initialSeconds: number;
-  /** Server deadline (ISO string). Countdown to this time. */
   endDate?: string | null;
+  createdAt?: string | null;
   paused?: boolean;
   onTimeUp: () => void;
-  restartKey?: number;
 };
 
 function formatTime(secondsLeft: number) {
@@ -18,62 +17,57 @@ function formatTime(secondsLeft: number) {
   return `${mm}:${ss}`;
 }
 
-function secondsUntil(endDateIso: string): number {
-  const end = new Date(endDateIso).getTime();
-  const now = Date.now();
-  return Math.max(0, Math.floor((end - now) / 1000));
-}
-
-function resolveInitialSeconds(
-  endDate: string | null | undefined,
-  initialSeconds: number,
-): number {
-  if (!endDate) return initialSeconds;
-  const remaining = secondsUntil(endDate);
-  // Stale server deadline — don't start at 0:00 and instantly fail the exam.
-  return remaining > 0 ? remaining : initialSeconds;
-}
-
 export default function ExamCountDown({
   initialSeconds,
   endDate,
+  createdAt,
   paused = false,
   onTimeUp,
-  restartKey = 0,
 }: ExamTimerProps) {
-  const computedInitial = useMemo(
-    () => resolveInitialSeconds(endDate, initialSeconds),
-    [endDate, initialSeconds, restartKey],
-  );
-  const [secondsLeft, setSecondsLeft] = useState(computedInitial);
-  const onTimeUpRef = useRef(onTimeUp);
-  const prevSecondsRef = useRef(computedInitial);
-  onTimeUpRef.current = onTimeUp;
+  const [guestStartMs] = useState(() => Date.now());
+  const [nowMs, setNowMs] = useState(() => Date.now());
+
+  const remaining = getExamClock({
+    createdAt,
+    endDate,
+    durationSeconds: initialSeconds,
+    fallbackStartMs: guestStartMs,
+    now: nowMs,
+  }).remainingSeconds;
 
   useEffect(() => {
-    const next = resolveInitialSeconds(endDate, initialSeconds);
-    setSecondsLeft(next);
-    prevSecondsRef.current = next;
-  }, [endDate, initialSeconds, restartKey]);
+    if (paused) return;
 
-  useEffect(() => {
-    if (paused || secondsLeft <= 0) return;
+    let notified = false;
+    const sync = () => {
+      const nextNow = Date.now();
+      const left = getExamClock({
+        createdAt,
+        endDate,
+        durationSeconds: initialSeconds,
+        fallbackStartMs: guestStartMs,
+        now: nextNow,
+      }).remainingSeconds;
+      setNowMs(nextNow);
+      if (left === 0 && !notified) {
+        notified = true;
+        onTimeUp();
+      }
+    };
 
-    const id = window.setInterval(() => {
-      setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+    const frame = window.requestAnimationFrame(sync);
+    const id = window.setInterval(sync, 1000);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") sync();
+    };
+    document.addEventListener("visibilitychange", onVisible);
 
-    return () => window.clearInterval(id);
-  }, [paused, secondsLeft]);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [paused, createdAt, endDate, initialSeconds, guestStartMs, onTimeUp]);
 
-  useEffect(() => {
-    if (prevSecondsRef.current > 0 && secondsLeft === 0) {
-      onTimeUpRef.current();
-    }
-    prevSecondsRef.current = secondsLeft;
-  }, [secondsLeft]);
-
-  const label = useMemo(() => formatTime(secondsLeft), [secondsLeft]);
-
-  return <span className="text-yellow-300">{label}</span>;
+  return <span className="text-yellow-300">{formatTime(remaining)}</span>;
 }
