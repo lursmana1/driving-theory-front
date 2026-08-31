@@ -90,7 +90,7 @@ export default function TicketQuiz({
               src={question.img}
               alt={question.question || ""}
               className="max-h-110"
-              priority
+              priority={priority}
             />
           )}
 

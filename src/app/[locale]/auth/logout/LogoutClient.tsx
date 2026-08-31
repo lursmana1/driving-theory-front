@@ -1,19 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
+import { useLocale } from "next-intl";
 import { logout } from "@/api/auth";
-import { useRouter } from "@/i18n/navigation";
 
 export default function LogoutClient() {
-  const router = useRouter();
+  const locale = useLocale();
 
   useEffect(() => {
     logout()
       .catch(() => {})
       .finally(() => {
-        router.replace("/");
+        window.location.replace(`/${locale}`);
       });
-  }, [router]);
+  }, [locale]);
 
   return (
     <div className="flex min-h-[40vh] items-center justify-center">

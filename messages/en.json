@@ -73,7 +73,7 @@
     "faqNew2Q": "How often are tickets updated?",
     "faqNew2A": "Tickets are regularly updated according to the official database of the Georgian Automobile Federation.",
     "faqNew3Q": "What is AI explanation?",
-    "faqNew3A": "AI explanation is a logical explanation for each question that helps you understand and remember the material — no more rote learning.",
+    "faqNew3A": "AI explanation is a law-based explanation of each question — which rule applies and why. You can also listen to the question in audio. It helps you understand and remember the material, without rote learning.",
     "faqNew4Q": "How is the readiness score calculated?",
     "faqNew4A": "It's a 0–100 score for your license category. Sign in to see it.\n\nMost of it comes from your recent timed exams (up to the last 20), not from how many practice questions you've opened. Each exam is judged two ways: how close you got to a full official ticket, and how accurate you were on the questions you actually answered. The first counts more. If you fail and stop in the first 10 questions, that attempt barely counts — quitting early is not treated as a real exam.\n\nIf you haven't finished an exam yet, we use your practice answers instead. A small part of the score is topic coverage: a topic counts as covered when you've answered about 70% of its questions. Coverage can nudge the number, but it cannot get you to “ready” on its own.\n\nYou're marked ready for the real exam only when all of this is true: you've taken at least one exam, your last exam passed, your score is 90 or higher, and you've covered at least 40% of the topics. Until then, treat the number as a progress hint — not a guarantee you'll pass.",
     "ctaTitle": "Ready to take the exam?",
