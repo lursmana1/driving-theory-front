@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { logout } from "@/api/auth";
 
 export default function LogoutClient() {
   const locale = useLocale();
+  const t = useTranslations("Auth");
 
   useEffect(() => {
     logout()
@@ -17,7 +18,7 @@ export default function LogoutClient() {
 
   return (
     <div className="flex min-h-[40vh] items-center justify-center">
-      <p className="text-slate-600">გასვლა...</p>
+      <p className="text-slate-600">{t("loggingOut")}</p>
     </div>
   );
 }

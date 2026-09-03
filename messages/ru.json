@@ -142,7 +142,13 @@
     "totalQuestions": "всего {count} вопросов",
     "unanswered": "без ответа",
     "questionListen": "Слушать вопрос",
-    "questionStop": "Стоп"
+    "questionStop": "Стоп",
+    "reviewMistakes": "Разобрать ошибки ({count})",
+    "reviewTitle": "Разбор ошибок",
+    "reviewProgress": "{current} из {count}",
+    "reviewNext": "Дальше",
+    "reviewPrev": "Назад",
+    "reviewDone": "К результатам"
   },    
   "Categories": {
     "questionCount": "{count} вопросов"
@@ -188,8 +194,11 @@
     "errorRateLimited": "Слишком много попыток. Повторите через минуту.",
     "errorInvalidCredentials": "Неверный email или пароль",
     "errorEmailTaken": "Этот email уже зарегистрирован",
+    "errorPasswordWeak": "Пароль должен содержать не менее 6 символов",
+    "errorGoogle": "Не удалось войти через Google. Попробуйте ещё раз.",
     "errorNetwork": "Не удалось связаться с сервером. Проверьте соединение.",
-    "errorGeneric": "Что-то пошло не так. Попробуйте ещё раз."
+    "errorGeneric": "Что-то пошло не так. Попробуйте ещё раз.",
+    "loggingOut": "Выход..."
   },
   "Profile": {
     "title": "Мой профиль",
@@ -224,10 +233,12 @@
     "poolExposure": "Охват вопросов"
   },
   "Meta": {
-    "homeTitle": "prava.ge",
-    "homeDescription": "Платформа подготовки к теоретическому экзамену на права в Грузии",
-    "ticketsTitle": "Билеты",
-    "ticketsDescription": "Учебные билеты по категории и теме",
+    "homeTitle": "Теория прав в Грузии — билеты и пробный экзамен | prava.ge",
+    "homeDescription": "Готовьтесь к теоретическому экзамену на права в Грузии: учебные билеты по темам, пояснения, аудио и пробный экзамен. На грузинском, английском и русском.",
+    "ticketsTitle": "Учебные билеты",
+    "ticketsTitleCategory": "Билеты категории {category}",
+    "ticketsDescription": "Учебные билеты по категории и теме — с пояснениями, аудио и ИИ-репетитором.",
+    "ticketsDescriptionCategory": "Учебные билеты категории {category} для теории прав в Грузии. Выберите тему и практикуйтесь.",
     "subjectpickerTitle": "Экзамен",
     "subjectpickerDescription": "Выберите темы и начните экзамен",
     "examTitle": "Экзамен",
@@ -240,5 +251,11 @@
     "authDescription": "Вход или регистрация",
     "createBlogTitle": "Создать блог",
     "createBlogDescription": "Новая статья"
+  },
+  "Blogs": {
+    "title": "Блог",
+    "empty": "Пока нет статей.",
+    "unavailable": "Сервис временно недоступен. Попробуйте позже.",
+    "back": "Назад к блогу"
   }
 }

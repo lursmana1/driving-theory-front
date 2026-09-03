@@ -3,7 +3,7 @@ import BlogCard from "@/components/Blogs/BlogCard";
 import { BLOGS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import type { BlogsResponse } from "@/lib/types/blog";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { pageMeta } from "@/lib/pageMeta";
 
 type PageProps = {
@@ -20,6 +20,7 @@ export default async function BlogsPage({ searchParams }: PageProps) {
   const sp = searchParams ? await searchParams : {};
   const page = Number(sp.page ?? "1");
   const locale = await getLocale();
+  const t = await getTranslations("Blogs");
 
   let data: BlogsResponse["data"] = [];
   let resPage = page;
@@ -46,15 +47,15 @@ export default async function BlogsPage({ searchParams }: PageProps) {
     <div className=" bg-white">
       <section className="section py-6 sm:py-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-8">
-          Blogs
+          {t("title")}
         </h2>
         {backendUnavailable && (
           <p className="text-center text-slate-500 py-6">
-            Service unavailable. Please try again later.
+            {t("unavailable")}
           </p>
         )}
         {data.length === 0 ? (
-          <p className="text-slate-500 py-12">No posts yet.</p>
+          <p className="text-slate-500 py-12">{t("empty")}</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {data.map((post) => (

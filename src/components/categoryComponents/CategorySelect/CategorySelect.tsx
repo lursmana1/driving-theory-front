@@ -1,12 +1,12 @@
 "use client";
 
 import { useTransition } from "react";
-import Image from "next/image";
 import { Select } from "antd";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useSearchParams } from "next/navigation";
 import { Category } from "@/lib/types/category";
 import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
+import { CategoryIcon } from "@/components/categoryComponents/CategoryIcon";
 
 type CategorySelectProps = {
   categories: Category[];
@@ -33,12 +33,9 @@ const CategorySelect = ({
     value: cat.id,
     label: (
       <span className="inline-flex items-center gap-3">
-        <Image
+        <CategoryIcon
           src={getCategoryIconSrc(cat.iconKey, cat.id)}
-          width={28}
-          height={28}
           alt={cat.name}
-          className="w-7 h-7 shrink-0 opacity-80"
         />
         <span className="text-lg font-semibold">{cat.name}</span>
       </span>
@@ -59,12 +56,9 @@ const CategorySelect = ({
         if (!cat) return null;
         return (
           <div className="flex items-center gap-4 py-1">
-            <Image
+            <CategoryIcon
               src={getCategoryIconSrc(cat.iconKey, cat.id)}
-              width={28}
-              height={28}
               alt={cat.name}
-              className="w-7 h-7 shrink-0 opacity-80"
             />
             <span className="text-base font-semibold">{cat.name}</span>
             <span className="ml-auto text-sm font-semibold tabular-nums text-slate-500">

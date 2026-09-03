@@ -18,9 +18,15 @@ import { useExamRestart } from "./useExamRestart";
 import {
   submitAnswer,
   finishExam,
+  getAttempt,
   isAttemptExpiredError,
 } from "@/api/examAttempts";
 import { getExamClock } from "@/utills/helpers/formatExamDuration";
+import { normalizeQuestions } from "@/utills/helpers/normalizeQuestions";
+import {
+  getExamReviewItems,
+  type ExamReviewItem,
+} from "@/utills/helpers/examReview";
 
 export function useExamQuiz(
   questions: ExamQuestion[],
@@ -43,6 +49,9 @@ export function useExamQuiz(
     null,
   );
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [hydratedQuestions, setHydratedQuestions] = useState<
+    ExamQuestion[] | null
+  >(null);
   const finishCalledRef = useRef(false);
   const [guestStartMs] = useState(() => Date.now());
 
@@ -73,6 +82,45 @@ export function useExamQuiz(
   const examFinished = totalAnswered >= totalQuestions || isTimeUp;
   const examFailed = mistake > maxMistakes;
   const examEnded = examFinished || examFailed;
+
+  useEffect(() => {
+    if (!examEnded) return;
+
+    if (!attemptId) {
+      setHydratedQuestions(examQuestions);
+      return;
+    }
+
+    if (!finishResult) return;
+
+    let cancelled = false;
+    getAttempt(attemptId)
+      .then((data) => {
+        if (cancelled) return;
+        const full = normalizeQuestions(data.questions);
+        setHydratedQuestions(full.length ? full : examQuestions);
+      })
+      .catch(() => {
+        if (!cancelled) setHydratedQuestions(examQuestions);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [examEnded, attemptId, finishResult, examQuestions]);
+
+  const wrongQuestions: ExamReviewItem[] = useMemo(
+    () =>
+      getExamReviewItems(
+        examQuestions,
+        answersById,
+        correctById,
+        hydratedQuestions,
+      ),
+    [examQuestions, answersById, correctById, hydratedQuestions],
+  );
+
+  const reviewReady = !attemptId || hydratedQuestions != null;
 
   const callFinish = useCallback(async () => {
     if (finishCalledRef.current || !attemptId) return;
@@ -139,6 +187,7 @@ export function useExamQuiz(
     setIsTimeUp(false);
     setFinishResult(null);
     setElapsedSeconds(0);
+    setHydratedQuestions(null);
     finishCalledRef.current = false;
     setTimerRestartKey((k) => k + 1);
   }, [nav.reset]);
@@ -231,5 +280,7 @@ export function useExamQuiz(
     examRules: { totalQuestions, passScore, maxMistakes },
     finishResult,
     elapsedSeconds,
+    wrongQuestions,
+    reviewReady,
   };
 }

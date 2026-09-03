@@ -9,7 +9,9 @@ import TicketsQuizList from "@/components/TicketsQuiz/TicketsQuizList";
 import QuestionIdSearch from "@/components/QuestionIdSearch/QuestionIdSearch";
 import type { ExamQuestion, QuestionsResponse } from "@/lib/types/exam";
 import SubjectAsideMenu from "@/components/SubjectAsideMenu/SubjectAsideMenu";
+import { JsonLd } from "@/components/JsonLd";
 import { pageMeta } from "@/lib/pageMeta";
+import { ticketsJsonLd } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ locale: string; category: string }>;
@@ -21,12 +23,22 @@ type PageProps = {
   }>;
 };
 
-export async function generateMetadata({ params }: PageProps) {
+export function generateStaticParams() {
+  return licenseCategories.map((cat) => ({ category: String(cat.id) }));
+}
+
+export async function generateMetadata({ params, searchParams }: PageProps) {
   const { locale, category } = await params;
+  const sp = searchParams ? await searchParams : {};
   const cat = getCategoryById(Number(category));
+  const categoryLabel = cat?.name ?? category;
+  const page = Number(sp.page ?? "1");
+  const filtered = Boolean(sp.subjects || sp.questionId || page > 1);
   return pageMeta("tickets", {
     locale,
-    titleSuffix: cat?.name,
+    path: `/tickets/${category}`,
+    category: categoryLabel,
+    index: !filtered,
   });
 }
 
@@ -44,6 +56,9 @@ export default async function TicketsCategoryPage({
   const questionId = sp.questionId?.trim() ?? "";
 
   const t = await getTranslations("Tickets");
+  const tMeta = await getTranslations("Meta");
+  const categoryLabel =
+    getCategoryById(categoryId)?.name ?? String(categoryId);
 
   let questions: ExamQuestion[] = [];
   let pagination = { page: 1, total: 0 };
@@ -87,6 +102,16 @@ export default async function TicketsCategoryPage({
 
   return (
     <div className="section space-y-6 py-8">
+      <JsonLd
+        data={ticketsJsonLd({
+          locale,
+          categoryLabel,
+          path: `/tickets/${category}`,
+          description: tMeta("ticketsDescriptionCategory", {
+            category: categoryLabel,
+          }),
+        })}
+      />
       <CategoryCardsGrid
         categories={licenseCategories}
         activeCategoryId={categoryId}

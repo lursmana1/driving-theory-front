@@ -1,7 +1,7 @@
 import { Category } from "@/lib/types/category";
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
 import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
+import { CategoryIcon } from "@/components/categoryComponents/CategoryIcon";
 
 type CategoryCardProps = {
   category: Category;
@@ -24,12 +24,11 @@ const CategoryCard = ({ category, isActive }: CategoryCardProps) => {
         }
       `}
     >
-      <Image
+      <CategoryIcon
         src={getCategoryIconSrc(category.iconKey, category.id)}
-        width={28}
-        height={28}
         alt={category.name}
-        className={`w-7 h-7 lg:w-8 lg:h-8 shrink-0 ${isActive ? "brightness-0 invert" : "opacity-80"}`}
+        className="h-7 w-7 lg:h-8 lg:w-8"
+        inverted={isActive}
       />
 
       <span className="font-medium text-xs lg:text-sm truncate w-full">{category.name}</span>

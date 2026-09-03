@@ -5,8 +5,13 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
 import { getAuthConfig } from "@/api/auth";
+import {
+  googleCallbackErrorKey,
+  type AuthErrorKey,
+} from "@/utills/helpers/authErrorKey";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
+import AuthFormError from "./AuthFormError";
 import { Icon } from "@/components/Icon/Icon";
 
 function fallbackGoogleLoginUrl(): string {
@@ -14,11 +19,27 @@ function fallbackGoogleLoginUrl(): string {
   return base ? `${base}/auth/google` : "#";
 }
 
+function stripAuthErrorFromUrl(): void {
+  const url = new URL(window.location.href);
+  if (!url.searchParams.has("error") && !url.searchParams.has("authError")) {
+    return;
+  }
+  url.searchParams.delete("error");
+  url.searchParams.delete("authError");
+  const search = url.searchParams.toString();
+  window.history.replaceState(
+    {},
+    "",
+    `${url.pathname}${search ? `?${search}` : ""}${url.hash}`,
+  );
+}
+
 export default function AuthForm() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [googleAuthUrl, setGoogleAuthUrl] = useState(fallbackGoogleLoginUrl);
+  const [oauthErrorKey, setOauthErrorKey] = useState<AuthErrorKey | null>(null);
   const t = useTranslations("Auth");
 
   useEffect(() => {
@@ -26,6 +47,14 @@ export default function AuthForm() {
       router.replace("/profile");
     }
   }, [authLoading, user, router]);
+
+  useEffect(() => {
+    const key = googleCallbackErrorKey(window.location.search);
+    if (key) {
+      setOauthErrorKey(key);
+      stripAuthErrorFromUrl();
+    }
+  }, []);
 
   useEffect(() => {
     getAuthConfig()
@@ -45,6 +74,8 @@ export default function AuthForm() {
     );
   }
 
+  const googleReady = googleAuthUrl !== "#";
+
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center py-12">
       <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xl sm:p-10">
@@ -52,9 +83,19 @@ export default function AuthForm() {
           {mode === "login" ? t("login") : t("register")}
         </h1>
 
+        {oauthErrorKey ? (
+          <div className="mt-6">
+            <AuthFormError message={t(oauthErrorKey)} />
+          </div>
+        ) : null}
+
         <a
-          href={googleAuthUrl}
-          className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white py-3.5 font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+          href={googleReady ? googleAuthUrl : undefined}
+          aria-disabled={!googleReady}
+          onClick={(event) => {
+            if (!googleReady) event.preventDefault();
+          }}
+          className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white py-3.5 font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 aria-disabled:pointer-events-none aria-disabled:opacity-50"
         >
           <Icon name="google" className="h-5 w-5" />
           {t("continueWithGoogle")}

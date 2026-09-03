@@ -142,7 +142,13 @@
     "totalQuestions": "ჯამში {count} კითხვა",
     "unanswered": "უპასუხო",
     "questionListen": "მოუსმინე კითხვას",
-    "questionStop": "გაჩერება"
+    "questionStop": "გაჩერება",
+    "reviewMistakes": "შეცდომების ნახვა ({count})",
+    "reviewTitle": "შეცდომების განხილვა",
+    "reviewProgress": "{current} / {count}",
+    "reviewNext": "შემდეგი",
+    "reviewPrev": "წინა",
+    "reviewDone": "შედეგებზე დაბრუნება"
   },
   "Categories": {
     "questionCount": "{count} კითხვა"
@@ -188,8 +194,11 @@
     "errorRateLimited": "ძალიან ბევრი მცდელობა. სცადეთ ერთი წუთის შემდეგ.",
     "errorInvalidCredentials": "ელფოსტა ან პაროლი არასწორია",
     "errorEmailTaken": "ეს ელფოსტა უკვე რეგისტრირებულია",
+    "errorPasswordWeak": "პაროლი უნდა იყოს მინიმუმ 6 სიმბოლო",
+    "errorGoogle": "Google-ით შესვლა ვერ მოხერხდა. სცადეთ თავიდან.",
     "errorNetwork": "სერვერთან კავშირი ვერ დამყარდა. შეამოწმეთ ინტერნეტი.",
-    "errorGeneric": "დაფიქსირდა შეცდომა. სცადეთ თავიდან."
+    "errorGeneric": "დაფიქსირდა შეცდომა. სცადეთ თავიდან.",
+    "loggingOut": "გასვლა..."
   },
   "Profile": {
     "title": "ჩემი პროფილი",
@@ -224,10 +233,12 @@
     "poolExposure": "კითხვების დაფარვა"
   },
   "Meta": {
-    "homeTitle": "prava.ge",
-    "homeDescription": "მართვის მოწმობის თეორიის სასწავლო პლატფორმა საქართველოში",
-    "ticketsTitle": "ბილეთები",
-    "ticketsDescription": "სავარჯიშო ბილეთები კატეგორიისა და თემის მიხედვით",
+    "homeTitle": "მართვის მოწმობის თეორია — ბილეთები და გამოცდა | prava.ge",
+    "homeDescription": "ისწავლე საქართველოს მართვის მოწმობის თეორია: სავარჯიშო ბილეთები თემების მიხედვით, ახსნა, აუდიო და გამოცდის სიმულაცია. ქართულად, ინგლისურად და რუსულად.",
+    "ticketsTitle": "სავარჯიშო ბილეთები",
+    "ticketsTitleCategory": "{category} კატეგორიის ბილეთები",
+    "ticketsDescription": "სავარჯიშო ბილეთები კატეგორიისა და თემის მიხედვით — ახსნა, აუდიო და AI რეპეტიტორი.",
+    "ticketsDescriptionCategory": "{category} კატეგორიის სავარჯიშო ბილეთები საქართველოს მართვის მოწმობის თეორიაზე. აირჩიე თემა და ივარჯიშე.",
     "subjectpickerTitle": "გამოცდა",
     "subjectpickerDescription": "აირჩიე თემები და დაიწყე გამოცდა",
     "examTitle": "გამოცდა",
@@ -240,5 +251,11 @@
     "authDescription": "შესვლა ან რეგისტრაცია",
     "createBlogTitle": "ბლოგის შექმნა",
     "createBlogDescription": "ახალი სტატია"
+  },
+  "Blogs": {
+    "title": "ბლოგი",
+    "empty": "სტატიები ჯერ არ არის.",
+    "unavailable": "სერვისი დროებით მიუწვდომელია. სცადეთ მოგვიანებით.",
+    "back": "ბლოგზე დაბრუნება"
   }
 }

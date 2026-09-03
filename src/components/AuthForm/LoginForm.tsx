@@ -15,6 +15,7 @@ export default function LoginForm() {
   const router = useRouter();
   const { refresh } = useAuth();
   const [errorKey, setErrorKey] = useState<AuthErrorKey | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const onFinish = async ({
     email,
@@ -24,14 +25,15 @@ export default function LoginForm() {
     password: string;
   }) => {
     setErrorKey(null);
+    setSubmitting(true);
     try {
-      const { user } = await loginApi(email, password);
-      if (user) {
-        await refresh();
-        router.push("/profile");
-      }
+      await loginApi(email, password);
+      await refresh();
+      router.push("/profile");
     } catch (err) {
       setErrorKey(authErrorKey(err, "login"));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -39,7 +41,11 @@ export default function LoginForm() {
     <Form
       form={form}
       layout="vertical"
+      validateTrigger="onBlur"
       onFinish={onFinish}
+      onValuesChange={() => {
+        if (errorKey) setErrorKey(null);
+      }}
       className="space-y-6 [&_.ant-form-item]:mb-0"
     >
       <AuthFormError message={errorKey ? t(errorKey) : null} />
@@ -56,6 +62,7 @@ export default function LoginForm() {
           size="large"
           autoComplete="email"
           placeholder="you@example.com"
+          disabled={submitting}
         />
       </Form.Item>
 
@@ -64,7 +71,11 @@ export default function LoginForm() {
         label={t("password")}
         rules={[{ required: true, message: t("passwordRequired") }]}
       >
-        <Input.Password size="large" autoComplete="current-password" />
+        <Input.Password
+          size="large"
+          autoComplete="current-password"
+          disabled={submitting}
+        />
       </Form.Item>
 
       <Form.Item className="mb-0! pt-1">
@@ -74,6 +85,8 @@ export default function LoginForm() {
           block
           size="large"
           className="mt-0!"
+          loading={submitting}
+          disabled={submitting}
         >
           {t("login")}
         </Button>

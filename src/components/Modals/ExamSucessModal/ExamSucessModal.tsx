@@ -16,6 +16,9 @@ type ExamSuccessModalProps = {
   correctCount: number;
   totalCount: number;
   elapsedSeconds?: number;
+  onReview?: () => void;
+  reviewCount?: number;
+  reviewReady?: boolean;
 };
 
 const ExamSuccessModal = ({
@@ -25,6 +28,9 @@ const ExamSuccessModal = ({
   correctCount,
   totalCount,
   elapsedSeconds = 0,
+  onReview,
+  reviewCount = 0,
+  reviewReady = true,
 }: ExamSuccessModalProps) => {
   const t = useTranslations("Exam");
   const router = useRouter();
@@ -32,6 +38,7 @@ const ExamSuccessModal = ({
   const duration = resolveExamDurationSeconds(elapsedSeconds, durationSeconds);
   const scorePct =
     totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
+  const canReview = reviewCount > 0 && !!onReview;
 
   const goHome = () => router.push("/");
 
@@ -41,11 +48,12 @@ const ExamSuccessModal = ({
       const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
       if (tag === "button") return;
       e.preventDefault();
-      handleRestart();
+      if (canReview && reviewReady) onReview();
+      else handleRestart();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [handleRestart]);
+  }, [handleRestart, canReview, reviewReady, onReview]);
 
   return (
     <Modal
@@ -96,9 +104,22 @@ const ExamSuccessModal = ({
         </div>
 
         <div className="flex flex-col gap-2.5 border-t border-slate-200 bg-slate-50 px-8 py-6">
+          {canReview && (
+            <button
+              type="button"
+              autoFocus
+              disabled={!reviewReady}
+              onClick={onReview}
+              className="w-full rounded-xl bg-[#1f6b78] py-3 text-sm font-semibold text-white transition hover:bg-[#25808f] disabled:opacity-60"
+            >
+              {reviewReady
+                ? t("reviewMistakes", { count: reviewCount })
+                : t("loading")}
+            </button>
+          )}
           <button
             type="button"
-            autoFocus
+            autoFocus={!canReview}
             onClick={handleRestart}
             className="w-full rounded-xl bg-linear-to-r from-sky-500 to-violet-600 py-3 text-sm font-semibold text-white shadow-md shadow-violet-500/20 transition hover:brightness-110"
           >

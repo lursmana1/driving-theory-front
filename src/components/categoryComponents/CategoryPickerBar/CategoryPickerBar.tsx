@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useTransition } from "react";
 import { useRouter } from "@/i18n/navigation";
 import type { Category } from "@/lib/types/category";
 import { getCategoryIconSrc } from "@/CONSTS/categoryAssets";
+import { CategoryIcon } from "@/components/categoryComponents/CategoryIcon";
 import { buildCategoryPickerQuery } from "@/lib/searchParams";
 import { Icon } from "@/components/Icon/Icon";
 
@@ -100,12 +100,10 @@ export default function CategoryPickerBar({
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               }`}
             >
-              <Image
+              <CategoryIcon
                 src={getCategoryIconSrc(cat.iconKey, cat.id)}
-                width={32}
-                height={32}
-                alt=""
-                className={`h-8 w-8 shrink-0 ${active ? "brightness-0 invert" : "opacity-80"}`}
+                className="h-8 w-8"
+                inverted={active}
               />
               <span className="font-georgian text-center text-xs font-semibold leading-tight sm:text-sm">
                 {cat.name}

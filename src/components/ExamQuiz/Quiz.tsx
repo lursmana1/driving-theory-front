@@ -1,7 +1,7 @@
 "use client";
 
+import { useState } from "react";
 import type { ExamQuestion } from "@/lib/types/exam";
-import { getQuestionAudioUrl } from "@/lib/types/exam";
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
 import { useExamQuiz } from "@/utills/helpers/hooks/exam";
@@ -15,7 +15,7 @@ import ExamAnswerButtons from "./ExamAnswerButtons";
 import ExamAutoAdvanceCheckbox from "./ExamAutoAdvanceCheckbox";
 import ExamQuestionContent from "./ExamQuestionContent";
 import ExamImagePreloader from "./ExamImagePreloader";
-import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
+import ExamReview from "./ExamReview";
 
 type ExamQuizProps = {
   questions: ExamQuestion[];
@@ -34,6 +34,7 @@ export default function ExamQuiz({
   examRules,
   onRestart,
 }: ExamQuizProps) {
+  const [reviewing, setReviewing] = useState(false);
   const exam = useExamQuiz(
     questions,
     attemptId,
@@ -45,6 +46,15 @@ export default function ExamQuiz({
 
   if (!exam.safeQuestions.length || !exam.q) return null;
 
+  if (reviewing && exam.wrongQuestions.length > 0) {
+    return (
+      <ExamReview
+        items={exam.wrongQuestions}
+        onDone={() => setReviewing(false)}
+      />
+    );
+  }
+
   const {
     q,
     answers,
@@ -54,8 +64,6 @@ export default function ExamQuiz({
     examFailed,
     examEnded,
   } = exam;
-
-  const questionAudioUrl = getQuestionAudioUrl(q);
 
   return (
     <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden bg-[#193e4a]">
@@ -80,16 +88,6 @@ export default function ExamQuiz({
           correct={exam.score}
           mistakes={exam.mistake}
           questionId={q.id}
-          actions={
-            questionAudioUrl ? (
-              <QuestionAudioButton
-                id={`exam-audio-${q.id}`}
-                src={questionAudioUrl}
-                namespace="Exam"
-                size="compact"
-              />
-            ) : null
-          }
         />
       </div>
 
@@ -132,16 +130,19 @@ export default function ExamQuiz({
         />
       </div>
 
-      {examFailed && (
+      {examFailed && !reviewing && (
         <ExamRetryModal
           handleRestart={exam.handleRestart}
           mistake={exam.mistake}
           finishResult={exam.finishResult}
           elapsedSeconds={exam.elapsedSeconds}
+          onReview={() => setReviewing(true)}
+          reviewCount={exam.wrongQuestions.length}
+          reviewReady={exam.reviewReady}
         />
       )}
 
-      {examFinished && !examFailed && (exam.finishResult || !attemptId) && (
+      {examFinished && !examFailed && !reviewing && (exam.finishResult || !attemptId) && (
         <ExamSuccessModal
           handleRestart={exam.handleRestart}
           passed={
@@ -151,6 +152,9 @@ export default function ExamQuiz({
           elapsedSeconds={exam.elapsedSeconds}
           correctCount={exam.score}
           totalCount={exam.safeQuestions.length}
+          onReview={() => setReviewing(true)}
+          reviewCount={exam.wrongQuestions.length}
+          reviewReady={exam.reviewReady}
         />
       )}
     </div>

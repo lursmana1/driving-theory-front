@@ -5,9 +5,10 @@ import { formatDate } from "@/utills/helpers/formatDate";
 import { getReadTime } from "@/utills/helpers/getReadTime";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { pageMeta } from "@/lib/pageMeta";
+import { buildMetadata } from "@/lib/seo";
 import { Icon } from "@/components/Icon/Icon";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
@@ -16,10 +17,12 @@ export async function generateMetadata({ params }: Props) {
   const { locale, id } = await params;
   try {
     const res = await BaseApi.get<Blog>(`/blogs/${id}`);
-    return {
+    return buildMetadata({
       title: res.data.name,
       description: res.data.description || res.data.name,
-    };
+      path: `/blogs/${id}`,
+      locale,
+    });
   } catch {
     return pageMeta("blogs", { locale });
   }
@@ -28,6 +31,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function BlogPage({ params }: Props) {
   const { id } = await params;
   const locale = await getLocale();
+  const t = await getTranslations("Blogs");
   let blog: Blog;
 
   try {
@@ -54,10 +58,10 @@ export default async function BlogPage({ params }: Props) {
               href="/blogs"
               className="text-sm text-slate-500 transition-colors hover:text-slate-700"
             >
-              ← Back to Blogs
+              ← {t("back")}
             </Link>
             <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 shadow-sm">
-              Blog
+              {t("title")}
             </span>
           </div>
 

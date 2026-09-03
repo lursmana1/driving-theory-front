@@ -18,15 +18,16 @@ type SitemapPath = {
 export const STATIC_SITEMAP_PATHS: SitemapPath[] = [
   { href: "/", changeFrequency: "weekly", priority: 1 },
   { href: "/subjectpicker", changeFrequency: "monthly", priority: 0.8 },
-  { href: "/exam", changeFrequency: "monthly", priority: 0.8 },
-  { href: "/profile", changeFrequency: "monthly", priority: 0.5 },
-  { href: "/leaderboard", changeFrequency: "daily", priority: 0.6 },
   { href: "/blogs", changeFrequency: "weekly", priority: 0.7 },
 ];
 
 export const ROBOTS_DISALLOW = [
   "/*/auth",
   "/*/auth/",
+  "/*/exam",
+  "/*/exam/",
+  "/*/profile",
+  "/*/profile/",
   "/*/createblog",
   "/*/createleaderboard",
 ];

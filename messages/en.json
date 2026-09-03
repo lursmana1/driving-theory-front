@@ -142,7 +142,13 @@
     "totalQuestions": "In total {count} questions",
     "unanswered": "unanswered",
     "questionListen": "Listen to question",
-    "questionStop": "Stop"
+    "questionStop": "Stop",
+    "reviewMistakes": "Review {count} mistakes",
+    "reviewTitle": "Review mistakes",
+    "reviewProgress": "{current} of {count}",
+    "reviewNext": "Next",
+    "reviewPrev": "Previous",
+    "reviewDone": "Back to results"
   },
   "Categories": {
     "questionCount": "{count} questions"
@@ -188,8 +194,11 @@
     "errorRateLimited": "Too many attempts. Please try again in a minute.",
     "errorInvalidCredentials": "Incorrect email or password",
     "errorEmailTaken": "That email is already registered",
+    "errorPasswordWeak": "Password must be at least 6 characters",
+    "errorGoogle": "Google sign-in failed. Please try again.",
     "errorNetwork": "Can't reach the server. Check your connection.",
-    "errorGeneric": "Something went wrong. Please try again."
+    "errorGeneric": "Something went wrong. Please try again.",
+    "loggingOut": "Signing out..."
   },
   "Profile": {
     "title": "My Profile",
@@ -224,10 +233,12 @@
     "poolExposure": "Question pool exposure"
   },
   "Meta": {
-    "homeTitle": "prava.ge",
-    "homeDescription": "Driving theory exam prep platform in Georgia",
-    "ticketsTitle": "Tickets",
-    "ticketsDescription": "Practice tickets by category and topic",
+    "homeTitle": "Georgian driving theory — practice tickets and mock exam | prava.ge",
+    "homeDescription": "Prepare for Georgia’s driving theory exam: practice tickets by topic, explanations, audio, and a timed mock test. Available in Georgian, English, and Russian.",
+    "ticketsTitle": "Practice tickets",
+    "ticketsTitleCategory": "Category {category} practice tickets",
+    "ticketsDescription": "Practice driving-theory tickets by license category and topic, with explanations, audio, and an AI tutor.",
+    "ticketsDescriptionCategory": "Category {category} practice tickets for the Georgian driving theory exam. Pick a topic and practice.",
     "subjectpickerTitle": "Exam",
     "subjectpickerDescription": "Choose topics and start the exam",
     "examTitle": "Exam",
@@ -240,5 +251,11 @@
     "authDescription": "Sign in or register",
     "createBlogTitle": "Create blog",
     "createBlogDescription": "New article"
+  },
+  "Blogs": {
+    "title": "Blog",
+    "empty": "No posts yet.",
+    "unavailable": "Service unavailable. Please try again later.",
+    "back": "Back to blog"
   }
 }

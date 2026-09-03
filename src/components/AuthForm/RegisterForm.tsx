@@ -6,7 +6,11 @@ import { useTranslations } from "next-intl";
 import { register as registerApi } from "@/api/auth";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
-import { authErrorKey, type AuthErrorKey } from "@/utills/helpers/authErrorKey";
+import {
+  AUTH_PASSWORD_MIN_LENGTH,
+  authErrorKey,
+  type AuthErrorKey,
+} from "@/utills/helpers/authErrorKey";
 import AuthFormError from "./AuthFormError";
 
 export default function RegisterForm() {
@@ -15,6 +19,7 @@ export default function RegisterForm() {
   const router = useRouter();
   const { refresh } = useAuth();
   const [errorKey, setErrorKey] = useState<AuthErrorKey | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const onFinish = async (values: {
     name: string;
@@ -24,19 +29,20 @@ export default function RegisterForm() {
     confirmPassword: string;
   }) => {
     setErrorKey(null);
+    setSubmitting(true);
     try {
-      const { user } = await registerApi({
+      await registerApi({
         name: values.name,
         surname: values.surname,
         email: values.email,
         password: values.password,
       });
-      if (user) {
-        await refresh();
-        router.push("/profile");
-      }
+      await refresh();
+      router.push("/profile");
     } catch (err) {
       setErrorKey(authErrorKey(err, "register"));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -44,7 +50,11 @@ export default function RegisterForm() {
     <Form
       form={form}
       layout="vertical"
+      validateTrigger="onBlur"
       onFinish={onFinish}
+      onValuesChange={() => {
+        if (errorKey) setErrorKey(null);
+      }}
       className="space-y-6 [&_.ant-form-item]:mb-0"
     >
       <AuthFormError message={errorKey ? t(errorKey) : null} />
@@ -55,14 +65,22 @@ export default function RegisterForm() {
           label={t("name")}
           rules={[{ required: true, message: t("nameRequired") }]}
         >
-          <Input size="large" autoComplete="given-name" />
+          <Input
+            size="large"
+            autoComplete="given-name"
+            disabled={submitting}
+          />
         </Form.Item>
         <Form.Item
           name="surname"
           label={t("surname")}
           rules={[{ required: true, message: t("surnameRequired") }]}
         >
-          <Input size="large" autoComplete="family-name" />
+          <Input
+            size="large"
+            autoComplete="family-name"
+            disabled={submitting}
+          />
         </Form.Item>
       </div>
 
@@ -79,21 +97,31 @@ export default function RegisterForm() {
           size="large"
           autoComplete="email"
           placeholder="you@example.com"
+          disabled={submitting}
         />
       </Form.Item>
 
       <Form.Item
         name="password"
         label={t("password")}
-        rules={[{ required: true, message: t("passwordRequired") }]}
+        rules={[
+          { required: true, message: t("passwordRequired") },
+          {
+            min: AUTH_PASSWORD_MIN_LENGTH,
+            message: t("errorPasswordWeak"),
+          },
+        ]}
       >
-        <Input.Password size="large" autoComplete="new-password" />
+        <Input.Password
+          size="large"
+          autoComplete="new-password"
+          disabled={submitting}
+        />
       </Form.Item>
 
       <Form.Item
         name="confirmPassword"
         label={t("confirmPassword")}
-        dependencies={["password"]}
         rules={[
           { required: true, message: t("confirmPasswordRequired") },
           ({ getFieldValue }) => ({
@@ -106,7 +134,11 @@ export default function RegisterForm() {
           }),
         ]}
       >
-        <Input.Password size="large" autoComplete="new-password" />
+        <Input.Password
+          size="large"
+          autoComplete="new-password"
+          disabled={submitting}
+        />
       </Form.Item>
 
       <Form.Item className="mb-0! pt-1">
@@ -116,6 +148,8 @@ export default function RegisterForm() {
           block
           size="large"
           className="mt-0!"
+          loading={submitting}
+          disabled={submitting}
         >
           {t("register")}
         </Button>

@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Georgian } from "next/font/google";
+import { getLocale } from "next-intl/server";
+import { routing } from "@/i18n/routing";
 import { siteMetadata } from "@/lib/site-metadata";
 import "@/app/globals.css";
 
@@ -27,6 +29,14 @@ export const metadata: Metadata = {
     template: `%s | ${siteMetadata.shortTitle ?? siteMetadata.name}`,
   },
   description: siteMetadata.description,
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -35,13 +45,15 @@ export const viewport: Viewport = {
   themeColor: "#030712",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = (await getLocale().catch(() => routing.defaultLocale)) as string;
+
   return (
-    <html suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansGeorgian.variable} antialiased`}
         suppressHydrationWarning

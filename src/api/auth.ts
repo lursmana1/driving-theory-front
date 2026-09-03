@@ -8,7 +8,7 @@ export type AuthTokens = {
 };
 
 export type AuthResponse = {
-  user: User;
+  user?: User;
   /** Legacy top-level token (same-origin cookie era) */
   access_token?: string;
   /** Bearer token lives here on cross-origin API */
