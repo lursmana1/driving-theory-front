@@ -14,15 +14,13 @@ export function CategoryIcon({
   inverted = false,
 }: CategoryIconProps) {
   return (
-    <span className={`relative inline-block shrink-0 ${className}`}>
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        unoptimized
-        sizes="32px"
-        className={`object-contain ${inverted ? "brightness-0 invert" : "opacity-80"}`}
-      />
-    </span>
+    <Image
+      src={src}
+      alt={alt}
+      width={32}
+      height={32}
+      unoptimized
+      className={`shrink-0 object-contain ${className} ${inverted ? "brightness-0 invert" : "opacity-80"}`}
+    />
   );
 }

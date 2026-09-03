@@ -93,8 +93,9 @@ export default async function BlogPage({ params }: Props) {
               <Image
                 src={blog.imageUrl}
                 alt={blog.name}
-                fill
-                className="object-cover"
+                width={1200}
+                height={514}
+                className="absolute inset-0 h-full w-full object-cover"
                 priority
                 sizes="(max-width: 768px) 100vw, 672px"
               />

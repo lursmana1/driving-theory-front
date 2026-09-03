@@ -18,8 +18,9 @@ const BlogIntroduction = async ({
         <Image
           src={imageUrl}
           alt={name}
-          fill
-          className="object-cover"
+          width={560}
+          height={420}
+          className="absolute inset-0 h-full w-full object-cover"
           sizes="(max-width: 768px) 100vw, 280px"
           priority
         />
