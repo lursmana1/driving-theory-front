@@ -48,7 +48,7 @@ export function WeakQuestionsChart({
               <div className="mb-2 space-y-2">
                 <Link
                   href={href}
-                  className="block min-w-0 text-left underline-offset-2 hover:text-blue-700 hover:underline"
+                  className="block min-w-0 text-left underline-offset-2 hover:text-accent hover:underline"
                 >
                   <span className="text-xs font-medium text-slate-500 sm:text-sm">
                     {questionLabel} #{item.questionId}

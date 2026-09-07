@@ -33,7 +33,7 @@ function resolveAnswerState(
 function answerStateClass(state: AnswerState) {
   switch (state) {
     case "idle":
-      return "cursor-pointer border-gray-300 text-white hover:border-blue-300";
+      return "cursor-pointer border-gray-300 text-white hover:border-accent/40";
     case "pending":
       return "border-white/70 bg-white/10 text-white";
     case "correct":

@@ -76,7 +76,7 @@ export default function ExamReview({ items, onDone }: ExamReviewProps) {
         <button
           type="button"
           onClick={goNext}
-          className="flex-1 rounded-xl bg-[#1f6b78] py-3 text-sm font-semibold text-white hover:bg-[#25808f]"
+          className="flex-1 rounded-xl bg-accent py-3 text-sm font-semibold text-white hover:bg-accent-strong"
         >
           {isLast ? t("reviewDone") : t("reviewNext")}
         </button>

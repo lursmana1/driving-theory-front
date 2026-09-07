@@ -106,7 +106,7 @@ const ExamRetryModal = ({
               autoFocus
               disabled={!reviewReady}
               onClick={onReview}
-              className="w-full rounded-xl bg-[#1f6b78] py-3 text-sm font-semibold text-white transition hover:bg-[#25808f] disabled:opacity-60"
+              className="w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-60"
             >
               {reviewReady
                 ? t("reviewMistakes", { count: reviewCount })
@@ -117,7 +117,7 @@ const ExamRetryModal = ({
             type="button"
             autoFocus={!canReview}
             onClick={handleRestart}
-            className="w-full rounded-xl bg-linear-to-r from-sky-500 to-violet-600 py-3 text-sm font-semibold text-white shadow-md shadow-violet-500/20 transition hover:brightness-110"
+            className="w-full rounded-xl bg-ink py-3 text-sm font-semibold text-white shadow-md shadow-ink/20 transition hover:brightness-125"
           >
             {t("restart")}
           </button>

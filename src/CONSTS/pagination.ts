@@ -38,7 +38,7 @@ export const PAGINATION_STYLES = {
     "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:pointer-events-none disabled:opacity-50",
   pageButtonBase:
     "h-9 min-w-9 rounded-lg px-2 text-sm font-medium transition cursor-pointer",
-  pageButtonActive: "bg-slate-900 text-white",
+  pageButtonActive: "bg-accent text-white",
   pageButtonInactive:
     "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900",
 } as const;

@@ -7,20 +7,21 @@ export default async function LandingCta() {
 
   return (
     <section className={LANDING.ctaSection} aria-labelledby="cta-title">
-      <div className={LANDING.ctaGlow} aria-hidden />
-      <div className="section relative text-center">
-        <h2 id="cta-title" className={LANDING.headingSectionDark}>
-          {t("ctaTitle")}
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-pretty text-lg text-slate-300">
-          {t("ctaText")}
-        </p>
-        <Link
-          href="/exam"
-          className={`mt-10 h-14 px-10 ${LANDING.gradientCta}`}
-        >
-          {t("ctaBtn")} →
-        </Link>
+      <div className="section">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div className="max-w-xl">
+            <h2 id="cta-title" className={LANDING.headingSection}>
+              {t("ctaTitle")}
+            </h2>
+            <p className={`mt-4 ${LANDING.body}`}>{t("ctaText")}</p>
+          </div>
+          <Link href="/subjectpicker" className={`h-13 shrink-0 ${LANDING.gradientCta}`}>
+            {t("ctaBtn")}
+            <span aria-hidden className="text-xl leading-none">
+              →
+            </span>
+          </Link>
+        </div>
       </div>
     </section>
   );

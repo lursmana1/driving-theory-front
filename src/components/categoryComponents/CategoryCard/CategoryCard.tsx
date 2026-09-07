@@ -19,7 +19,7 @@ const CategoryCard = ({ category, isActive }: CategoryCardProps) => {
         transition select-none
         ${
           isActive
-            ? "bg-blue-600 text-white shadow-md"
+            ? "bg-accent text-white shadow-md"
             : "bg-gray-200 text-gray-700 hover:bg-gray-300"
         }
       `}

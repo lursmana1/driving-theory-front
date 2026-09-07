@@ -2,7 +2,11 @@
 
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { getAiTutorText, getQuestionAudioUrl, type ExamQuestion } from "@/lib/types/exam";
+import {
+  getAiTutorText,
+  getQuestionAudioUrl,
+  type ExamQuestion,
+} from "@/lib/types/exam";
 import { usePracticeAnswers } from "@/utills/helpers/hooks/usePracticeAnswers";
 import QuestionImage from "@/components/QuestionImage/QuestionImage";
 import QuizButton from "../QuizButton/QuizButton";
@@ -11,8 +15,6 @@ import QuestionExplanation from "../QuestionExplanation/QuestionExplanation";
 import { getAnswers } from "@/utills/helpers/getAnswers";
 import { AiTutorText } from "./AiTutorText";
 import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
-import { QuizSceneBackground } from "@/components/QuizSceneBackground";
-
 function questionNumericId(question: ExamQuestion): number {
   const n =
     typeof question.id === "number"
@@ -68,7 +70,6 @@ export default function TicketQuiz({
   return (
     <>
       <div className="relative h-auto scroll-mt-4 bg-[#193e4a] p-4">
-        <QuizSceneBackground priority={priority} />
         <div className="relative z-10">
           <QuestionExplanation
             questionId={question.id}

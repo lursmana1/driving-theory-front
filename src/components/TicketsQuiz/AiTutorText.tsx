@@ -12,16 +12,20 @@ const CHAR_MS = 18;
 
 export function AiTutorText({ text, label }: AiTutorTextProps) {
   const [open, setOpen] = useState(false);
-  const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
+  /** Tagged with the text it belongs to, so a different `text` restarts from 0 without an effect */
+  const [typed, setTyped] = useState({ text: "", chars: 0 });
   const rafRef = useRef(0);
 
-  useEffect(() => {
-    cancelAnimationFrame(rafRef.current);
-    if (!open) return;
+  const chars = typed.text === text ? typed.chars : 0;
+  const done = chars >= text.length;
 
-    setDisplayed("");
-    setDone(false);
+  const toggle = () => {
+    setOpen((o) => !o);
+    setTyped({ text: "", chars: 0 });
+  };
+
+  useEffect(() => {
+    if (!open) return;
 
     let i = 0;
     let last = 0;
@@ -33,13 +37,11 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
 
       if (target > i) {
         i = target;
-        setDisplayed(text.slice(0, i));
+        setTyped({ text, chars: i });
       }
 
       if (i < text.length) {
         rafRef.current = requestAnimationFrame(step);
-      } else {
-        setDone(true);
       }
     };
 
@@ -54,7 +56,7 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
     <div className="rounded-md border border-white/30 bg-black/30 text-white/90 overflow-hidden">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={toggle}
         className="flex w-full items-center gap-2 p-3 text-left text-sm font-medium transition hover:bg-white/5"
       >
         <span
@@ -72,8 +74,8 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
       {open && (
         <div className="px-3 pb-3">
           <p className="font-georgian text-sm leading-relaxed">
-            {displayed}
-            {!done && <span className="ml-0.5 inline-block h-4 w-[2px] animate-pulse bg-violet-400 align-middle" />}
+            {text.slice(0, chars)}
+            {!done && <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-accent align-middle" />}
           </p>
         </div>
       )}

@@ -13,6 +13,18 @@
   --font-georgian: var(--font-georgian);
 }
 
+/* Landing paper tones plus the product-wide accent.
+   `accent` is the single accent for the whole app (Ant Design reads it from
+   BRAND_ACCENT in CONSTS/landing.ts); the rest is landing-only. */
+@theme {
+  --color-paper: #f0ebdf;
+  --color-ink: #22251c;
+  --color-hairline: #dcd5c4;
+  --color-accent: #b4543c;
+  --color-accent-strong: #9c4530;
+  --color-olive: #59663c;
+}
+
 @layer base {
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -118,6 +130,17 @@
   animation: faqContentIn 0.25s ease-out;
 }
 
+/* Landing: sand paper background with a faint grain */
+.landing-paper {
+  background-color: var(--color-paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.22'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+.landing-road {
+  filter: drop-shadow(0 22px 34px rgb(34 37 28 / 0.1));
+}
+
 /* How-it-works connectors: keep the grey line, slide the 03 border color along it */
 .how-steps-connector {
   position: relative;
@@ -133,8 +156,8 @@
   height: 100%;
   width: 40%;
   border-radius: inherit;
-  background: #34d399;
-  box-shadow: 0 0 8px rgb(52 211 153 / 0.5);
+  background: var(--color-accent);
+  box-shadow: 0 0 8px rgb(180 84 60 / 0.5);
   animation: howStepsRunner 2.4s ease-in-out infinite alternate;
 }
 
@@ -252,11 +275,11 @@
   color: #64748b;
 }
 .tiptap-prose a {
-  color: #3b82f6;
+  color: var(--color-accent);
   text-decoration: underline;
 }
 .tiptap-prose a:hover {
-  color: #2563eb;
+  color: var(--color-accent-strong);
 }
 .tiptap-prose img {
   max-width: 100%;

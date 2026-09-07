@@ -13,11 +13,17 @@ export default function HeaderLogo({ variant = "default" }: HeaderLogoProps) {
       href="/"
       className={
         isLanding
-          ? "flex shrink-0 items-center gap-1.5 text-sm font-bold text-white hover:opacity-90 sm:text-base md:gap-2 md:text-lg"
-          : "flex shrink-0 items-center gap-1.5 text-sm font-bold text-blue-600 hover:opacity-80 sm:text-base md:gap-2 md:text-lg"
+          ? "flex shrink-0 items-center gap-1.5 text-sm font-bold text-ink hover:opacity-80 sm:text-base md:gap-2 md:text-lg"
+          : "flex shrink-0 items-center gap-1.5 text-sm font-bold text-accent hover:opacity-80 sm:text-base md:gap-2 md:text-lg"
       }
     >
-      <Image src={PravaLogo} alt="prava.ge" width={32} height={32} />
+      <Image
+        src={PravaLogo}
+        alt="prava.ge"
+        width={32}
+        height={32}
+        className="rounded-full"
+      />
       <span className="hidden sm:inline">prava.ge</span>
     </Link>
   );

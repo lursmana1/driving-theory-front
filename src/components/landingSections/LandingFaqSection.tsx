@@ -15,17 +15,15 @@ export default async function LandingFaqSection() {
   return (
     <section
       id="faq"
-      className="border-b border-slate-200 bg-slate-50 py-16 md:py-24"
+      className="border-t border-hairline py-16 md:py-24"
       aria-labelledby="faq-title"
     >
       <div className="section">
-        <h2
-          id="faq-title"
-          className={`mx-auto max-w-2xl text-center ${LANDING.headingSection}`}
-        >
+        <p className={LANDING.eyebrow}>{t("faqEyebrow")}</p>
+        <h2 id="faq-title" className={`mt-4 max-w-2xl ${LANDING.headingSection}`}>
           {t("faqSectionTitle")}
         </h2>
-        <div className="mx-auto mt-12 max-w-2xl">
+        <div className="mt-12 max-w-3xl">
           <LandingFaq items={items} />
         </div>
       </div>

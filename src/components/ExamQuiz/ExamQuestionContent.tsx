@@ -1,7 +1,5 @@
 import type { ExamQuestion } from "@/lib/types/exam";
 import QuestionImage from "@/components/QuestionImage/QuestionImage";
-import { QuizSceneBackground } from "@/components/QuizSceneBackground";
-
 type ExamQuestionContentProps = {
   question: ExamQuestion;
   direction: "next" | "prev";
@@ -26,7 +24,6 @@ export default function ExamQuestionContent({
       {...(isSwipeEnabled ? swipeHandlers : {})}
     >
       <div className="relative flex min-h-full flex-col">
-        <QuizSceneBackground priority />
         <div
           key={qId}
           className={`relative z-10 flex min-h-full flex-col ${

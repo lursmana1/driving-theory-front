@@ -20,7 +20,7 @@ export default async function AuthPage() {
           className="inline-flex items-center gap-2 text-lg font-bold text-slate-900"
         >
           <span
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-sky-500 to-violet-600 text-sm font-bold text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-accent to-accent-strong text-sm font-bold text-white"
             aria-hidden
           >
             P

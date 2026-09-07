@@ -9,7 +9,7 @@ type CustomButtonProps = {
 };
 
 const modeClasses: Record<ButtonMode, string> = {
-  primary: "text-blue-600",
+  primary: "text-accent",
   secondary: "text-gray-700",
   danger: "text-red-500",
 };

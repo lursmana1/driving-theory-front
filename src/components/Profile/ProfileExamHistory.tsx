@@ -80,7 +80,7 @@ export function ProfileExamHistory() {
         </h2>
         <Link
           href="/subjectpicker"
-          className="inline-flex w-full items-center justify-center rounded-lg bg-linear-to-r from-sky-500 to-violet-600 px-3 py-2 text-xs font-semibold text-white transition hover:brightness-110 sm:w-auto sm:py-1.5 sm:text-sm"
+          className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-3 py-2 text-xs font-semibold text-white transition hover:bg-accent-strong sm:w-auto sm:py-1.5 sm:text-sm"
         >
           {tExam("startNew")}
         </Link>

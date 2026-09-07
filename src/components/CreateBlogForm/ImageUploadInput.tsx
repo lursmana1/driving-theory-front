@@ -19,7 +19,7 @@ export default function ImageUploadInput({ value, onChange }: ImageUploadInputPr
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-slate-600 transition-colors hover:border-blue-400 hover:bg-slate-100 hover:text-slate-800"
+        className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-slate-600 transition-colors hover:border-accent/50 hover:bg-slate-100 hover:text-slate-800"
       >
         <span className="text-sm font-medium">
           {value ? value.name : "Click to select image"}

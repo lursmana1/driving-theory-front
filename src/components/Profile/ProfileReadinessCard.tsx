@@ -100,7 +100,7 @@ export function ProfileReadinessCard({
                     <dt className="text-xs text-slate-500">
                       {t("poolExposure")}
                     </dt>
-                    <dd className="font-semibold text-sky-600">
+                    <dd className="font-semibold text-accent">
                       {Math.round(poolExposure * 100)}%
                     </dd>
                   </div>

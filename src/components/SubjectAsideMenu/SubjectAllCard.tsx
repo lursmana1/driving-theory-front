@@ -29,7 +29,7 @@ export default function SubjectAllCard({
         block p-3 rounded-xl border transition
         ${
           isActive
-            ? "bg-blue-600 text-white border-blue-600"
+            ? "bg-accent text-white border-accent"
             : "bg-white hover:bg-slate-50 border-slate-200"
         }
       `}

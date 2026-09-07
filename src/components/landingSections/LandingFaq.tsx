@@ -4,20 +4,23 @@ type LandingFaqProps = {
 
 export default function LandingFaq({ items }: LandingFaqProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="border-t border-hairline">
       {items.map((item) => (
         <details
           key={item.key}
-          className="group rounded-2xl border border-slate-200/80 bg-white p-1 shadow-sm transition hover:shadow-md"
+          className="landing-faq__item group border-b border-hairline"
         >
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xl px-4 py-4 font-georgian text-base font-medium text-slate-900 transition-colors hover:bg-slate-50 md:text-lg [&::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-georgian text-base font-semibold text-ink transition-colors hover:text-accent md:text-lg [&::-webkit-details-marker]:hidden">
             <span className="text-left">{item.label}</span>
-            <span className="shrink-0 text-slate-400 transition-transform duration-200 group-open:rotate-180">
+            <span
+              aria-hidden
+              className="shrink-0 text-sm text-olive/60 transition-transform duration-200 group-open:rotate-180"
+            >
               ▼
             </span>
           </summary>
-          <div className="border-t border-slate-100 px-4 pb-4 pt-2">
-            <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600">
+          <div className="landing-faq__content pb-6">
+            <p className="whitespace-pre-line text-[15px] leading-7 text-ink/70">
               {item.children}
             </p>
           </div>

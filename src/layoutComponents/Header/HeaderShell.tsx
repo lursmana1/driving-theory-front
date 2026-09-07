@@ -18,7 +18,7 @@ export default function HeaderShell() {
     <header
       className={
         isLanding
-          ? "sticky top-0 z-50 border-b border-white/10 bg-[#0b1220]/90 backdrop-blur-md"
+          ? "sticky top-0 z-50 border-b border-hairline bg-paper/95 backdrop-blur-md"
           : "sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur"
       }
     >
@@ -28,9 +28,11 @@ export default function HeaderShell() {
           <HeaderNav variant={isLanding ? "landing" : "default"} />
         </div>
         <div className="flex shrink-0 items-center gap-2 md:gap-3">
-          <Link href="/subjectpicker" className={headerExamCtaClass(isLanding)}>
-            {t("headerStartExam")}
-          </Link>
+          {!isLanding && (
+            <Link href="/subjectpicker" className={headerExamCtaClass(isLanding)}>
+              {t("headerStartExam")}
+            </Link>
+          )}
           <HeaderAuth variant={isLanding ? "landing" : "default"} />
           <BurgerMenu variant={isLanding ? "landing" : "default"} />
         </div>

@@ -49,7 +49,7 @@ export function ProfileAttemptStats() {
     {
       label: t("statPassRate"),
       value: `${stats.passRate}%`,
-      tone: "text-sky-600",
+      tone: "text-accent",
     },
   ];
 

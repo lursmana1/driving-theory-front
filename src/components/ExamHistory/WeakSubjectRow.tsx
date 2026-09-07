@@ -208,7 +208,7 @@ export function WeakSubjectRow({
               <li key={wq.questionId}>
                 <Link
                   href={href}
-                  className="block rounded-lg border border-slate-100 bg-slate-50/80 p-3 transition hover:border-sky-200 hover:bg-sky-50/50"
+                  className="block rounded-lg border border-slate-100 bg-slate-50/80 p-3 transition hover:border-accent/30 hover:bg-accent/5"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="shrink-0 text-sm font-semibold text-slate-800">

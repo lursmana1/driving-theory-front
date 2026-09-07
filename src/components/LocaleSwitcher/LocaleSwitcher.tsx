@@ -49,8 +49,8 @@ export default function LocaleSwitcher({
         aria-label="Select language"
         className={
           isLanding
-            ? "flex items-center gap-2 rounded-lg border border-white/15 bg-[#242933] px-2.5 py-1.5 text-white shadow-sm transition-colors hover:border-white/25 hover:bg-[#2a3140] focus:border-sky-400/50 focus:outline-none focus:ring-2 focus:ring-sky-400/25 sm:px-3 sm:py-2"
-            : "flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 sm:px-3 sm:py-2"
+            ? "flex items-center gap-2 rounded-lg border border-hairline bg-paper px-2.5 py-1.5 text-ink transition-colors hover:border-ink/25 hover:bg-ink/5 focus:outline-none focus:ring-2 focus:ring-accent/45 sm:px-3 sm:py-2"
+            : "flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 sm:px-3 sm:py-2"
         }
       >
         <Image
@@ -60,9 +60,12 @@ export default function LocaleSwitcher({
           height={16}
           className="h-4 w-4 shrink-0 rounded-sm object-cover"
         />
+        <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">
+          {locale}
+        </span>
         <Icon
           name="chevronDown"
-          className={`h-3.5 w-3.5 shrink-0 transition-transform sm:h-4 sm:w-4 ${isLanding ? "brightness-0 invert" : ""} ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 shrink-0 transition-transform sm:h-4 sm:w-4 ${open ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -71,7 +74,7 @@ export default function LocaleSwitcher({
           role="listbox"
           className={
             isLanding
-              ? "absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-white/15 bg-[#242933] py-1 shadow-lg"
+              ? "absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-hairline bg-paper py-1 shadow-lg"
               : "absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
           }
         >
@@ -87,8 +90,8 @@ export default function LocaleSwitcher({
                   className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors ${
                     isLanding
                       ? isActive
-                        ? "bg-[#2a3140] text-white"
-                        : "text-white/90 hover:bg-[#2a3140]"
+                        ? "bg-ink/10 text-ink"
+                        : "text-ink/85 hover:bg-ink/5"
                       : isActive
                         ? "bg-slate-100 text-slate-900"
                         : "text-slate-700 hover:bg-slate-50"
@@ -104,7 +107,7 @@ export default function LocaleSwitcher({
                   {isActive && (
                     <Icon
                       name="check"
-                      className={`ml-auto h-4 w-4 ${isLanding ? "brightness-0 invert" : ""}`}
+                      className="ml-auto h-4 w-4"
                     />
                   )}
                 </Link>

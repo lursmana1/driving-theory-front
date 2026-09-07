@@ -96,7 +96,7 @@ export default function CategoryPickerBar({
               onClick={() => handleSelect(cat.id)}
               className={`flex w-28 shrink-0 snap-center flex-col items-center gap-1.5 rounded-xl border px-3 py-3 transition sm:w-32 sm:px-4 sm:py-3.5 ${
                 active
-                  ? "border-slate-800 bg-slate-800 text-white shadow-md"
+                  ? "border-accent bg-accent text-white shadow-md"
                   : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               }`}
             >

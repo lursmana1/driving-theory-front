@@ -55,7 +55,7 @@ export default function ToolbarLink({ editor }: ToolbarLinkProps) {
           <button
             type="button"
             onClick={handleAdd}
-            className="rounded bg-blue-600 px-2 py-1 text-sm text-white"
+            className="rounded bg-accent px-2 py-1 text-sm text-white"
           >
             Add
           </button>

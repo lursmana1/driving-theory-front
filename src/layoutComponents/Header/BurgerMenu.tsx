@@ -50,8 +50,8 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
     };
   }, [menuOpen]);
 
-  const bar = isLanding ? "bg-white" : "bg-slate-700";
-  const btnWrap = isLanding ? "hover:bg-white/10" : "hover:bg-slate-100";
+  const bar = isLanding ? "bg-ink" : "bg-slate-700";
+  const btnWrap = isLanding ? "hover:bg-ink/5" : "hover:bg-slate-100";
 
   return (
     <>

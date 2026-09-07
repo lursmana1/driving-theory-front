@@ -118,7 +118,7 @@ export default function AuthForm() {
             <button
               type="button"
               onClick={() => setMode(mode === "login" ? "register" : "login")}
-              className="font-semibold text-blue-600 transition hover:text-blue-500 hover:underline"
+              className="font-semibold text-accent transition hover:text-accent-strong hover:underline"
             >
               {mode === "login" ? t("register") : t("login")}
             </button>
