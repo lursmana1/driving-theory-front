@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
 import {
   getAiTutorText,
@@ -45,7 +45,6 @@ export default function TicketQuiz({
   const aiTutorText = getAiTutorText(question);
   const questionAudioUrl = getQuestionAudioUrl(question);
   const postedRef = useRef(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
 
   const handleSelect = (key: string) => {
     if (selectedAnswer) return;
@@ -58,12 +57,7 @@ export default function TicketQuiz({
       return;
     }
     void recordAnswer(id, key).then((ok) => {
-      if (ok) {
-        setSaveError(null);
-        return;
-      }
-      postedRef.current = false;
-      setSaveError(t("answerSaveError"));
+      if (!ok) postedRef.current = false;
     });
   };
 
@@ -117,12 +111,6 @@ export default function TicketQuiz({
               />
             ))}
           </div>
-
-          {saveError ? (
-            <p className="mt-3 text-sm text-rose-300" role="alert">
-              {saveError}
-            </p>
-          ) : null}
         </div>
       </div>
 
