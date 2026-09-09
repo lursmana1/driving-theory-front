@@ -61,3 +61,13 @@ export function getMetadataBaseUrl(): string {
 
   return siteMetadata.url;
 }
+
+/**
+ * True only when served from the real domain. Anywhere else (Vercel hosts while
+ * prava.ge is not live) pages are kept out of search results, so the staging
+ * host never competes with the real one. Social scrapers ignore `noindex`, so
+ * link previews keep working there.
+ */
+export function isCanonicalHost(): boolean {
+  return getMetadataBaseUrl() === siteMetadata.url;
+}

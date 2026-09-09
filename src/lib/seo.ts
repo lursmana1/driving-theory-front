@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { getMetadataBaseUrl, siteMetadata } from "./site-metadata";
+import { getMetadataBaseUrl, isCanonicalHost, siteMetadata } from "./site-metadata";
 
 type Locale = (typeof routing.locales)[number];
 
@@ -73,9 +73,10 @@ export const buildMetadata = ({
     applicationName: siteMetadata.name,
     creator: siteMetadata.creator,
     authors: [{ name: siteMetadata.creator }],
-    robots: index
-      ? { index: true, follow: true }
-      : { index: false, follow: false },
+    robots:
+      index && isCanonicalHost()
+        ? { index: true, follow: true }
+        : { index: false, follow: false },
     alternates: {
       canonical,
       languages: languageAlternates(path),
