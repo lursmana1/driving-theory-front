@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Georgian } from "next/font/google";
 import { getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { siteMetadata } from "@/lib/site-metadata";
+import { getMetadataBaseUrl, siteMetadata } from "@/lib/site-metadata";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -23,7 +23,7 @@ const notoSansGeorgian = Noto_Sans_Georgian({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteMetadata.url),
+  metadataBase: new URL(getMetadataBaseUrl()),
   title: {
     default: siteMetadata.name,
     template: `%s | ${siteMetadata.shortTitle ?? siteMetadata.name}`,

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { siteMetadata } from "./site-metadata";
+import { getMetadataBaseUrl, siteMetadata } from "./site-metadata";
 
 type Locale = (typeof routing.locales)[number];
 
@@ -66,7 +66,7 @@ export const buildMetadata = ({
     : siteMetadata.title;
 
   return {
-    metadataBase: new URL(siteMetadata.url),
+    metadataBase: new URL(getMetadataBaseUrl()),
     title: titleAbsolute || !title ? { absolute: fullTitle } : title,
     description: resolvedDescription,
     keywords,

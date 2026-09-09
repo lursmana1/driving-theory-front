@@ -31,3 +31,21 @@ export const siteMetadata: SiteMetadata = {
     "პრავა",
   ],
 };
+
+/**
+ * Host used to resolve relative OG/Twitter image URLs.
+ * Production stays on prava.ge; preview deploys use the Vercel URL so
+ * crawlers can fetch the generated opengraph-image instead of a domain
+ * that is not live yet.
+ */
+export function getMetadataBaseUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
+  if (explicit) return explicit;
+
+  if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production") {
+    const host = process.env.VERCEL_URL?.trim().replace(/^https?:\/\//, "");
+    if (host) return `https://${host}`;
+  }
+
+  return siteMetadata.url;
+}
