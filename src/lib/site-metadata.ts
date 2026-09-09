@@ -32,20 +32,32 @@ export const siteMetadata: SiteMetadata = {
   ],
 };
 
+function asOrigin(value?: string): string | undefined {
+  const host = value?.trim().replace(/^https?:\/\//, "").replace(/\/$/, "");
+  return host ? `https://${host}` : undefined;
+}
+
 /**
- * Host used to resolve relative OG/Twitter image URLs.
- * Production stays on prava.ge; preview deploys use the Vercel URL so
- * crawlers can fetch the generated opengraph-image instead of a domain
- * that is not live yet.
+ * Origin that canonical URLs, `og:url` and generated OG images are built from.
+ *
+ * Crawlers follow `og:url`, so this has to be a host that actually answers —
+ * otherwise link previews come back empty. Set `NEXT_PUBLIC_SITE_URL` to pin it
+ * (use that once prava.ge is live); on Vercel it falls back to the deployment's
+ * own host, and anywhere else to `siteMetadata.url`.
  */
 export function getMetadataBaseUrl(): string {
-  const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
+  const explicit = asOrigin(process.env.NEXT_PUBLIC_SITE_URL);
   if (explicit) return explicit;
 
-  if (process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production") {
-    const host = process.env.VERCEL_URL?.trim().replace(/^https?:\/\//, "");
-    if (host) return `https://${host}`;
+  if (process.env.VERCEL_ENV === "production") {
+    const productionAlias =
+      asOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+      asOrigin(process.env.VERCEL_URL);
+    if (productionAlias) return productionAlias;
   }
+
+  const deployment = asOrigin(process.env.VERCEL_URL);
+  if (deployment) return deployment;
 
   return siteMetadata.url;
 }

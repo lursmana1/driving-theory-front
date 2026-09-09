@@ -22,7 +22,7 @@ export function localizedPath(href: string, locale?: string): string {
 }
 
 export function absoluteUrl(href: string, locale?: string): string {
-  return `${siteMetadata.url}${localizedPath(href, locale)}`;
+  return `${getMetadataBaseUrl()}${localizedPath(href, locale)}`;
 }
 
 export function languageAlternates(href: string): Record<string, string> {

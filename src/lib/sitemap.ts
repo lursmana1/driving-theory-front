@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { siteMetadata } from "@/lib/site-metadata";
+import { getMetadataBaseUrl } from "@/lib/site-metadata";
 import { licenseCategories } from "@/CONSTS/categories";
 import { getApiBaseUrl } from "@/lib/apiBaseUrl";
 import { BLOGS_PAGE_SIZE } from "@/CONSTS/pagination";
@@ -34,7 +34,7 @@ export const ROBOTS_DISALLOW = [
 
 function absoluteUrl(href: string, locale: Locale): string {
   const pathname = getPathname({ locale, href });
-  return `${siteMetadata.url}${pathname}`;
+  return `${getMetadataBaseUrl()}${pathname}`;
 }
 
 function languageAlternates(href: string): Record<string, string> {
