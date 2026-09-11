@@ -1,0 +1,4 @@
+[variables]
+NIXPACKS_NODE_VERSION = "22"
+HOSTNAME = "0.0.0.0"
+PORT = "3000"
