@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Georgian } from "next/font/google";
+import Script from "next/script";
 import { getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getMetadataBaseUrl, siteMetadata } from "@/lib/site-metadata";
@@ -59,6 +60,11 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         {children}
+        <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id="057369d0-1bed-428b-9e09-f25863e52de4"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

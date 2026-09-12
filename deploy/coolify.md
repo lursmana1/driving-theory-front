@@ -27,17 +27,28 @@ read the API URL again at runtime.
 
 | Variable | Value | Why |
 |---|---|---|
-| `NEXT_PUBLIC_BACKEND_URL` | public URL of the NestJS API | used by `getApiBaseUrl()` and the Google login link in `AuthForm` |
+| `NEXT_PUBLIC_API_URL` | `https://api.prava.ge` | read first by `getApiBaseUrl()`; every browser API call and the Google login link |
 | `NEXT_PUBLIC_SITE_URL` | `https://prava.ge` | pins canonical, `og:url` and sitemap to the real domain |
-| `NEXT_PUBLIC_API_URL` | optional | only if it should differ from `NEXT_PUBLIC_BACKEND_URL` |
 
-`NEXT_PUBLIC_BACKEND_URL` has to be reachable **from the visitor's browser**, not just from
-inside Coolify's network — it ends up in client-side JavaScript. A container name or
-`localhost:3000` will not work.
+`getApiBaseUrl()` falls back to `NEXT_PUBLIC_BACKEND_URL` if `NEXT_PUBLIC_API_URL` is unset,
+so either name works — just don't set them to different hosts. No trailing slash.
 
-After changing any `NEXT_PUBLIC_*` value, **redeploy** rather than restart. A restart only
-refreshes runtime variables; the old value stays baked into the JS bundle. If the new value
-still does not appear, redeploy once with Advanced → *force deploy without cache*.
+The value has to be reachable **from the visitor's browser**, not only from inside Coolify's
+network: it ends up in client-side JavaScript. A container name or `localhost:3000` fails.
+
+After changing any `NEXT_PUBLIC_*` value, **redeploy** rather than restart, and redeploy with
+Advanced → *force deploy without cache* if the new value does not show up. A restart only
+refreshes runtime variables, and a cached build layer keeps the old one baked into the JS.
+
+### If API calls 404 on prava.ge itself
+
+An empty base URL makes Axios send a relative path, which the locale proxy rewrites — so
+`/auth/config` arrives as `https://prava.ge/ka/auth/config` and returns the Next 404 page
+as HTML. That means the bundle was built without `NEXT_PUBLIC_API_URL`: it was runtime-only
+or the build came from cache. Fix it with a no-cache redeploy, not with app code.
+
+NestJS also has to allow CORS from `https://prava.ge` with credentials. Tickets render on
+the Next server and work without it; exam, auth and answer submission run in the browser.
 
 ## Indexing
 
