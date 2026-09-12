@@ -3,7 +3,10 @@
     "contact": "Contact: 568 785 378",
     "exam": "Exam (Choose Topics)",
     "tickets": "Tickets",
-    "quickTest": "Quick Test"
+    "quickTest": "Quick Test",
+    "navHome": "Home",
+    "navExam": "Exam",
+    "navTickets": "Tickets"
   },
   "Home": {
     "heroBadge": "✨ AI-based learning platform",
@@ -238,6 +241,10 @@
     "attemptsUsed": "Exams taken",
     "readinessError": "Could not load readiness score",
     "readinessNoneHint": "Complete at least one exam to see your score",
+    "readinessLabelNone": "No data yet",
+    "readinessLabelLow": "Needs more study",
+    "readinessLabelMedium": "On the right track",
+    "readinessLabelHigh": "Ready for the exam",
     "poolExposure": "Question pool exposure"
   },
   "Meta": {

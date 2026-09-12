@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { navLinks } from "@/CONSTS/navLinks";
 import type { HeaderVariant } from "./headerVariants";
@@ -8,6 +9,7 @@ type HeaderNavProps = {
 };
 
 export default function HeaderNav({ variant = "default" }: HeaderNavProps) {
+  const t = useTranslations("Header");
   const navLinkClass = headerNavLink[variant];
   return (
     <nav
@@ -16,7 +18,7 @@ export default function HeaderNav({ variant = "default" }: HeaderNavProps) {
     >
       {navLinks.map((link) => (
         <Link key={link.href} href={link.href} className={navLinkClass}>
-          {link.label}
+          {t(link.labelKey)}
         </Link>
       ))}
     </nav>

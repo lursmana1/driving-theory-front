@@ -3,7 +3,10 @@
     "contact": "Контакт: 568 785 378",
     "exam": "Экзамен (Выбор тем)",
     "tickets": "Билеты",
-    "quickTest": "Быстрый тест"
+    "quickTest": "Быстрый тест",
+    "navHome": "Главная",
+    "navExam": "Экзамен",
+    "navTickets": "Билеты"
   },
   "Home": {
     "heroBadge": "✨ Платформа обучения на основе ИИ",
@@ -238,6 +241,10 @@
     "attemptsUsed": "Экзамены",
     "readinessError": "Не удалось загрузить оценку готовности",
     "readinessNoneHint": "Пройдите хотя бы один экзамен, чтобы увидеть оценку",
+    "readinessLabelNone": "Пока нет данных",
+    "readinessLabelLow": "Нужно больше практики",
+    "readinessLabelMedium": "Вы на верном пути",
+    "readinessLabelHigh": "Готовы к экзамену",
     "poolExposure": "Охват вопросов"
   },
   "Meta": {

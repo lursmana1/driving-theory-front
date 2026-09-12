@@ -25,6 +25,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
   const user = useUser();
   const tAuth = useTranslations("Auth");
   const tHome = useTranslations("Home");
+  const tHeader = useTranslations("Header");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -103,7 +104,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                         onClick={closeMenu}
                         className={burgerNavItem[variant]}
                       >
-                        {link.label}
+                        {tHeader(link.labelKey)}
                       </Link>
                     </li>
                   ))}

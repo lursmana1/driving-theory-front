@@ -3,9 +3,20 @@
 import { useTranslations } from "next-intl";
 import CategoryPickerBar from "@/components/categoryComponents/CategoryPickerBar/CategoryPickerBar";
 import type { Category } from "@/lib/types/category";
-import type { ReadinessScore } from "@/lib/types/userStats";
+import type {
+  ReadinessConfidence,
+  ReadinessScore,
+} from "@/lib/types/userStats";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
 import { ProgressRing } from "@/components/Profile/ProgressRing";
+
+/** The API sends `label` in Georgian only, so it is re-derived per locale. */
+const READINESS_LABEL_KEYS: Partial<Record<ReadinessConfidence, string>> = {
+  none: "readinessLabelNone",
+  low: "readinessLabelLow",
+  medium: "readinessLabelMedium",
+  high: "readinessLabelHigh",
+};
 
 type ProfileReadinessCardProps = {
   categories: Category[];
@@ -29,6 +40,9 @@ export function ProfileReadinessCard({
   poolExposure,
 }: ProfileReadinessCardProps) {
   const t = useTranslations("Profile");
+  const readinessLabelKey = readiness
+    ? READINESS_LABEL_KEYS[readiness.confidence]
+    : undefined;
 
   return (
     <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
@@ -71,7 +85,9 @@ export function ProfileReadinessCard({
                 )}
               </div>
               <p className="text-base font-medium text-slate-700">
-                {readiness.label}
+                {readinessLabelKey
+                  ? t(readinessLabelKey)
+                  : readiness.label}
               </p>
               <dl className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
                 {readiness.subjectsCovered != null &&

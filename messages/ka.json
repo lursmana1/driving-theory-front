@@ -3,7 +3,10 @@
     "contact": "კონტაქტი: 568 785 378",
     "exam": "გამოცდა (საკითხების არჩევა)",
     "tickets": "ბილეთები",
-    "quickTest": "სწრაფი ტესტი"
+    "quickTest": "სწრაფი ტესტი",
+    "navHome": "მთავარი",
+    "navExam": "გამოცდა",
+    "navTickets": "ბილეთები"
   },
   "Home": {
     "heroBadge": "✨ AI-ზე დაფუძნებული სწავლის პლატფორმა",
@@ -238,6 +241,10 @@
     "attemptsUsed": "გამოცდები",
     "readinessError": "მზაობის ქულა ვერ ჩაიტვირთა",
     "readinessNoneHint": "გაიარე მინიმუმ ერთი გამოცდა, რომ ქულა გამოჩნდეს",
+    "readinessLabelNone": "ჯერ არ არის მონაცემები",
+    "readinessLabelLow": "საჭიროებს მეტ სწავლას",
+    "readinessLabelMedium": "კარგ გზაზე ხარ",
+    "readinessLabelHigh": "მზად ხარ გამოცდისთვის",
     "poolExposure": "კითხვების დაფარვა"
   },
   "Meta": {
