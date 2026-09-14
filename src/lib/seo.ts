@@ -76,7 +76,7 @@ export const buildMetadata = ({
       url: shareImage,
       width: 1200,
       height: 630,
-      alt: "prava.ge",
+      alt: "პრავის ბილეთები, თეორიის ბილეთები | prava.ge",
     },
   ];
 
@@ -126,7 +126,14 @@ export function websiteJsonLd(locale: string) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: siteMetadata.name,
-    alternateName: ["პრავა", "prava", "თეორიული გამოცდის ბილეთები"],
+    alternateName: [
+      "პრავა",
+      "prava",
+      "პრავის ბილეთები",
+      "თეორიის ბილეთები",
+      "pravis biletebi",
+      "თეორიული გამოცდის ბილეთები",
+    ],
     url,
     inLanguage: locale,
     description: siteMetadata.description,

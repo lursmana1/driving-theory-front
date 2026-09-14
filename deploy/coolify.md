@@ -52,14 +52,8 @@ the Next server and work without it; exam, auth and answer submission run in the
 
 ## Indexing
 
-`getMetadataBaseUrl()` falls back to `https://prava.ge` when neither `NEXT_PUBLIC_SITE_URL`
-nor the Vercel variables are present, so indexing switches on by itself here — nothing to
-revert from the Vercel setup. Setting the variable explicitly still matters, otherwise
-Coolify's temporary `*.sslip.io` domain becomes the canonical host on the first deploy. Full
-picture in `.cursor/rules/seo-hosting.mdc`.
-
-Once prava.ge serves from here, set `NEXT_PUBLIC_SITE_URL=https://prava.ge` on the old Vercel
-project too, or delete it, so only one host is canonical.
+Canonical origin is `https://prava.ge` (`siteMetadata.url`). Optional pin:
+`NEXT_PUBLIC_SITE_URL=https://prava.ge`. There are no Vercel host fallbacks.
 
 ## Verifying a deploy
 
@@ -70,5 +64,5 @@ curl -s https://prava.ge/ka | grep -o 'og:url[^>]*'                   # https://
 curl -sI https://prava.ge/ka/opengraph-image                          # 200 image/png
 ```
 
-Then re-scrape the URL in the Facebook Sharing Debugger; Messenger and WhatsApp cached the
-failed lookups from the Vercel preview.
+Then re-scrape the URL in the Facebook Sharing Debugger; Messenger and WhatsApp cache
+failed or stale lookups.

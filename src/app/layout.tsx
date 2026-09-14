@@ -26,10 +26,12 @@ const notoSansGeorgian = Noto_Sans_Georgian({
 export const metadata: Metadata = {
   metadataBase: new URL(getMetadataBaseUrl()),
   title: {
-    default: siteMetadata.name,
+    default: siteMetadata.title,
     template: `%s | ${siteMetadata.shortTitle ?? siteMetadata.name}`,
   },
   description: siteMetadata.description,
+  keywords: siteMetadata.keywords,
+  applicationName: siteMetadata.name,
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "32x32" },

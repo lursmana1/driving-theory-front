@@ -12,14 +12,18 @@ export type SiteMetadata = {
 
 export const siteMetadata: SiteMetadata = {
   name: "prava.ge",
-  title: "პრავა — თეორიული გამოცდის ბილეთები | prava.ge",
+  title: "პრავის ბილეთები, თეორიის ბილეთები | prava.ge",
   shortTitle: "prava.ge",
   description:
-    "პრავა (prava.ge) — საქართველოს მართვის მოწმობის თეორიული გამოცდის ბილეთები, თემები და გამოცდის სიმულაცია. ქართულად, ინგლისურად და რუსულად.",
+    "პრავის ბილეთები და თეორიის ბილეთები (pravis biletebi) — საქართველოს მართვის მოწმობის თეორიული გამოცდა. ქართულად, ინგლისურად და რუსულად.",
   url: "https://prava.ge",
   locale: "ka_GE",
   creator: "prava.ge",
   keywords: [
+    "პრავის ბილეთები",
+    "თეორიის ბილეთები",
+    "pravis biletebi",
+    "teoriis biletebi",
     "პრავა",
     "prava",
     "prava.ge",
@@ -41,36 +45,14 @@ function asOrigin(value?: string): string | undefined {
 }
 
 /**
- * Origin that canonical URLs, `og:url` and generated OG images are built from.
- *
- * Crawlers follow `og:url`, so this has to be a host that actually answers —
- * otherwise link previews come back empty. Set `NEXT_PUBLIC_SITE_URL` to pin it
- * (use that once prava.ge is live); on Vercel it falls back to the deployment's
- * own host, and anywhere else to `siteMetadata.url`.
+ * Canonical origin for metadata, og:url, sitemap and OG images.
+ * On Hetzner this is `https://prava.ge`. `NEXT_PUBLIC_SITE_URL` overrides if set.
  */
 export function getMetadataBaseUrl(): string {
-  const explicit = asOrigin(process.env.NEXT_PUBLIC_SITE_URL);
-  if (explicit) return explicit;
-
-  if (process.env.VERCEL_ENV === "production") {
-    const productionAlias =
-      asOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
-      asOrigin(process.env.VERCEL_URL);
-    if (productionAlias) return productionAlias;
-  }
-
-  const deployment = asOrigin(process.env.VERCEL_URL);
-  if (deployment) return deployment;
-
-  return siteMetadata.url;
+  return asOrigin(process.env.NEXT_PUBLIC_SITE_URL) ?? siteMetadata.url;
 }
 
-/**
- * True only when served from the real domain. Anywhere else (Vercel hosts while
- * prava.ge is not live) pages are kept out of search results, so the staging
- * host never competes with the real one. Social scrapers ignore `noindex`, so
- * link previews keep working there.
- */
+/** True when canonical URLs are the live domain (not a preview host). */
 export function isCanonicalHost(): boolean {
   return getMetadataBaseUrl() === siteMetadata.url;
 }

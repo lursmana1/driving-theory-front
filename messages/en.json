@@ -10,13 +10,13 @@
   },
   "Home": {
     "heroBadge": "✨ AI-based learning platform",
-    "heroEyebrow": "prava · Georgian driving theory tickets",
+    "heroEyebrow": "Driving licence theory",
     "heroTitleLine1": "Learn the theory.",
     "heroTitleLine2": "Pass on the first try.",
     "heroTitlePrefix": "Pass the exam ",
     "heroTitleHighlight": "on the first try",
     "heroTitle": "Pass your driving theory exam on the first try",
-    "heroDescription": "prava.ge — practice Georgian driving theory tickets by topic, with explanations, audio, and a timed mock exam.",
+    "heroDescription": "Learn by topic, practise on real tickets, and check what you know before exam day.",
     "heroCta1": "Start learning",
     "heroCta2": "Try the exam",
     "heroKeywords": "prava • theory tickets • mock exam",
@@ -248,8 +248,8 @@
     "poolExposure": "Question pool exposure"
   },
   "Meta": {
-    "homeTitle": "prava — Georgian driving theory tickets | prava.ge",
-    "homeDescription": "prava.ge — practice tickets for Georgia’s driving theory exam (თეორიული გამოცდის ბილეთები), explanations, audio, and a timed mock test. Georgian, English, and Russian.",
+    "homeTitle": "Prava tickets, theory tickets | prava.ge",
+    "homeDescription": "Prava tickets and theory tickets (პრავის ბილეთები, pravis biletebi) for Georgia’s driving theory exam. Practice by topic. Georgian, English, and Russian.",
     "ticketsTitle": "Driving theory tickets",
     "ticketsTitleCategory": "Category {category} theory tickets",
     "ticketsDescription": "Practice Georgian driving theory tickets by license category and topic, with explanations, audio, and an AI tutor.",
