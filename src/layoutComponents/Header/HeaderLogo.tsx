@@ -19,7 +19,7 @@ export default function HeaderLogo({ variant = "default" }: HeaderLogoProps) {
     >
       <Image
         src={PravaLogo}
-        alt="prava.ge"
+        alt="prava.ge — პრავა"
         width={32}
         height={32}
         className="rounded-full"

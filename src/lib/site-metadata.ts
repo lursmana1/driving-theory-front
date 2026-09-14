@@ -12,23 +12,27 @@ export type SiteMetadata = {
 
 export const siteMetadata: SiteMetadata = {
   name: "prava.ge",
-  title: "prava.ge | მართვის მოწმობის თეორია საქართველოში",
+  title: "პრავა — თეორიული გამოცდის ბილეთები | prava.ge",
   shortTitle: "prava.ge",
   description:
-    "საქართველოს მართვის მოწმობის თეორიის სავარჯიშო ბილეთები, თემები და გამოცდის სიმულაცია. ქართულად, ინგლისურად და რუსულად.",
+    "პრავა (prava.ge) — საქართველოს მართვის მოწმობის თეორიული გამოცდის ბილეთები, თემები და გამოცდის სიმულაცია. ქართულად, ინგლისურად და რუსულად.",
   url: "https://prava.ge",
   locale: "ka_GE",
   creator: "prava.ge",
   twitterHandle: "@prava.ge",
   keywords: [
+    "პრავა",
+    "prava",
+    "prava.ge",
+    "თეორიული გამოცდის ბილეთები",
+    "teoriuli gamocdis biletebi",
+    "სავარჯიშო ბილეთები",
     "მართვის მოწმობა",
     "თეორია",
-    "სავარჯიშო ბილეთები",
     "გამოცდა",
     "driving theory Georgia",
     "права Грузия",
-    "prava.ge",
-    "პრავა",
+    "билеты ПДД Грузия",
   ],
 };
 

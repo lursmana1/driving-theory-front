@@ -17,6 +17,7 @@ type SitemapPath = {
 /** Public indexable modules. Only admin create + auth stay out of crawlers. */
 export const STATIC_SITEMAP_PATHS: SitemapPath[] = [
   { href: "/", changeFrequency: "weekly", priority: 1 },
+  { href: "/tickets", changeFrequency: "weekly", priority: 0.85 },
   { href: "/subjectpicker", changeFrequency: "monthly", priority: 0.8 },
   { href: "/blogs", changeFrequency: "weekly", priority: 0.7 },
 ];
