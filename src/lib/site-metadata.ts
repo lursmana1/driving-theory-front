@@ -19,7 +19,6 @@ export const siteMetadata: SiteMetadata = {
   url: "https://prava.ge",
   locale: "ka_GE",
   creator: "prava.ge",
-  twitterHandle: "@prava.ge",
   keywords: [
     "პრავა",
     "prava",

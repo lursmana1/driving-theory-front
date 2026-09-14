@@ -25,9 +25,10 @@ export function absoluteUrl(href: string, locale?: string): string {
   return `${getMetadataBaseUrl()}${localizedPath(href, locale)}`;
 }
 
-function shareImageUrl(href: string, locale?: string): string {
-  const pagePath = localizedPath(href, locale);
-  return `${getMetadataBaseUrl()}${pagePath}/opengraph-image`;
+function shareImageUrl(): string {
+  // Static PNG — X/Twitter often ignores og:image URLs with no file extension
+  // (e.g. /ka/opengraph-image). Facebook accepts that route; X does not.
+  return `${getMetadataBaseUrl()}/og.png`;
 }
 
 export function languageAlternates(href: string): Record<string, string> {
@@ -63,7 +64,7 @@ export const buildMetadata = ({
 }: MetadataInput = {}): Metadata => {
   const loc = asLocale(locale);
   const canonical = absoluteUrl(path, loc);
-  const shareImage = shareImageUrl(path, loc);
+  const shareImage = shareImageUrl();
   const resolvedDescription = description ?? siteMetadata.description;
   const fullTitle = title
     ? titleAbsolute
@@ -110,8 +111,6 @@ export const buildMetadata = ({
     },
     twitter: {
       card: "summary_large_image",
-      site: siteMetadata.twitterHandle,
-      creator: siteMetadata.twitterHandle,
       title: fullTitle,
       description: resolvedDescription,
       images: [shareImage],
