@@ -1,20 +1,14 @@
-import { ogImageResponse } from "@/lib/ogImage";
+import { DEFAULT_OG_HEADLINE, ogImageResponse } from "@/lib/ogImage";
 
-export const alt = "prava.ge — პრავა, თეორიული გამოცდის ბილეთები";
+export const alt = DEFAULT_OG_HEADLINE;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-const HEADLINE: Record<string, string> = {
-  ka: "პრავა — თეორიული გამოცდის ბილეთები",
-  en: "prava — Georgian driving theory tickets",
-  ru: "prava — билеты теоретического экзамена",
-};
 
 export default async function Image({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
-  return ogImageResponse(HEADLINE[locale] ?? HEADLINE.ka);
+  await params;
+  return ogImageResponse(DEFAULT_OG_HEADLINE);
 }

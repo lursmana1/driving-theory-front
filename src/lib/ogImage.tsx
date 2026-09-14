@@ -6,6 +6,8 @@ export const OG_SIZE = { width: 1200, height: 630 };
 
 const FONT_NAME = "Noto Sans Georgian";
 
+export const DEFAULT_OG_HEADLINE = "prava.ge - თეორიული გამოცდის ბილეთები";
+
 async function logoDataUrl(): Promise<string> {
   const buf = await readFile(
     join(process.cwd(), "public/images/jpg/pravaLogo.jpg"),
@@ -19,8 +21,8 @@ async function georgianFont(): Promise<Buffer> {
   );
 }
 
-/** 1200×630 share card: prava.ge logo on black, matching the mark itself. */
-export async function ogImageResponse(headline: string) {
+/** 1200×630 share card: logo + one headline. Georgian needs the bundled font. */
+export async function ogImageResponse(headline = DEFAULT_OG_HEADLINE) {
   const [logo, fontData] = await Promise.all([logoDataUrl(), georgianFont()]);
 
   return new ImageResponse(
@@ -42,27 +44,17 @@ export async function ogImageResponse(headline: string) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 24,
+            gap: 32,
           }}
         >
           <img src={logo} width={280} height={280} alt="" />
           <div
             style={{
               display: "flex",
-              fontSize: 56,
+              fontSize: 36,
               fontWeight: 700,
-              letterSpacing: -1,
-            }}
-          >
-            prava.ge
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 28,
               lineHeight: 1.35,
-              opacity: 0.88,
-              maxWidth: 920,
+              maxWidth: 1000,
               textAlign: "center",
               justifyContent: "center",
             }}

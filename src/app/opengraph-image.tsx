@@ -1,10 +1,9 @@
-import { ogImageResponse } from "@/lib/ogImage";
+import { DEFAULT_OG_HEADLINE, ogImageResponse } from "@/lib/ogImage";
 
-export const alt = "prava.ge — პრავა, თეორიული გამოცდის ბილეთები";
+export const alt = DEFAULT_OG_HEADLINE;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/** Bare-host share preview (`https://prava.ge`) — same logo card as locale routes. */
 export default async function Image() {
-  return ogImageResponse("პრავა — თეორიული გამოცდის ბილეთები");
+  return ogImageResponse(DEFAULT_OG_HEADLINE);
 }
