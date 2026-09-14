@@ -1,11 +1,11 @@
-# driving theory front
+# prava.ge
 
-> Georgian driving license theory exam prep — practice tickets, timed exams, and progress tracking.
+Georgian driving-license theory exam prep — practice tickets, timed exams, and progress tracking.
 
-[![Live on Vercel](https://img.shields.io/badge/Live-prava--orcin.vercel.app-000?style=for-the-badge&logo=vercel&logoColor=white)](https://prava-orcin.vercel.app)
-[![Website](https://img.shields.io/badge/Website-prava.ucos.ge-0ea5e9?style=for-the-badge)](https://prava.ucos.ge)
+[![Website](https://img.shields.io/badge/Live-prava.ge-B4543C?style=for-the-badge)](https://prava.ge)
+[![API](https://img.shields.io/badge/API-api.prava.ge-22251C?style=for-the-badge)](https://api.prava.ge)
 
-**Try it:** [prava-orcin.vercel.app](https://prava-orcin.vercel.app) · [prava.ucos.ge](https://prava.ucos.ge)
+**Live:** [https://prava.ge](https://prava.ge) · **API:** [https://api.prava.ge](https://api.prava.ge)
 
 ---
 
@@ -17,7 +17,7 @@
 |---|---|
 | **Frontend** | This repo — [github.com/lursmana1/driving-theory-front](https://github.com/lursmana1/driving-theory-front) |
 | **Backend** | [github.com/lursmana1/driving-theory-back](https://github.com/lursmana1/driving-theory-back) |
-| **Deploy** | [Vercel](https://prava-orcin.vercel.app) + [Render](https://nest-bw53.onrender.com) (API) |
+| **Host** | Hetzner via Coolify (Nixpacks). Site `https://prava.ge`, API `https://api.prava.ge`. |
 
 ## Features
 
@@ -32,15 +32,15 @@
 
 - **Next.js 16** (App Router) · **React 19** · **TypeScript**
 - **Tailwind CSS 4** · **Ant Design 6**
-- **next-intl** · **Axios** (cookie-based auth)
+- **next-intl** · **Axios** (Bearer token; Google session cookie on the API)
 - **NestJS** API ([driving-theory-back](https://github.com/lursmana1/driving-theory-back))
 
 ## Getting started
 
 ### Requirements
 
-- Node.js 20+
-- [Nest backend](https://github.com/lursmana1/driving-theory-back) running locally or use the deployed API
+- Node.js 22
+- [Nest backend](https://github.com/lursmana1/driving-theory-back) running locally, or the live API
 
 ### Install
 
@@ -55,14 +55,19 @@ npm install
 Create `.env.local`:
 
 ```env
-NEXT_PUBLIC_BACKEND_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-For production builds, point to the deployed API:
+`getApiBaseUrl()` also accepts `NEXT_PUBLIC_BACKEND_URL` if `NEXT_PUBLIC_API_URL` is unset. No trailing slash.
+
+Production (already set in Coolify as **Build** variables):
 
 ```env
-NEXT_PUBLIC_BACKEND_URL=https://nest-bw53.onrender.com
+NEXT_PUBLIC_API_URL=https://api.prava.ge
+NEXT_PUBLIC_SITE_URL=https://prava.ge
 ```
+
+`NEXT_PUBLIC_*` is compiled into the browser bundle. Changing one needs a Coolify **redeploy** (force without cache if the old host sticks), not a restart.
 
 ### Run
 
@@ -84,13 +89,20 @@ npm run lint       # eslint
 npm run typecheck  # tsc --noEmit
 ```
 
-## Deploy on Vercel
+## Deploy (Coolify / Hetzner)
 
-1. Fork or import [this repository](https://github.com/lursmana1/driving-theory-front)
-2. Add env var: `NEXT_PUBLIC_BACKEND_URL=https://nest-bw53.onrender.com`
-3. Deploy
+The production app is **https://prava.ge**. Coolify uses **Nixpacks** (no Dockerfile). Full checklist: [`deploy/coolify.md`](deploy/coolify.md).
 
-Preview / production URL: **[https://prava-orcin.vercel.app](https://prava-orcin.vercel.app)**
+| Setting | Value |
+|---|---|
+| Build pack | Nixpacks |
+| Ports Exposes | `3000` |
+| Domain | `https://prava.ge` |
+| Health check | `/api/health` |
+| API | `NEXT_PUBLIC_API_URL=https://api.prava.ge` (Build + Runtime) |
+| Canonical | `NEXT_PUBLIC_SITE_URL=https://prava.ge` (Build + Runtime) |
+
+The NestJS app must allow CORS from `https://prava.ge` with credentials. Tickets render on the Next server; exam, auth, and answers run in the browser.
 
 ## Routes
 
@@ -109,13 +121,13 @@ Per-category rules (questions, pass score, allowed mistakes) live in `src/data/c
 
 ## Google sign-in (production)
 
-OAuth runs on the **API**, not on Vercel.
+OAuth runs on the **API**, not on the Next app.
 
 | | Value |
 |---|--------|
-| Callback (`GOOGLE_CALLBACK_URL` on Render) | `https://nest-bw53.onrender.com/auth/google/callback` |
-| After login (`GOOGLE_REDIRECT_AFTER_LOGIN`) | `https://prava.ucos.ge/ka/profile` |
-| [Google Console](https://console.cloud.google.com/apis/credentials) redirect URIs | `…/auth/google/callback` on localhost + Render only |
+| Callback | `https://api.prava.ge/auth/google/callback` |
+| After login | `https://prava.ge/ka/profile` |
+| [Google Console](https://console.cloud.google.com/apis/credentials) redirect URIs | `…/auth/google/callback` on localhost + `https://api.prava.ge` |
 
 ## Project layout
 
