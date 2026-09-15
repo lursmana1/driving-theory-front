@@ -23,6 +23,14 @@ export const STATIC_SITEMAP_PATHS: SitemapPath[] = [
 ];
 
 export const ROBOTS_DISALLOW = [
+  "/auth",
+  "/auth/",
+  "/exam",
+  "/exam/",
+  "/profile",
+  "/profile/",
+  "/createblog",
+  "/createleaderboard",
   "/*/auth",
   "/*/auth/",
   "/*/exam",
@@ -42,7 +50,9 @@ function languageAlternates(href: string): Record<string, string> {
   const languages = Object.fromEntries(
     routing.locales.map((locale) => [locale, absoluteUrl(href, locale)]),
   );
-  languages["x-default"] = absoluteUrl(href, routing.defaultLocale);
+  const defaultUrl = absoluteUrl(href, routing.defaultLocale);
+  languages["ka-GE"] = defaultUrl;
+  languages["x-default"] = defaultUrl;
   return languages;
 }
 
