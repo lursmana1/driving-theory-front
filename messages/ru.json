@@ -241,9 +241,10 @@
     "attemptsUsed": "Экзамены",
     "readinessError": "Не удалось загрузить оценку готовности",
     "readinessNoneHint": "Пройдите хотя бы один экзамен, чтобы увидеть оценку",
-    "readinessLabelNone": "Пока нет данных",
+    "readinessLabelNone": "Вы ещё не сдавали экзамен",
     "readinessLabelLow": "Нужно больше практики",
-    "readinessLabelMedium": "Вы на верном пути",
+    "readinessLabelMedium": "Хороший прогресс",
+    "readinessLabelAlmost": "Почти готовы",
     "readinessLabelHigh": "Готовы к экзамену",
     "poolExposure": "Охват вопросов"
   },

@@ -241,9 +241,10 @@
     "attemptsUsed": "გამოცდები",
     "readinessError": "მზაობის ქულა ვერ ჩაიტვირთა",
     "readinessNoneHint": "გაიარე მინიმუმ ერთი გამოცდა, რომ ქულა გამოჩნდეს",
-    "readinessLabelNone": "ჯერ არ არის მონაცემები",
+    "readinessLabelNone": "გამოცდა ჯერ არ გაქვს გავლილი",
     "readinessLabelLow": "საჭიროებს მეტ სწავლას",
-    "readinessLabelMedium": "კარგ გზაზე ხარ",
+    "readinessLabelMedium": "კარგი პროგრესი",
+    "readinessLabelAlmost": "თითქმის მზად ხარ",
     "readinessLabelHigh": "მზად ხარ გამოცდისთვის",
     "poolExposure": "კითხვების დაფარვა"
   },

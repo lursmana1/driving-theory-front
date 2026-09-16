@@ -38,10 +38,9 @@ export async function getReadiness(
 export async function getSubjectProgress(
   categoryId: number,
 ): Promise<SubjectProgress[]> {
-  const res = await BaseApi.get<SubjectProgress[] | { data: SubjectProgress[] }>(
-    "/user-stats/subject-progress",
-    { params: { category: categoryId } },
-  );
+  const res = await BaseApi.get<
+    SubjectProgress[] | { data: SubjectProgress[] }
+  >("/user-stats/subject-progress", { params: { category: categoryId } });
   return unwrapArray(res.data);
 }
 

@@ -241,9 +241,10 @@
     "attemptsUsed": "Exams taken",
     "readinessError": "Could not load readiness score",
     "readinessNoneHint": "Complete at least one exam to see your score",
-    "readinessLabelNone": "No data yet",
+    "readinessLabelNone": "You haven't taken an exam yet",
     "readinessLabelLow": "Needs more study",
-    "readinessLabelMedium": "On the right track",
+    "readinessLabelMedium": "Good progress",
+    "readinessLabelAlmost": "Almost ready",
     "readinessLabelHigh": "Ready for the exam",
     "poolExposure": "Question pool exposure"
   },

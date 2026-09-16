@@ -1,5 +1,30 @@
 import type { AttemptCounts, AttemptsHistoryResponse } from "@/api/examAttempts";
+import type { ReadinessScore } from "@/lib/types/userStats";
 import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
+
+export type ReadinessHeadlineKey =
+  | "readinessLabelNone"
+  | "readinessLabelLow"
+  | "readinessLabelMedium"
+  | "readinessLabelAlmost"
+  | "readinessLabelHigh";
+
+/** Headline from score + readyForExam — not API `confidence` (that can say high at 11%). */
+export function getReadinessHeadlineKey(
+  readiness: ReadinessScore,
+): ReadinessHeadlineKey {
+  if (readiness.readyForExam) return "readinessLabelHigh";
+
+  const attempts = readiness.completedAttemptsTotal ?? 0;
+  if (attempts === 0 || readiness.confidence === "none") {
+    return "readinessLabelNone";
+  }
+
+  const score = readiness.readinessScore;
+  if (score < 50) return "readinessLabelLow";
+  if (score < 90) return "readinessLabelMedium";
+  return "readinessLabelAlmost";
+}
 
 /** createdAt/completedAt mix UTC and Georgia local; strip UTC+4 when present. */
 const GEORGIA_OFFSET_SECONDS = 4 * 60 * 60;
