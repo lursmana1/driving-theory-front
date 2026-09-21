@@ -10,6 +10,7 @@ import {
   formatExamDuration,
   resolveExamDurationSeconds,
 } from "@/utills/helpers/formatExamDuration";
+import GuestSaveProgressCta from "../GuestSaveProgressCta";
 
 type ExamRetryModalProps = {
   handleRestart: () => void;
@@ -19,6 +20,7 @@ type ExamRetryModalProps = {
   onReview?: () => void;
   reviewCount?: number;
   reviewReady?: boolean;
+  isGuest?: boolean;
 };
 
 const ExamRetryModal = ({
@@ -29,6 +31,7 @@ const ExamRetryModal = ({
   onReview,
   reviewCount = 0,
   reviewReady = true,
+  isGuest = false,
 }: ExamRetryModalProps) => {
   const t = useTranslations("Exam");
   const router = useRouter();
@@ -129,6 +132,8 @@ const ExamRetryModal = ({
             {t("goToHome")}
           </button>
         </div>
+
+        {isGuest ? <GuestSaveProgressCta /> : null}
       </div>
     </Modal>
   );

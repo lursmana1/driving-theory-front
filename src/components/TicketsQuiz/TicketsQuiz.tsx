@@ -74,7 +74,7 @@ export default function TicketQuiz({
                 <QuestionAudioButton
                   id={`question-audio-${qId}`}
                   src={questionAudioUrl}
-                  size="compact"
+                  size="labeled"
                 />
               ) : null
             }

@@ -33,7 +33,6 @@ export default function QuestionIdSearch({
 
       if (currentParams.size) params.set("size", currentParams.size);
       if (currentParams.subjects) params.set("subjects", currentParams.subjects);
-      params.set("page", "1");
 
       if (trimmed) {
         params.set("questionId", trimmed);

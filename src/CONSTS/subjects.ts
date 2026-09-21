@@ -28,6 +28,14 @@ export function getSubjectName(id: number, locale: string): string {
   return subject?.[lang] ?? `#${id}`;
 }
 
+export function getSubjectIds(): number[] {
+  return subjectsData.map((subject) => subject.id);
+}
+
+export function isKnownSubjectId(id: number): boolean {
+  return subjectsData.some((subject) => subject.id === id);
+}
+
 const PLACEHOLDER_SUBJECT_NAME = /^Subject\s+\d+$/i;
 
 /** Use API name when real; fall back to local subjects.json (backend may return placeholders). */

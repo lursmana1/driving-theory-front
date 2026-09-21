@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { LANDING } from "@/CONSTS/landing";
 import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 import { LandingHeroRoad } from "./LandingHeroRoad";
+import GuestAuthHint from "@/components/GuestAuth/GuestAuthHint";
 
 const STEP_KEYS = ["stepShort1", "stepShort2", "stepShort3"] as const;
 
@@ -13,11 +14,8 @@ export default async function LandingHero() {
     <section className={LANDING.heroBg} aria-labelledby="hero-title">
       <div className="grid lg:min-h-[calc(100svh-8rem)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.95fr)]">
         <div className="flex flex-col justify-center px-6 py-12 sm:px-8 lg:border-r lg:border-hairline lg:px-12 lg:py-16 xl:px-16">
-          <p className={LANDING.eyebrow}>{t("heroEyebrow")}</p>
-
-          <h1 id="hero-title" className={`mt-6 ${LANDING.headingHero}`}>
-            <span className="block">{t("heroTitleLine1")}</span>
-            <span className="block">{t("heroTitleLine2")}</span>
+          <h1 id="hero-title" className={LANDING.headingHero}>
+            {t("heroTitleLine1")}
           </h1>
 
           <p className={`mt-7 max-w-md ${LANDING.body}`}>
@@ -39,9 +37,7 @@ export default async function LandingHero() {
             </Link>
           </div>
 
-          <p className="mt-8 text-xs tracking-wide text-ink/45">
-            {t("heroKeywords")}
-          </p>
+          <GuestAuthHint />
         </div>
 
         <div className="flex items-center justify-center px-4 pb-6 sm:px-8 lg:px-6 lg:py-10">

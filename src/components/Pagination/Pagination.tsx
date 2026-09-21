@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import {
   PAGE_PARAM,
@@ -17,32 +16,41 @@ type PaginationProps = {
   total: number;
   pathname: string;
   pageSize?: number;
+  /** Current query (without relying on useSearchParams, so links SSR for crawlers). */
+  params?: Record<string, string | undefined>;
   /** Participates in parent grid — range in col 1, controls span cols 2–4 */
   layout?: "default" | "table";
 };
+
+function hrefFor(
+  pathname: string,
+  params: Record<string, string | undefined>,
+  nextPage: number,
+): string {
+  const sp = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (key === PAGE_PARAM || value == null || value === "") continue;
+    sp.set(key, value);
+  }
+  if (nextPage > 1) sp.set(PAGE_PARAM, String(nextPage));
+  const query = sp.toString();
+  return query ? `${pathname}?${query}` : pathname;
+}
 
 export default function Pagination({
   page,
   total,
   pathname,
   pageSize = DEFAULT_PAGE_SIZE,
+  params = {},
   layout = "default",
 }: PaginationProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const t = useTranslations("Profile");
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const currentPage = Math.min(Math.max(1, page), totalPages);
   const start = (currentPage - 1) * pageSize + 1;
   const end = Math.min(currentPage * pageSize, total);
-
-  const goTo = (nextPage: number) => {
-    if (nextPage < 1 || nextPage > totalPages) return;
-    const sp = new URLSearchParams(searchParams.toString());
-    sp.set(PAGE_PARAM, String(nextPage));
-    router.push(`${pathname}?${sp.toString()}`);
-  };
 
   const pageNumbers = getPageNumbers(currentPage, totalPages);
 
@@ -54,17 +62,28 @@ export default function Pagination({
     </p>
   );
 
+  const navClass = PAGINATION_STYLES.navButton;
+  const disabledNavClass = `${navClass} pointer-events-none opacity-50`;
+
   const controls = (
     <div className="flex items-center justify-center gap-1 sm:justify-end">
-      <button
-        type="button"
-        onClick={() => goTo(currentPage - 1)}
-        disabled={currentPage <= 1}
-        aria-label="Previous page"
-        className={PAGINATION_STYLES.navButton}
-      >
-        <Icon name="chevronLeft" className="h-4 w-4" />
-      </button>
+      {currentPage <= 1 ? (
+        <span
+          aria-disabled="true"
+          aria-label="Previous page"
+          className={disabledNavClass}
+        >
+          <Icon name="chevronLeft" className="h-4 w-4" />
+        </span>
+      ) : (
+        <Link
+          href={hrefFor(pathname, params, currentPage - 1)}
+          aria-label="Previous page"
+          className={navClass}
+        >
+          <Icon name="chevronLeft" className="h-4 w-4" />
+        </Link>
+      )}
 
       <div className="flex items-center gap-0.5">
         {pageNumbers.map((p, i) =>
@@ -73,32 +92,39 @@ export default function Pagination({
               …
             </span>
           ) : (
-            <button
+            <Link
               key={p}
-              type="button"
-              onClick={() => goTo(p)}
+              href={hrefFor(pathname, params, p)}
               aria-current={p === currentPage ? "page" : undefined}
-              className={`${PAGINATION_STYLES.pageButtonBase} ${
+              className={`${PAGINATION_STYLES.pageButtonBase} inline-flex items-center justify-center ${
                 p === currentPage
                   ? PAGINATION_STYLES.pageButtonActive
                   : PAGINATION_STYLES.pageButtonInactive
               }`}
             >
               {p}
-            </button>
+            </Link>
           ),
         )}
       </div>
 
-      <button
-        type="button"
-        onClick={() => goTo(currentPage + 1)}
-        disabled={currentPage >= totalPages}
-        aria-label="Next page"
-        className={PAGINATION_STYLES.navButton}
-      >
-        <Icon name="chevronRight" className="h-4 w-4" />
-      </button>
+      {currentPage >= totalPages ? (
+        <span
+          aria-disabled="true"
+          aria-label="Next page"
+          className={disabledNavClass}
+        >
+          <Icon name="chevronRight" className="h-4 w-4" />
+        </span>
+      ) : (
+        <Link
+          href={hrefFor(pathname, params, currentPage + 1)}
+          aria-label="Next page"
+          className={navClass}
+        >
+          <Icon name="chevronRight" className="h-4 w-4" />
+        </Link>
+      )}
     </div>
   );
 
@@ -106,7 +132,11 @@ export default function Pagination({
     return (
       <nav className="contents" aria-label="Pagination">
         {rangeLabel}
-        <div className={`${EXAM_HISTORY_PAGINATION_COL_SPAN} flex items-center justify-end`}>{controls}</div>
+        <div
+          className={`${EXAM_HISTORY_PAGINATION_COL_SPAN} flex items-center justify-end`}
+        >
+          {controls}
+        </div>
       </nav>
     );
   }

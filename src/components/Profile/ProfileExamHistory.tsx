@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
@@ -121,25 +121,21 @@ export function ProfileExamHistory() {
       {!loading && historyTotal > EXAM_HISTORY_PAGE_SIZE && (
         <div className="border-t border-slate-100 bg-slate-50/50">
           <div className={`hidden px-5 py-3 ${EXAM_HISTORY_TABLE_GRID}`}>
-            <Suspense fallback={null}>
-              <Pagination
-                page={page}
-                total={historyTotal}
-                pathname="/profile"
-                pageSize={EXAM_HISTORY_PAGE_SIZE}
-                layout="table"
-              />
-            </Suspense>
+            <Pagination
+              page={page}
+              total={historyTotal}
+              pathname="/profile"
+              pageSize={EXAM_HISTORY_PAGE_SIZE}
+              layout="table"
+            />
           </div>
           <div className="px-4 py-4 md:hidden">
-            <Suspense fallback={null}>
-              <Pagination
-                page={page}
-                total={historyTotal}
-                pathname="/profile"
-                pageSize={EXAM_HISTORY_PAGE_SIZE}
-              />
-            </Suspense>
+            <Pagination
+              page={page}
+              total={historyTotal}
+              pathname="/profile"
+              pageSize={EXAM_HISTORY_PAGE_SIZE}
+            />
           </div>
         </div>
       )}

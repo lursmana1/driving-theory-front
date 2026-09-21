@@ -13,6 +13,7 @@ import {
   burgerDrawer,
   burgerNavItem,
   burgerOverlay,
+  burgerRegisterLink,
   examCtaPillBase,
 } from "./headerVariants";
 
@@ -62,7 +63,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
         aria-expanded={menuOpen}
         aria-controls="mobile-menu"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
-        className={`relative z-60 flex h-10 w-10 shrink-0 touch-manipulation flex-col items-center justify-center gap-1.5 rounded-lg transition-colors ${btnWrap} md:hidden`}
+        className={`relative z-60 flex h-10 w-10 shrink-0 touch-manipulation flex-col items-center justify-center gap-1.5 rounded-lg transition-colors ${btnWrap} lg:hidden`}
       >
         <span
           className={`block h-0.5 w-6 rounded-full transition-all duration-200 ${bar} ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
@@ -80,7 +81,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
         createPortal(
           <>
             <div
-              className={`fixed inset-x-0 bottom-0 top-12 z-100 backdrop-blur-sm transition-opacity duration-200 sm:top-14 md:hidden ${burgerOverlay[variant]} ${
+              className={`fixed inset-x-0 bottom-0 top-12 z-100 backdrop-blur-sm transition-opacity duration-200 sm:top-14 lg:hidden ${burgerOverlay[variant]} ${
                 isClosing ? "opacity-0" : "opacity-100"
               }`}
               aria-hidden
@@ -91,7 +92,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
               id="mobile-menu"
               role="navigation"
               aria-label="Mobile navigation"
-              className={`fixed left-0 right-0 top-12 z-110 max-h-[min(100dvh-3rem,calc(100vh-3rem))] overflow-y-auto sm:top-14 md:hidden ${burgerDrawer[variant]} ${
+              className={`fixed left-0 right-0 top-12 z-110 max-h-[min(100dvh-3rem,calc(100vh-3rem))] overflow-y-auto sm:top-14 lg:hidden ${burgerDrawer[variant]} ${
                 isClosing ? "burger-menu-exit" : "burger-menu-enter"
               }`}
             >
@@ -111,16 +112,29 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                 </ul>
 
                 <div className={burgerDivider[variant]}>
-                  <div className="flex min-h-12 items-center">
-                    {user ? (
+                  {user ? (
+                    <Link
+                      href="/profile"
+                      onClick={closeMenu}
+                      className={burgerAccountLink[variant]}
+                    >
+                      <span className="text-left">{tAuth("profile")}</span>
+                    </Link>
+                  ) : (
+                    <div className="flex min-h-12 items-center">
                       <Link
-                        href="/profile"
+                        href="/auth?mode=register"
                         onClick={closeMenu}
-                        className={burgerAccountLink[variant]}
+                        className={burgerRegisterLink[variant]}
                       >
-                        <span className="text-left">{tAuth("profile")}</span>
+                        {tAuth("register")}
                       </Link>
-                    ) : (
+                      <span
+                        aria-hidden
+                        className={`mx-4 h-5 w-px ${
+                          isLanding ? "bg-hairline" : "bg-slate-200"
+                        }`}
+                      />
                       <Link
                         href="/auth"
                         onClick={closeMenu}
@@ -128,13 +142,15 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                       >
                         {tAuth("login")}
                       </Link>
-                    )}
-                  </div>
+                    </div>
+                  )}
+                </div>
 
+                <div className={burgerDivider[variant]}>
                   <Link
                     href="/subjectpicker"
                     onClick={closeMenu}
-                    className={`mt-5 flex min-h-12 w-full items-center justify-center px-6 text-center text-base ${examCtaPillBase}`}
+                    className={`flex min-h-12 w-full items-center justify-center px-6 text-center text-base ${examCtaPillBase}`}
                   >
                     {tHome("headerStartExam")}
                   </Link>

@@ -5,10 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
 import { getAuthConfig } from "@/api/auth";
-import {
-  googleCallbackErrorKey,
-  type AuthErrorKey,
-} from "@/utills/helpers/authErrorKey";
+import { type AuthErrorKey } from "@/utills/helpers/authErrorKey";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import AuthFormError from "./AuthFormError";
@@ -34,12 +31,25 @@ function stripAuthErrorFromUrl(): void {
   );
 }
 
-export default function AuthForm() {
+const BENEFIT_KEYS = [
+  "benefitHistory",
+  "benefitReadiness",
+  "benefitWeakTopics",
+] as const;
+
+type AuthFormProps = {
+  initialMode?: "login" | "register";
+  oauthErrorKey?: AuthErrorKey | null;
+};
+
+export default function AuthForm({
+  initialMode = "login",
+  oauthErrorKey = null,
+}: AuthFormProps) {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [googleAuthUrl, setGoogleAuthUrl] = useState(fallbackGoogleLoginUrl);
-  const [oauthErrorKey, setOauthErrorKey] = useState<AuthErrorKey | null>(null);
   const t = useTranslations("Auth");
 
   useEffect(() => {
@@ -49,12 +59,8 @@ export default function AuthForm() {
   }, [authLoading, user, router]);
 
   useEffect(() => {
-    const key = googleCallbackErrorKey(window.location.search);
-    if (key) {
-      setOauthErrorKey(key);
-      stripAuthErrorFromUrl();
-    }
-  }, []);
+    if (oauthErrorKey) stripAuthErrorFromUrl();
+  }, [oauthErrorKey]);
 
   useEffect(() => {
     getAuthConfig()
@@ -82,6 +88,19 @@ export default function AuthForm() {
         <h1 className="font-georgian text-2xl font-bold text-slate-900">
           {mode === "login" ? t("login") : t("register")}
         </h1>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+          {t("benefitsIntro")}
+        </p>
+        <ul className="mt-4 space-y-1.5 text-sm text-slate-700">
+          {BENEFIT_KEYS.map((key) => (
+            <li key={key} className="flex gap-2">
+              <span aria-hidden className="font-semibold text-accent">
+                ·
+              </span>
+              {t(key)}
+            </li>
+          ))}
+        </ul>
 
         {oauthErrorKey ? (
           <div className="mt-6">

@@ -14,12 +14,26 @@ export const headerAuthLink: Record<HeaderVariant, string> = {
     "shrink-0 rounded-md px-2 py-1.5 text-xs font-medium text-ink/80 hover:bg-ink/5 hover:text-accent sm:px-3 sm:py-2 sm:text-sm",
 };
 
+export const headerAuthLogin: Record<HeaderVariant, string> = {
+  default:
+    "hidden h-10 shrink-0 items-center justify-center rounded-full border border-accent px-4 text-xs font-semibold text-accent transition hover:bg-accent/10 sm:text-sm lg:inline-flex",
+  landing:
+    "hidden h-10 shrink-0 items-center justify-center rounded-full bg-accent px-4 text-xs font-semibold text-white transition hover:bg-accent-strong sm:text-sm lg:inline-flex",
+};
+
+export const headerAuthRegister: Record<HeaderVariant, string> = {
+  default:
+    "shrink-0 rounded-md px-2 py-1.5 text-xs font-semibold text-accent hover:bg-accent/10 hover:text-accent-strong sm:px-3 sm:py-2 sm:text-sm",
+  landing:
+    "shrink-0 rounded-md px-2 py-1.5 text-xs font-medium text-ink/80 hover:bg-ink/5 hover:text-accent sm:px-3 sm:py-2 sm:text-sm",
+};
+
 /** Desktop “Start exam” pill */
 export const examCtaPillBase =
   "rounded-full bg-accent font-semibold text-white transition hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-50";
 
 export function headerExamCtaClass(_isLanding: boolean): string {
-  return `hidden h-10 items-center justify-center px-4 text-sm md:inline-flex ${examCtaPillBase}`;
+  return `hidden h-10 items-center justify-center px-4 text-sm lg:inline-flex ${examCtaPillBase}`;
 }
 
 export const burgerDrawer: Record<HeaderVariant, string> = {
@@ -44,6 +58,13 @@ export const burgerAccountLink: Record<HeaderVariant, string> = {
     "inline-flex min-h-10 items-center text-base font-medium text-slate-700 hover:text-slate-900",
   landing:
     "inline-flex min-h-10 items-center text-base font-medium text-ink/85 hover:text-accent",
+};
+
+export const burgerRegisterLink: Record<HeaderVariant, string> = {
+  default:
+    "inline-flex min-h-10 items-center text-base font-semibold text-accent hover:text-accent-strong",
+  landing:
+    "inline-flex min-h-10 items-center text-base font-semibold text-accent hover:text-accent-strong",
 };
 
 export const burgerOverlay: Record<HeaderVariant, string> = {

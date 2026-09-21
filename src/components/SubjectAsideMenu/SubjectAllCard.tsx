@@ -19,12 +19,11 @@ export default function SubjectAllCard({
 
   const params = new URLSearchParams();
   if (sp.size) params.set("size", sp.size);
-  params.set("page", "1");
-  params.delete("subjects");
+  const query = params.toString();
 
   return (
     <Link
-      href={`/tickets/${category}?${params.toString()}`}
+      href={`/tickets/${category}${query ? `?${query}` : ""}`}
       className={`
         block p-3 rounded-xl border transition
         ${

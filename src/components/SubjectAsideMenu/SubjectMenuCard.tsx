@@ -18,19 +18,14 @@ const SubjectMenuCard = async ({ category, sp, subject }: SubjectMenuCardProps) 
   const t = await getTranslations("Tickets");
   const isActive = sp.subjects === String(subject.id);
 
-  const newParams = new URLSearchParams({
-    ...sp,
-    page: "1",
-    subjects: isActive ? "" : String(subject.id),
-  });
-
-  if (!newParams.get("subjects")) {
-    newParams.delete("subjects");
-  }
+  const newParams = new URLSearchParams();
+  if (sp.size) newParams.set("size", sp.size);
+  if (!isActive) newParams.set("subjects", String(subject.id));
+  const query = newParams.toString();
 
   return (
     <Link
-      href={`/tickets/${category}?${newParams.toString()}`}
+      href={`/tickets/${category}${query ? `?${query}` : ""}`}
       className={`
         block p-3 rounded-xl border transition
         ${

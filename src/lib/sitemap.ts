@@ -1,12 +1,10 @@
 import type { MetadataRoute } from "next";
-import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { getMetadataBaseUrl } from "@/lib/site-metadata";
 import { licenseCategories } from "@/CONSTS/categories";
+import { getSubjectIds } from "@/CONSTS/subjects";
 import { getApiBaseUrl } from "@/lib/apiBaseUrl";
-import { BLOGS_PAGE_SIZE } from "@/CONSTS/pagination";
-
-type Locale = (typeof routing.locales)[number];
+import { BLOGS_PAGE_SIZE, TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
+import { absoluteUrl, languageAlternates } from "@/lib/seo";
 
 type SitemapPath = {
   href: string;
@@ -14,10 +12,9 @@ type SitemapPath = {
   priority: number;
 };
 
-/** Public indexable modules. Only admin create + auth stay out of crawlers. */
+/** Public indexable modules. `/tickets` redirects, so only real category URLs are listed. */
 export const STATIC_SITEMAP_PATHS: SitemapPath[] = [
   { href: "/", changeFrequency: "weekly", priority: 1 },
-  { href: "/tickets", changeFrequency: "weekly", priority: 0.85 },
   { href: "/subjectpicker", changeFrequency: "monthly", priority: 0.8 },
   { href: "/blogs", changeFrequency: "weekly", priority: 0.7 },
 ];
@@ -41,21 +38,6 @@ export const ROBOTS_DISALLOW = [
   "/*/createleaderboard",
 ];
 
-function absoluteUrl(href: string, locale: Locale): string {
-  const pathname = getPathname({ locale, href });
-  return `${getMetadataBaseUrl()}${pathname}`;
-}
-
-function languageAlternates(href: string): Record<string, string> {
-  const languages = Object.fromEntries(
-    routing.locales.map((locale) => [locale, absoluteUrl(href, locale)]),
-  );
-  const defaultUrl = absoluteUrl(href, routing.defaultLocale);
-  languages["ka-GE"] = defaultUrl;
-  languages["x-default"] = defaultUrl;
-  return languages;
-}
-
 export function sitemapEntry(
   href: string,
   extra: Pick<MetadataRoute.Sitemap[number], "changeFrequency" | "priority" | "lastModified">,
@@ -68,6 +50,8 @@ export function sitemapEntry(
     alternates: { languages: languageAlternates(href) },
   };
 }
+
+const MAX_TICKET_SITEMAP_PAGES = 200;
 
 async function fetchCategoryIds(): Promise<number[]> {
   const fallback = licenseCategories.map((c) => c.id);
@@ -91,14 +75,74 @@ async function fetchCategoryIds(): Promise<number[]> {
   }
 }
 
+async function fetchCategoryQuestionTotal(
+  categoryId: number,
+): Promise<number> {
+  const base = getApiBaseUrl();
+  if (!base) return 0;
+
+  try {
+    const res = await fetch(
+      `${base}/questions?category=${categoryId}&page=1&size=1`,
+      {
+        next: { revalidate: 3600 },
+        headers: { Accept: "application/json" },
+      },
+    );
+    if (!res.ok) return 0;
+    const payload = (await res.json()) as { total?: number };
+    const total = Number(payload?.total);
+    return Number.isFinite(total) && total > 0 ? total : 0;
+  } catch {
+    return 0;
+  }
+}
+
+async function fetchTicketListingPaths(
+  categoryIds: number[],
+): Promise<SitemapPath[]> {
+  const totals = await Promise.all(
+    categoryIds.map(async (id) => ({
+      id,
+      total: await fetchCategoryQuestionTotal(id),
+    })),
+  );
+
+  return totals.flatMap(({ id, total }) => {
+    const pages = Math.min(
+      MAX_TICKET_SITEMAP_PAGES,
+      Math.max(1, Math.ceil(total / TICKETS_PAGE_SIZE)),
+    );
+    const listings: SitemapPath[] = [
+      {
+        href: `/tickets/${id}`,
+        changeFrequency: "weekly",
+        priority: 0.9,
+      },
+    ];
+    for (let page = 2; page <= pages; page += 1) {
+      listings.push({
+        href: `/tickets/${id}?page=${page}`,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+    }
+    return listings;
+  });
+}
+
 type BlogListPayload = {
   data?: { id: number; updatedAt?: string }[];
   totalPages?: number;
 };
 
-async function fetchBlogHrefs(): Promise<{ href: string; lastModified?: Date }[]> {
+async function fetchBlogSitemap(): Promise<{
+  posts: { href: string; lastModified?: Date }[];
+  listPages: number;
+}> {
+  const empty = { posts: [] as { href: string; lastModified?: Date }[], listPages: 1 };
   const base = getApiBaseUrl();
-  if (!base) return [];
+  if (!base) return empty;
 
   const posts: { href: string; lastModified?: Date }[] = [];
   let page = 1;
@@ -128,28 +172,42 @@ async function fetchBlogHrefs(): Promise<{ href: string; lastModified?: Date }[]
       page += 1;
     }
   } catch {
-    return posts;
+    return { posts, listPages: Math.max(1, totalPages) };
   }
 
-  return posts;
+  return { posts, listPages: Math.max(1, totalPages) };
 }
 
 export async function buildSitemapEntries(): Promise<MetadataRoute.Sitemap> {
-  const [categoryIds, blogs] = await Promise.all([
+  const [categoryIds, blogSitemap] = await Promise.all([
     fetchCategoryIds(),
-    fetchBlogHrefs(),
+    fetchBlogSitemap(),
   ]);
 
-  const ticketPaths: SitemapPath[] = categoryIds.map((id) => ({
-    href: `/tickets/${id}`,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  }));
+  const subjectIds = getSubjectIds();
+  const ticketPaths = await fetchTicketListingPaths(categoryIds);
+  const subjectPaths: SitemapPath[] = categoryIds.flatMap((categoryId) =>
+    subjectIds.map((subjectId) => ({
+      href: `/tickets/${categoryId}?subjects=${subjectId}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.75,
+    })),
+  );
+  const blogListPaths: SitemapPath[] = [];
+  for (let page = 2; page <= blogSitemap.listPages && page <= 20; page += 1) {
+    blogListPaths.push({
+      href: `/blogs?page=${page}`,
+      changeFrequency: "weekly",
+      priority: 0.5,
+    });
+  }
 
   return [
     ...STATIC_SITEMAP_PATHS.map((item) => sitemapEntry(item.href, item)),
     ...ticketPaths.map((item) => sitemapEntry(item.href, item)),
-    ...blogs.map((item) =>
+    ...subjectPaths.map((item) => sitemapEntry(item.href, item)),
+    ...blogListPaths.map((item) => sitemapEntry(item.href, item)),
+    ...blogSitemap.posts.map((item) =>
       sitemapEntry(item.href, {
         changeFrequency: "monthly",
         priority: 0.6,

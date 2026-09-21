@@ -17,8 +17,15 @@ function asLocale(locale?: string): Locale {
     : routing.defaultLocale;
 }
 
+function splitPathAndSearch(href: string): { pathname: string; search: string } {
+  const q = href.indexOf("?");
+  if (q === -1) return { pathname: href, search: "" };
+  return { pathname: href.slice(0, q), search: href.slice(q) };
+}
+
 export function localizedPath(href: string, locale?: string): string {
-  return getPathname({ href, locale: asLocale(locale) });
+  const { pathname, search } = splitPathAndSearch(href);
+  return `${getPathname({ href: pathname, locale: asLocale(locale) })}${search}`;
 }
 
 export function absoluteUrl(href: string, locale?: string): string {
@@ -90,10 +97,11 @@ export const buildMetadata = ({
     applicationName: siteMetadata.name,
     creator: siteMetadata.creator,
     authors: [{ name: siteMetadata.creator }],
-    robots:
-      index && isCanonicalHost()
+    robots: isCanonicalHost()
+      ? index
         ? { index: true, follow: true }
-        : { index: false, follow: false },
+        : { index: false, follow: true }
+      : { index: false, follow: false },
     alternates: {
       canonical,
       languages: languageAlternates(path),

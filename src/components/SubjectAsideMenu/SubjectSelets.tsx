@@ -31,13 +31,10 @@ export default function SubjectSelectMobile({
 
   const handleChange = (value: string) => {
     const params = new URLSearchParams();
-    Object.entries(sp).forEach(([k, v]) => {
-      if (v != null && v !== "") params.set(k, v);
-    });
-    params.set("page", "1");
+    if (sp.size) params.set("size", sp.size);
     if (value && value !== ALL) params.set("subjects", value);
-    else params.delete("subjects");
-    router.push(`/tickets/${category}?${params.toString()}`);
+    const query = params.toString();
+    router.push(query ? `/tickets/${category}?${query}` : `/tickets/${category}`);
   };
 
   return (

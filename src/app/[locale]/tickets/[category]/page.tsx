@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { getServerBaseApi } from "@/api/ServerBaseApi";
 import { getCategoryById, licenseCategories } from "@/CONSTS/categories";
+import { getSubjectName, isKnownSubjectId } from "@/CONSTS/subjects";
 import { TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import CategoryCardsGrid from "@/components/categoryComponents/CategoryCardsGrid/CategoryCardsGrid";
@@ -12,6 +13,7 @@ import SubjectAsideMenu from "@/components/SubjectAsideMenu/SubjectAsideMenu";
 import { JsonLd } from "@/components/JsonLd";
 import { pageMeta } from "@/lib/pageMeta";
 import { ticketsJsonLd } from "@/lib/seo";
+import GuestAuthBanner from "@/components/GuestAuth/GuestAuthBanner";
 
 type PageProps = {
   params: Promise<{ locale: string; category: string }>;
@@ -27,18 +29,49 @@ export function generateStaticParams() {
   return licenseCategories.map((cat) => ({ category: String(cat.id) }));
 }
 
+function ticketsListingState(
+  category: string,
+  sp: { page?: string; subjects?: string; questionId?: string },
+  locale: string,
+) {
+  const rawPage = Number(sp.page ?? "1");
+  const page =
+    Number.isFinite(rawPage) && rawPage > 1 ? Math.floor(rawPage) : 1;
+  const questionId = sp.questionId?.trim() ?? "";
+  const subjectsRaw = (sp.subjects ?? "").trim();
+  const subjectId = /^\d+$/.test(subjectsRaw) ? Number(subjectsRaw) : null;
+  const knownSubject = subjectId != null && isKnownSubjectId(subjectId);
+  const isListing = !questionId && (subjectsRaw === "" || knownSubject);
+
+  const params = new URLSearchParams();
+  if (isListing && knownSubject && subjectId != null) {
+    params.set("subjects", String(subjectId));
+  }
+  if (isListing && page > 1) params.set("page", String(page));
+  const query = params.toString();
+
+  return {
+    index: isListing,
+    path: query ? `/tickets/${category}?${query}` : `/tickets/${category}`,
+    subjectName:
+      knownSubject && subjectId != null
+        ? getSubjectName(subjectId, locale)
+        : undefined,
+  };
+}
+
 export async function generateMetadata({ params, searchParams }: PageProps) {
   const { locale, category } = await params;
   const sp = searchParams ? await searchParams : {};
   const cat = getCategoryById(Number(category));
   const categoryLabel = cat?.name ?? category;
-  const page = Number(sp.page ?? "1");
-  const filtered = Boolean(sp.subjects || sp.questionId || page > 1);
+  const listing = ticketsListingState(category, sp, locale);
   return pageMeta("tickets", {
     locale,
-    path: `/tickets/${category}`,
+    path: listing.path,
     category: categoryLabel,
-    index: !filtered,
+    subject: listing.subjectName,
+    index: listing.index,
   });
 }
 
@@ -59,6 +92,7 @@ export default async function TicketsCategoryPage({
   const tMeta = await getTranslations("Meta");
   const categoryLabel =
     getCategoryById(categoryId)?.name ?? String(categoryId);
+  const listing = ticketsListingState(category, sp, locale);
 
   let questions: ExamQuestion[] = [];
   let pagination = { page: 1, total: 0 };
@@ -102,14 +136,22 @@ export default async function TicketsCategoryPage({
 
   return (
     <div className="section space-y-6 py-8">
+      <GuestAuthBanner />
       <JsonLd
         data={ticketsJsonLd({
           locale,
-          categoryLabel,
-          path: `/tickets/${category}`,
-          description: tMeta("ticketsDescriptionCategory", {
-            category: categoryLabel,
-          }),
+          categoryLabel: listing.subjectName
+            ? `${categoryLabel} — ${listing.subjectName}`
+            : categoryLabel,
+          path: listing.path,
+          description: listing.subjectName
+            ? tMeta("ticketsDescriptionCategorySubject", {
+                category: categoryLabel,
+                subject: listing.subjectName,
+              })
+            : tMeta("ticketsDescriptionCategory", {
+                category: categoryLabel,
+              }),
         })}
       />
       <CategoryCardsGrid
@@ -139,27 +181,29 @@ export default async function TicketsCategoryPage({
             >
               <QuestionIdSearch category={category} currentParams={sp} />
             </Suspense>
-            <Suspense fallback={null}>
-              <Pagination
-                page={pagination.page}
-                total={pagination.total}
-                pathname={`/tickets/${category}`}
-                pageSize={TICKETS_PAGE_SIZE}
-              />
-            </Suspense>
+            <Pagination
+              page={pagination.page}
+              total={pagination.total}
+              pathname={`/tickets/${category}`}
+              pageSize={TICKETS_PAGE_SIZE}
+              params={{ subjects: sp.subjects, size: sp.size }}
+            />
           </div>
+
+          {!questionsUnavailable && questions.length > 0 && (
+            <p className="text-sm text-slate-500">{t("audioHint")}</p>
+          )}
 
           <TicketsQuizList questions={questions} />
 
           <div className="flex flex-wrap justify-end gap-4">
-            <Suspense fallback={null}>
-              <Pagination
-                page={pagination.page}
-                total={pagination.total}
-                pathname={`/tickets/${category}`}
-                pageSize={TICKETS_PAGE_SIZE}
-              />
-            </Suspense>
+            <Pagination
+              page={pagination.page}
+              total={pagination.total}
+              pathname={`/tickets/${category}`}
+              pageSize={TICKETS_PAGE_SIZE}
+              params={{ subjects: sp.subjects, size: sp.size }}
+            />
           </div>
         </main>
       </div>

@@ -139,6 +139,7 @@ export default function ExamQuiz({
           onReview={() => setReviewing(true)}
           reviewCount={exam.wrongQuestions.length}
           reviewReady={exam.reviewReady}
+          isGuest={!attemptId}
         />
       )}
 
@@ -155,6 +156,7 @@ export default function ExamQuiz({
           onReview={() => setReviewing(true)}
           reviewCount={exam.wrongQuestions.length}
           reviewReady={exam.reviewReady}
+          isGuest={!attemptId}
         />
       )}
     </div>

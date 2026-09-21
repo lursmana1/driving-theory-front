@@ -11,9 +11,16 @@ type PageProps = {
   searchParams?: Promise<{ page?: string; size?: string }>;
 };
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params, searchParams }: PageProps) {
   const { locale } = await params;
-  return pageMeta("blogs", { locale });
+  const sp = searchParams ? await searchParams : {};
+  const rawPage = Number(sp.page ?? "1");
+  const page =
+    Number.isFinite(rawPage) && rawPage > 1 ? Math.floor(rawPage) : 1;
+  return pageMeta("blogs", {
+    locale,
+    path: page > 1 ? `/blogs?page=${page}` : "/blogs",
+  });
 }
 
 export default async function BlogsPage({ searchParams }: PageProps) {
@@ -70,6 +77,7 @@ export default async function BlogsPage({ searchParams }: PageProps) {
             total={pagination.total}
             pathname="/blogs"
             pageSize={BLOGS_PAGE_SIZE}
+            params={{ size: sp.size }}
           />
         </div>
       </section>

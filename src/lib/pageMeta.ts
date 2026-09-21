@@ -12,6 +12,7 @@ export type MetaPage =
   | "profile"
   | "blogs"
   | "auth"
+  | "logout"
   | "createBlog";
 
 const PAGE_PATH: Record<MetaPage, string> = {
@@ -22,6 +23,7 @@ const PAGE_PATH: Record<MetaPage, string> = {
   profile: "/profile",
   blogs: "/blogs",
   auth: "/auth",
+  logout: "/auth/logout",
   createBlog: "/createblog",
 };
 
@@ -29,6 +31,7 @@ const NOINDEX: ReadonlySet<MetaPage> = new Set([
   "exam",
   "profile",
   "auth",
+  "logout",
   "createBlog",
 ]);
 
@@ -36,6 +39,7 @@ type PageMetaOptions = {
   locale?: string;
   path?: string;
   category?: string;
+  subject?: string;
   index?: boolean;
 };
 
@@ -52,14 +56,19 @@ export async function pageMeta(
     : await getTranslations("Meta");
 
   const category = options.category?.trim();
+  const subject = options.subject?.trim();
   const title =
-    page === "tickets" && category
-      ? t("ticketsTitleCategory", { category })
-      : t(`${page}Title`);
+    page === "tickets" && category && subject
+      ? t("ticketsTitleCategorySubject", { category, subject })
+      : page === "tickets" && category
+        ? t("ticketsTitleCategory", { category })
+        : t(`${page}Title`);
   const description =
-    page === "tickets" && category
-      ? t("ticketsDescriptionCategory", { category })
-      : t(`${page}Description`);
+    page === "tickets" && category && subject
+      ? t("ticketsDescriptionCategorySubject", { category, subject })
+      : page === "tickets" && category
+        ? t("ticketsDescriptionCategory", { category })
+        : t(`${page}Description`);
 
   return buildMetadata({
     title,

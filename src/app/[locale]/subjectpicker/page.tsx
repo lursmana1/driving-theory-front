@@ -8,6 +8,7 @@ import SubjectPickerContent from "@/components/SubjectPicker/SubjectPickerConten
 import SubjectPickerSkeleton from "@/components/SubjectPicker/SubjectPickerSkeleton";
 import { searchParamsToRecord, type SearchParamsRecord } from "@/lib/searchParams";
 import { pageMeta } from "@/lib/pageMeta";
+import GuestAuthBanner from "@/components/GuestAuth/GuestAuthBanner";
 
 type SubjectPickerPageProps = {
   params: Promise<{ locale: string }>;
@@ -50,6 +51,7 @@ export default async function SubjectPickerPage({
 
   return (
     <div className="section flex flex-col gap-5 bg-slate-50 py-6 sm:gap-6 sm:py-8">
+      <GuestAuthBanner />
       <StatsRefreshListener />
       <CategoryPickerBar
         categories={categories}

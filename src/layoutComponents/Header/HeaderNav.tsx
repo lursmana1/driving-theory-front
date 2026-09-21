@@ -14,7 +14,7 @@ export default function HeaderNav({ variant = "default" }: HeaderNavProps) {
   return (
     <nav
       aria-label="Main navigation"
-      className="ml-0.5 hidden flex-nowrap items-center gap-0.5 md:ml-2 md:flex md:gap-1"
+      className="ml-0.5 hidden flex-nowrap items-center gap-0.5 lg:ml-2 lg:flex lg:gap-1"
     >
       {navLinks.map((link) => (
         <Link key={link.href} href={link.href} className={navLinkClass}>
