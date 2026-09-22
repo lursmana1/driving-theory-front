@@ -85,7 +85,7 @@ export const buildMetadata = ({
       url: shareImage,
       width: 1200,
       height: 630,
-      alt: "პრავის ბილეთები, თეორიის ბილეთები | prava.ge",
+      alt: "პრავის ბილეთები | მართვის მოწმობის ბილეთები და გამოცდა",
     },
   ];
 
@@ -140,6 +140,7 @@ export function websiteJsonLd(locale: string) {
       "prava",
       "პრავის ბილეთები",
       "თეორიის ბილეთები",
+      "მართვის მოწმობის ბილეთები",
       "pravis biletebi",
       "თეორიული გამოცდის ბილეთები",
     ],

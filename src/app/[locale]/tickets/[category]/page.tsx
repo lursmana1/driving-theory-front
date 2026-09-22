@@ -25,10 +25,6 @@ type PageProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return licenseCategories.map((cat) => ({ category: String(cat.id) }));
-}
-
 function ticketsListingState(
   category: string,
   sp: { page?: string; subjects?: string; questionId?: string },
@@ -53,6 +49,7 @@ function ticketsListingState(
   return {
     index: isListing,
     path: query ? `/tickets/${category}?${query}` : `/tickets/${category}`,
+    page,
     subjectName:
       knownSubject && subjectId != null
         ? getSubjectName(subjectId, locale)
@@ -71,6 +68,7 @@ export async function generateMetadata({ params, searchParams }: PageProps) {
     path: listing.path,
     category: categoryLabel,
     subject: listing.subjectName,
+    page: listing.page,
     index: listing.index,
   });
 }
@@ -134,6 +132,26 @@ export default async function TicketsCategoryPage({
     questionsUnavailable = true;
   }
 
+  const listingHeading = listing.subjectName
+    ? tMeta("ticketsTitleCategorySubject", {
+        category: categoryLabel,
+        subject: listing.subjectName,
+      })
+    : tMeta("ticketsTitleCategory", { category: categoryLabel });
+  const listingTitle =
+    listing.page > 1
+      ? tMeta("ticketsTitlePage", {
+          title: listingHeading,
+          page: listing.page,
+        })
+      : listingHeading;
+  const listingIntro = listing.subjectName
+    ? tMeta("ticketsDescriptionCategorySubject", {
+        category: categoryLabel,
+        subject: listing.subjectName,
+      })
+    : tMeta("ticketsDescriptionCategory", { category: categoryLabel });
+
   return (
     <div className="section space-y-6 py-8">
       <GuestAuthBanner />
@@ -144,14 +162,7 @@ export default async function TicketsCategoryPage({
             ? `${categoryLabel} — ${listing.subjectName}`
             : categoryLabel,
           path: listing.path,
-          description: listing.subjectName
-            ? tMeta("ticketsDescriptionCategorySubject", {
-                category: categoryLabel,
-                subject: listing.subjectName,
-              })
-            : tMeta("ticketsDescriptionCategory", {
-                category: categoryLabel,
-              }),
+          description: listingIntro,
         })}
       />
       <CategoryCardsGrid
@@ -173,6 +184,12 @@ export default async function TicketsCategoryPage({
         <SubjectAsideMenu category={category} sp={sp} />
 
         <main className="space-y-6 order-1 lg:order-2">
+          {listing.index ? (
+            <h1 className="text-center text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+              {listingTitle}
+            </h1>
+          ) : null}
+
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Suspense
               fallback={

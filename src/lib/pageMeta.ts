@@ -40,6 +40,7 @@ type PageMetaOptions = {
   path?: string;
   category?: string;
   subject?: string;
+  page?: number;
   index?: boolean;
 };
 
@@ -57,12 +58,20 @@ export async function pageMeta(
 
   const category = options.category?.trim();
   const subject = options.subject?.trim();
-  const title =
+  const listingPage =
+    options.page != null && Number.isFinite(options.page) && options.page > 1
+      ? Math.floor(options.page)
+      : 1;
+  const baseTitle =
     page === "tickets" && category && subject
       ? t("ticketsTitleCategorySubject", { category, subject })
       : page === "tickets" && category
         ? t("ticketsTitleCategory", { category })
         : t(`${page}Title`);
+  const title =
+    page === "tickets" && listingPage > 1
+      ? t("ticketsTitlePage", { title: baseTitle, page: listingPage })
+      : baseTitle;
   const description =
     page === "tickets" && category && subject
       ? t("ticketsDescriptionCategorySubject", { category, subject })

@@ -12,16 +12,17 @@ export type SiteMetadata = {
 
 export const siteMetadata: SiteMetadata = {
   name: "prava.ge",
-  title: "პრავის ბილეთები, თეორიის ბილეთები | prava.ge",
+  title: "პრავის ბილეთები | მართვის მოწმობის ბილეთები და გამოცდა",
   shortTitle: "prava.ge",
   description:
-    "პრავის ბილეთები და თეორიის ბილეთები (pravis biletebi) — საქართველოს მართვის მოწმობის თეორიული გამოცდა. ქართულად, ინგლისურად და რუსულად.",
+    "ივარჯიშე მართვის მოწმობის ბილეთებზე — ისწავლე თემები AI აუდიო და ახსნის საშუალებით და ჩააბარე გამოცდა პირველივე ცდაზე.",
   url: "https://prava.ge",
   locale: "ka_GE",
   creator: "prava.ge",
   keywords: [
     "პრავის ბილეთები",
     "თეორიის ბილეთები",
+    "მართვის მოწმობის ბილეთები",
     "pravis biletebi",
     "teoriis biletebi",
     "პრავა",

@@ -6,7 +6,7 @@ export const OG_SIZE = { width: 1200, height: 630 };
 
 const FONT_NAME = "Noto Sans Georgian";
 
-export const DEFAULT_OG_HEADLINE = "prava.ge - თეორიული გამოცდის ბილეთები";
+export const DEFAULT_OG_HEADLINE = "პრავის ბილეთები";
 
 async function logoDataUrl(): Promise<string> {
   const buf = await readFile(
