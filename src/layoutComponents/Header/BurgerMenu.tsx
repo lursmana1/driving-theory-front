@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { navLinks } from "@/CONSTS/navLinks";
+import { mobileNavLinks } from "@/CONSTS/navLinks";
 import { moreInfoLinks } from "@/CONSTS/moreInfoLinks";
 import { useUser } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
@@ -96,7 +96,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
             >
               <div className="section flex flex-col pb-4 pt-2">
                 <ul className="flex flex-col">
-                  {navLinks.map((link) => (
+                  {mobileNavLinks.map((link) => (
                     <li key={link.href}>
                       <Link
                         href={link.href}
