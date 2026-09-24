@@ -11,6 +11,7 @@ export type MetaPage =
   | "exam"
   | "profile"
   | "blogs"
+  | "cityExam"
   | "auth"
   | "logout"
   | "createBlog";
@@ -22,6 +23,7 @@ const PAGE_PATH: Record<MetaPage, string> = {
   exam: "/exam",
   profile: "/profile",
   blogs: "/blogs",
+  cityExam: "/city-exam",
   auth: "/auth",
   logout: "/auth/logout",
   createBlog: "/createblog",

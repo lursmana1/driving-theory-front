@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { navLinks } from "@/CONSTS/navLinks";
 import type { HeaderVariant } from "./headerVariants";
 import { headerNavLink } from "./headerVariants";
+import HeaderMoreInfo from "./HeaderMoreInfo";
 
 type HeaderNavProps = {
   variant?: HeaderVariant;
@@ -21,6 +22,7 @@ export default function HeaderNav({ variant = "default" }: HeaderNavProps) {
           {t(link.labelKey)}
         </Link>
       ))}
+      <HeaderMoreInfo variant={variant} />
     </nav>
   );
 }

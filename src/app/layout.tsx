@@ -62,11 +62,13 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         {children}
-        <Script
-          src="https://cloud.umami.is/script.js"
-          data-website-id="057369d0-1bed-428b-9e09-f25863e52de4"
-          strategy="afterInteractive"
-        />
+        {process.env.NODE_ENV === "production" ? (
+          <Script
+            src="https://cloud.umami.is/script.js"
+            data-website-id="057369d0-1bed-428b-9e09-f25863e52de4"
+            strategy="afterInteractive"
+          />
+        ) : null}
       </body>
     </html>
   );

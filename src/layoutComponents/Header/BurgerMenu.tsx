@@ -3,6 +3,7 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { navLinks } from "@/CONSTS/navLinks";
+import { moreInfoLinks } from "@/CONSTS/moreInfoLinks";
 import { useUser } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -13,8 +14,6 @@ import {
   burgerDrawer,
   burgerNavItem,
   burgerOverlay,
-  burgerRegisterLink,
-  examCtaPillBase,
 } from "./headerVariants";
 
 type BurgerMenuProps = {
@@ -25,7 +24,6 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
   const isLanding = variant === "landing";
   const user = useUser();
   const tAuth = useTranslations("Auth");
-  const tHome = useTranslations("Home");
   const tHeader = useTranslations("Header");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -109,6 +107,24 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                       </Link>
                     </li>
                   ))}
+                  <li className="pt-2">
+                    <p className="px-0 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                      {tHeader("navMoreInfo")}
+                    </p>
+                    <ul className="flex flex-col">
+                      {moreInfoLinks.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            onClick={closeMenu}
+                            className={burgerNavItem[variant]}
+                          >
+                            {tHeader(link.labelKey)}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
                 </ul>
 
                 <div className={burgerDivider[variant]}>
@@ -121,39 +137,14 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                       <span className="text-left">{tAuth("profile")}</span>
                     </Link>
                   ) : (
-                    <div className="flex min-h-12 items-center">
-                      <Link
-                        href="/auth?mode=register"
-                        onClick={closeMenu}
-                        className={burgerRegisterLink[variant]}
-                      >
-                        {tAuth("register")}
-                      </Link>
-                      <span
-                        aria-hidden
-                        className={`mx-4 h-5 w-px ${
-                          isLanding ? "bg-hairline" : "bg-slate-200"
-                        }`}
-                      />
-                      <Link
-                        href="/auth"
-                        onClick={closeMenu}
-                        className={burgerAccountLink[variant]}
-                      >
-                        {tAuth("login")}
-                      </Link>
-                    </div>
+                    <Link
+                      href="/auth"
+                      onClick={closeMenu}
+                      className={burgerAccountLink[variant]}
+                    >
+                      {tAuth("login")}
+                    </Link>
                   )}
-                </div>
-
-                <div className={burgerDivider[variant]}>
-                  <Link
-                    href="/subjectpicker"
-                    onClick={closeMenu}
-                    className={`flex min-h-12 w-full items-center justify-center px-6 text-center text-base ${examCtaPillBase}`}
-                  >
-                    {tHome("headerStartExam")}
-                  </Link>
                 </div>
               </div>
             </nav>

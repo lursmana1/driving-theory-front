@@ -1,0 +1,444 @@
+{
+  "CityExam": {
+    "title": "B / B1",
+    "rules": {
+      "format": "The examiner asks 2 questions/tasks before starting the road test. You can answer verbally or demonstrate visually.",
+      "penalty": "Failing a task or giving an incorrect answer counts as a minor error."
+    },
+    "questions": {
+      "1": {
+        "topic": "Engine oil level",
+        "question": "Explain how to check that the engine has the required oil level.",
+        "answer": "With the vehicle on a level surface and the engine off, remove the oil dipstick, wipe it clean, reinsert it fully, then remove it again. The oil mark on the dipstick must be between the maximum and minimum marks.",
+        "type": "verbal"
+      },
+      "2": {
+        "topic": "Brake fluid level",
+        "question": "Explain how to check that the brake fluid reservoir has the required level.",
+        "answer": "In the reservoir marked with maximum and minimum levels, the brake fluid must be between those marks.",
+        "type": "verbal"
+      },
+      "3": {
+        "topic": "Service brake",
+        "question": "Explain how to check that the service (foot) brake works properly.",
+        "answer": "Before starting the engine, press the brake pedal several times, then hold it down at a constant level and start the engine. Starting should cause the pedal to drop slightly (not fully) and then feel firm, not spongy. When braking while moving, the vehicle must not pull to one side.",
+        "type": "verbal"
+      },
+      "4": {
+        "topic": "Parking brake",
+        "question": "Explain how to check that the parking brake works properly.",
+        "answer": "On a level surface with the parking brake fully applied and the transmission disengaged from the engine, a person must not be able to push the vehicle by hand.",
+        "type": "verbal"
+      },
+      "5": {
+        "topic": "Tire pressure information",
+        "question": "Explain where to find the recommended tire pressure information.",
+        "answer": "It can be found in the vehicle’s service/owner manual or on the manufacturer’s plate attached to the vehicle body.",
+        "type": "verbal"
+      },
+      "6": {
+        "topic": "Overall tire condition",
+        "question": "Explain how to check overall tire condition for safe driving.",
+        "answer": "Inspect tires visually: they must match the vehicle design and show no signs of underinflation, tread separation, other mechanical damage, or excessive wear. Without wear indicators, tread depth below 1.6 mm means the tire is unfit for use.",
+        "type": "verbal"
+      },
+      "7": {
+        "topic": "Brake lights",
+        "question": "Explain how to check that brake lights work properly.",
+        "answer": "Brake lights (main and additional) must turn on when the brake pedal is pressed and stay on continuously while pressed.",
+        "type": "verbal"
+      },
+      "8": {
+        "topic": "Power steering",
+        "question": "Explain how to check that power steering works properly.",
+        "answer": "After starting the engine, steering effort should reduce noticeably. With the steered wheels straight, the steering wheel must not turn by itself. Force change across the full steering range should be smooth without jerks, vibration, or noise.",
+        "type": "verbal"
+      },
+      "9": {
+        "topic": "Coolant level",
+        "question": "Explain how to check the required coolant level in the cooling system.",
+        "answer": "With a cold engine switched off, coolant in the reservoir marked with max/min levels must be between those marks.",
+        "type": "verbal"
+      },
+      "10": {
+        "topic": "Turn indicators",
+        "question": "Explain how to check that turn indicators work properly.",
+        "answer": "Turn the ignition to the appropriate position, switch left and right indicators, check the dashboard telltales, then visually confirm (including via a third person) flashing operation, cleanliness, and integrity of all indicators.",
+        "type": "verbal"
+      },
+      "11": {
+        "topic": "Lights and reflectors",
+        "question": "Explain how to check that headlights and reflectors are in working order.",
+        "answer": "Turn the ignition on, switch on position lights, check the dashboard indicator, then visually inspect (including via a third person) operation, integrity, and cleanliness of all position lights and reflectors. Check dipped and main beam the same way. A wall or object in front of the vehicle may also be used.",
+        "type": "verbal"
+      },
+      "12": {
+        "topic": "Hazard warning lights",
+        "question": "Explain how to check whether the hazard warning lights work.",
+        "answer": "Switch on the hazard lights, check the dashboard indicator, then visually confirm (including via a third person) that all turn indicators flash in sync, and that they are clean, intact, and working.",
+        "type": "verbal"
+      },
+      "13": {
+        "topic": "Washer fluid level",
+        "question": "Explain how to check the washer fluid level.",
+        "answer": "After turning the ignition to the appropriate position, check the dashboard indicator. If there is no such indicator, follow the vehicle’s operating manual.",
+        "type": "verbal"
+      },
+      "14": {
+        "topic": "Tire air pressure",
+        "question": "Explain how to check tires for the recommended air pressure.",
+        "answer": "Follow the manufacturer’s instructions and use appropriate equipment — a dashboard indicator and/or a pressure gauge. Check pressure when tires are cold.",
+        "type": "verbal"
+      },
+      "15": {
+        "topic": "Tread depth",
+        "question": "Explain how to check tires for sufficient tread depth.",
+        "answer": "Follow the manufacturer’s instructions and use a tread depth gauge or ruler. Measure at the most worn point of the tread.",
+        "type": "verbal"
+      },
+      "16": {
+        "topic": "Coolant reservoir (practical)",
+        "question": "Show where the engine coolant level is checked.",
+        "answer": "The candidate must point out the cooling system reservoir on the test vehicle.",
+        "type": "practical"
+      },
+      "17": {
+        "topic": "Washer reservoir (practical)",
+        "question": "Show where the washer fluid reservoir is located.",
+        "answer": "The candidate must point out the washer fluid reservoir on the test vehicle.",
+        "type": "practical"
+      },
+      "18": {
+        "topic": "Horn (practical)",
+        "question": "Show how to check that the horn works properly.",
+        "answer": "The candidate must press the horn button; the sound must be even and loud enough. If needed, turn the ignition key to the appropriate position.",
+        "type": "practical"
+      },
+      "19": {
+        "topic": "Oil dipstick (practical)",
+        "question": "Show where the engine oil level is checked.",
+        "answer": "The candidate must point out the oil dipstick handle on the test vehicle.",
+        "type": "practical"
+      },
+      "20": {
+        "topic": "Brake fluid reservoir (practical)",
+        "question": "Show where the brake fluid reservoir is located.",
+        "answer": "The candidate must point out the brake fluid reservoir on the test vehicle.",
+        "type": "practical"
+      }
+    }
+  },
+  "BeCityExam": {
+    "title": "BE",
+    "rules": {
+      "format": "The examiner asks 2 questions/tasks before starting the road test. You can answer verbally or demonstrate visually.",
+      "penalty": "Failing a task or giving an incorrect answer counts as a minor error."
+    },
+    "questions": {
+      "1": {
+        "topic": "Loading and securing cargo safely on the trailer",
+        "question": "Explain how cargo should be loaded and secured safely on the trailer.",
+        "answer": "The load on the trailer must be distributed evenly. Heavy cargo should be placed as low as possible so that it sits as directly as possible above the axle(s). Lighter, bulkier cargo should be distributed so that the load on the coupling device does not exceed the vehicle manufacturer's specification. Cargo on the trailer must stay within the vehicle's dimensions and the permitted maximum mass (allowable weight). Secured cargo must not shift or fall off the trailer when turning or braking."
+      },
+      "2": {
+        "topic": "Checking tread depth",
+        "question": "Explain how tires are checked to make sure the tread is deep enough.",
+        "answer": "To check tread depth, use the manufacturer's instructions and a special template or a ruler. Measure at the most worn part of the tread. If there is no wear indicator, the tread depth (including the trailer tire) must not be less than 1.6 mm."
+      },
+      "3": {
+        "topic": "Overall tire safety",
+        "question": "Explain how tires are checked to make sure their overall condition is safe.",
+        "answer": "To check the overall condition, inspect the tires visually. They must match the type specified by the vehicle's construction and must show no signs of low air pressure, tread separation, any other mechanical damage, or wear beyond the permitted limit."
+      },
+      "4": {
+        "topic": "Coolant level check (theoretical)",
+        "question": "Explain how to check that the engine cooling system has the required coolant level.",
+        "answer": "With the engine off and cold, the coolant level in the reservoir marked with the maximum and minimum permitted levels must be between those marks."
+      },
+      "5": {
+        "topic": "Parking brake condition",
+        "question": "Explain how to check that the parking brake is working properly.",
+        "answer": "On a level surface, with the parking brake fully applied and the transmission disengaged from the engine, a person must be unable to move (roll) the stationary vehicle by pushing it by hand."
+      },
+      "6": {
+        "topic": "Horn check (practical)",
+        "question": "Show how to check that the horn works.",
+        "answer": "The candidate must press the horn button so the horn sounds. The sound must be even and loud enough. If needed, the candidate must turn the exam vehicle's ignition key to the appropriate position."
+      },
+      "7": {
+        "topic": "Coolant reservoir (practical)",
+        "question": "Show where the coolant level in the engine cooling system is checked.",
+        "answer": "The candidate must point out the engine cooling-system reservoir in the exam vehicle."
+      },
+      "8": {
+        "topic": "Door locking safety",
+        "question": "Show how to check that the vehicle and trailer doors are securely and safely closed.",
+        "answer": "The candidate must physically check that every door of the vehicle and the trailer is closed and that the vehicle's interior light(s) are switched off."
+      }
+    }
+  },
+  "CdCityExam": {
+    "title": "C / C1 / D / D1",
+    "rules": {
+      "format": "The examiner asks 2 questions/tasks before starting the road test. You can answer verbally or demonstrate visually.",
+      "penalty": "Failing a task or giving an incorrect answer counts as a minor error."
+    },
+    "questions": {
+      "1": {
+        "type": "verbal",
+        "topic": "Cargo Safety",
+        "question": "Explain the main safety factors that must be taken into account when loading the vehicle.",
+        "answer": "The load must be evenly distributed along the entire length of the vehicle so that it does not affect effective vehicle handling. Any cargo must be transported in a way that poses no danger to other road users. Cargo must be safely positioned within the vehicle's dimensions and maximum permissible weight. Furthermore, the secured load must not shift or fall off during turns or braking."
+      },
+      "2": {
+        "type": "verbal",
+        "topic": "Reflectors",
+        "question": "Explain how proper operation of retro-reflectors is checked.",
+        "answer": "Make sure all retro-reflectors are fitted, clean, and functioning (not cracked or broken)."
+      },
+      "3": {
+        "type": "verbal",
+        "topic": "Windscreen and Windows",
+        "question": "Explain how to check the condition of the windscreen and windows.",
+        "answer": "The windscreen and windows must be clean, transparent, and free of defects. Nothing should be attached that restricts the field of vision."
+      },
+      "4": {
+        "type": "verbal",
+        "topic": "Mudguards (Wings)",
+        "question": "Explain how proper condition of mudguards (fenders) is checked on the vehicle.",
+        "answer": "The condition of mudguards (fenders) is checked visually as part of the daily inspection."
+      },
+      "5": {
+        "type": "verbal",
+        "topic": "Tire Air Pressure",
+        "question": "Explain how to check tires to ensure they have the recommended air pressure.",
+        "answer": "To check tire pressure, follow manufacturer instructions using appropriate tools — dashboard indicators and/or a pressure gauge. Pressure must be checked when tires are cold."
+      },
+      "6": {
+        "type": "verbal",
+        "topic": "Tire Tread Depth",
+        "question": "Explain how to check tires to ensure sufficient tread depth.",
+        "answer": "Use manufacturer instructions and a depth gauge or ruler to measure tread depth at the most worn point. Without wear indicators, tread depth must not be less than 1.0 mm for C/C1 categories, and not less than 2.0 mm for D/D1 categories."
+      },
+      "7": {
+        "type": "verbal",
+        "topic": "General Tire Condition",
+        "question": "Explain how to check tires to ensure overall safe condition.",
+        "answer": "Tires are inspected visually: they must match vehicle specification and show no signs of low pressure, tread separation, mechanical damage, or excessive wear."
+      },
+      "8": {
+        "type": "verbal",
+        "topic": "Windscreen Washer",
+        "question": "Explain how the windshield washer condition is checked.",
+        "answer": "The windshield washer must be operational and its wiper blades must be in good condition."
+      },
+      "9": {
+        "type": "verbal",
+        "topic": "Vehicle Bodywork",
+        "question": "Explain how vehicle body condition is checked.",
+        "answer": "As part of the daily check, ensure the body is fit for operation without major defects. There must be no loose parts or devices on the body that could pose a danger to other road users."
+      },
+      "10": {
+        "type": "verbal",
+        "topic": "Brake System Air Pressure",
+        "question": "Explain how to check for proper air pressure in the brake system.",
+        "answer": "Ensure the dashboard gauge shows proper air pressure, the warning light is off, and the acoustic warning alarm is silent."
+      },
+      "11": {
+        "type": "verbal",
+        "topic": "Engine Oil Level",
+        "question": "Explain how to check for the required engine oil level.",
+        "answer": "With the vehicle on flat ground and engine off, remove the oil dipstick, wipe it clean, reinsert it, and pull it out again. The oil level mark must lie between MIN and MAX notches."
+      },
+      "12": {
+        "type": "verbal",
+        "topic": "Wheel Nuts",
+        "question": "Explain how to check that wheel nuts are properly tightened.",
+        "answer": "Visually inspect whether any wheel nuts are loose and ensure wheel nut indicators (if present) are in the correct alignment."
+      },
+      "13": {
+        "type": "verbal",
+        "topic": "Suspension System",
+        "question": "Explain how vehicle suspension system condition is checked.",
+        "answer": "During daily checks, inspect the suspension system for any obvious signs of wear or damage."
+      },
+      "14": {
+        "type": "verbal",
+        "topic": "Brake Lights",
+        "question": "Explain how to check proper operation of brake lights.",
+        "answer": "Brake lights (main and supplementary) must illuminate upon pressing the brake pedal and stay continuously lit while depressed."
+      },
+      "15": {
+        "type": "verbal",
+        "topic": "Coolant",
+        "question": "Explain how to check for required engine coolant level.",
+        "answer": "With cold, switched-off engine, coolant level inside the expansion tank must be between MIN and MAX marks."
+      },
+      "16": {
+        "type": "verbal",
+        "topic": "Headlights & Lights Condition",
+        "question": "Explain how to check headlight and marker light functionality.",
+        "answer": "Turn ignition key, switch on position lights and check dashboard indicators, then visually inspect (or ask a third party) light operation, cleanliness and condition. Repeat for dipped and main beam headlights. A wall in front can also be used for reflection."
+      },
+      "17": {
+        "type": "verbal",
+        "topic": "Lifting Mechanism / Ramp",
+        "question": "Explain how to use the lifting mechanism of the given vehicle (e.g., wheelchair ramp or tail lift).",
+        "answer": "The driver candidate must briefly explain the principle of proper and safe operation of the lifting mechanism fitted to the respective vehicle."
+      },
+      "18": {
+        "type": "verbal",
+        "topic": "Power Steering",
+        "question": "Explain how to check power steering operation.",
+        "answer": "After starting the engine, required steering force reduces significantly. Steering wheel must not rotate spontaneously when wheels are straight. Steering force variation across full turn range should be smooth without jerks, vibration or noise."
+      },
+      "19": {
+        "type": "verbal",
+        "topic": "Direction Indicators",
+        "question": "Explain how to check direction indicators.",
+        "answer": "Switch ignition on, activate left and right turn signals, verify panel indicators, then visually inspect (or ask a third party) their flashing operation, cleanliness and glass integrity."
+      },
+      "20": {
+        "type": "verbal",
+        "topic": "Washer Fluid Level (Theoretical)",
+        "question": "Explain how to check washer fluid level.",
+        "answer": "Check dashboard indicator after turning ignition on. If no indicator exists, inspect according to vehicle user manual."
+      },
+      "21": {
+        "type": "verbal",
+        "topic": "Dashboard (Before Engine Start)",
+        "question": "Explain what needs to be checked on the instrument panel before starting the engine.",
+        "answer": "Check the operation of all control gauges and warning indicators on the instrument panel before ignition."
+      },
+      "22": {
+        "type": "verbal",
+        "topic": "Dashboard (After Engine Start)",
+        "question": "Explain what indicators on the instrument panel must be checked after starting the engine.",
+        "answer": "Verify that all control gauges and warning indicators on the instrument panel show normal operational parameters."
+      },
+      "23": {
+        "type": "practical",
+        "topic": "Washer Reservoir (Practical)",
+        "question": "Show where the windscreen washer reservoir is located.",
+        "answer": "The candidate must physically point out the location of the washer fluid reservoir in the test vehicle."
+      },
+      "24": {
+        "type": "practical",
+        "topic": "Door Closure Check (Practical)",
+        "question": "Demonstrate how to check that all doors, including cargo compartment doors, are closed.",
+        "answer": "The driver candidate must close all doors and set the cargo door locking lever to the recommended safety position."
+      },
+      "25": {
+        "type": "practical",
+        "topic": "Air System Leak Check (Practical)",
+        "question": "Demonstrate how to check for air system leaks.",
+        "answer": "The candidate must build up pressure in air reservoirs, check the gauge on the dashboard to see if pressure drops, walk around the vehicle, and listen carefully for any audible air leaks."
+      },
+      "26": {
+        "type": "practical",
+        "topic": "Coolant Reservoir (Practical)",
+        "question": "Show where to check engine coolant level.",
+        "answer": "The candidate must physically show the engine coolant expansion tank."
+      },
+      "27": {
+        "type": "practical",
+        "topic": "Tachograph Card / Disk Replacement",
+        "question": "Demonstrate/explain how to replace the record sheet or operate the digital tachograph.",
+        "answer": "To start shift mode on a digital tachograph, insert the driver card into slot 1, navigate the menu to select starting location (country), confirm with 'OK', and switch rest mode to work/drive mode to open the working day. Upon shift completion, stop the vehicle, turn off the engine (automatically switching mode to rest), select ending location (country), confirm with 'OK', and close the working day. For multi-driver crews, insert the second driver's card into slot 2."
+      },
+      "28": {
+        "type": "practical",
+        "topic": "Engine Oil Dipstick (Practical)",
+        "question": "Show where engine oil level is checked.",
+        "answer": "The candidate must physically point to the engine oil dipstick handle."
+      }
+    }
+  },
+  "CeDeCityExam": {
+    "title": "CE / DE / C1E / D1E",
+    "rules": {
+      "format": "The examiner asks 2 questions/tasks before starting the road test. You can answer verbally or demonstrate visually.",
+      "penalty": "Failing a task or giving an incorrect answer counts as a minor error."
+    },
+    "questions": {
+      "1": {
+        "type": "verbal",
+        "topic": "Cargo Safety",
+        "question": "Explain the main safety factors that must be taken into account when loading the vehicle.",
+        "answer": "The load must be evenly distributed along the entire length of the vehicle so that it does not affect effective vehicle handling. Any cargo must be transported in a way that poses no danger to other road users. Cargo must be safely positioned within the vehicle's dimensions and maximum permissible weight. Furthermore, the secured load must not shift or fall off during turns or braking."
+      },
+      "2": {
+        "type": "verbal",
+        "topic": "Retro-reflectors",
+        "question": "Explain how proper operation of retro-reflectors is checked.",
+        "answer": "Make sure all retro-reflectors are fitted, clean, and functioning (not cracked or broken)."
+      },
+      "3": {
+        "type": "verbal",
+        "topic": "Mudguards (Fenders)",
+        "question": "Explain how proper condition of mudguards (fenders) is checked on the vehicle.",
+        "answer": "The condition of mudguards (fenders) is checked visually as part of the daily inspection."
+      },
+      "4": {
+        "type": "verbal",
+        "topic": "Windshield Washer",
+        "question": "Explain how the windshield washer condition is checked.",
+        "answer": "The windshield washer must be operational and its wiper blades must be in good condition."
+      },
+      "5": {
+        "type": "verbal",
+        "topic": "Vehicle Bodywork",
+        "question": "Explain how vehicle body condition is checked.",
+        "answer": "As part of the daily check, ensure the body is fit for operation without major defects. There must be no loose parts or devices on the body that could pose a danger to other road users."
+      },
+      "6": {
+        "type": "verbal",
+        "topic": "Wheel Nuts",
+        "question": "Explain how to check that wheel nuts are properly tightened.",
+        "answer": "Visually inspect whether any wheel nuts are loose and ensure wheel nut indicators (if present) are in the correct alignment."
+      },
+      "7": {
+        "type": "verbal",
+        "topic": "Suspension System",
+        "question": "Explain how vehicle suspension system condition is checked.",
+        "answer": "During daily checks, inspect the suspension system for any obvious signs of wear or damage."
+      },
+      "8": {
+        "type": "verbal",
+        "topic": "Lifting Mechanism",
+        "question": "Explain how to use the lifting mechanism of the given vehicle (e.g., wheelchair ramp or tail lift).",
+        "answer": "The driver candidate must briefly explain the principle of proper and safe operation of the lifting mechanism fitted to the respective vehicle."
+      },
+      "9": {
+        "type": "verbal",
+        "topic": "Dashboard (Before Engine Start)",
+        "question": "Explain what needs to be checked on the instrument panel before starting the engine.",
+        "answer": "Check the operation of all control gauges and warning indicators on the instrument panel before ignition."
+      },
+      "10": {
+        "type": "verbal",
+        "topic": "Dashboard (After Engine Start)",
+        "question": "Explain what indicators on the instrument panel must be checked after starting the engine.",
+        "answer": "Verify that all control gauges and warning indicators on the instrument panel show normal operational parameters."
+      },
+      "11": {
+        "type": "practical",
+        "topic": "Door Closure Check (Practical)",
+        "question": "Demonstrate how to check that all doors, including cargo compartment doors, are closed.",
+        "answer": "The driver candidate must close all doors and set the cargo door locking lever to the recommended safety position."
+      },
+      "12": {
+        "type": "practical",
+        "topic": "Air System Leak Check (Practical)",
+        "question": "Demonstrate how to check for air system leaks.",
+        "answer": "The candidate must build up pressure in air reservoirs, check the gauge on the dashboard to see if pressure drops, walk around the vehicle, and listen carefully for any audible air leaks."
+      },
+      "13": {
+        "type": "practical",
+        "topic": "Tachograph Card / Disk Replacement",
+        "question": "Demonstrate/explain how to replace the record sheet or operate the digital tachograph.",
+        "answer": "To start shift mode on a digital tachograph, insert the driver card into slot 1, navigate the menu to select starting location (country), confirm with 'OK', and switch rest mode to work/drive mode to open the working day. Upon shift completion, stop the vehicle, turn off the engine (automatically switching mode to rest), select ending location (country), confirm with 'OK', and close the working day. For multi-driver crews, insert the second driver's card into slot 2."
+      }
+    }
+  }
+}

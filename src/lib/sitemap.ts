@@ -16,6 +16,11 @@ type SitemapPath = {
 export const STATIC_SITEMAP_PATHS: SitemapPath[] = [
   { href: "/", changeFrequency: "weekly", priority: 1 },
   { href: "/subjectpicker", changeFrequency: "monthly", priority: 0.8 },
+  { href: "/city-exam", changeFrequency: "monthly", priority: 0.75 },
+  { href: "/city-exam?cat=be", changeFrequency: "monthly", priority: 0.7 },
+  { href: "/city-exam?cat=cd", changeFrequency: "monthly", priority: 0.7 },
+  { href: "/city-exam?cat=cede", changeFrequency: "monthly", priority: 0.7 },
+  { href: "/yard-exam", changeFrequency: "monthly", priority: 0.75 },
   { href: "/blogs", changeFrequency: "weekly", priority: 0.7 },
 ];
 

@@ -1,0 +1,218 @@
+{
+  "note": "Exam elements must be performed sequentially according to voice prompts from the electronic system installed in the vehicle or instructions from the examiner. In case of conflicting instructions, examiner directives take priority.",
+  "elements": [
+    {
+      "id": "parallel",
+      "title": "A) \"Parallel Parking\"",
+      "intro": "When executing this element, the following requirements must be observed:",
+      "image": "/images/yard-exam/parallel.gif",
+      "items": [
+        {
+          "code": "A.a)",
+          "text": "When entering the parking area, the vehicle must not cross the outer, front, or right boundary lines and poles.",
+          "points": "10 penalty points"
+        },
+        {
+          "code": "A.b)",
+          "text": "When exiting the parking area, the vehicle must not cross or hit the markings and poles.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "A.c)",
+          "text": "After stopping in the parallel parking area, the vehicle must be positioned entirely within the inner perimeter of the bounded space.",
+          "points": "20 penalty points"
+        },
+        {
+          "code": "A.d)",
+          "text": "After completing the parking maneuver, the handbrake must be applied before exiting the space.",
+          "points": "15 penalty points"
+        }
+      ]
+    },
+    {
+      "id": "zigzag",
+      "title": "B) \"Zigzag\" (Slalom)",
+      "intro": "When executing this element, the following requirements must be observed:",
+      "image": "/images/yard-exam/zigzag.gif",
+      "items": [
+        {
+          "code": "B.a)",
+          "text": "The maneuver must begin by passing the first center marking (pole) on its left side.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "B.b)",
+          "text": "The vehicle must weave in a zigzag pattern between the central markings (poles).",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "B.c)",
+          "text": "Movement through the zigzag must be executed without crossing or hitting the boundaries (markings).",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "B.d)",
+          "text": "Forward motion in the intended direction must not stop (cease) from start to finish.",
+          "points": "10 penalty points; 15 if the engine stalls"
+        },
+        {
+          "code": "B.e)",
+          "text": "Reversing during this element is strictly prohibited.",
+          "points": "10 penalty points"
+        }
+      ]
+    },
+    {
+      "id": "deadend",
+      "title": "C) Dead End / Turnaround (\"Change of Direction\")",
+      "intro": "When executing this element, the following requirements must be observed:",
+      "image": "/images/yard-exam/deadend.gif",
+      "items": [
+        {
+          "code": "C.a)",
+          "text": "The maneuver must begin from the front-right side.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "C.b)",
+          "text": "Forward movement must be performed using a single gear shift.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "C.c)",
+          "text": "Reverse movement must be performed using a single gear shift.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "C.d)",
+          "text": "The element must be completed without crossing or hitting boundary lines/markings.",
+          "points": "20 penalty points"
+        }
+      ]
+    },
+    {
+      "id": "garage",
+      "title": "D) \"Garage\" (Reverse Bay Parking)",
+      "intro": "When executing this element, the following requirements must be observed:",
+      "image": "/images/yard-exam/garage.gif",
+      "items": [
+        {
+          "code": "D.a)",
+          "text": "After shifting into reverse gear, the vehicle must not roll forward/backward more than 30 cm.",
+          "points": "10 penalty points"
+        },
+        {
+          "code": "D.b)",
+          "text": "Reversing into the garage must be completed in a single continuous attempt (single shift into reverse).",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "D.c)",
+          "text": "After stopping in the garage, the vehicle must be completely inside the designated area. Exiting the garage is permitted only after the vehicle is entirely within the garage boundaries.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "D.d)",
+          "text": "Crossing the boundary lines in the garage.",
+          "points": "20 penalty points"
+        }
+      ]
+    },
+    {
+      "id": "figure8",
+      "title": "E) \"Figure 8\"",
+      "intro": "When executing this element, the following requirements must be observed:",
+      "image": "/images/yard-exam/figure8.gif",
+      "items": [
+        {
+          "code": "E.a)",
+          "text": "Begin movement from the right side.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "E.b)",
+          "text": "Exiting from the wrong side or taking a short loop/circle.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "E.c)",
+          "text": "Stopping during the maneuver.",
+          "points": "5 penalty points; 15 if the engine stalls"
+        },
+        {
+          "code": "E.d)",
+          "text": "Crossing lines or hitting outer boundary markers/barriers.",
+          "points": "15 penalty points"
+        },
+        {
+          "code": "E.e)",
+          "text": "Reversing inside the Figure 8.",
+          "points": "15 penalty points"
+        }
+      ]
+    },
+    {
+      "id": "hill",
+      "title": "F) \"Uphill Ramp\" (\"Hill Start\")",
+      "intro": "When executing this element, the following requirements must be observed:",
+      "image": "/images/yard-exam/hill.gif",
+      "items": [
+        {
+          "code": "F.a)",
+          "text": "The vehicle must stop at the \"STOP\" line on the slope (no further than 1 meter before the line).",
+          "points": "20 penalty points if the line is crossed or stopped more than 1 meter away"
+        },
+        {
+          "code": "F.b)",
+          "text": "When moving off from the \"STOP\" line, the vehicle must not roll back more than 20 cm.",
+          "points": "10 penalty points"
+        }
+      ]
+    }
+  ],
+  "general": {
+    "title": "General Driving Requirements During the Exam",
+    "items": [
+      {
+        "code": "a)",
+        "text": "The applicant must not stall the engine from the start of the exam to its completion.",
+        "points": "15 penalty points"
+      },
+      {
+        "code": "b)",
+        "text": "The seatbelt must be fastened from start to finish.",
+        "points": "5 penalty points"
+      },
+      {
+        "code": "c)",
+        "text": "The vehicle must not be driven with the handbrake engaged.",
+        "points": "15 penalty points per 4 meters driven"
+      },
+      {
+        "code": "d)",
+        "text": "The vehicle must not roll uncontrolled at any point during the exam.",
+        "points": "10 penalty points"
+      },
+      {
+        "code": "e)",
+        "text": "The handbrake must not be used during the exam, except for Parallel Parking and the Hill Start elements.",
+        "points": "15 penalty points"
+      },
+      {
+        "code": "f)",
+        "text": "The candidate must complete all designated exam elements.",
+        "points": null
+      },
+      {
+        "code": "g)",
+        "text": "If traffic lights are present on the testing ground, the candidate must obey their signals.",
+        "points": "20 penalty points"
+      },
+      {
+        "code": "h)",
+        "text": "The vehicle must move smoothly (without jerking or sputtering) throughout the entire exam.",
+        "points": null
+      }
+    ]
+  }
+}

@@ -40,6 +40,11 @@ export default async function LandingFooter() {
                     {t("footerTopics")}
                   </Link>
                 </li>
+                <li>
+                  <Link href="/city-exam" className={footerLink}>
+                    {t("footerCityExam")}
+                  </Link>
+                </li>
               </ul>
             </nav>
 

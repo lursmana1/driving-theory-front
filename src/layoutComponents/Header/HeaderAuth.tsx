@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { useUser } from "@/contexts/UserContext";
 import type { HeaderVariant } from "./headerVariants";
-import { headerAuthLink, headerAuthLogin, headerAuthRegister } from "./headerVariants";
+import { headerAuthLink, headerAuthLogin } from "./headerVariants";
 
 type HeaderAuthProps = {
   variant?: HeaderVariant;
@@ -16,7 +16,6 @@ export default function HeaderAuth({ variant = "default" }: HeaderAuthProps) {
   const t = useTranslations("Auth");
   const linkClass = headerAuthLink[variant];
   const loginClass = headerAuthLogin[variant];
-  const registerClass = headerAuthRegister[variant];
 
   return (
     <>
@@ -29,14 +28,9 @@ export default function HeaderAuth({ variant = "default" }: HeaderAuthProps) {
             {t("profile")}
           </Link>
         ) : (
-          <>
-            <Link href="/auth" className={loginClass}>
-              {t("login")}
-            </Link>
-            <Link href="/auth?mode=register" className={registerClass}>
-              {t("register")}
-            </Link>
-          </>
+          <Link href="/auth" className={loginClass}>
+            {t("login")}
+          </Link>
         )}
       </div>
     </>

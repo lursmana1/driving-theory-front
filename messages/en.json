@@ -6,7 +6,10 @@
     "quickTest": "Quick Test",
     "navHome": "Home",
     "navExam": "Exam",
-    "navTickets": "Tickets"
+    "navTickets": "Tickets",
+    "navMoreInfo": "More info",
+    "moreInfoCityExam": "City exam — 20 questions",
+    "moreInfoYardExam": "Yard exam penalty points"
   },
   "Home": {
     "heroBadge": "✨ AI-based learning platform",
@@ -96,6 +99,7 @@
     "footerBlogs": "Blog",
     "footerSimulation": "Exam",
     "footerTopics": "Topics",
+    "footerCityExam": "City exam — 20 questions",
     "footerLeaderboard": "Leaderboard",
     "footerPrizes": "Prizes",
     "footerHelp": "Help",
@@ -281,6 +285,13 @@
     "profileDescription": "Your progress and exam history",
     "blogsTitle": "Blog",
     "blogsDescription": "Articles about the driving theory exam",
+    "cityExamTitle": "City exam 20 questions | Practical exam 20 questions",
+    "cityExamTitleBe": "BE category — 8 questions",
+    "cityExamTitleCd": "C / C1 / D / D1 — 28 questions",
+    "cityExamTitleCede": "CE / DE / C1E / D1E — 13 questions",
+    "cityExamDescription": "City exam 20 questions and practical exam 20 questions — official technical Q&A for categories B, BE, C/D, and CE/DE.",
+    "yardExamTitle": "Yard exam penalty points | Practical exam scoring system",
+    "yardExamDescription": "Yard exam penalty points and the practical exam scoring system — parallel parking, zigzag, dead end, garage, figure 8, hill start.",
     "authTitle": "Sign in",
     "authDescription": "Sign in or register",
     "logoutTitle": "Signing out",
@@ -293,5 +304,23 @@
     "empty": "No posts yet.",
     "unavailable": "Service unavailable. Please try again later.",
     "back": "Back to blog"
+  },
+  "CityExamPage": {
+    "title": "Practical exam technical questions",
+    "subtitle": "Before the road test starts, the examiner asks 2 questions/tasks. All official questions and answers by category — no video.",
+    "catB": "B / B1",
+    "catBE": "BE",
+    "catCD": "C / C1 / D / D1",
+    "catCeDe": "CE / DE / C1E / D1E",
+    "rulesFormat": "Format",
+    "rulesPenalty": "Penalty",
+    "questionCount": "{count} questions",
+    "typeVerbal": "Verbal",
+    "typePractical": "Practical"
+  },
+  "YardExamPage": {
+    "title": "Practical exam – penalty points system",
+    "subtitle": "Yard exam elements and penalty points — what costs you points.",
+    "noteLabel": "Note"
   }
 }

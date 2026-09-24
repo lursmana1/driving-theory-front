@@ -1,18 +1,14 @@
 "use client";
 
 import { usePathname } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import HeaderLogo from "./HeaderLogo";
 import HeaderNav from "./HeaderNav";
 import HeaderAuth from "./HeaderAuth";
 import BurgerMenu from "./BurgerMenu";
-import { headerExamCtaClass } from "./headerVariants";
 
 export default function HeaderShell() {
   const pathname = usePathname();
   const isLanding = pathname === "/";
-  const t = useTranslations("Home");
 
   return (
     <header
@@ -28,11 +24,6 @@ export default function HeaderShell() {
           <HeaderNav variant={isLanding ? "landing" : "default"} />
         </div>
         <div className="flex shrink-0 items-center gap-2 md:gap-3">
-          {!isLanding && (
-            <Link href="/subjectpicker" className={headerExamCtaClass(isLanding)}>
-              {t("headerStartExam")}
-            </Link>
-          )}
           <HeaderAuth variant={isLanding ? "landing" : "default"} />
           <BurgerMenu variant={isLanding ? "landing" : "default"} />
         </div>
