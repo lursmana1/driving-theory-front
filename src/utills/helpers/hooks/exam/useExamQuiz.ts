@@ -1,10 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { ExamQuestion } from "@/lib/types/exam";
-import type { FinishExamResponse } from "@/api/examAttempts";
 import type { CategoryExamRules } from "@/CONSTS/categories";
-import {
-  AUTO_ADVANCE_DELAY_MS,
-} from "@/CONSTS/QuizExamConstats";
 import { MEDIA_BELOW_LG } from "@/CONSTS/breakpoints";
 import { getAnswers } from "@/utills/helpers/getAnswers";
 import useArrowNavigation from "@/utills/helpers/hooks/useArrowNavigation";
@@ -14,19 +10,8 @@ import { useSwipeable } from "@/utills/helpers/hooks/useSwipeable";
 import { useExamProgress } from "@/utills/helpers/hooks/useExamProgress";
 import { useQuestionNavigation } from "@/utills/helpers/hooks/useQuizNavigation";
 import { useAutoAdvance } from "./useAutoAdvance";
-import { useExamRestart } from "./useExamRestart";
-import {
-  submitAnswer,
-  finishExam,
-  getAttempt,
-  isAttemptExpiredError,
-} from "@/api/examAttempts";
-import { getExamClock } from "@/utills/helpers/formatExamDuration";
-import { normalizeQuestions } from "@/utills/helpers/normalizeQuestions";
-import {
-  getExamReviewItems,
-  type ExamReviewItem,
-} from "@/utills/helpers/examReview";
+import { useExamFinish } from "./useExamFinish";
+import { useExamAnswer } from "./useExamAnswer";
 
 export function useExamQuiz(
   questions: ExamQuestion[],
@@ -41,26 +26,8 @@ export function useExamQuiz(
     [questions],
   );
 
-  const [isTimeUp, setIsTimeUp] = useState(false);
-  const [timerRestartKey, setTimerRestartKey] = useState(0);
   const [answersById, setAnswersById] = useState<Record<string, string>>({});
   const [correctById, setCorrectById] = useState<Record<string, boolean>>({});
-  const [finishResult, setFinishResult] = useState<FinishExamResponse | null>(
-    null,
-  );
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
-  const [hydratedQuestions, setHydratedQuestions] = useState<
-    ExamQuestion[] | null
-  >(null);
-  const finishCalledRef = useRef(false);
-  const [guestStartMs] = useState(() => Date.now());
-
-  const readElapsed = useCallback(
-    () =>
-      getExamClock({ createdAt, endDate, fallbackStartMs: guestStartMs })
-        .elapsedSeconds,
-    [createdAt, endDate, guestStartMs],
-  );
 
   const { autoAdvance, handleAutoAdvanceChange, timeoutRef } = useAutoAdvance();
 
@@ -79,179 +46,67 @@ export function useExamQuiz(
     correctById,
   );
 
-  const examFinished = totalAnswered >= totalQuestions || isTimeUp;
-  const examFailed = mistake > maxMistakes;
-  const examEnded = examFinished || examFailed;
+  const finish = useExamFinish({
+    attemptId,
+    endDate,
+    createdAt,
+    examQuestions,
+    answersById,
+    correctById,
+    totalAnswered,
+    totalQuestions,
+    mistake,
+    maxMistakes,
+  });
 
-  useEffect(() => {
-    if (!examEnded) return;
-
-    if (!attemptId) {
-      setHydratedQuestions(examQuestions);
-      return;
-    }
-
-    if (!finishResult) return;
-
-    let cancelled = false;
-    getAttempt(attemptId)
-      .then((data) => {
-        if (cancelled) return;
-        const full = normalizeQuestions(data.questions);
-        setHydratedQuestions(full.length ? full : examQuestions);
-      })
-      .catch(() => {
-        if (!cancelled) setHydratedQuestions(examQuestions);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [examEnded, attemptId, finishResult, examQuestions]);
-
-  const wrongQuestions: ExamReviewItem[] = useMemo(
-    () =>
-      getExamReviewItems(
-        examQuestions,
-        answersById,
-        correctById,
-        hydratedQuestions,
-      ),
-    [examQuestions, answersById, correctById, hydratedQuestions],
-  );
-
-  const reviewReady = !attemptId || hydratedQuestions != null;
-
-  const callFinish = useCallback(async () => {
-    if (finishCalledRef.current || !attemptId) return;
-    finishCalledRef.current = true;
-    setElapsedSeconds(readElapsed());
-    try {
-      const result = await finishExam(attemptId);
-      setFinishResult(result);
-    } catch {
-      setFinishResult({
-        completedAt: new Date().toISOString(),
-        passed: false,
-        durationSeconds: 0,
-      });
-    }
-  }, [attemptId, readElapsed]);
-
-  const handleTimeUp = useCallback(() => {
-    setIsTimeUp(true);
-    callFinish();
-  }, [callFinish]);
-
-  const handleFinish = useCallback(() => {
-    if (examEnded) return;
-    callFinish();
-    setIsTimeUp(true);
-  }, [callFinish, examEnded]);
-
-  useEffect(() => {
-    if (examFailed) setElapsedSeconds(readElapsed());
-  }, [examFailed, readElapsed]);
-
-  useEffect(() => {
-    if (examFinished && attemptId && !finishCalledRef.current) {
-      callFinish();
-    }
-  }, [examFinished, attemptId, callFinish]);
-
-  useEffect(() => {
-    if (examFailed && attemptId && !finishCalledRef.current) {
-      callFinish();
-    }
-  }, [examFailed, attemptId, callFinish]);
-
-  const nav = useQuestionNavigation(examQuestions.length, examEnded);
-  const navNextRef = useRef(nav.next);
-  navNextRef.current = nav.next;
+  const nav = useQuestionNavigation(examQuestions.length, finish.examEnded);
   useArrowNavigation(nav.prev, nav.next);
 
   const q = examQuestions[nav.index];
   const qId = q ? String(q.id) : "";
   const selectedAnswer = answersById[qId] ?? null;
   const answers = q ? getAnswers(q) : [];
-  const answeringRef = useRef(false);
 
-  useEffect(() => {
-    answeringRef.current = false;
-  }, [qId]);
+  const { handleSelect } = useExamAnswer({
+    q,
+    qId,
+    selectedAnswer,
+    examFinished: finish.examFinished,
+    examFailed: finish.examFailed,
+    navIndex: nav.index,
+    questionCount: examQuestions.length,
+    autoAdvance,
+    timeoutRef,
+    attemptId,
+    onAdvance: nav.next,
+    setAnswersById,
+    setCorrectById,
+    setIsTimeUp: finish.setIsTimeUp,
+  });
+
+  const resetNav = nav.reset;
+  const resetFinish = finish.resetFinish;
 
   const onReset = useCallback(() => {
-    nav.reset();
+    resetNav();
     setAnswersById({});
     setCorrectById({});
-    setIsTimeUp(false);
-    setFinishResult(null);
-    setElapsedSeconds(0);
-    setHydratedQuestions(null);
-    finishCalledRef.current = false;
-    setTimerRestartKey((k) => k + 1);
-  }, [nav.reset]);
+    resetFinish();
+  }, [resetNav, resetFinish]);
 
-  const { handleRestart } = useExamRestart({ onReset, onRestart });
-
-  const handleSelect = useCallback(
-    (key: string) => {
-      if (examFinished || examFailed) return;
-      if (answeringRef.current || selectedAnswer) return;
-      answeringRef.current = true;
-
-      setAnswersById((prev) => {
-        if (prev[qId]) return prev;
-        return { ...prev, [qId]: key };
-      });
-
-      const answeredIndex = nav.index;
-      // Hold the jump until the verdict lands, otherwise the colour never shows.
-      const scheduleAdvance = () => {
-        if (!autoAdvance || answeredIndex >= examQuestions.length - 1) return;
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        timeoutRef.current = setTimeout(() => {
-          answeringRef.current = false;
-          navNextRef.current();
-          timeoutRef.current = null;
-        }, AUTO_ADVANCE_DELAY_MS);
-      };
-
-      if (attemptId && q) {
-        submitAnswer(attemptId, q.id, key)
-          .then(({ correct }) => {
-            setCorrectById((prev) => ({ ...prev, [qId]: correct }));
-          })
-          .catch((err: unknown) => {
-            // Deadline passed — the server already closed the attempt.
-            if (isAttemptExpiredError(err)) setIsTimeUp(true);
-          })
-          .finally(scheduleAdvance);
-      } else {
-        scheduleAdvance();
-      }
-    },
-    [
-      qId,
-      examFinished,
-      examFailed,
-      selectedAnswer,
-      nav.index,
-      examQuestions.length,
-      autoAdvance,
-      attemptId,
-      q,
-    ],
-  );
+  const handleRestart = useCallback(() => {
+    onReset();
+    onRestart?.();
+  }, [onReset, onRestart]);
 
   const isSwipeEnabled = useMediaQuery(MEDIA_BELOW_LG);
   const swipe = useSwipeable({
     onSwipeLeft: nav.next,
     onSwipeRight: nav.prev,
-    disabled: examEnded || !isSwipeEnabled,
+    disabled: finish.examEnded || !isSwipeEnabled,
   });
 
-  useAnswerKeyboard(examEnded || !!selectedAnswer, answers, handleSelect);
+  useAnswerKeyboard(finish.examEnded || !!selectedAnswer, answers, handleSelect);
 
   return {
     q,
@@ -261,26 +116,25 @@ export function useExamQuiz(
     /** null while the server verdict for the current pick is still in flight. */
     selectedCorrect: qId in correctById ? correctById[qId] : null,
     nav,
-    examFinished,
-    examFailed,
-    examEnded,
+    examFinished: finish.examFinished,
+    examFailed: finish.examFailed,
+    examEnded: finish.examEnded,
     score,
     mistake,
-    isTimeUp,
-    timerRestartKey,
+    isTimeUp: finish.isTimeUp,
+    timerRestartKey: finish.timerRestartKey,
     handleRestart,
     handleSelect,
-    handleTimeUp,
-    handleFinish,
+    handleTimeUp: finish.handleTimeUp,
     autoAdvance,
     handleAutoAdvanceChange,
     isSwipeEnabled,
     swipe,
     safeQuestions: examQuestions,
     examRules: { totalQuestions, passScore, maxMistakes },
-    finishResult,
-    elapsedSeconds,
-    wrongQuestions,
-    reviewReady,
+    finishResult: finish.finishResult,
+    elapsedSeconds: finish.elapsedSeconds,
+    wrongQuestions: finish.wrongQuestions,
+    reviewReady: finish.reviewReady,
   };
 }

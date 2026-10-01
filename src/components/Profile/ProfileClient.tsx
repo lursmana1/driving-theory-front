@@ -8,6 +8,7 @@ import { ProfileHeader } from "@/components/Profile/ProfileHeader";
 import { ProfileAttemptStats } from "@/components/Profile/ProfileAttemptStats";
 import { ProfileExamHistory } from "@/components/Profile/ProfileExamHistory";
 import { ProfileOverviewSkeleton } from "@/components/Profile/ProfileOverviewSkeleton";
+import { useProfileAttempts } from "@/utills/helpers/hooks/useProfileAttempts";
 
 const ProfileOverviewSection = dynamic(
   () => import("@/components/Profile/ProfileOverviewSection"),
@@ -24,6 +25,8 @@ export default function ProfileClient() {
     }
   }, [authLoading, user, router]);
 
+  const history = useProfileAttempts();
+
   if (!authLoading && !user) {
     return null;
   }
@@ -31,9 +34,19 @@ export default function ProfileClient() {
   return (
     <main className="section space-y-6 py-6 font-georgian sm:space-y-8 sm:py-8">
       <ProfileHeader />
-      <ProfileAttemptStats />
+      <ProfileAttemptStats
+        historyTotal={history.historyTotal}
+        stats={history.stats}
+        loading={history.loading || authLoading}
+      />
       <ProfileOverviewSection />
-      <ProfileExamHistory />
+      <ProfileExamHistory
+        page={history.page}
+        attempts={history.attempts}
+        categories={history.categories}
+        historyTotal={history.historyTotal}
+        loading={history.loading}
+      />
     </main>
   );
 }

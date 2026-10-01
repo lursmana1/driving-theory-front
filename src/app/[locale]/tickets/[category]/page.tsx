@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
-import { getServerBaseApi } from "@/api/ServerBaseApi";
+import { getTicketQuestions } from "@/api/questions";
 import { getCategoryById, licenseCategories } from "@/CONSTS/categories";
 import { getSubjectName, isKnownSubjectId } from "@/CONSTS/subjects";
 import { TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
@@ -8,7 +8,7 @@ import Pagination from "@/components/Pagination/Pagination";
 import CategoryCardsGrid from "@/components/categoryComponents/CategoryCardsGrid/CategoryCardsGrid";
 import TicketsQuizList from "@/components/TicketsQuiz/TicketsQuizList";
 import QuestionIdSearch from "@/components/QuestionIdSearch/QuestionIdSearch";
-import type { ExamQuestion, QuestionsResponse } from "@/lib/types/exam";
+import type { ExamQuestion } from "@/lib/types/exam";
 import SubjectAsideMenu from "@/components/SubjectAsideMenu/SubjectAsideMenu";
 import { JsonLd } from "@/components/JsonLd";
 import { pageMeta } from "@/lib/pageMeta";
@@ -97,37 +97,16 @@ export default async function TicketsCategoryPage({
   let questionsUnavailable = false;
 
   try {
-    const api = await getServerBaseApi();
-
-    if (questionId) {
-      const res = await api.get<ExamQuestion | null>(`/questions/${questionId}`, {
-        params: { lang: locale },
-      });
-      const question = res.data;
-      questions = question ? [question] : [];
-      pagination = { page: 1, total: questions.length };
-    } else {
-      const res = await api.get<QuestionsResponse>("/questions", {
-        params: {
-          category: categoryId,
-          subjects,
-          page,
-          size,
-          lang: locale,
-        },
-      });
-      const questionsRes = res.data;
-      const rawItems = questionsRes?.items ?? questionsRes;
-      questions = Array.isArray(rawItems)
-        ? rawItems
-        : rawItems
-          ? [rawItems]
-          : [];
-      pagination = {
-        page: questionsRes?.page ?? page,
-        total: questionsRes?.total ?? questions.length,
-      };
-    }
+    const result = await getTicketQuestions({
+      locale,
+      categoryId,
+      page,
+      size,
+      subjects,
+      questionId,
+    });
+    questions = result.questions;
+    pagination = { page: result.page, total: result.total };
   } catch {
     questionsUnavailable = true;
   }

@@ -137,6 +137,9 @@
   "Exam": {
     "loading": "Loading...",
     "loadingNewQuestions": "Loading new questions...",
+    "insufficientQuestions": "There are not enough questions for the selected topics. Choose more topics or another category.",
+    "backToTopics": "Go back",
+    "questionsNotFound": "Questions could not be found",
     "autoAdvance": "Auto advance to next",
     "restart": "Start Over",
     "goToHome": "Go to main page",

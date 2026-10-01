@@ -1,45 +1,30 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import Modal from "antd/es/modal/Modal";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import type { FinishExamResponse } from "@/api/examAttempts";
-import Image from "next/image";
-import {
-  formatExamDuration,
-  resolveExamDurationSeconds,
-} from "@/utills/helpers/formatExamDuration";
 import GuestSaveProgressCta from "../GuestSaveProgressCta";
 
-type ExamRetryModalProps = {
+type ExamResultModalProps = {
   handleRestart: () => void;
-  mistake: number;
-  finishResult?: FinishExamResponse | null;
-  elapsedSeconds?: number;
   onReview?: () => void;
   reviewCount?: number;
   reviewReady?: boolean;
   isGuest?: boolean;
+  children: ReactNode;
 };
 
-const ExamRetryModal = ({
+export default function ExamResultModal({
   handleRestart,
-  mistake,
-  finishResult,
-  elapsedSeconds = 0,
   onReview,
   reviewCount = 0,
   reviewReady = true,
   isGuest = false,
-}: ExamRetryModalProps) => {
+  children,
+}: ExamResultModalProps) {
   const t = useTranslations("Exam");
   const router = useRouter();
-
-  const duration = resolveExamDurationSeconds(
-    elapsedSeconds,
-    finishResult?.durationSeconds,
-  );
   const canReview = reviewCount > 0 && !!onReview;
 
   useEffect(() => {
@@ -74,33 +59,7 @@ const ExamRetryModal = ({
       }}
     >
       <div className="font-georgian bg-white">
-        <div className="border-b border-slate-200 px-8 py-6 text-center">
-          <h2 className="text-lg font-bold leading-snug text-slate-900 sm:text-xl">
-            {t("examFailed")}
-          </h2>
-          <p className="mt-2 text-sm text-rose-600">
-            {t("mistakeCount", { count: mistake })}
-          </p>
-        </div>
-
-        <div className="px-8 py-6 text-center">
-          <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-            <Image
-              className="h-auto w-full"
-              src="/gif/school-paper.gif"
-              alt=""
-              width={360}
-              height={200}
-              unoptimized
-            />
-          </div>
-
-          {duration > 0 && (
-            <p className="mt-4 text-sm font-medium text-slate-600">
-              {t("examDuration", { time: formatExamDuration(duration) })}
-            </p>
-          )}
-        </div>
+        {children}
 
         <div className="flex flex-col gap-2.5 border-t border-slate-200 bg-slate-50 px-8 py-6">
           {canReview && (
@@ -137,6 +96,4 @@ const ExamRetryModal = ({
       </div>
     </Modal>
   );
-};
-
-export default ExamRetryModal;
+}

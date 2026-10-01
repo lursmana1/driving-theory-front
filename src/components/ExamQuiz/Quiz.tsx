@@ -9,7 +9,7 @@ import { useExamQuiz } from "@/utills/helpers/hooks/exam";
 import ExamCountDown from "../ExamCountDown/ExamCountDown";
 import ExamFooter from "../ExamFooter/ExamFooter";
 import ExamHeader from "../ExamHeader/ExamHeader";
-import ExamRetryModal from "../Modals/ExamRetryModal.tsx/ExamRetryModal";
+import ExamRetryModal from "../Modals/ExamRetryModal/ExamRetryModal";
 import ExamSuccessModal from "../Modals/ExamSucessModal/ExamSucessModal";
 import ExamAnswerButtons from "./ExamAnswerButtons";
 import ExamAutoAdvanceCheckbox from "./ExamAutoAdvanceCheckbox";

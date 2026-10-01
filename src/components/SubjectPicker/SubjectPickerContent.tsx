@@ -1,7 +1,5 @@
-import {
-  examRulesFromCategory,
-  getCategoryById,
-} from "@/api/categories";
+import { examRulesFromCategory } from "@/api/categories";
+import { getCategoryByIdServer } from "@/api/categoriesServer";
 import { getTranslations } from "next-intl/server";
 import SubjectPicker from "@/components/SubjectPicker/SubjectPicker";
 
@@ -15,7 +13,7 @@ export default async function SubjectPickerContent({
   locale,
 }: SubjectPickerContentProps) {
   try {
-    const category = await getCategoryById(categoryId, locale);
+    const category = await getCategoryByIdServer(categoryId, locale);
     const examRules = examRulesFromCategory(category);
     const subjects = (category.subjects ?? []).map((subject) => ({
       id: subject.id,

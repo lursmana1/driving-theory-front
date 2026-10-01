@@ -6,7 +6,6 @@ import type {
   OverviewWeakSubject,
   QuestionPoolStats,
   ReadinessScore,
-  SubjectProgress,
 } from "@/lib/types/userStats";
 
 export type WeakQuestion = OverviewWeakQuestion;
@@ -33,15 +32,6 @@ export async function getReadiness(
     params: { category: categoryId },
   });
   return res.data;
-}
-
-export async function getSubjectProgress(
-  categoryId: number,
-): Promise<SubjectProgress[]> {
-  const res = await BaseApi.get<
-    SubjectProgress[] | { data: SubjectProgress[] }
-  >("/user-stats/subject-progress", { params: { category: categoryId } });
-  return unwrapArray(res.data);
 }
 
 export async function getWeakQuestions(

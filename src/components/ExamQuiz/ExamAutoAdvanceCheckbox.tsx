@@ -14,8 +14,8 @@ export default function ExamAutoAdvanceCheckbox({
   const t = useTranslations("Exam");
 
   return (
-    <div className="shrink-0 px-3 py-2 sm:px-4">
-      <label className="flex cursor-pointer items-center gap-2 text-sm text-white/90">
+    <div className="w-fit shrink-0 self-start px-3 py-2 sm:px-4">
+      <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-white/90">
         <input
           type="checkbox"
           checked={checked}

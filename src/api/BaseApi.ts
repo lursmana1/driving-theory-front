@@ -58,12 +58,4 @@ instance.interceptors.response.use(
   },
 );
 
-/** Update Accept-Language for all future requests (e.g. when user switches locale). */
-export function setApiLocale(locale: string) {
-  instance.defaults.headers["Accept-Language"] =
-    routing.locales.includes(locale as "ka" | "en" | "ru")
-      ? locale
-      : routing.defaultLocale;
-}
-
 export default instance;

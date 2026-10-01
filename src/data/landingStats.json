@@ -1,6 +1,0 @@
-[
-  { "keyName": "stat1Key", "valName": "stat1Val", "colorClass": "text-blue-600" },
-  { "keyName": "stat2Key", "valName": "stat2Val", "colorClass": "text-emerald-600" },
-  { "keyName": "stat3Key", "valName": "stat3Val", "colorClass": "text-blue-600" },
-  { "keyName": "stat4Key", "valName": "stat4Val", "colorClass": "text-rose-600" }
-]

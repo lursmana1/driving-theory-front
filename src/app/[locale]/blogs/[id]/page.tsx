@@ -1,4 +1,4 @@
-import BaseApi from "@/api/BaseApi";
+import { getBlog } from "@/api/blogs";
 import Tiptap from "@/components/Tiptap/Tiptap";
 import type { Blog } from "@/lib/types/blog";
 import { formatDate } from "@/utills/helpers/formatDate";
@@ -16,10 +16,10 @@ type Props = { params: Promise<{ locale: string; id: string }> };
 export async function generateMetadata({ params }: Props) {
   const { locale, id } = await params;
   try {
-    const res = await BaseApi.get<Blog>(`/blogs/${id}`);
+    const blog = await getBlog(id);
     return buildMetadata({
-      title: res.data.name,
-      description: res.data.description || res.data.name,
+      title: blog.name,
+      description: blog.description || blog.name,
       path: `/blogs/${id}`,
       locale,
     });
@@ -35,8 +35,7 @@ export default async function BlogPage({ params }: Props) {
   let blog: Blog;
 
   try {
-    const res = await BaseApi.get(`/blogs/${id}`);
-    blog = res.data;
+    blog = await getBlog(id);
   } catch {
     notFound();
   }

@@ -137,6 +137,9 @@
   "Exam": {
     "loading": "Загрузка...",
     "loadingNewQuestions": "Загрузка новых вопросов...",
+    "insufficientQuestions": "Для выбранных тем недостаточно вопросов. Выберите больше тем или другую категорию.",
+    "backToTopics": "Назад",
+    "questionsNotFound": "Вопросы не найдены",
     "autoAdvance": "Авто-переход к следующему",
     "restart": "Начать заново",
     "goToHome": "На главную",

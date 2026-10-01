@@ -34,18 +34,31 @@ export function examRulesFromCategory(category: Category): CategoryExamRules {
   };
 }
 
+export function normalizeCategoryList(
+  data: Category[] | null | undefined,
+): Category[] {
+  return (data ?? []).map(normalizeCategory);
+}
+
+export function normalizeCategoryDetail(
+  data: CategoryWithSubjects,
+  locale?: string,
+): CategoryWithSubjects {
+  const rawSubjects = data.subjects ?? [];
+  const subjects = locale
+    ? enrichSubjectsWithLocalizedNames(rawSubjects, locale)
+    : rawSubjects;
+  return { ...normalizeCategory(data), subjects };
+}
+
 export const getCategories = cache(async (): Promise<Category[]> => {
   const res = await BaseApi.get<Category[]>("/categories");
-  return (res.data ?? []).map(normalizeCategory);
+  return normalizeCategoryList(res.data);
 });
 
 export const getCategoryById = cache(
   async (id: number, locale?: string): Promise<CategoryWithSubjects> => {
     const res = await BaseApi.get<CategoryWithSubjects>(`/categories/${id}`);
-    const rawSubjects = res.data.subjects ?? [];
-    const subjects = locale
-      ? enrichSubjectsWithLocalizedNames(rawSubjects, locale)
-      : rawSubjects;
-    return { ...normalizeCategory(res.data), subjects };
+    return normalizeCategoryDetail(res.data, locale);
   },
 );

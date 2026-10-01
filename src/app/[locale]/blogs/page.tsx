@@ -1,8 +1,7 @@
-import BaseApi from "@/api/BaseApi";
+import { getBlogs } from "@/api/blogs";
 import BlogCard from "@/components/Blogs/BlogCard";
 import { BLOGS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
-import type { BlogsResponse } from "@/lib/types/blog";
 import { getLocale, getTranslations } from "next-intl/server";
 import { pageMeta } from "@/lib/pageMeta";
 
@@ -29,18 +28,16 @@ export default async function BlogsPage({ searchParams }: PageProps) {
   const locale = await getLocale();
   const t = await getTranslations("Blogs");
 
-  let data: BlogsResponse["data"] = [];
+  let data: Awaited<ReturnType<typeof getBlogs>>["data"] = [];
   let resPage = page;
   let total = 0;
   let backendUnavailable = false;
 
   try {
-    const res = await BaseApi.get<BlogsResponse>("/blogs", {
-      params: { page, size: BLOGS_PAGE_SIZE },
-    });
-    data = res.data.data;
-    resPage = res.data.page;
-    total = res.data.total;
+    const res = await getBlogs(page, BLOGS_PAGE_SIZE);
+    data = res.data;
+    resPage = res.page;
+    total = res.total;
   } catch {
     backendUnavailable = true;
   }

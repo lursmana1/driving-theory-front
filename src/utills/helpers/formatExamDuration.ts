@@ -49,10 +49,18 @@ export function isActiveExamEndDate(endDate?: string | null): boolean {
   return end != null && end > Date.now();
 }
 
-export function formatExamDuration(seconds: number): string {
+export function formatExamDuration(
+  seconds: number | null | undefined,
+  emptyLabel = "",
+): string {
+  if (seconds == null) return emptyLabel;
   const safe = Math.max(0, Math.floor(seconds));
-  const m = Math.floor(safe / 60);
+  const h = Math.floor(safe / 3600);
+  const m = Math.floor((safe % 3600) / 60);
   const s = safe % 60;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 

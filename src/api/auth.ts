@@ -54,6 +54,11 @@ export async function register(payload: {
   return res.data;
 }
 
+export async function getMe(): Promise<User | null> {
+  const res = await BaseApi.get<User>("/auth/me");
+  return res.data ?? null;
+}
+
 export async function logout(): Promise<void> {
   try {
     await BaseApi.post("/auth/logout");

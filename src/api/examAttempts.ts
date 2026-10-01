@@ -5,6 +5,7 @@ import {
   getCategoryById,
 } from "@/api/categories";
 import {
+  DEFAULT_CATEGORY_ID,
   inferCategoryIdFromExamRules,
   toCategoryExamRules,
   type CategoryExamRules,
@@ -188,7 +189,7 @@ async function fetchRandomExamQuestions(
   const searchParams = new URLSearchParams({
     lang: params.lang,
     count: String(params.count ?? examRules.totalQuestions),
-    category: params.categories ?? "1",
+    category: params.categories ?? String(DEFAULT_CATEGORY_ID),
   });
   if (params.subjects) searchParams.set("subjects", params.subjects);
 
@@ -205,8 +206,10 @@ async function fetchRandomExamQuestions(
 export async function fetchExamClient(
   params: FetchExamClientParams,
 ): Promise<FetchExamClientResult> {
-  const categoryId = Number(params.categories ?? "1");
-  const safeCategoryId = Number.isFinite(categoryId) ? categoryId : 1;
+  const categoryId = Number(params.categories ?? DEFAULT_CATEGORY_ID);
+  const safeCategoryId = Number.isFinite(categoryId)
+    ? categoryId
+    : DEFAULT_CATEGORY_ID;
 
   let examRules: CategoryExamRules;
   try {

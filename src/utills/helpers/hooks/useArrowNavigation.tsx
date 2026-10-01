@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { isTypingTarget } from "@/utills/helpers/isTypingTarget";
 
 const useArrowNavigation = (
   handlePrevious: () => void,
@@ -6,10 +7,7 @@ const useArrowNavigation = (
 ) => {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      const tag = target?.tagName?.toLowerCase();
-      if (tag === "input" || tag === "textarea" || target?.isContentEditable)
-        return;
+      if (isTypingTarget(e.target)) return;
 
       if (e.key === "ArrowLeft") {
         e.preventDefault();

@@ -1,6 +1,6 @@
 import LandingHero from "@/components/landingSections/LandingHero";
 import LandingWhy from "@/components/landingSections/LandingWhy";
-import LandingHow from "@/components/landingSections/LandingHow";
+import { LandingHowSteps } from "@/components/landingSections/LandingHowSteps";
 import LandingFaqSection from "@/components/landingSections/LandingFaqSection";
 import LandingCta from "@/components/landingSections/LandingCta";
 import LandingFooter from "@/components/landingSections/LandingFooter";
@@ -26,7 +26,7 @@ export default async function HomePage({ params }: PageProps) {
       <JsonLd data={websiteJsonLd(locale)} />
       <LandingHero />
       <LandingWhy />
-      <LandingHow />
+      <LandingHowSteps />
       <LandingFaqSection />
       <LandingCta />
       <LandingFooter />

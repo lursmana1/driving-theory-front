@@ -1,66 +1,37 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { useAuth } from "@/contexts/UserContext";
-import { getCategories } from "@/api/categories";
 import {
   getAttemptCategoryLabel,
-  getAttemptsHistory,
   type AttemptSummary,
 } from "@/api/examAttempts";
 import type { Category } from "@/lib/types/category";
 import {
   EXAM_HISTORY_PAGE_SIZE,
   EXAM_HISTORY_TABLE_GRID,
-  PAGE_PARAM,
 } from "@/CONSTS/pagination";
-import { subscribeStatsRefresh } from "@/lib/statsRefresh";
 import Pagination from "@/components/Pagination/Pagination";
 import { ExamHistoryRow } from "@/components/Profile/ExamHistoryRow";
-import { EMPTY_ATTEMPTS_PAGE } from "@/components/Profile/profileUtils";
 
-export function ProfileExamHistory() {
-  const { user } = useAuth();
-  const searchParams = useSearchParams();
+type ProfileExamHistoryProps = {
+  page: number;
+  attempts: AttemptSummary[];
+  categories: Category[];
+  historyTotal: number;
+  loading: boolean;
+};
+
+export function ProfileExamHistory({
+  page,
+  attempts,
+  categories,
+  historyTotal,
+  loading,
+}: ProfileExamHistoryProps) {
   const locale = useLocale();
   const t = useTranslations("Profile");
   const tExam = useTranslations("Exam");
-
-  const page = Math.max(
-    1,
-    parseInt(searchParams.get(PAGE_PARAM) ?? "1", 10) || 1,
-  );
-
-  const [attempts, setAttempts] = useState<AttemptSummary[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [historyTotal, setHistoryTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  const loadHistory = useCallback(async () => {
-    if (!user) return;
-
-    setLoading(true);
-    const [cats, history] = await Promise.all([
-      getCategories().catch(() => [] as Category[]),
-      getAttemptsHistory(page, EXAM_HISTORY_PAGE_SIZE).catch(
-        () => EMPTY_ATTEMPTS_PAGE,
-      ),
-    ]);
-
-    setCategories(cats);
-    setAttempts(history.data);
-    setHistoryTotal(history.counts?.total ?? history.total);
-    setLoading(false);
-  }, [user, page]);
-
-  useEffect(() => {
-    if (!user) return;
-    loadHistory();
-    return subscribeStatsRefresh(loadHistory);
-  }, [user, loadHistory]);
 
   const historyLabels = {
     colCategory: t("colCategory"),

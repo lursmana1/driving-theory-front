@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import axios from "axios";
-import BaseApi from "@/api/BaseApi";
+import { getMe, logout as logoutApi } from "@/api/auth";
 import type { User } from "@/lib/auth";
 import {
   captureAccessTokenFromUrl,
@@ -33,8 +33,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   // Always ask the API: a Google session lives in an httpOnly cookie we can't read.
   const refresh = useCallback(async () => {
     try {
-      const res = await BaseApi.get<User>("/auth/me");
-      const nextUser = res.data ?? null;
+      const nextUser = await getMe();
       setUser(nextUser);
       if (nextUser) markSession();
       else clearAccessToken();
@@ -50,11 +49,10 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     try {
-      await BaseApi.post("/auth/logout");
+      await logoutApi();
     } catch {
-      // ignore — still clear local session
+      // logout already cleared the local token
     } finally {
-      clearAccessToken();
       setUser(null);
     }
   }, []);

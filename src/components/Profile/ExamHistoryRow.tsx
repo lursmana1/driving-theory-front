@@ -1,10 +1,8 @@
 import type { AttemptSummary } from "@/api/examAttempts";
 import { EXAM_HISTORY_TABLE_GRID } from "@/CONSTS/pagination";
 import { formatAttemptDateTime } from "@/utills/helpers/formatDate";
-import {
-  formatExamDuration,
-  resolveAttemptDurationSeconds,
-} from "@/components/Profile/profileUtils";
+import { formatExamDuration } from "@/utills/helpers/formatExamDuration";
+import { resolveAttemptDurationSeconds } from "@/components/Profile/profileUtils";
 
 type ExamHistoryRowProps = {
   attempt: AttemptSummary;
@@ -63,7 +61,7 @@ export function ExamHistoryRow({
           <div>
             <dt className="text-slate-500">{labels.colDuration}</dt>
             <dd className="font-medium text-slate-700">
-              {formatExamDuration(resolveAttemptDurationSeconds(attempt))}
+              {formatExamDuration(resolveAttemptDurationSeconds(attempt), "—")}
             </dd>
           </div>
           <div className="col-span-2">
@@ -85,7 +83,7 @@ export function ExamHistoryRow({
           {attempt.correctCount}/{attempt.questionCount}
         </span>
         <span className="text-right tabular-nums whitespace-nowrap text-slate-600">
-          {formatExamDuration(resolveAttemptDurationSeconds(attempt))}
+          {formatExamDuration(resolveAttemptDurationSeconds(attempt), "—")}
         </span>
         <span className={`text-right font-medium whitespace-nowrap ${resultClass}`}>
           {resultLabel}

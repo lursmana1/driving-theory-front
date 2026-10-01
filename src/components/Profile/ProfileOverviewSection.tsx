@@ -36,9 +36,19 @@ export default function ProfileOverviewSection({
 
   useEffect(() => {
     if (categoriesProp?.length) return;
+
+    const cancelled = { current: false };
     getCategories()
-      .then(setFallbackCategories)
-      .catch(() => setFallbackCategories([]));
+      .then((cats) => {
+        if (!cancelled.current) setFallbackCategories(cats);
+      })
+      .catch(() => {
+        if (!cancelled.current) setFallbackCategories([]);
+      });
+
+    return () => {
+      cancelled.current = true;
+    };
   }, [categoriesProp]);
 
   const overview = useProfileOverview(categoryId);

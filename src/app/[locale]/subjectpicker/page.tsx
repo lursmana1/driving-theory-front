@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
-import { getCategories } from "@/api/categories";
+import { getCategoriesServer } from "@/api/categoriesServer";
 import { resolveCategoryId } from "@/CONSTS/categories";
 import CategoryPickerBar from "@/components/categoryComponents/CategoryPickerBar/CategoryPickerBar";
 import StatsRefreshListener from "@/components/SubjectPicker/StatsRefreshListener";
@@ -31,11 +31,11 @@ export default async function SubjectPickerPage({
     queryParams.category ? Number(queryParams.category) : undefined,
   );
 
-  let categories: Awaited<ReturnType<typeof getCategories>> = [];
+  let categories: Awaited<ReturnType<typeof getCategoriesServer>> = [];
   let categoriesError = false;
 
   try {
-    categories = await getCategories();
+    categories = await getCategoriesServer();
   } catch {
     categoriesError = true;
   }
