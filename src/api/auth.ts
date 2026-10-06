@@ -54,8 +54,14 @@ export async function register(payload: {
   return res.data;
 }
 
+/** 401 is a signed-out session, not a failed request. */
+const signedOutOk = (status: number) => status === 200 || status === 401;
+
 export async function getMe(): Promise<User | null> {
-  const res = await BaseApi.get<User>("/auth/me");
+  const res = await BaseApi.get<User>("/auth/me", {
+    validateStatus: signedOutOk,
+  });
+  if (res.status === 401) return null;
   return res.data ?? null;
 }
 

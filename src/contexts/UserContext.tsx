@@ -7,7 +7,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import axios from "axios";
 import { getMe, logout as logoutApi } from "@/api/auth";
 import type { User } from "@/lib/auth";
 import {
@@ -37,10 +36,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       setUser(nextUser);
       if (nextUser) markSession();
       else clearAccessToken();
-    } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 401) {
-        clearAccessToken();
-      }
+    } catch {
       setUser(null);
     } finally {
       setLoading(false);
