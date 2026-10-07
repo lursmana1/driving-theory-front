@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { useLocale } from "next-intl";
 import { postPracticeAnswer } from "@/api/practiceAnswers";
+import { useAuth } from "@/contexts/UserContext";
 
 /**
  * Ticket practice: one POST /practice-answers per answered question.
@@ -10,6 +11,7 @@ import { postPracticeAnswer } from "@/api/practiceAnswers";
  */
 export function usePracticeAnswers() {
   const locale = useLocale();
+  const { user } = useAuth();
 
   const recordAnswer = useCallback(
     async (questionId: number, chosenAnswer: string): Promise<boolean> => {
@@ -17,6 +19,7 @@ export function usePracticeAnswers() {
       if (!Number.isFinite(questionId) || questionId <= 0 || !choice) {
         return false;
       }
+      if (!user) return true;
       try {
         await postPracticeAnswer(questionId, locale, choice);
         return true;
@@ -24,7 +27,7 @@ export function usePracticeAnswers() {
         return false;
       }
     },
-    [locale],
+    [locale, user],
   );
 
   return { recordAnswer };

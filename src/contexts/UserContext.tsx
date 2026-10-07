@@ -12,6 +12,7 @@ import type { User } from "@/lib/auth";
 import {
   captureAccessTokenFromUrl,
   clearAccessToken,
+  hasSession,
   markSession,
 } from "@/lib/authToken";
 
@@ -29,8 +30,15 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Always ask the API: a Google session lives in an httpOnly cookie we can't read.
+  // No saved login means there is no user to load. Skip /auth/me so guests don't get a 401.
   const refresh = useCallback(async () => {
+    if (!hasSession()) {
+      await Promise.resolve();
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       const nextUser = await getMe();
       setUser(nextUser);
