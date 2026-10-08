@@ -325,5 +325,9 @@
     "title": "Practical exam – penalty points system",
     "subtitle": "Yard exam elements and penalty points — what costs you points.",
     "noteLabel": "Note"
+  },
+  "NotFound": {
+    "title": "This page doesn't exist",
+    "back": "Go back"
   }
 }
