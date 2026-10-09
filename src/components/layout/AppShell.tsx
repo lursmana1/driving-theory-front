@@ -35,7 +35,8 @@ export function AppShell({
 
   return (
     <ConfigProvider theme={antdTheme}>
-      <App>
+      {/* No wrapper element: antd's App wrapper recolors every <a> with colorLink. */}
+      <App component={false}>
         {!isMinimalChrome && <Header />}
         {children}
       </App>
