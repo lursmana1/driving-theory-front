@@ -1,4 +1,3 @@
-import { getUser } from "@/lib/auth";
 import CreateBlogGate from "./CreateBlogGate";
 import { pageMeta } from "@/lib/pageMeta";
 
@@ -11,8 +10,6 @@ export async function generateMetadata({ params }: PageProps) {
   return pageMeta("createBlog", { locale });
 }
 
-export default async function CreateBlogPage() {
-  const user = await getUser();
-
-  return <CreateBlogGate serverIsAdmin={user?.type === "admin"} />;
+export default function CreateBlogPage() {
+  return <CreateBlogGate />;
 }
