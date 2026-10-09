@@ -51,7 +51,6 @@ export async function generateMetadata({ params }: Props) {
         type: "article",
         ...(publishedTime ? { publishedTime } : {}),
         ...(modifiedTime ? { modifiedTime } : {}),
-        ...(blog.creator?.name ? { authors: [blog.creator.name] } : {}),
         section: "Blog",
       },
     });
@@ -79,8 +78,12 @@ export default async function BlogPage({ params }: Props) {
     <div className="min-h-screen bg-slate-50/50">
       <JsonLd
         data={blogPostingJsonLd(locale, {
-          ...blog,
+          id: blog.id,
+          name: blog.name,
           description: blogDescription(blog),
+          imageUrl: blog.imageUrl,
+          createdAt: blog.createdAt,
+          updatedAt: blog.updatedAt,
         })}
       />
       <JsonLd
@@ -112,11 +115,6 @@ export default async function BlogPage({ params }: Props) {
 
           {/* Meta - centered with icons */}
           <div className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500">
-            {blog.creator?.name && (
-              <span className="font-medium text-slate-600">
-                {blog.creator.name}
-              </span>
-            )}
             <time dateTime={dateTime} className="flex items-center gap-2">
               <Icon name="calendar" className="h-4 w-4 shrink-0 opacity-80" />
               {formatDate(blog.createdAt, locale, "MMMM D, YYYY")}
