@@ -71,7 +71,7 @@ export async function pageMeta(
         ? t("ticketsTitleCategory", { category })
         : t(`${page}Title`);
   const title =
-    page === "tickets" && listingPage > 1
+    listingPage > 1
       ? t("ticketsTitlePage", { title: baseTitle, page: listingPage })
       : baseTitle;
   const description =

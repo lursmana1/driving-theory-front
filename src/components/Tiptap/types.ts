@@ -5,4 +5,6 @@ export type TiptapProps = {
   readonly?: boolean;
   /** When true with readonly, no border/wrapper styling (for blog post display). */
   bare?: boolean;
+  /** Set by Ant Design Form.Item when validation fails. */
+  status?: "error" | "warning" | "validating" | "";
 };

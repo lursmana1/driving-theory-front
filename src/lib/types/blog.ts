@@ -8,8 +8,10 @@ export type Blog = {
   content: string;
   description: string;
   imageUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
+  /** ISO string over JSON. */
+  createdAt: string | Date;
+  /** Not sent by the API today. */
+  updatedAt?: string | Date;
   creator?: BlogCreator;
 };
 

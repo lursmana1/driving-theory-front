@@ -6,7 +6,13 @@ import TiptapToolbar from "./TiptapToolbar";
 import { tiptapExtensions } from "./extensions";
 import type { TiptapProps } from "./types";
 
-export default function Tiptap({ value = "", onChange, readonly = false, bare = false }: TiptapProps) {
+export default function Tiptap({
+  value = "",
+  onChange,
+  readonly = false,
+  bare = false,
+  status,
+}: TiptapProps) {
   const editor = useEditor({
     extensions: tiptapExtensions,
     content: value || "<p></p>",
@@ -33,9 +39,12 @@ export default function Tiptap({ value = "", onChange, readonly = false, bare = 
 
   if (!editor) return null;
 
-  const wrapperClass = bare && readonly
-    ? ""
-    : "overflow-hidden rounded-lg border border-slate-300";
+  const wrapperClass =
+    bare && readonly
+      ? ""
+      : `overflow-hidden rounded-lg border ${
+          status === "error" ? "border-red-500" : "border-slate-300"
+        }`;
 
   return (
     <div className={wrapperClass || undefined}>

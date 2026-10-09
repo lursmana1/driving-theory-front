@@ -1,6 +1,8 @@
 "use client";
 
-import { Form, Input, Button } from "antd";
+import { App, Form, Input, Button } from "antd";
+import type { FormInstance } from "antd";
+import axios from "axios";
 import { useState } from "react";
 import Tiptap from "../Tiptap/Tiptap";
 import ImageUploadInput from "./ImageUploadInput";
@@ -13,6 +15,37 @@ type FormValues = {
   image?: File | null;
 };
 
+type BlogField = keyof FormValues;
+
+function apiErrorText(error: unknown): string {
+  if (!axios.isAxiosError(error)) return "Could not create the blog";
+  const raw = (error.response?.data as { message?: unknown } | undefined)
+    ?.message;
+  if (Array.isArray(raw)) return raw.map(String).join(" ");
+  if (typeof raw === "string" && raw.trim()) return raw;
+  if (error.response?.status === 401) return "You need to sign in again";
+  if (error.response?.status === 403) return "Admin access required";
+  return "Could not create the blog";
+}
+
+function fieldForApiError(message: string): BlogField | null {
+  const text = message.toLowerCase();
+  if (text.includes("name")) return "name";
+  if (text.includes("description")) return "description";
+  if (text.includes("content")) return "content";
+  if (text.includes("image") || text.includes("file")) return "image";
+  return null;
+}
+
+function showApiError(error: unknown, form: FormInstance<FormValues>) {
+  const message = apiErrorText(error);
+  const field = fieldForApiError(message);
+  if (field) {
+    form.setFields([{ name: field, errors: [message] }]);
+  }
+  return message;
+}
+
 function toFormData(values: FormValues): FormData {
   const fd = new FormData();
   fd.append("name", values.name);
@@ -23,6 +56,7 @@ function toFormData(values: FormValues): FormData {
 }
 
 export default function CreateBlogForm() {
+  const { message } = App.useApp();
   const [form] = Form.useForm<FormValues>();
   const [loading, setLoading] = useState(false);
 
@@ -36,8 +70,9 @@ export default function CreateBlogForm() {
     try {
       await BaseApi.post("/blogs", toFormData(values));
       form.resetFields();
+      message.success("Blog created");
     } catch (error) {
-      console.error(error);
+      message.error(showApiError(error, form));
     } finally {
       setLoading(false);
     }

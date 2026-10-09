@@ -137,19 +137,27 @@ async function fetchTicketListingPaths(
 }
 
 type BlogListPayload = {
-  data?: { id: number; updatedAt?: string }[];
+  data?: { id: number; createdAt?: string; updatedAt?: string; imageUrl?: string }[];
   totalPages?: number;
 };
 
+type BlogSitemapPost = { href: string; lastModified?: Date; image?: string };
+
+function parseDate(value?: string): Date | undefined {
+  if (!value) return undefined;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
 async function fetchBlogSitemap(): Promise<{
-  posts: { href: string; lastModified?: Date }[];
+  posts: BlogSitemapPost[];
   listPages: number;
 }> {
-  const empty = { posts: [] as { href: string; lastModified?: Date }[], listPages: 1 };
+  const empty = { posts: [] as BlogSitemapPost[], listPages: 1 };
   const base = getApiBaseUrl();
   if (!base) return empty;
 
-  const posts: { href: string; lastModified?: Date }[] = [];
+  const posts: BlogSitemapPost[] = [];
   let page = 1;
   let totalPages = 1;
 
@@ -169,7 +177,8 @@ async function fetchBlogSitemap(): Promise<{
         if (post?.id == null) continue;
         posts.push({
           href: `/blogs/${post.id}`,
-          lastModified: post.updatedAt ? new Date(post.updatedAt) : undefined,
+          lastModified: parseDate(post.updatedAt) ?? parseDate(post.createdAt),
+          image: post.imageUrl || undefined,
         });
       }
       totalPages = Math.max(1, Number(payload.totalPages) || 1);
@@ -212,12 +221,13 @@ export async function buildSitemapEntries(): Promise<MetadataRoute.Sitemap> {
     ...ticketPaths.map((item) => sitemapEntry(item.href, item)),
     ...subjectPaths.map((item) => sitemapEntry(item.href, item)),
     ...blogListPaths.map((item) => sitemapEntry(item.href, item)),
-    ...blogSitemap.posts.map((item) =>
-      sitemapEntry(item.href, {
+    ...blogSitemap.posts.map((item) => ({
+      ...sitemapEntry(item.href, {
         changeFrequency: "monthly",
         priority: 0.6,
         lastModified: item.lastModified,
       }),
-    ),
+      ...(item.image ? { images: [item.image] } : {}),
+    })),
   ];
 }

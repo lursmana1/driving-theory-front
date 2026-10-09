@@ -59,6 +59,8 @@ type MetadataInput = {
   titleAbsolute?: boolean;
   index?: boolean;
   openGraph?: Metadata["openGraph"];
+  /** Page-specific share image (e.g. a blog cover). Falls back to the site image. */
+  image?: { url: string; width?: number; height?: number; alt?: string };
 };
 
 export const buildMetadata = ({
@@ -70,10 +72,11 @@ export const buildMetadata = ({
   titleAbsolute = false,
   index = true,
   openGraph,
+  image,
 }: MetadataInput = {}): Metadata => {
   const loc = asLocale(locale);
   const canonical = absoluteUrl(path, loc);
-  const shareImage = shareImageUrl();
+  const shareImage = image?.url ?? shareImageUrl();
   const resolvedDescription = description ?? siteMetadata.description;
   const fullTitle = title
     ? titleAbsolute
@@ -81,12 +84,19 @@ export const buildMetadata = ({
       : `${title} | ${siteMetadata.shortTitle ?? siteMetadata.name}`
     : siteMetadata.title;
   const shareImages = [
-    {
-      url: shareImage,
-      width: 1200,
-      height: 630,
-      alt: "პრავის ბილეთები | მართვის მოწმობის ბილეთები და გამოცდა",
-    },
+    image
+      ? {
+          url: image.url,
+          ...(image.width ? { width: image.width } : {}),
+          ...(image.height ? { height: image.height } : {}),
+          alt: image.alt ?? fullTitle,
+        }
+      : {
+          url: shareImage,
+          width: 1200,
+          height: 630,
+          alt: "პრავის ბილეთები | მართვის მოწმობის ბილეთები და გამოცდა",
+        },
   ];
 
   return {
@@ -172,6 +182,97 @@ export function faqJsonLd(
         "@type": "Answer",
         text: item.answer,
       },
+    })),
+  };
+}
+
+type BlogJsonLdPost = {
+  id: number;
+  name: string;
+  description?: string;
+  imageUrl?: string;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
+  creator?: { name: string } | null;
+};
+
+function isoDate(value?: string | Date): string | undefined {
+  if (!value) return undefined;
+  const date = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+}
+
+function siteOrganization() {
+  const logo = `${getMetadataBaseUrl()}/images/jpg/pravaLogo.jpg`;
+  return {
+    "@type": "Organization",
+    name: siteMetadata.name,
+    url: siteMetadata.url,
+    logo: { "@type": "ImageObject", url: logo },
+  };
+}
+
+export function blogPostingJsonLd(locale: string, post: BlogJsonLdPost) {
+  const url = absoluteUrl(`/blogs/${post.id}`, locale);
+  const published = isoDate(post.createdAt);
+  const modified = isoDate(post.updatedAt) ?? published;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.name,
+    description: post.description,
+    ...(post.imageUrl ? { image: [post.imageUrl] } : {}),
+    ...(published ? { datePublished: published } : {}),
+    ...(modified ? { dateModified: modified } : {}),
+    inLanguage: locale,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    author: post.creator?.name
+      ? { "@type": "Person", name: post.creator.name }
+      : siteOrganization(),
+    publisher: siteOrganization(),
+  };
+}
+
+export function blogListJsonLd(input: {
+  locale: string;
+  title: string;
+  description: string;
+  path: string;
+  posts: BlogJsonLdPost[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: input.title,
+    description: input.description,
+    url: absoluteUrl(input.path, input.locale),
+    inLanguage: input.locale,
+    publisher: siteOrganization(),
+    blogPost: input.posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.name,
+      url: absoluteUrl(`/blogs/${post.id}`, input.locale),
+      ...(isoDate(post.createdAt)
+        ? { datePublished: isoDate(post.createdAt) }
+        : {}),
+      ...(post.imageUrl ? { image: post.imageUrl } : {}),
+    })),
+  };
+}
+
+export function breadcrumbJsonLd(
+  locale: string,
+  items: { name: string; href: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.href, locale),
     })),
   };
 }

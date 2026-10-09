@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { ConfigProvider } from "antd";
+import { App, ConfigProvider } from "antd";
 import Header from "@/layoutComponents/Header/Header";
 import { usePathname } from "@/i18n/navigation";
 import { BRAND_ACCENT, BRAND_ACCENT_STRONG } from "@/CONSTS/landing";
@@ -35,8 +35,10 @@ export function AppShell({
 
   return (
     <ConfigProvider theme={antdTheme}>
-      {!isMinimalChrome && <Header />}
-      {children}
+      <App>
+        {!isMinimalChrome && <Header />}
+        {children}
+      </App>
     </ConfigProvider>
   );
 }

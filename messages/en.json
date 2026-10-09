@@ -287,8 +287,8 @@
     "examDescription": "Theory exam",
     "profileTitle": "Profile",
     "profileDescription": "Your progress and exam history",
-    "blogsTitle": "Blog",
-    "blogsDescription": "Articles about the driving theory exam",
+    "blogsTitle": "Blog — tips for the Georgian driving exam",
+    "blogsDescription": "Articles and tips for Georgia’s driving theory and practical exams — tickets, road signs, the yard exam, and the city exam.",
     "cityExamTitle": "City exam 20 questions | Practical exam 20 questions",
     "cityExamTitleBe": "BE category — 8 questions",
     "cityExamTitleCd": "C / C1 / D / D1 — 28 questions",
@@ -305,6 +305,11 @@
   },
   "Blogs": {
     "title": "Blog",
+    "eyebrow": "Blog",
+    "heading": "Tips and guides for the driving license exam",
+    "subtitle": "The hardest tickets, road signs, and yard and city exam tips — everything that helps you pass on the first try.",
+    "readMore": "Read article",
+    "readTime": "{minutes} min read",
     "empty": "No posts yet.",
     "unavailable": "Service unavailable. Please try again later.",
     "back": "Back to blog"
