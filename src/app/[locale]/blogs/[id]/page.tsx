@@ -113,8 +113,11 @@ export default async function BlogPage({ params }: Props) {
             {blog.name}
           </h1>
 
-          {/* Meta - centered with icons */}
-          <div className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500">
+          {/* Meta - centered with icons. data-nosnippet keeps the date and read time out of the Google snippet. */}
+          <div
+            data-nosnippet=""
+            className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500"
+          >
             <time dateTime={dateTime} className="flex items-center gap-2">
               <Icon name="calendar" className="h-4 w-4 shrink-0 opacity-80" />
               {formatDate(blog.createdAt, locale, "MMMM D, YYYY")}
@@ -141,7 +144,10 @@ export default async function BlogPage({ params }: Props) {
           )}
 
           {/* Body content - white card with soft shadow */}
-          <div className="rounded-2xl border border-slate-100 bg-white px-6 py-8 shadow-sm sm:px-10 sm:py-12">
+          <div
+            data-nosnippet=""
+            className="rounded-2xl border border-slate-100 bg-white px-6 py-8 shadow-sm sm:px-10 sm:py-12"
+          >
             <div className="blog-content max-w-none">
               <Tiptap value={blog.content ?? ""} readonly bare />
             </div>
