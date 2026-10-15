@@ -4,7 +4,7 @@ Same rules as `.cursor/rules/project-architecture.mdc`. Keep both in sync.
 
 Georgian driving-license **theory** exam prep. This repo is the **Next.js frontend**. Backend: NestJS (`github.com/lursmana1/driving-theory-back`), port 3000. Frontend typically 3001.
 
-**Stack:** Next 16 App Router, React 19, TS, Tailwind 4, Ant Design 6, next-intl (`ka` default, `en`, `ru`; `localePrefix: "always"`). Alias `@/*` → `src/*`. Folder `src/utills` is misspelled — **do not rename**.
+**Stack:** Next 16 App Router, React 19, TS, Tailwind 4, Ant Design 6, next-intl (`ka` default, `en`, `ru`; `localePrefix: "as-needed"`, default `ka` URLs unprefixed). Alias `@/*` → `src/*`. Folder `src/utills` is misspelled — **do not rename**.
 
 ## Agent rules (save tokens)
 
