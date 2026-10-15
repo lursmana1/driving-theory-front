@@ -30,13 +30,13 @@ export default function NotFoundView({ title, backLabel }: NotFoundViewProps) {
         alt={title}
         className="mb-8 h-72 w-full max-w-2xl object-fill sm:h-80"
       />
-      <h1 className="font-georgian text-2xl font-semibold text-ink sm:text-3xl">
+      <h1 className="font-georgian text-2xl font-semibold text-fg sm:text-3xl">
         {title}
       </h1>
       <button
         type="button"
         onClick={goBack}
-        className="mt-8 inline-flex h-12 items-center justify-center rounded-xl bg-accent px-6 text-sm font-semibold text-white transition hover:bg-accent-strong"
+        className="mt-8 inline-flex h-12 items-center justify-center rounded-control bg-accent px-6 text-sm font-semibold text-on-accent transition hover:bg-accent-strong"
       >
         {backLabel}
       </button>

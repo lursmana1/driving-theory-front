@@ -63,7 +63,7 @@ export function QuestionAudioButton({
       title={playing ? stopLabel : listenLabel}
       aria-label={playing ? stopLabel : listenLabel}
       aria-pressed={playing}
-      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-white/40 bg-white/10 text-white backdrop-blur-sm transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
+      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-stage-fg/40 bg-stage-fg/10 text-stage-fg backdrop-blur-sm transition hover:bg-stage-fg/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-stage-fg/60 ${
         labeled
           ? "h-8 gap-1.5 px-2.5 text-xs font-semibold sm:px-3"
           : compact

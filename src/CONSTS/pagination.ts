@@ -35,10 +35,10 @@ export const PAGES_AROUND_CURRENT = 1;
 /** Pagination button styles (shared) */
 export const PAGINATION_STYLES = {
   navButton:
-    "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-control border border-line bg-surface text-fg-muted transition hover:bg-surface-muted hover:text-fg disabled:pointer-events-none disabled:opacity-50",
   pageButtonBase:
-    "h-9 min-w-9 rounded-lg px-2 text-sm font-medium transition cursor-pointer",
-  pageButtonActive: "bg-accent text-white",
+    "h-9 min-w-9 rounded-control px-2 text-sm font-medium transition cursor-pointer",
+  pageButtonActive: "bg-accent text-on-accent",
   pageButtonInactive:
-    "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900",
+    "border border-line bg-surface text-fg-muted hover:bg-surface-muted hover:text-fg",
 } as const;

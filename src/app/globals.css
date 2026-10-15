@@ -1,31 +1,209 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   prava.ge design tokens
+   --------------------------------------------------------------------------
+   1. Primitives (:root) — raw ramps. NOT exposed as utilities on purpose:
+      components must never reach for a raw color.
+   2. Semantic tokens (@theme inline) — the only colors/sizes components use:
+      bg-canvas, bg-surface, text-fg, text-fg-muted, border-line, bg-accent…
+   Raw hex mirror for Ant Design / SVG / OG images: src/styles/tokens.ts
+   (keep both in sync).
+   ========================================================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Neutral — clean, slightly cool greys (white → ink) */
+  --neutral-0: #ffffff;
+  --neutral-50: #f8f9fb;
+  --neutral-100: #f2f4f7;
+  --neutral-150: #eceff3;
+  --neutral-200: #e3e7ec;
+  --neutral-300: #d3d9e0;
+  --neutral-400: #aeb6c1;
+  --neutral-500: #848d9a;
+  --neutral-600: #5f6875;
+  --neutral-700: #464e5a;
+  --neutral-800: #2d343e;
+  --neutral-900: #1a1f27;
+  --neutral-950: #11151b;
+
+  /* Brand — road-sign blue, the single product accent */
+  --brand-50: #eef3f8;
+  --brand-100: #d9e4ef;
+  --brand-200: #b3c9de;
+  --brand-300: #7fa3c6;
+  --brand-400: #4f7fab;
+  --brand-500: #2c5d8c;
+  --brand-600: #234c74;
+  --brand-700: #1c3c5c;
+  --brand-800: #152d45;
+
+  /* Olive — secondary brand */
+  --olive-50: #f3f5ec;
+  --olive-100: #e4e9d5;
+  --olive-200: #c9d1ad;
+  --olive-300: #a4b07d;
+  --olive-400: #7f8c56;
+  --olive-500: #59663c;
+  --olive-600: #4a5532;
+  --olive-700: #3a4327;
+
+  /* Status */
+  --green-50: #eef5ec;
+  --green-100: #d6e9d3;
+  --green-400: #5fa865;
+  --green-500: #3f8a4b;
+  --green-600: #2f6f3b;
+  --green-700: #24552e;
+
+  --red-50: #fcefef;
+  --red-100: #f6d8d9;
+  --red-400: #e06a72;
+  --red-500: #c3394a;
+  --red-600: #a32c3b;
+  --red-700: #80222e;
+
+  --amber-50: #fcf5e5;
+  --amber-100: #f5e5bd;
+  --amber-300: #f0c75e;
+  --amber-500: #c48b1c;
+  --amber-600: #a06f16;
+  --amber-700: #7a5411;
+
+  /* Stage — the dark exam surface (navy ink) */
+  --stage-950: #111820;
+  --stage-900: #16202b;
+  --stage-800: #1f2b38;
+  --stage-700: #2b3947;
+  --stage-600: #42515f;
+
+  /* Illustration-only */
+  --sign-blue: #3f6c86;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* ---- Surfaces ---- */
+  --color-canvas: var(--neutral-0); /* page background */
+  --color-surface: var(--neutral-0); /* cards, inputs, popovers */
+  --color-surface-muted: var(--neutral-50); /* stat tiles, table stripes */
+  --color-surface-sunken: var(--neutral-100); /* hover fill, wells, skeletons */
+  --color-surface-strong: var(--neutral-200); /* pressed fill, track */
+  --color-inverse: var(--neutral-900); /* dark band / dark button */
+  --color-inverse-hover: var(--neutral-800);
+
+  /* ---- Text ---- */
+  --color-fg: var(--neutral-900);
+  --color-fg-muted: var(--neutral-700);
+  --color-fg-subtle: var(--neutral-600);
+  --color-fg-faint: var(--neutral-500);
+  --color-fg-inverse: var(--neutral-50);
+
+  /* ---- Lines ---- */
+  --color-line: var(--neutral-300);
+  --color-line-subtle: var(--neutral-200);
+  --color-line-strong: var(--neutral-400);
+
+  /* ---- Brand ---- */
+  --color-accent: var(--brand-500);
+  --color-accent-strong: var(--brand-600);
+  --color-accent-soft: var(--brand-50);
+  --color-accent-muted: var(--brand-100);
+  --color-on-accent: var(--neutral-0);
+  --color-secondary: var(--neutral-800);
+  --color-secondary-strong: var(--neutral-900);
+  --color-secondary-soft: var(--neutral-100);
+  --color-secondary-muted: var(--neutral-200);
+
+  /* ---- Status ---- */
+  --color-success: var(--green-500);
+  --color-success-strong: var(--green-700);
+  --color-success-soft: var(--green-50);
+  --color-success-muted: var(--green-100);
+  --color-danger: var(--red-500);
+  --color-danger-strong: var(--red-700);
+  --color-danger-soft: var(--red-50);
+  --color-danger-muted: var(--red-100);
+  --color-warning: var(--amber-500);
+  --color-warning-strong: var(--amber-700);
+  --color-warning-soft: var(--amber-50);
+  --color-warning-muted: var(--amber-100);
+
+  /* ---- Exam stage (dark) ---- */
+  --color-stage: var(--stage-900);
+  --color-stage-deep: var(--stage-950);
+  --color-stage-raised: var(--stage-800);
+  --color-stage-line: var(--stage-600);
+  --color-stage-hover: var(--stage-700);
+  --color-stage-fg: var(--neutral-50);
+  --color-stage-highlight: var(--amber-300);
+  --color-stage-success: var(--green-400);
+  --color-stage-danger: var(--red-400);
+
+  /* ---- Fonts ---- */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-georgian: var(--font-georgian);
 }
 
-/* Landing paper tones plus the product-wide accent.
-   `accent` is the single accent for the whole app (Ant Design reads it from
-   BRAND_ACCENT in CONSTS/landing.ts); the rest is landing-only. */
 @theme {
-  --color-paper: #f0ebdf;
-  --color-ink: #22251c;
-  --color-hairline: #dcd5c4;
-  --color-accent: #b4543c;
-  --color-accent-strong: #9c4530;
-  --color-olive: #59663c;
+  /* ---- Radius: xs (tags) · control (buttons, inputs, options) · card · panel ---- */
+  --radius-xs: 0.375rem;
+  --radius-control: 0.75rem;
+  --radius-card: 1rem;
+  --radius-panel: 1.5rem;
+
+  /* ---- Type scale (size / line-height) ---- */
+  --text-3xs: 0.625rem;
+  --text-3xs--line-height: 0.875rem;
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.75rem;
+  --text-title: 1.75rem;
+  --text-title--line-height: 1.15;
+  --text-heading: 2.6rem;
+  --text-heading--line-height: 1.12;
+  --text-display-sm: 2.35rem;
+  --text-display-sm--line-height: 1.06;
+  --text-display: 3.4rem;
+  --text-display--line-height: 1.06;
+
+  --tracking-display: -0.03em;
+  --tracking-eyebrow: 0.22em;
+
+  /* ---- Elevation (ink-tinted, never pure black) ---- */
+  --shadow-card: 0 1px 2px rgb(26 31 39 / 0.05), 0 1px 3px rgb(26 31 39 / 0.04);
+  --shadow-raised: 0 4px 12px -2px rgb(26 31 39 / 0.08), 0 2px 4px -2px rgb(26 31 39 / 0.05);
+  --shadow-overlay: 0 24px 48px -12px rgb(26 31 39 / 0.22), 0 8px 16px -8px rgb(26 31 39 / 0.1);
+  --shadow-glow: 0 0 8px rgb(44 93 140 / 0.5);
+
+  /* ---- Layout ---- */
+  --container-page: 90rem;
 }
 
 @layer base {
+  html {
+    background-color: var(--color-canvas);
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-georgian), var(--font-geist-sans), system-ui,
+      sans-serif;
+  }
+
+  ::selection {
+    background-color: var(--brand-100);
+    color: var(--neutral-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [role="tab"]:not([aria-disabled="true"]),
@@ -48,16 +226,10 @@
   }
 
   .section {
-    @apply w-full max-w-360 mx-auto px-6 sm:px-8 lg:px-10;
+    @apply w-full max-w-page mx-auto px-6 sm:px-8 lg:px-10;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
 @keyframes fadeSlideIn {
   to {
     opacity: 1;
@@ -106,12 +278,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9ca3af; /* gray-400 */
+  background: var(--neutral-400);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6b7280; /* gray-500 */
+  background: var(--neutral-500);
 }
 
 /* FAQ accordion animations */
@@ -130,15 +302,13 @@
   animation: faqContentIn 0.25s ease-out;
 }
 
-/* Landing: sand paper background with a faint grain */
+/* Landing page background */
 .landing-paper {
-  background-color: var(--color-paper);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.22'/%3E%3C/svg%3E");
-  background-repeat: repeat;
+  background-color: var(--color-canvas);
 }
 
 .landing-road {
-  filter: drop-shadow(0 22px 34px rgb(34 37 28 / 0.1));
+  filter: drop-shadow(0 22px 34px rgb(26 31 39 / 0.1));
 }
 
 /* How-it-works connectors: keep the grey line, slide the 03 border color along it */
@@ -157,7 +327,7 @@
   width: 40%;
   border-radius: inherit;
   background: var(--color-accent);
-  box-shadow: 0 0 8px rgb(180 84 60 / 0.5);
+  box-shadow: var(--shadow-glow);
   animation: howStepsRunner 2.4s ease-in-out infinite alternate;
 }
 
@@ -268,11 +438,11 @@
   margin: 0;
 }
 .tiptap-prose blockquote {
-  border-left: 4px solid #94a3b8;
+  border-left: 4px solid var(--color-line-strong);
   padding-left: 1rem;
   margin: 0.75em 0;
   font-style: italic;
-  color: #64748b;
+  color: var(--color-fg-subtle);
 }
 .tiptap-prose a {
   color: var(--color-accent);
@@ -284,7 +454,7 @@
 .tiptap-prose img {
   max-width: 100%;
   height: auto;
-  border-radius: 0.375rem;
+  border-radius: var(--radius-xs);
 }
 
 /* Blog post content - minimal editor chrome when bare */

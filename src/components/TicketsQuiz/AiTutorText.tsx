@@ -53,11 +53,11 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
   }, [open, text]);
 
   return (
-    <div className="rounded-md border border-white/30 bg-black/30 text-white/90 overflow-hidden">
+    <div className="rounded-control border border-stage-line bg-stage-deep/40 text-stage-fg/90 overflow-hidden">
       <button
         type="button"
         onClick={toggle}
-        className="flex w-full items-center gap-2 p-3 text-left text-sm font-medium transition hover:bg-white/5"
+        className="flex w-full items-center gap-2 p-3 text-left text-sm font-medium transition hover:bg-stage-fg/5"
       >
         <span
           className="inline-block transition-transform duration-200"

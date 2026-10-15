@@ -34,20 +34,20 @@ export default function ExamReview({ items, onDone }: ExamReviewProps) {
   if (!item) return null;
 
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-[#193e4a]">
+    <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden bg-stage">
       <div className="flex shrink-0 items-center justify-between gap-3 px-3 py-3 sm:px-4">
         <div>
-          <p className="font-georgian text-sm font-semibold text-white">
+          <p className="font-georgian text-sm font-semibold text-stage-fg">
             {t("reviewTitle")}
           </p>
-          <p className="text-xs text-white/70">
+          <p className="text-xs text-stage-fg/70">
             {t("reviewProgress", { current: index + 1, count: items.length })}
           </p>
         </div>
         <button
           type="button"
           onClick={onDone}
-          className="rounded-lg border border-white/25 px-3 py-1.5 text-sm font-medium text-white hover:bg-white/10"
+          className="rounded-control border border-stage-fg/25 px-3 py-1.5 text-sm font-medium text-stage-fg hover:bg-stage-fg/10"
         >
           {t("reviewDone")}
         </button>
@@ -64,19 +64,19 @@ export default function ExamReview({ items, onDone }: ExamReviewProps) {
         />
       </div>
 
-      <div className="flex shrink-0 gap-2 border-t border-white/10 px-3 py-3 sm:px-4">
+      <div className="flex shrink-0 gap-2 border-t border-stage-fg/10 px-3 py-3 sm:px-4">
         <button
           type="button"
           onClick={goPrev}
           disabled={index === 0}
-          className="flex-1 rounded-xl border border-white/25 py-3 text-sm font-semibold text-white disabled:opacity-40"
+          className="flex-1 rounded-control border border-stage-fg/25 py-3 text-sm font-semibold text-stage-fg disabled:opacity-40"
         >
           {t("reviewPrev")}
         </button>
         <button
           type="button"
           onClick={goNext}
-          className="flex-1 rounded-xl bg-accent py-3 text-sm font-semibold text-white hover:bg-accent-strong"
+          className="flex-1 rounded-control bg-accent py-3 text-sm font-semibold text-on-accent hover:bg-accent-strong"
         >
           {isLast ? t("reviewDone") : t("reviewNext")}
         </button>

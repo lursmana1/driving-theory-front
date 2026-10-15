@@ -5,7 +5,6 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
-import type { HeaderVariant } from "@/layoutComponents/Header/headerVariants";
 import { Icon } from "@/components/Icon/Icon";
 
 const localeConfig: Record<string, { label: string; flag: string }> = {
@@ -16,12 +15,9 @@ const localeConfig: Record<string, { label: string; flag: string }> = {
 
 export default function LocaleSwitcher({
   className = "",
-  variant = "default",
 }: {
   className?: string;
-  variant?: HeaderVariant;
 }) {
-  const isLanding = variant === "landing";
   const locale = useLocale();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -47,18 +43,14 @@ export default function LocaleSwitcher({
         aria-expanded={open}
         aria-haspopup="listbox"
         aria-label="Select language"
-        className={
-          isLanding
-            ? "flex items-center gap-2 rounded-lg border border-hairline bg-paper px-2.5 py-1.5 text-ink transition-colors hover:border-ink/25 hover:bg-ink/5 focus:outline-none focus:ring-2 focus:ring-accent/45 sm:px-3 sm:py-2"
-            : "flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-slate-700 shadow-sm transition-colors hover:border-slate-300 hover:bg-slate-50 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 sm:px-3 sm:py-2"
-        }
+        className="flex items-center gap-2 rounded-control border border-line bg-surface/60 px-2.5 py-1.5 text-fg transition-colors hover:border-line-strong hover:bg-surface sm:px-3 sm:py-2"
       >
         <Image
           src={current.flag}
           alt=""
           width={16}
           height={16}
-          className="h-4 w-4 shrink-0 rounded-sm object-cover"
+          className="h-4 w-4 shrink-0 rounded-xs object-cover"
         />
         <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">
           {locale}
@@ -72,11 +64,7 @@ export default function LocaleSwitcher({
       {open && (
         <ul
           role="listbox"
-          className={
-            isLanding
-              ? "absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-hairline bg-paper py-1 shadow-lg"
-              : "absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-lg border border-slate-200 bg-white py-1 shadow-lg"
-          }
+          className="absolute left-0 top-full z-50 mt-1.5 w-fit overflow-hidden rounded-control border border-line bg-surface py-1 shadow-overlay"
         >
           {routing.locales.map((loc) => {
             const config = localeConfig[loc];
@@ -88,13 +76,9 @@ export default function LocaleSwitcher({
                   locale={loc as "ka" | "en" | "ru"}
                   onClick={() => setOpen(false)}
                   className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors ${
-                    isLanding
-                      ? isActive
-                        ? "bg-ink/10 text-ink"
-                        : "text-ink/85 hover:bg-ink/5"
-                      : isActive
-                        ? "bg-slate-100 text-slate-900"
-                        : "text-slate-700 hover:bg-slate-50"
+                    isActive
+                      ? "bg-surface-sunken text-fg"
+                      : "text-fg-muted hover:bg-surface-muted"
                   }`}
                 >
                   <Image
@@ -102,7 +86,7 @@ export default function LocaleSwitcher({
                     alt=""
                     width={16}
                     height={16}
-                    className="h-4 w-4 shrink-0 rounded-sm object-cover"
+                    className="h-4 w-4 shrink-0 rounded-xs object-cover"
                   />
                   {isActive && (
                     <Icon

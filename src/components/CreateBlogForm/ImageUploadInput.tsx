@@ -25,10 +25,10 @@ export default function ImageUploadInput({
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className={`flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed bg-slate-50 px-4 py-6 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-800 ${
+        className={`flex w-full items-center justify-center gap-2 rounded-control border-2 border-dashed bg-surface-muted px-4 py-6 text-fg-muted transition-colors hover:bg-surface-sunken hover:text-fg ${
           status === "error"
-            ? "border-red-500"
-            : "border-slate-300 hover:border-accent/50"
+            ? "border-danger"
+            : "border-line-strong hover:border-accent/50"
         }`}
       >
         <span className="text-sm font-medium">

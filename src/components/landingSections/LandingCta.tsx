@@ -27,7 +27,7 @@ export default async function LandingCta() {
             </Link>
             <Link
               href="/auth?mode=register"
-              className="inline-flex h-13 items-center justify-center rounded-xl bg-ink px-7 text-base font-semibold text-paper transition hover:bg-ink/90"
+              className="inline-flex h-13 items-center justify-center rounded-control bg-fg px-7 text-base font-semibold text-on-accent transition hover:bg-fg/90"
             >
               {t("ctaRegister")}
             </Link>

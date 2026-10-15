@@ -150,11 +150,11 @@ export default async function TicketsCategoryPage({
       />
 
       {questionsUnavailable && (
-        <p className="text-center text-slate-500">{t("loadError")}</p>
+        <p className="text-center text-fg-subtle">{t("loadError")}</p>
       )}
 
       {!questionsUnavailable && questionId && questions.length === 0 && (
-        <p className="text-center text-slate-500">
+        <p className="text-center text-fg-subtle">
           {t("questionNotFound", { id: questionId })}
         </p>
       )}
@@ -164,7 +164,7 @@ export default async function TicketsCategoryPage({
 
         <main className="space-y-6 order-1 lg:order-2">
           {listing.index ? (
-            <h1 className="text-center text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+            <h1 className="text-center text-xl font-bold tracking-tight text-fg sm:text-2xl">
               {listingTitle}
             </h1>
           ) : null}
@@ -172,7 +172,7 @@ export default async function TicketsCategoryPage({
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Suspense
               fallback={
-                <div className="h-10 w-48 bg-gray-200 rounded animate-pulse" />
+                <div className="h-10 w-48 bg-surface-strong rounded-xs animate-pulse" />
               }
             >
               <QuestionIdSearch category={category} currentParams={sp} />
@@ -187,7 +187,7 @@ export default async function TicketsCategoryPage({
           </div>
 
           {!questionsUnavailable && questions.length > 0 && (
-            <p className="text-sm text-slate-500">{t("audioHint")}</p>
+            <p className="text-sm text-fg-subtle">{t("audioHint")}</p>
           )}
 
           <TicketsQuizList questions={questions} />

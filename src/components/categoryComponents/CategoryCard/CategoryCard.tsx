@@ -13,14 +13,14 @@ const CategoryCard = ({ category, isActive }: CategoryCardProps) => {
     <Link
       href={`/tickets/${category.id}`}
       className={`
-        w-full min-w-0 rounded-lg p-2 lg:p-3
+        w-full min-w-0 rounded-control p-2 lg:p-3
         flex flex-col items-center justify-center
         gap-1 lg:gap-2 text-center
         transition select-none
         ${
           isActive
-            ? "bg-accent text-white shadow-md"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            ? "bg-accent text-on-accent shadow-raised"
+            : "bg-surface-strong text-fg-muted hover:bg-line-strong"
         }
       `}
     >

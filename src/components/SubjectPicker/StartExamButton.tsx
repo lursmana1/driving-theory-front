@@ -1,4 +1,4 @@
-import { examCtaPillBase } from "@/layoutComponents/Header/headerVariants";
+import { examCtaPillBase } from "@/layoutComponents/Header/headerStyles";
 
 type StartExamButtonProps = {
   disabled: boolean;

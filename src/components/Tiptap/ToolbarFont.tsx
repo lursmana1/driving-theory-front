@@ -16,7 +16,7 @@ export default function ToolbarFont({ editor, textStyle }: ToolbarFontProps) {
         onChange={(e) =>
           editor.chain().focus().setFontSize(e.target.value).run()
         }
-        className="rounded border border-slate-200 bg-white px-2 py-1 text-sm text-slate-700 hover:border-slate-300"
+        className="rounded-xs border border-line bg-surface px-2 py-1 text-sm text-fg-muted hover:border-line-strong"
         title="Font size"
       >
         {FONT_SIZES.map((size) => (
@@ -31,10 +31,10 @@ export default function ToolbarFont({ editor, textStyle }: ToolbarFontProps) {
             key={color}
             type="button"
             onClick={() => editor.chain().focus().setColor(color).run()}
-            className={`h-6 w-6 shrink-0 rounded border-2 transition-colors ${
+            className={`h-6 w-6 shrink-0 rounded-xs border-2 transition-colors ${
               textStyle.color === color
-                ? "border-slate-800 ring-2 ring-slate-400"
-                : "border-slate-200 hover:border-slate-300"
+                ? "border-fg ring-2 ring-line-strong"
+                : "border-line hover:border-line-strong"
             }`}
             style={{ backgroundColor: color }}
           />

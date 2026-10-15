@@ -32,8 +32,8 @@ export function WeakQuestionsChart({
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold text-slate-800">{title}</h2>
+    <div className="rounded-card border border-line bg-surface p-4 shadow-card">
+      <h2 className="mb-4 text-lg font-semibold text-fg">{title}</h2>
       <div className="space-y-3">
         {data.map((item) => {
           const preview = getQuestionPreview(item.question, 200);
@@ -50,22 +50,22 @@ export function WeakQuestionsChart({
                   href={href}
                   className="block min-w-0 text-left underline-offset-2 hover:text-accent hover:underline"
                 >
-                  <span className="text-xs font-medium text-slate-500 sm:text-sm">
+                  <span className="text-xs font-medium text-fg-subtle sm:text-sm">
                     {questionLabel} #{item.questionId}
                   </span>
                   {preview ? (
-                    <span className="mt-1 block text-sm leading-relaxed text-slate-800 sm:text-base">
+                    <span className="mt-1 block text-sm leading-relaxed text-fg sm:text-base">
                       {preview}
                     </span>
                   ) : null}
                 </Link>
-                <span className="inline-flex rounded-md bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
+                <span className="inline-flex rounded-xs bg-danger-muted px-2 py-1 text-xs font-medium text-danger-strong">
                   {item.wrongCount} {wrongLabel}
                 </span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+              <div className="h-2 overflow-hidden rounded-full bg-surface-sunken">
                 <div
-                  className="h-full rounded-full bg-linear-to-r from-rose-400 to-rose-500 transition-all duration-500"
+                  className="h-full rounded-full bg-linear-to-r from-danger to-danger transition-all duration-500"
                   style={{ width: `${(item.wrongCount / maxCount) * 100}%` }}
                 />
               </div>

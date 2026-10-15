@@ -7,21 +7,15 @@ import { moreInfoLinks } from "@/CONSTS/moreInfoLinks";
 import { useUser } from "@/contexts/UserContext";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import type { HeaderVariant } from "./headerVariants";
 import {
   burgerAccountLink,
   burgerDivider,
   burgerDrawer,
   burgerNavItem,
   burgerOverlay,
-} from "./headerVariants";
+} from "./headerStyles";
 
-type BurgerMenuProps = {
-  variant?: HeaderVariant;
-};
-
-export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
-  const isLanding = variant === "landing";
+export default function BurgerMenu() {
   const user = useUser();
   const tAuth = useTranslations("Auth");
   const tHeader = useTranslations("Header");
@@ -50,9 +44,6 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
     };
   }, [menuOpen]);
 
-  const bar = isLanding ? "bg-ink" : "bg-slate-700";
-  const btnWrap = isLanding ? "hover:bg-ink/5" : "hover:bg-slate-100";
-
   return (
     <>
       <button
@@ -61,16 +52,16 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
         aria-expanded={menuOpen}
         aria-controls="mobile-menu"
         aria-label={menuOpen ? "Close menu" : "Open menu"}
-        className={`relative z-60 flex h-10 w-10 shrink-0 touch-manipulation flex-col items-center justify-center gap-1.5 rounded-lg transition-colors ${btnWrap} lg:hidden`}
+        className={`relative z-60 flex h-10 w-10 shrink-0 touch-manipulation flex-col items-center justify-center gap-1.5 rounded-control transition-colors hover:bg-fg/5 lg:hidden`}
       >
         <span
-          className={`block h-0.5 w-6 rounded-full transition-all duration-200 ${bar} ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
+          className={`block h-0.5 w-6 rounded-full transition-all duration-200 bg-fg ${menuOpen ? "translate-y-2 rotate-45" : ""}`}
         />
         <span
-          className={`block h-0.5 w-6 rounded-full transition-all duration-200 ${bar} ${menuOpen ? "opacity-0 scale-0" : ""}`}
+          className={`block h-0.5 w-6 rounded-full transition-all duration-200 bg-fg ${menuOpen ? "opacity-0 scale-0" : ""}`}
         />
         <span
-          className={`block h-0.5 w-6 rounded-full transition-all duration-200 ${bar} ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
+          className={`block h-0.5 w-6 rounded-full transition-all duration-200 bg-fg ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
         />
       </button>
 
@@ -79,7 +70,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
         createPortal(
           <>
             <div
-              className={`fixed inset-x-0 bottom-0 top-12 z-100 backdrop-blur-sm transition-opacity duration-200 sm:top-14 lg:hidden ${burgerOverlay[variant]} ${
+              className={`fixed inset-x-0 bottom-0 top-12 z-100 backdrop-blur-sm transition-opacity duration-200 sm:top-14 lg:hidden ${burgerOverlay} ${
                 isClosing ? "opacity-0" : "opacity-100"
               }`}
               aria-hidden
@@ -90,7 +81,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
               id="mobile-menu"
               role="navigation"
               aria-label="Mobile navigation"
-              className={`fixed left-0 right-0 top-12 z-110 max-h-[min(100dvh-3rem,calc(100vh-3rem))] overflow-y-auto sm:top-14 lg:hidden ${burgerDrawer[variant]} ${
+              className={`fixed left-0 right-0 top-12 z-110 max-h-[min(100dvh-3rem,calc(100vh-3rem))] overflow-y-auto sm:top-14 lg:hidden ${burgerDrawer} ${
                 isClosing ? "burger-menu-exit" : "burger-menu-enter"
               }`}
             >
@@ -101,14 +92,14 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                       <Link
                         href={link.href}
                         onClick={closeMenu}
-                        className={burgerNavItem[variant]}
+                        className={burgerNavItem}
                       >
                         {tHeader(link.labelKey)}
                       </Link>
                     </li>
                   ))}
                   <li className="pt-2">
-                    <p className="px-0 py-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    <p className="px-0 py-2 text-xs font-semibold uppercase tracking-wide text-fg-faint">
                       {tHeader("navMoreInfo")}
                     </p>
                     <ul className="flex flex-col">
@@ -117,7 +108,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                           <Link
                             href={link.href}
                             onClick={closeMenu}
-                            className={burgerNavItem[variant]}
+                            className={burgerNavItem}
                           >
                             {tHeader(link.labelKey)}
                           </Link>
@@ -127,12 +118,12 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                   </li>
                 </ul>
 
-                <div className={burgerDivider[variant]}>
+                <div className={burgerDivider}>
                   {user ? (
                     <Link
                       href="/profile"
                       onClick={closeMenu}
-                      className={burgerAccountLink[variant]}
+                      className={burgerAccountLink}
                     >
                       <span className="text-left">{tAuth("profile")}</span>
                     </Link>
@@ -140,7 +131,7 @@ export default function BurgerMenu({ variant = "default" }: BurgerMenuProps) {
                     <Link
                       href="/auth"
                       onClick={closeMenu}
-                      className={burgerAccountLink[variant]}
+                      className={burgerAccountLink}
                     >
                       {tAuth("login")}
                     </Link>

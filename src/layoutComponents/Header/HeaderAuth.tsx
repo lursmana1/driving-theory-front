@@ -4,31 +4,24 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { useUser } from "@/contexts/UserContext";
-import type { HeaderVariant } from "./headerVariants";
-import { headerAuthLink, headerAuthLogin } from "./headerVariants";
+import { headerAuthLink, headerAuthLogin } from "./headerStyles";
 
-type HeaderAuthProps = {
-  variant?: HeaderVariant;
-};
-
-export default function HeaderAuth({ variant = "default" }: HeaderAuthProps) {
+export default function HeaderAuth() {
   const user = useUser();
   const t = useTranslations("Auth");
-  const linkClass = headerAuthLink[variant];
-  const loginClass = headerAuthLogin[variant];
 
   return (
     <>
       <div className="flex shrink-0 items-center">
-        <LocaleSwitcher variant={variant} />
+        <LocaleSwitcher />
       </div>
       <div className="hidden shrink-0 items-center lg:flex lg:gap-2">
         {user ? (
-          <Link href="/profile" className={linkClass}>
+          <Link href="/profile" className={headerAuthLink}>
             {t("profile")}
           </Link>
         ) : (
-          <Link href="/auth" className={loginClass}>
+          <Link href="/auth" className={headerAuthLogin}>
             {t("login")}
           </Link>
         )}

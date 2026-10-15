@@ -7,7 +7,7 @@ export default function NotFound() {
       <head>
         <title>ეს გვერდი არ არსებობს</title>
       </head>
-      <body className="bg-paper text-ink antialiased">
+      <body className="bg-canvas text-fg antialiased">
         <NotFoundView title="ეს გვერდი არ არსებობს" backLabel="უკან დაბრუნება" />
       </body>
     </html>

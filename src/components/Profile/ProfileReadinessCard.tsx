@@ -35,15 +35,15 @@ export function ProfileReadinessCard({
     : undefined;
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-100 px-4 py-4 sm:px-5">
-        <h2 className="text-base font-bold text-slate-900 sm:text-lg">
+    <section className="overflow-hidden rounded-card border border-line bg-surface shadow-card">
+      <div className="border-b border-line-subtle px-4 py-4 sm:px-5">
+        <h2 className="text-base font-bold text-fg sm:text-lg">
           {t("readinessTitle")}
         </h2>
       </div>
 
       {categories.length > 0 && (
-        <div className="border-b border-slate-100 px-2 py-3 sm:px-4">
+        <div className="border-b border-line-subtle px-2 py-3 sm:px-4">
           <CategoryPickerBar
             categories={categories}
             activeCategoryId={categoryId}
@@ -57,7 +57,7 @@ export function ProfileReadinessCard({
         {authLoading || readinessLoading ? (
           <ProfileSectionSpinner label={t("loading")} />
         ) : readinessError ? (
-          <p className="py-6 text-center text-sm text-slate-500">
+          <p className="py-6 text-center text-sm text-fg-subtle">
             {t("readinessError")}
           </p>
         ) : readiness ? (
@@ -65,43 +65,43 @@ export function ProfileReadinessCard({
             <ProgressRing score={readiness.readinessScore} />
             <div className="min-w-0 flex-1 space-y-3">
               <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="text-lg font-bold text-fg">
                   {readiness.categoryName}
                 </h3>
                 {readiness.readyForExam && (
-                  <span className="rounded-full bg-emerald-100 px-3 py-0.5 text-xs font-semibold text-emerald-700">
+                  <span className="rounded-full bg-success-muted px-3 py-0.5 text-xs font-semibold text-success-strong">
                     {t("readyBadge")}
                   </span>
                 )}
               </div>
-              <p className="text-base font-medium text-slate-700">
+              <p className="text-base font-medium text-fg-muted">
                 {headlineKey ? t(headlineKey) : readiness.label}
               </p>
               <dl className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
                 {readiness.subjectsCovered != null &&
                   readiness.subjectsTotal != null && (
-                    <div className="rounded-xl bg-slate-50 px-3 py-2">
-                      <dt className="text-xs text-slate-500">
+                    <div className="rounded-control bg-surface-muted px-3 py-2">
+                      <dt className="text-xs text-fg-subtle">
                         {t("subjectsCovered")}
                       </dt>
-                      <dd className="font-semibold text-slate-900">
+                      <dd className="font-semibold text-fg">
                         {readiness.subjectsCovered}/{readiness.subjectsTotal}
                       </dd>
                     </div>
                   )}
                 {readiness.weakSubjectsCount != null && (
-                  <div className="rounded-xl bg-slate-50 px-3 py-2">
-                    <dt className="text-xs text-slate-500">
+                  <div className="rounded-control bg-surface-muted px-3 py-2">
+                    <dt className="text-xs text-fg-subtle">
                       {t("weakSubjects")}
                     </dt>
-                    <dd className="font-semibold text-rose-600">
+                    <dd className="font-semibold text-danger">
                       {readiness.weakSubjectsCount}
                     </dd>
                   </div>
                 )}
                 {poolExposure != null && (
-                  <div className="rounded-xl bg-slate-50 px-3 py-2">
-                    <dt className="text-xs text-slate-500">
+                  <div className="rounded-control bg-surface-muted px-3 py-2">
+                    <dt className="text-xs text-fg-subtle">
                       {t("poolExposure")}
                     </dt>
                     <dd className="font-semibold text-accent">
@@ -110,18 +110,18 @@ export function ProfileReadinessCard({
                   </div>
                 )}
                 {readiness.completedAttemptsTotal != null && (
-                  <div className="rounded-xl bg-slate-50 px-3 py-2">
-                    <dt className="text-xs text-slate-500">
+                  <div className="rounded-control bg-surface-muted px-3 py-2">
+                    <dt className="text-xs text-fg-subtle">
                       {t("attemptsUsed")}
                     </dt>
-                    <dd className="font-semibold text-slate-900">
+                    <dd className="font-semibold text-fg">
                       {readiness.completedAttemptsTotal}
                     </dd>
                   </div>
                 )}
               </dl>
               {headlineKey === "readinessLabelNone" && (
-                <p className="text-sm text-amber-600">
+                <p className="text-sm text-warning">
                   {t("readinessNoneHint")}
                 </p>
               )}

@@ -18,7 +18,7 @@ export default function LogoutClient() {
 
   return (
     <div className="flex min-h-[40vh] items-center justify-center">
-      <p className="text-slate-600">{t("loggingOut")}</p>
+      <p className="text-fg-muted">{t("loggingOut")}</p>
     </div>
   );
 }

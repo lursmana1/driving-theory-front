@@ -20,7 +20,7 @@ export default async function LandingFaqSection() {
   return (
     <section
       id="faq"
-      className="border-t border-hairline py-16 md:py-24"
+      className="border-t border-line py-16 md:py-24"
       aria-labelledby="faq-title"
     >
       <JsonLd

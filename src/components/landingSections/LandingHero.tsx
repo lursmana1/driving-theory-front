@@ -13,7 +13,7 @@ export default async function LandingHero() {
   return (
     <section className={LANDING.heroBg} aria-labelledby="hero-title">
       <div className="grid lg:min-h-[calc(100svh-8rem)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.95fr)]">
-        <div className="flex flex-col justify-center px-6 py-12 sm:px-8 lg:border-r lg:border-hairline lg:px-12 lg:py-16 xl:px-16">
+        <div className="flex flex-col justify-center px-6 py-12 sm:px-8 lg:border-r lg:border-line lg:px-12 lg:py-16 xl:px-16">
           <h1 id="hero-title" className={LANDING.headingHero}>
             {t("heroTitleLine1")}
           </h1>
@@ -45,20 +45,20 @@ export default async function LandingHero() {
         </div>
       </div>
 
-      <div className="grid border-t border-hairline sm:grid-cols-3">
+      <div className="grid border-t border-line sm:grid-cols-3">
         {STEP_KEYS.map((key, i) => (
           <div
             key={key}
             className={`flex items-baseline gap-4 px-6 py-4 sm:px-8 ${
               i < STEP_KEYS.length - 1
-                ? "border-b border-hairline sm:border-b-0 sm:border-r"
+                ? "border-b border-line sm:border-b-0 sm:border-r"
                 : ""
             }`}
           >
             <span className="text-xs font-semibold tabular-nums text-accent/70">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <span className="text-[15px] font-semibold text-ink">
+            <span className="text-body font-semibold text-fg">
               {t(key)}
             </span>
           </div>

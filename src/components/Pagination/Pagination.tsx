@@ -57,7 +57,7 @@ export default function Pagination({
   if (total <= pageSize) return null;
 
   const rangeLabel = (
-    <p className="text-sm text-slate-500">
+    <p className="text-sm text-fg-subtle">
       {t("paginationRange", { start, end, total })}
     </p>
   );
@@ -88,7 +88,7 @@ export default function Pagination({
       <div className="flex items-center gap-0.5">
         {pageNumbers.map((p, i) =>
           p === "ellipsis" ? (
-            <span key={`ellipsis-${i}`} className="px-2 text-slate-400">
+            <span key={`ellipsis-${i}`} className="px-2 text-fg-faint">
               …
             </span>
           ) : (

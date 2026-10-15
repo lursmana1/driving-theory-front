@@ -8,11 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { pageMeta } from "@/lib/pageMeta";
-import {
-  blogPostingJsonLd,
-  breadcrumbJsonLd,
-  buildMetadata,
-} from "@/lib/seo";
+import { blogPostingJsonLd, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { siteMetadata } from "@/lib/site-metadata";
 import { plainTextExcerpt } from "@/utills/helpers/plainTextExcerpt";
 import { Icon } from "@/components/Icon/Icon";
@@ -44,9 +40,7 @@ export async function generateMetadata({ params }: Props) {
       keywords: [blog.name, ...siteMetadata.keywords],
       path: `/blogs/${id}`,
       locale,
-      image: blog.imageUrl
-        ? { url: blog.imageUrl, alt: blog.name }
-        : undefined,
+      image: blog.imageUrl ? { url: blog.imageUrl, alt: blog.name } : undefined,
       openGraph: {
         type: "article",
         ...(publishedTime ? { publishedTime } : {}),
@@ -75,7 +69,7 @@ export default async function BlogPage({ params }: Props) {
   const dateTime = toIso(blog.createdAt) ?? "";
 
   return (
-    <div className="min-h-screen bg-slate-50/50">
+    <div className="min-h-screen">
       <JsonLd
         data={blogPostingJsonLd(locale, {
           id: blog.id,
@@ -99,24 +93,24 @@ export default async function BlogPage({ params }: Props) {
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <Link
               href="/blogs"
-              className="text-sm text-slate-500 transition-colors hover:text-slate-700"
+              className="text-sm text-fg-subtle transition-colors hover:text-fg-muted"
             >
               ← {t("back")}
             </Link>
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-600 shadow-sm">
+            <span className="rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium text-fg-muted shadow-card">
               {t("title")}
             </span>
           </div>
 
           {/* Title - centered */}
-          <h1 className="mb-6 text-center text-3xl font-bold leading-tight text-slate-900 sm:text-4xl">
+          <h1 className="mb-6 text-center text-3xl font-bold leading-tight text-fg sm:text-4xl">
             {blog.name}
           </h1>
 
-          {/* Meta - centered with icons. data-nosnippet keeps the date and read time out of the Google snippet. */}
+          {/* Meta - centered with icons */}
           <div
+            className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-fg-subtle"
             data-nosnippet=""
-            className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-500"
           >
             <time dateTime={dateTime} className="flex items-center gap-2">
               <Icon name="calendar" className="h-4 w-4 shrink-0 opacity-80" />
@@ -130,7 +124,7 @@ export default async function BlogPage({ params }: Props) {
 
           {/* Hero image - rounded corners, below meta */}
           {blog.imageUrl && (
-            <div className="relative mb-10 aspect-21/9 w-full overflow-hidden rounded-xl shadow-md">
+            <div className="relative mb-10 aspect-21/9 w-full overflow-hidden rounded-control shadow-raised">
               <Image
                 src={blog.imageUrl}
                 alt={blog.name}
@@ -146,7 +140,7 @@ export default async function BlogPage({ params }: Props) {
           {/* Body content - white card with soft shadow */}
           <div
             data-nosnippet=""
-            className="rounded-2xl border border-slate-100 bg-white px-6 py-8 shadow-sm sm:px-10 sm:py-12"
+            className="rounded-card border border-line-subtle bg-surface px-6 py-8 shadow-card sm:px-10 sm:py-12"
           >
             <div className="blog-content max-w-none">
               <Tiptap value={blog.content ?? ""} readonly bare />

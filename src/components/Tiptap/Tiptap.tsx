@@ -42,8 +42,8 @@ export default function Tiptap({
   const wrapperClass =
     bare && readonly
       ? ""
-      : `overflow-hidden rounded-lg border ${
-          status === "error" ? "border-red-500" : "border-slate-300"
+      : `overflow-hidden rounded-control border ${
+          status === "error" ? "border-danger" : "border-line-strong"
         }`;
 
   return (

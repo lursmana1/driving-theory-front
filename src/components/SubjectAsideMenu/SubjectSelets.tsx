@@ -41,15 +41,15 @@ export default function SubjectSelectMobile({
     <div className="w-full min-w-0 lg:hidden">
       <label
         htmlFor="tickets-subject-select"
-        className="mb-2 block truncate text-sm font-medium text-slate-700"
+        className="mb-2 block truncate text-sm font-medium text-fg-muted"
       >
         {label}
       </label>
       <Select
         id="tickets-subject-select"
         size="large"
-        className="w-full min-w-0 [&_.ant-select-selector]:h-12! [&_.ant-select-selector]:bg-white! [&_.ant-select-selection-item]:leading-12!"
-        classNames={{ popup: { root: "bg-white!" } }}
+        className="w-full min-w-0 [&_.ant-select-selector]:h-12! [&_.ant-select-selector]:bg-surface! [&_.ant-select-selection-item]:leading-12!"
+        classNames={{ popup: { root: "bg-surface!" } }}
         popupMatchSelectWidth
         listHeight={240}
         value={selected}

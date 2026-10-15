@@ -46,10 +46,10 @@ const ExamSuccessModal = ({
       reviewReady={reviewReady}
       isGuest={isGuest}
     >
-      <div className="border-b border-slate-200 px-8 py-6 text-center">
+      <div className="border-b border-line px-8 py-6 text-center">
         <span
           className={`mb-3 inline-flex h-11 w-11 items-center justify-center rounded-full text-xl ${
-            passed ? "bg-emerald-50" : "bg-rose-50"
+            passed ? "bg-success-soft" : "bg-danger-soft"
           }`}
           aria-hidden
         >
@@ -57,19 +57,19 @@ const ExamSuccessModal = ({
         </span>
         <h2
           className={`text-lg font-bold leading-snug sm:text-xl ${
-            passed ? "text-emerald-600" : "text-rose-600"
+            passed ? "text-success" : "text-danger"
           }`}
         >
           {passed ? t("examPassed") : t("examFailed")}
         </h2>
-        <p className="mt-3 text-2xl font-bold text-slate-900">
+        <p className="mt-3 text-2xl font-bold text-fg">
           {correctCount}/{totalCount}
-          <span className="ml-1.5 text-base font-semibold text-slate-500">
+          <span className="ml-1.5 text-base font-semibold text-fg-subtle">
             ({scorePct}%)
           </span>
         </p>
         {duration > 0 && (
-          <p className="mt-2 text-sm font-medium text-slate-600">
+          <p className="mt-2 text-sm font-medium text-fg-muted">
             {t("examDuration", { time: formatExamDuration(duration) })}
           </p>
         )}

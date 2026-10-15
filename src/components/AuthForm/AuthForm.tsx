@@ -75,7 +75,7 @@ export default function AuthForm({
   if (authLoading || user) {
     return (
       <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center py-12">
-        <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600" />
+        <span className="h-6 w-6 animate-spin rounded-full border-2 border-line-strong border-t-fg-faint" />
       </div>
     );
   }
@@ -84,14 +84,14 @@ export default function AuthForm({
 
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center py-12">
-      <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xl sm:p-10">
-        <h1 className="font-georgian text-2xl font-bold text-slate-900">
+      <div className="rounded-card border border-line bg-surface p-8 shadow-overlay sm:p-10">
+        <h1 className="font-georgian text-2xl font-bold text-fg">
           {mode === "login" ? t("login") : t("register")}
         </h1>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <p className="mt-2 text-sm leading-6 text-fg-muted">
           {t("benefitsIntro")}
         </p>
-        <ul className="mt-4 space-y-1.5 text-sm text-slate-700">
+        <ul className="mt-4 space-y-1.5 text-sm text-fg-muted">
           {BENEFIT_KEYS.map((key) => (
             <li key={key} className="flex gap-2">
               <span aria-hidden className="font-semibold text-accent">
@@ -114,7 +114,7 @@ export default function AuthForm({
           onClick={(event) => {
             if (!googleReady) event.preventDefault();
           }}
-          className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white py-3.5 font-medium text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 aria-disabled:pointer-events-none aria-disabled:opacity-50"
+          className="mt-8 flex w-full items-center justify-center gap-3 rounded-control border border-line bg-surface py-3.5 font-medium text-fg-muted shadow-card transition hover:border-line-strong hover:bg-surface-muted aria-disabled:pointer-events-none aria-disabled:opacity-50"
         >
           <Icon name="google" className="h-5 w-5" />
           {t("continueWithGoogle")}
@@ -122,17 +122,17 @@ export default function AuthForm({
 
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200" />
+            <div className="w-full border-t border-line" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="bg-white px-3 text-slate-500">{t("or")}</span>
+            <span className="bg-surface px-3 text-fg-subtle">{t("or")}</span>
           </div>
         </div>
 
         <div>{mode === "login" ? <LoginForm /> : <RegisterForm />}</div>
 
-        <div className="mt-6 border-t border-slate-100 pt-6">
-          <p className="text-center text-sm text-slate-600">
+        <div className="mt-6 border-t border-line-subtle pt-6">
+          <p className="text-center text-sm text-fg-muted">
             {mode === "login" ? t("noAccount") : t("hasAccount")}{" "}
             <button
               type="button"

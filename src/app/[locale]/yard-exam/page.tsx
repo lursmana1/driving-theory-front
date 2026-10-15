@@ -35,13 +35,13 @@ export default async function YardExamPage({ params }: YardExamPageProps) {
   const t = await getTranslations("YardExamPage");
 
   return (
-    <div className="bg-slate-50">
+    <div className="bg-surface-muted">
       <section className="section flex flex-col gap-6 py-6 sm:gap-8 sm:py-8">
         <header className="flex flex-col gap-3">
-          <h1 className="font-georgian text-2xl font-bold text-slate-900 sm:text-3xl">
+          <h1 className="font-georgian text-2xl font-bold text-fg sm:text-3xl">
             {t("title")}
           </h1>
-          <p className="max-w-2xl text-[15px] leading-7 text-slate-600">
+          <p className="max-w-2xl text-body leading-7 text-fg-muted">
             {t("subtitle")}
           </p>
         </header>
