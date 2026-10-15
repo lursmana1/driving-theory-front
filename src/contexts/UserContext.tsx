@@ -5,15 +5,13 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
+import { setUnauthorizedHandler } from "@/api/BaseApi";
 import { getMe, logout as logoutApi } from "@/api/auth";
 import type { User } from "@/lib/auth";
-import {
-  captureAccessTokenFromUrl,
-  clearAccessToken,
-  markSession,
-} from "@/lib/authToken";
+import { purgeLegacyAuthStorage } from "@/lib/legacyAuthStorage";
 
 type UserContextValue = {
   user: User | null;
@@ -28,15 +26,17 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const userRef = useRef<User | null>(null);
 
-  // Always ask the API: Google and production logins live in an httpOnly cookie
-  // that JavaScript can't see, so local storage can't tell us who is signed in.
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
+
+  // Always ask the API: the session lives in an httpOnly cookie that JavaScript
+  // can't see, so `/auth/me` is the only source of truth for who is signed in.
   const refresh = useCallback(async () => {
     try {
-      const nextUser = await getMe();
-      setUser(nextUser);
-      if (nextUser) markSession();
-      else clearAccessToken();
+      setUser(await getMe());
     } catch {
       setUser(null);
     } finally {
@@ -48,16 +48,28 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     try {
       await logoutApi();
     } catch {
-      // logout already cleared the local token
+      // still drop the user locally
     } finally {
+      userRef.current = null;
       setUser(null);
     }
   }, []);
 
   useEffect(() => {
-    captureAccessTokenFromUrl();
+    purgeLegacyAuthStorage();
     refresh();
   }, [refresh]);
+
+  // Any other 401 means the cookie expired or was revoked mid-session.
+  useEffect(() => {
+    setUnauthorizedHandler(() => {
+      const wasSignedIn = userRef.current != null;
+      userRef.current = null;
+      setUser(null);
+      return wasSignedIn;
+    });
+    return () => setUnauthorizedHandler(null);
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, loading, setUser, refresh, logout }}>

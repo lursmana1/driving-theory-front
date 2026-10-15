@@ -13,7 +13,6 @@ import {
 import { getCategoryShortLabel } from "@/CONSTS/categoryAssets";
 import type { Category } from "@/lib/types/category";
 import type { ExamQuestion } from "@/lib/types/exam";
-import { hasSession } from "@/lib/authToken";
 import { markStatsStale } from "@/lib/statsRefresh";
 import { normalizeQuestions } from "@/utills/helpers/normalizeQuestions";
 
@@ -169,7 +168,7 @@ export type FetchExamClientParams = {
   subjects?: string;
   categories?: string;
   count?: number;
-  /** Google sessions are cookie-only, so callers pass the resolved auth state. */
+  /** Sessions are cookie-only, so callers pass the resolved auth state. */
   authenticated?: boolean;
 };
 
@@ -225,7 +224,7 @@ export async function fetchExamClient(
     };
   }
 
-  if (params.authenticated ?? hasSession()) {
+  if (params.authenticated) {
     try {
       const data = await startPersonalizedExam({
         lang: params.lang,

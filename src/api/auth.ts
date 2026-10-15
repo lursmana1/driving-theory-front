@@ -1,24 +1,10 @@
 import BaseApi from "@/api/BaseApi";
 import type { User } from "@/lib/auth";
-import { clearAccessToken, setAccessToken } from "@/lib/authToken";
 
-export type AuthTokens = {
-  access_token: string;
-  refresh_token?: string;
-};
-
+/** The session itself is the httpOnly cookie the API sets on this response. */
 export type AuthResponse = {
   user?: User;
-  /** Legacy top-level token (same-origin cookie era) */
-  access_token?: string;
-  /** Bearer token lives here on cross-origin API */
-  tokens?: AuthTokens;
 };
-
-function persistAuthTokens(data: AuthResponse): void {
-  const token = data.tokens?.access_token ?? data.access_token;
-  if (token) setAccessToken(token);
-}
 
 export type AuthConfig = {
   googleLoginUrl: string;
@@ -39,8 +25,7 @@ export async function login(
     email,
     password,
   });
-  persistAuthTokens(res.data);
-  return res.data;
+  return { user: res.data.user };
 }
 
 export async function register(payload: {
@@ -50,8 +35,7 @@ export async function register(payload: {
   password: string;
 }): Promise<AuthResponse> {
   const res = await BaseApi.post<AuthResponse>("/auth/register", payload);
-  persistAuthTokens(res.data);
-  return res.data;
+  return { user: res.data.user };
 }
 
 /** 401 is a signed-out session, not a failed request. */
@@ -66,9 +50,5 @@ export async function getMe(): Promise<User | null> {
 }
 
 export async function logout(): Promise<void> {
-  try {
-    await BaseApi.post("/auth/logout");
-  } finally {
-    clearAccessToken();
-  }
+  await BaseApi.post("/auth/logout");
 }

@@ -32,7 +32,7 @@ Georgian driving-license theory exam prep — practice tickets, timed exams, and
 
 - **Next.js 16** (App Router) · **React 19** · **TypeScript**
 - **Tailwind CSS 4** · **Ant Design 6**
-- **next-intl** · **Axios** (Bearer token; Google session cookie on the API)
+- **next-intl** · **Axios** (httpOnly session cookie set by the API)
 - **NestJS** API ([driving-theory-back](https://github.com/lursmana1/driving-theory-back))
 
 ## Getting started
