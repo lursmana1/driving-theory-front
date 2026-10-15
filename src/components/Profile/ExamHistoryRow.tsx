@@ -33,39 +33,39 @@ export function ExamHistoryRow({
         : labels.unfinished;
   const resultClass =
     attempt.passed === true
-      ? "text-emerald-600"
+      ? "text-success"
       : attempt.passed === false
-        ? "text-rose-600"
-        : "text-amber-600";
+        ? "text-danger"
+        : "text-warning";
 
   return (
-    <li className="border-b border-slate-100 last:border-b-0">
+    <li className="border-b border-line-subtle last:border-b-0">
       <div className="space-y-2 px-4 py-4 md:hidden">
         <time
           dateTime={attempt.createdAt}
-          className="block text-sm font-medium text-slate-800"
+          className="block text-sm font-medium text-fg"
         >
           {formatAttemptDateTime(attempt, locale)}
         </time>
         <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
           <div>
-            <dt className="text-slate-500">{labels.colCategory}</dt>
-            <dd className="font-semibold text-slate-900">{categoryLabel}</dd>
+            <dt className="text-fg-subtle">{labels.colCategory}</dt>
+            <dd className="font-semibold text-fg">{categoryLabel}</dd>
           </div>
           <div>
-            <dt className="text-slate-500">{labels.colScore}</dt>
-            <dd className="font-semibold text-slate-900">
+            <dt className="text-fg-subtle">{labels.colScore}</dt>
+            <dd className="font-semibold text-fg">
               {attempt.correctCount}/{attempt.questionCount}
             </dd>
           </div>
           <div>
-            <dt className="text-slate-500">{labels.colDuration}</dt>
-            <dd className="font-medium text-slate-700">
+            <dt className="text-fg-subtle">{labels.colDuration}</dt>
+            <dd className="font-medium text-fg-muted">
               {formatExamDuration(resolveAttemptDurationSeconds(attempt), "—")}
             </dd>
           </div>
           <div className="col-span-2">
-            <dt className="text-slate-500">{labels.colResult}</dt>
+            <dt className="text-fg-subtle">{labels.colResult}</dt>
             <dd className={`font-semibold ${resultClass}`}>{resultLabel}</dd>
           </div>
         </dl>
@@ -74,15 +74,15 @@ export function ExamHistoryRow({
       <div className={`hidden px-5 py-3.5 text-sm ${EXAM_HISTORY_TABLE_GRID}`}>
         <time
           dateTime={attempt.createdAt}
-          className="text-slate-700"
+          className="text-fg-muted"
         >
           {formatAttemptDateTime(attempt, locale)}
         </time>
-        <span className="font-semibold text-slate-800">{categoryLabel}</span>
-        <span className="text-right font-medium tabular-nums text-slate-900">
+        <span className="font-semibold text-fg">{categoryLabel}</span>
+        <span className="text-right font-medium tabular-nums text-fg">
           {attempt.correctCount}/{attempt.questionCount}
         </span>
-        <span className="text-right tabular-nums whitespace-nowrap text-slate-600">
+        <span className="text-right tabular-nums whitespace-nowrap text-fg-muted">
           {formatExamDuration(resolveAttemptDurationSeconds(attempt), "—")}
         </span>
         <span className={`text-right font-medium whitespace-nowrap ${resultClass}`}>

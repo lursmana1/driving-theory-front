@@ -26,14 +26,14 @@ export default async function AuthPage({ searchParams }: PageProps) {
   const oauthErrorKey = googleCallbackErrorKey(oauthParams);
 
   return (
-    <main className="min-h-screen bg-slate-50/50 py-8 font-georgian">
+    <main className="min-h-screen py-8 font-georgian">
       <div className="section mb-6">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-lg font-bold text-slate-900"
+          className="inline-flex items-center gap-2 text-lg font-bold text-fg"
         >
           <span
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-accent to-accent-strong text-sm font-bold text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-control bg-linear-to-br from-accent to-accent-strong text-sm font-bold text-fg-inverse"
             aria-hidden
           >
             P

@@ -52,23 +52,23 @@ export default function ExamResultModal({
       styles={{
         body: {
           padding: 0,
-          borderRadius: "1rem",
+          borderRadius: "var(--radius-card)",
           overflow: "hidden",
-          boxShadow: "0 24px 48px -12px rgba(15, 23, 42, 0.35)",
+          boxShadow: "var(--shadow-overlay)",
         },
       }}
     >
-      <div className="font-georgian bg-white">
+      <div className="font-georgian bg-surface">
         {children}
 
-        <div className="flex flex-col gap-2.5 border-t border-slate-200 bg-slate-50 px-8 py-6">
+        <div className="flex flex-col gap-2.5 border-t border-line bg-surface-muted px-8 py-6">
           {canReview && (
             <button
               type="button"
               autoFocus
               disabled={!reviewReady}
               onClick={onReview}
-              className="w-full rounded-xl bg-accent py-3 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:opacity-60"
+              className="w-full rounded-control bg-accent py-3 text-sm font-semibold text-on-accent transition hover:bg-accent-strong disabled:opacity-60"
             >
               {reviewReady
                 ? t("reviewMistakes", { count: reviewCount })
@@ -79,14 +79,14 @@ export default function ExamResultModal({
             type="button"
             autoFocus={!canReview}
             onClick={handleRestart}
-            className="w-full rounded-xl bg-ink py-3 text-sm font-semibold text-white shadow-md shadow-ink/20 transition hover:brightness-125"
+            className="w-full rounded-control bg-fg py-3 text-sm font-semibold text-fg-inverse shadow-raised transition hover:brightness-125"
           >
             {t("restart")}
           </button>
           <button
             type="button"
             onClick={() => router.push("/")}
-            className="w-full rounded-xl border border-slate-300 bg-white py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:bg-slate-100"
+            className="w-full rounded-control border border-line-strong bg-surface py-3 text-sm font-semibold text-fg-muted transition hover:border-line-strong hover:bg-surface-sunken"
           >
             {t("goToHome")}
           </button>

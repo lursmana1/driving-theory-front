@@ -66,34 +66,34 @@ export default async function CityExamPage({
   ) as Record<CityExamCategoryKey, string>;
 
   return (
-    <div className="bg-slate-50">
+    <div className="bg-surface-muted">
       <section className="section flex flex-col gap-6 py-6 sm:gap-8 sm:py-8">
         <header className="flex flex-col gap-3">
-          <h1 className="font-georgian text-2xl font-bold text-slate-900 sm:text-3xl">
+          <h1 className="font-georgian text-2xl font-bold text-fg sm:text-3xl">
             {t("title")}
           </h1>
-          <p className="max-w-2xl text-[15px] leading-7 text-slate-600">
+          <p className="max-w-2xl text-body leading-7 text-fg-muted">
             {t("subtitle")}
           </p>
         </header>
 
         <CityExamCategorySwitcher activeKey={activeKey} labels={labels} />
 
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-5 sm:px-6 sm:py-6">
-          <h2 className="font-georgian text-lg font-bold text-slate-900 sm:text-xl">
+        <div className="rounded-card border border-line bg-surface px-4 py-5 sm:px-6 sm:py-6">
+          <h2 className="font-georgian text-lg font-bold text-fg sm:text-xl">
             {section.title}
           </h2>
 
           {section.rules ? (
-            <div className="mt-4 space-y-2 rounded-xl bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-600">
+            <div className="mt-4 space-y-2 rounded-control bg-surface-muted px-4 py-3 text-sm leading-6 text-fg-muted">
               <p>
-                <span className="font-semibold text-slate-800">
+                <span className="font-semibold text-fg">
                   {t("rulesFormat")}:{" "}
                 </span>
                 {section.rules.format}
               </p>
               <p>
-                <span className="font-semibold text-slate-800">
+                <span className="font-semibold text-fg">
                   {t("rulesPenalty")}:{" "}
                 </span>
                 {section.rules.penalty}
@@ -101,7 +101,7 @@ export default async function CityExamPage({
             </div>
           ) : null}
 
-          <p className="mt-5 text-sm text-slate-500">
+          <p className="mt-5 text-sm text-fg-subtle">
             {t("questionCount", { count: questions.length })}
           </p>
 

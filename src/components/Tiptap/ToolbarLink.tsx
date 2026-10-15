@@ -42,20 +42,20 @@ export default function ToolbarLink({ editor }: ToolbarLinkProps) {
         <span className="text-sm font-medium">🔗</span>
       </ToolbarButton>
       {showInput && (
-        <div className="absolute left-0 top-full z-10 mt-1 flex gap-1 rounded border border-slate-200 bg-white p-2 shadow-lg">
+        <div className="absolute left-0 top-full z-10 mt-1 flex gap-1 rounded-xs border border-line bg-surface p-2 shadow-overlay">
           <input
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleAdd()}
             placeholder="https://"
-            className="w-48 rounded border border-slate-200 px-2 py-1 text-sm"
+            className="w-48 rounded-xs border border-line px-2 py-1 text-sm"
             autoFocus
           />
           <button
             type="button"
             onClick={handleAdd}
-            className="rounded bg-accent px-2 py-1 text-sm text-white"
+            className="rounded-xs bg-accent px-2 py-1 text-sm text-on-accent"
           >
             Add
           </button>
@@ -65,7 +65,7 @@ export default function ToolbarLink({ editor }: ToolbarLinkProps) {
               setShowInput(false);
               setUrl("");
             }}
-            className="rounded px-2 py-1 text-sm text-slate-600 hover:bg-slate-100"
+            className="rounded-xs px-2 py-1 text-sm text-fg-muted hover:bg-surface-sunken"
           >
             Cancel
           </button>

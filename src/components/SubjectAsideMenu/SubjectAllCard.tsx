@@ -25,11 +25,11 @@ export default function SubjectAllCard({
     <Link
       href={`/tickets/${category}${query ? `?${query}` : ""}`}
       className={`
-        block p-3 rounded-xl border transition
+        block p-3 rounded-control border transition
         ${
           isActive
-            ? "bg-accent text-white border-accent"
-            : "bg-white hover:bg-slate-50 border-slate-200"
+            ? "bg-accent text-on-accent border-accent"
+            : "bg-surface hover:bg-surface-muted border-line"
         }
       `}
     >

@@ -45,17 +45,17 @@ const ExamRetryModal = ({
       reviewReady={reviewReady}
       isGuest={isGuest}
     >
-      <div className="border-b border-slate-200 px-8 py-6 text-center">
-        <h2 className="text-lg font-bold leading-snug text-slate-900 sm:text-xl">
+      <div className="border-b border-line px-8 py-6 text-center">
+        <h2 className="text-lg font-bold leading-snug text-fg sm:text-xl">
           {t("examFailed")}
         </h2>
-        <p className="mt-2 text-sm text-rose-600">
+        <p className="mt-2 text-sm text-danger">
           {t("mistakeCount", { count: mistake })}
         </p>
       </div>
 
       <div className="px-8 py-6 text-center">
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+        <div className="overflow-hidden rounded-control border border-line bg-surface-muted">
           <Image
             className="h-auto w-full"
             src="/gif/school-paper.gif"
@@ -67,7 +67,7 @@ const ExamRetryModal = ({
         </div>
 
         {duration > 0 && (
-          <p className="mt-4 text-sm font-medium text-slate-600">
+          <p className="mt-4 text-sm font-medium text-fg-muted">
             {t("examDuration", { time: formatExamDuration(duration) })}
           </p>
         )}

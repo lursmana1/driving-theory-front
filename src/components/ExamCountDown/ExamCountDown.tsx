@@ -69,5 +69,5 @@ export default function ExamCountDown({
     };
   }, [paused, createdAt, endDate, initialSeconds, guestStartMs, onTimeUp]);
 
-  return <span className="text-yellow-300">{formatTime(remaining)}</span>;
+  return <span className="text-stage-highlight">{formatTime(remaining)}</span>;
 }

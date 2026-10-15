@@ -25,9 +25,9 @@ export default function QuestionExplanation({
   return (
     <>
       <div
-        className={`flex items-center justify-between rounded-md border border-white/30 bg-black/30 px-3 py-2 ${compact ? "mb-3" : "mb-4"}`}
+        className={`flex items-center justify-between rounded-control border border-stage-line bg-stage-deep/40 px-3 py-2 ${compact ? "mb-3" : "mb-4"}`}
       >
-        <span className="font-georgian text-sm font-medium text-white">
+        <span className="font-georgian text-sm font-medium text-stage-fg">
           {questionIndex != null ? `${questionIndex}. ` : ""}#{questionId}
         </span>
         <div className="flex items-center gap-2">
@@ -40,8 +40,8 @@ export default function QuestionExplanation({
               aria-expanded={showExplanation}
               className={`flex h-8 w-8 items-center justify-center rounded-full transition ${
                 showExplanation
-                  ? "bg-emerald-500/80 text-white"
-                  : "bg-white/25 text-white hover:bg-white/40"
+                  ? "bg-success/80 text-on-accent"
+                  : "bg-stage-fg/25 text-stage-fg hover:bg-stage-fg/40"
               }`}
             >
               ?
@@ -52,20 +52,20 @@ export default function QuestionExplanation({
 
       {hasExplanation && showExplanation && (
         <div
-          className={`absolute z-20 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-2xl ${
+          className={`absolute z-20 overflow-hidden rounded-control border border-line bg-surface-muted shadow-overlay ${
             compact
               ? "inset-x-3 top-16 sm:inset-x-4 sm:top-20"
               : "inset-x-4 top-20"
           }`}
         >
-          <div className="flex items-center justify-between border-b border-slate-200 bg-white px-5 py-3">
-            <h3 className="font-georgian text-base font-bold text-emerald-700">
+          <div className="flex items-center justify-between border-b border-line bg-surface px-5 py-3">
+            <h3 className="font-georgian text-base font-bold text-stage-success-strong">
               {t("ticketExplanation")}:
             </h3>
             <button
               type="button"
               onClick={() => setShowExplanation(false)}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-slate-500 transition hover:bg-slate-200 hover:text-slate-700"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-fg-subtle transition hover:bg-surface-strong hover:text-fg-muted"
               aria-label="Close"
             >
               ✕
@@ -76,7 +76,7 @@ export default function QuestionExplanation({
               compact ? "max-h-56 sm:max-h-64" : "max-h-72"
             }`}
           >
-            <p className="font-georgian text-sm leading-relaxed text-slate-700">
+            <p className="font-georgian text-sm leading-relaxed text-fg-muted">
               {explanation}
             </p>
           </div>

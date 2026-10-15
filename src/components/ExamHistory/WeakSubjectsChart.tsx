@@ -68,8 +68,8 @@ export function WeakSubjectsChart({
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-      <h2 className="mb-4 text-base font-semibold text-slate-800 sm:text-lg">
+    <div className="rounded-card border border-line bg-surface p-4 shadow-card sm:p-5">
+      <h2 className="mb-4 text-base font-semibold text-fg sm:text-lg">
         {title}
       </h2>
       <div className="space-y-3">

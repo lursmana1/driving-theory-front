@@ -13,14 +13,14 @@ export default function GuestSaveProgressCta() {
   const t = useTranslations("Exam");
 
   return (
-    <div className="border-t border-slate-200 bg-accent/5 px-8 py-5 text-left">
-      <p className="text-sm font-semibold text-slate-900">
+    <div className="border-t border-line bg-accent/5 px-8 py-5 text-left">
+      <p className="text-sm font-semibold text-fg">
         {t("guestSaveTitle")}
       </p>
-      <p className="mt-1 text-sm leading-6 text-slate-600">
+      <p className="mt-1 text-sm leading-6 text-fg-muted">
         {t("guestSaveText")}
       </p>
-      <ul className="mt-3 space-y-1 text-sm text-slate-700">
+      <ul className="mt-3 space-y-1 text-sm text-fg-muted">
         {BENEFIT_KEYS.map((key) => (
           <li key={key} className="flex gap-2">
             <span aria-hidden className="font-semibold text-accent">

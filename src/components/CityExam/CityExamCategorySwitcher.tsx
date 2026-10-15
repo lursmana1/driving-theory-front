@@ -30,10 +30,10 @@ export default function CityExamCategorySwitcher({
             role="tab"
             aria-selected={active}
             scroll={false}
-            className={`rounded-lg border px-3.5 py-2 text-sm font-semibold transition-colors sm:px-4 ${
+            className={`rounded-control border px-3.5 py-2 text-sm font-semibold transition-colors sm:px-4 ${
               active
-                ? "border-accent bg-accent text-white"
-                : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                ? "border-accent bg-accent text-on-accent"
+                : "border-line bg-surface text-fg-muted hover:border-line-strong hover:bg-surface-muted"
             }`}
           >
             {labels[cat.key]}

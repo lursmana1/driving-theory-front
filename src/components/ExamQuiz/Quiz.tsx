@@ -66,7 +66,7 @@ export default function ExamQuiz({
   } = exam;
 
   return (
-    <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden bg-[#193e4a]">
+    <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden bg-stage">
       <ExamImagePreloader
         questions={exam.safeQuestions}
         currentIndex={nav.index}

@@ -33,15 +33,15 @@ function resolveAnswerState(
 function answerStateClass(state: AnswerState) {
   switch (state) {
     case "idle":
-      return "cursor-pointer border-gray-300 text-white hover:border-accent/40";
+      return "cursor-pointer border-stage-line bg-stage-raised/50 text-stage-fg hover:border-accent hover:bg-stage-raised";
     case "pending":
-      return "border-white/70 bg-white/10 text-white";
+      return "border-stage-fg/70 bg-stage-fg/10 text-stage-fg";
     case "correct":
-      return "border-[#c3e6cb] bg-[#05c300c9] text-white";
+      return "border-stage-success bg-success text-on-accent";
     case "wrong":
-      return "border-[#f5c6cb] bg-[#ff3346a8] text-white";
+      return "border-stage-danger bg-danger text-on-accent";
     case "muted":
-      return "border-gray-300 text-white opacity-70";
+      return "border-stage-line text-stage-fg opacity-60";
   }
 }
 
@@ -72,9 +72,9 @@ const QuizButton = ({
         selectAnswer(answerKey);
       }}
       disabled={!canClick}
-      className={`flex w-full min-w-0 items-center gap-2 rounded border p-3 text-left font-georgian leading-snug transition sm:gap-4 sm:p-4 ${answerStateClass(state)}`}
+      className={`flex w-full min-w-0 items-center gap-2 rounded-control border p-3 text-left font-georgian leading-snug transition sm:gap-4 sm:p-4 ${answerStateClass(state)}`}
     >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-gray-400 bg-gray-100 text-base font-bold text-black shadow-sm sm:h-12 sm:w-14 sm:text-lg">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xs bg-stage-fg text-base font-bold text-fg shadow-card sm:h-12 sm:w-14 sm:text-lg">
         {answerKey}
       </span>
       <span className="min-w-0 overflow-hidden wrap-break-word">{answerText}</span>

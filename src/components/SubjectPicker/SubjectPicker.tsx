@@ -51,7 +51,7 @@ export default function SubjectPicker({
         />
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-card border border-line bg-surface shadow-card">
         <SubjectPickerRulesBar
           examRules={examRules}
           durationMinutes={durationMinutes}
@@ -63,8 +63,8 @@ export default function SubjectPicker({
         />
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] backdrop-blur md:hidden">
-        <p className="mb-2 text-center text-xs text-slate-500">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] backdrop-blur md:hidden">
+        <p className="mb-2 text-center text-xs text-fg-subtle">
           {t("selectedCount", { selected: selected.length, total: allIds.length })}
         </p>
         <StartExamButton

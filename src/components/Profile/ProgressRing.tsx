@@ -20,7 +20,7 @@ export function ProgressRing({
           cy="50"
           r={radius}
           fill="none"
-          stroke="#e2e8f0"
+          className="stroke-surface-strong"
           strokeWidth="8"
         />
         <circle
@@ -37,14 +37,14 @@ export function ProgressRing({
         />
         <defs>
           <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#0ea5e9" />
-            <stop offset="100%" stopColor="#8b5cf6" />
+            <stop offset="0%" stopColor="var(--color-accent)" />
+            <stop offset="100%" stopColor="var(--color-secondary)" />
           </linearGradient>
         </defs>
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-2xl font-bold text-slate-900">{clamped}</span>
-        <span className="text-[10px] font-medium uppercase tracking-wide text-slate-400">
+        <span className="text-2xl font-bold text-fg">{clamped}</span>
+        <span className="text-3xs font-medium uppercase tracking-wide text-fg-faint">
           %
         </span>
       </div>

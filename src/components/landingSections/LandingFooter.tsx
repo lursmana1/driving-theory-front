@@ -3,14 +3,14 @@ import { getTranslations } from "next-intl/server";
 import { LANDING } from "@/CONSTS/landing";
 import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 
-const footerLink = "text-ink/65 transition-colors hover:text-accent";
+const footerLink = "text-fg-subtle transition-colors hover:text-accent";
 
 export default async function LandingFooter() {
   const t = await getTranslations("Home");
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-hairline py-14 text-ink">
+    <footer className="border-t border-line py-14 text-fg">
       <div className="section">
         <div className="grid gap-12 md:grid-cols-3">
           <div>
@@ -18,7 +18,7 @@ export default async function LandingFooter() {
               <span className={LANDING.footerLogoMark} aria-hidden>
                 P
               </span>
-              <span className="text-lg font-bold text-ink">prava.ge</span>
+              <span className="text-lg font-bold text-fg">prava.ge</span>
             </div>
             <p className={`mt-4 max-w-sm ${LANDING.body}`}>{t("footerBrand")}</p>
           </div>
@@ -61,11 +61,11 @@ export default async function LandingFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-hairline pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-ink/45">
+        <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-fg-faint">
             {t("footerCopyright", { year })}
           </p>
-          <p className="text-xs tracking-wide text-ink/40">
+          <p className="text-xs tracking-wide text-fg-faint">
             {t("heroBrandMark")}
           </p>
         </div>

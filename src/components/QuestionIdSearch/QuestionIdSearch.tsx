@@ -52,21 +52,21 @@ export default function QuestionIdSearch({
   };
 
   return (
-    <div className="flex w-full overflow-hidden rounded-lg bg-slate-50 md:w-auto md:min-w-48">
+    <div className="flex w-full overflow-hidden rounded-control bg-surface-muted md:w-auto md:min-w-48">
       <input
         type="text"
         placeholder={t("questionIdPlaceholder")}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSearch(value)}
-        className="h-12 w-full border-0 bg-transparent px-3 py-2 text-slate-900 placeholder:text-slate-400 outline-none focus:border-0 focus:outline-none focus:ring-0 md:max-w-xs"
+        className="h-12 w-full border-0 bg-transparent px-3 py-2 text-fg placeholder:text-fg-faint outline-none focus:border-0 focus:outline-none focus:ring-0 md:max-w-xs"
       />
       {value && (
         <button
           type="button"
           onClick={handleClear}
           aria-label={t("clearSearch")}
-          className="h-12 shrink-0 border-0 bg-transparent px-2 text-slate-400 transition hover:text-slate-600 focus:outline-none focus:ring-0"
+          className="h-12 shrink-0 border-0 bg-transparent px-2 text-fg-faint transition hover:text-fg-muted focus:outline-none focus:ring-0"
         >
           <Icon name="close" className="h-4.5 w-4.5" />
         </button>
@@ -74,7 +74,7 @@ export default function QuestionIdSearch({
       <button
         type="button"
         onClick={() => handleSearch(value)}
-        className="h-12 shrink-0 border-0 bg-slate-100 px-4 text-slate-700 transition hover:bg-slate-200 focus:outline-none focus:ring-0"
+        className="h-12 shrink-0 border-0 bg-surface-sunken px-4 text-fg-muted transition hover:bg-surface-strong focus:outline-none focus:ring-0"
       >
         {t("search")}
       </button>

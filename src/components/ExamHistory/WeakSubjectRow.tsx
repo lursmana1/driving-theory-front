@@ -41,14 +41,14 @@ function StatBadges({
 }) {
   return (
     <div className="flex flex-wrap gap-1.5">
-      <span className="rounded-md bg-rose-100 px-2 py-1 text-xs font-medium text-rose-700">
+      <span className="rounded-xs bg-danger-muted px-2 py-1 text-xs font-medium text-danger-strong">
         {wrong} {wrongLabel}
       </span>
-      <span className="rounded-md bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700">
+      <span className="rounded-xs bg-success-muted px-2 py-1 text-xs font-medium text-success-strong">
         {correct} {correctLabel}
       </span>
       {unansweredLabel != null && unanswered > 0 && (
-        <span className="rounded-md bg-slate-200 px-2 py-1 text-xs font-medium text-slate-600">
+        <span className="rounded-xs bg-surface-strong px-2 py-1 text-xs font-medium text-fg-muted">
           {unanswered} {unansweredLabel}
         </span>
       )}
@@ -78,19 +78,19 @@ function ProgressBar({
   unansweredLabel?: string;
 }) {
   return (
-    <div className="flex h-2.5 overflow-hidden rounded-full bg-slate-100 sm:h-3">
+    <div className="flex h-2.5 overflow-hidden rounded-full bg-surface-sunken sm:h-3">
       <div
-        className="bg-linear-to-r from-rose-400 to-rose-500 transition-all duration-500"
+        className="bg-linear-to-r from-danger to-danger transition-all duration-500"
         style={{ width: `${wrongPct}%` }}
         title={`${wrongLabel}: ${wrong}`}
       />
       <div
-        className="bg-linear-to-r from-emerald-400 to-emerald-500 transition-all duration-500"
+        className="bg-linear-to-r from-success to-success transition-all duration-500"
         style={{ width: `${correctPct}%` }}
         title={`${correctLabel}: ${correct}`}
       />
       <div
-        className="bg-linear-to-r from-slate-300 to-slate-400 transition-all duration-500"
+        className="bg-linear-to-r from-line-strong to-fg-faint transition-all duration-500"
         style={{ width: `${unansweredPct}%` }}
         title={
           unansweredLabel
@@ -134,7 +134,7 @@ export function WeakSubjectRow({
             className={`mt-0.5 h-4 w-4 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           />
         ) : null}
-        <p className="min-w-0 flex-1 text-sm font-medium leading-snug text-slate-800 sm:text-base">
+        <p className="min-w-0 flex-1 text-sm font-medium leading-snug text-fg sm:text-base">
           {subjectName}
         </p>
       </div>
@@ -160,10 +160,10 @@ export function WeakSubjectRow({
         unansweredLabel={unansweredLabel}
       />
 
-      <p className="text-xs text-slate-500 sm:text-sm">
+      <p className="text-xs text-fg-subtle sm:text-sm">
         {t("totalQuestions", { count: pool })}
         {hasQuestions ? (
-          <span className="text-slate-400">
+          <span className="text-fg-faint">
             {" "}
             · {questions.length} {questionLabel.toLowerCase()}
           </span>
@@ -173,7 +173,7 @@ export function WeakSubjectRow({
   );
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50/50">
+    <div className="overflow-hidden rounded-control border border-line bg-surface-muted/50">
       {hasQuestions ? (
         <button
           type="button"
@@ -181,7 +181,7 @@ export function WeakSubjectRow({
           aria-expanded={open}
           aria-controls={panelId}
           onClick={() => setOpen((value) => !value)}
-          className="w-full px-3 py-3.5 text-left transition hover:bg-slate-50 sm:px-4"
+          className="w-full px-3 py-3.5 text-left transition hover:bg-surface-muted sm:px-4"
         >
           {body}
         </button>
@@ -194,7 +194,7 @@ export function WeakSubjectRow({
           id={panelId}
           role="region"
           aria-labelledby={`weak-subject-trigger-${item.subjectId}`}
-          className="space-y-2 border-t border-slate-200 bg-white px-3 py-3 sm:px-4"
+          className="space-y-2 border-t border-line bg-surface px-3 py-3 sm:px-4"
         >
           {questions.map((wq) => {
             const preview = getQuestionPreview(wq.question, 500);
@@ -208,18 +208,18 @@ export function WeakSubjectRow({
               <li key={wq.questionId}>
                 <Link
                   href={href}
-                  className="block rounded-lg border border-slate-100 bg-slate-50/80 p-3 transition hover:border-accent/30 hover:bg-accent/5"
+                  className="block rounded-control border border-line-subtle bg-surface-muted/80 p-3 transition hover:border-accent/30 hover:bg-accent/5"
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <span className="shrink-0 text-sm font-semibold text-slate-800">
+                    <span className="shrink-0 text-sm font-semibold text-fg">
                       #{wq.questionId}
                     </span>
-                    <span className="shrink-0 rounded-md bg-rose-100 px-2 py-0.5 text-xs font-medium text-rose-700">
+                    <span className="shrink-0 rounded-xs bg-danger-muted px-2 py-0.5 text-xs font-medium text-danger-strong">
                       {wq.wrongCount} {wrongLabel}
                     </span>
                   </div>
                   {preview ? (
-                    <p className="mt-2 text-sm leading-relaxed text-slate-700">
+                    <p className="mt-2 text-sm leading-relaxed text-fg-muted">
                       {preview}
                     </p>
                   ) : null}

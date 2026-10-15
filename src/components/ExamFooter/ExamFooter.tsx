@@ -18,7 +18,7 @@ type ExamFooterProps = {
   };
 
 const footerKeyButtonBase =
-  "flex flex-1 sm:flex-none items-center justify-center min-w-11 h-11 sm:min-w-14 sm:h-14 rounded-md border border-gray-400 font-bold text-base sm:text-lg shadow-sm transition";
+  "flex flex-1 sm:flex-none items-center justify-center min-w-11 h-11 sm:min-w-14 sm:h-14 rounded-xs border font-bold text-base sm:text-lg shadow-card transition";
 
 const ExamFooter = (props: ExamFooterProps) => {
   const navigationVisibility = !!props.showNext;
@@ -27,7 +27,7 @@ const ExamFooter = (props: ExamFooterProps) => {
       {navigationVisibility && (
         <button
           onClick={props.showPrevious}
-          className="p-1.5 sm:p-2 flex justify-center items-center bg-gray-200 hover:bg-gray-300 rounded-md cursor-pointer shrink-0"
+          className="p-1.5 sm:p-2 flex justify-center items-center rounded-xs bg-stage-fg hover:bg-surface-strong cursor-pointer transition shrink-0"
         >
           <Image
             src={leftSide}
@@ -46,14 +46,14 @@ const ExamFooter = (props: ExamFooterProps) => {
           const isSelected = question.key === props.selectedAnswer;
 
           const correctClass =
-            "cursor-default border-[#c3e6cb] bg-[#05c300c9] text-white";
+            "cursor-default border-stage-success bg-success text-on-accent";
           const wrongClass =
-            "cursor-default border-[#f5c6cb] bg-[#ff3346a8] text-white";
+            "cursor-default border-stage-danger bg-danger text-on-accent";
           const mutedClass =
-            "cursor-default border-gray-300 bg-gray-200 text-gray-500 opacity-60";
+            "cursor-default border-stage-line bg-stage-raised text-stage-fg/60 opacity-60";
 
           let stateClass =
-            "cursor-pointer border-gray-400 bg-gray-100 text-black hover:bg-gray-200";
+            "cursor-pointer border-transparent bg-stage-fg text-fg hover:bg-surface-strong";
 
           if (hasSelected) {
             if (props.correctAnswer) {
@@ -66,7 +66,7 @@ const ExamFooter = (props: ExamFooterProps) => {
               stateClass = mutedClass;
             } else if (props.selectedCorrect == null) {
               stateClass =
-                "cursor-default border-slate-500 bg-slate-300 text-black";
+                "cursor-default border-stage-fg bg-stage-fg/30 text-stage-fg";
             } else {
               stateClass = props.selectedCorrect ? correctClass : wrongClass;
             }
@@ -89,7 +89,7 @@ const ExamFooter = (props: ExamFooterProps) => {
       {navigationVisibility && (
         <button
           onClick={props.showNext}
-          className="p-1.5 sm:p-2 flex justify-center items-center bg-gray-200 hover:bg-gray-300 rounded-md cursor-pointer shrink-0"
+          className="p-1.5 sm:p-2 flex justify-center items-center rounded-xs bg-stage-fg hover:bg-surface-strong cursor-pointer transition shrink-0"
         >
           <Image
             src={rightSide}

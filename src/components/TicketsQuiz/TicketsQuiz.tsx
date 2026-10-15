@@ -63,7 +63,7 @@ export default function TicketQuiz({
 
   return (
     <>
-      <div className="relative h-auto scroll-mt-4 bg-[#193e4a] p-4">
+      <div className="relative h-auto scroll-mt-4 bg-stage p-4">
         <div className="relative z-10">
           <QuestionExplanation
             questionId={question.id}
@@ -89,7 +89,7 @@ export default function TicketQuiz({
             />
           )}
 
-          <p className="font-georgian mb-4 min-w-0 rounded-md border border-white bg-black/50 p-4 text-sm font-medium tracking-wide text-white">
+          <p className="font-georgian mb-4 min-w-0 rounded-control border border-stage-line bg-stage-deep/60 p-4 text-sm font-medium tracking-wide text-stage-fg">
             {question.question}
           </p>
 

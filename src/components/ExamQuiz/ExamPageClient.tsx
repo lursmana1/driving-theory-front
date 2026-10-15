@@ -131,10 +131,10 @@ export default function ExamPageClient({
 
   if (loading && !state.restarting) {
     return (
-      <div className="bg-[#193e4a] min-h-dvh flex items-center justify-center">
-        <div className="flex flex-col items-center text-white">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-          <p className="mt-4 font-georgian text-sm text-white/90">{t("loading")}</p>
+      <div className="bg-stage min-h-dvh flex items-center justify-center">
+        <div className="flex flex-col items-center text-stage-fg">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-stage-fg/30 border-t-stage-fg" />
+          <p className="mt-4 font-georgian text-sm text-stage-fg/90">{t("loading")}</p>
         </div>
       </div>
     );
@@ -142,12 +142,12 @@ export default function ExamPageClient({
 
   if (state.error === "insufficient_questions") {
     return (
-      <div className="bg-[#193e4a] min-h-dvh flex items-center justify-center">
-        <div className="text-white text-center max-w-md px-4">
+      <div className="bg-stage min-h-dvh flex items-center justify-center">
+        <div className="text-stage-fg text-center max-w-md px-4">
           <p className="text-lg mb-4 font-georgian">
             {t("insufficientQuestions")}
           </p>
-          <Link href="/subjectpicker" className="text-rose-400 hover:underline">
+          <Link href="/subjectpicker" className="text-stage-highlight hover:underline">
             {t("backToTopics")}
           </Link>
         </div>
@@ -157,10 +157,10 @@ export default function ExamPageClient({
 
   if (!state.questions.length || !state.examRules) {
     return (
-      <div className="bg-[#193e4a] min-h-dvh flex items-center justify-center">
-        <div className="text-white text-center">
+      <div className="bg-stage min-h-dvh flex items-center justify-center">
+        <div className="text-stage-fg text-center">
           <p className="text-lg mb-4">{t("questionsNotFound")}</p>
-          <Link href="/subjectpicker" className="text-rose-400 hover:underline">
+          <Link href="/subjectpicker" className="text-stage-highlight hover:underline">
             {t("backToTopics")}
           </Link>
         </div>
@@ -169,7 +169,7 @@ export default function ExamPageClient({
   }
 
   return (
-    <div className="bg-[#193e4a] min-h-dvh flex flex-col relative">
+    <div className="bg-stage min-h-dvh flex flex-col relative">
       {state.restarting && <ExamRestartOverlay />}
       <div className="section flex-1 min-h-0 flex flex-col">
         <ExamQuiz

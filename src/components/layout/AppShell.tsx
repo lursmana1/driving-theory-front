@@ -4,14 +4,34 @@ import { useEffect } from "react";
 import { ConfigProvider } from "antd";
 import Header from "@/layoutComponents/Header/Header";
 import { usePathname } from "@/i18n/navigation";
-import { BRAND_ACCENT, BRAND_ACCENT_STRONG } from "@/CONSTS/landing";
+import type { ThemeConfig } from "antd";
+import { color, fontFamily, radius } from "@/styles/tokens";
 
-const antdTheme = {
+/** Ant Design reads the same design tokens as Tailwind (see src/styles/tokens.ts). */
+const antdTheme: ThemeConfig = {
   token: {
-    colorPrimary: BRAND_ACCENT,
-    colorLink: BRAND_ACCENT,
-    colorLinkHover: BRAND_ACCENT_STRONG,
-    colorInfo: BRAND_ACCENT,
+    colorPrimary: color.accent,
+    colorLink: color.accent,
+    colorLinkHover: color.accentStrong,
+    colorInfo: color.accent,
+    colorSuccess: color.success,
+    colorError: color.danger,
+    colorWarning: color.warning,
+    colorText: color.fg,
+    colorTextSecondary: color.fgMuted,
+    colorTextTertiary: color.fgSubtle,
+    colorTextQuaternary: color.fgFaint,
+    colorBorder: color.line,
+    colorBorderSecondary: color.lineSubtle,
+    colorBgContainer: color.surface,
+    colorBgElevated: color.surface,
+    colorBgLayout: color.canvas,
+    colorFillAlter: color.surfaceMuted,
+    colorFillSecondary: color.surfaceSunken,
+    fontFamily,
+    borderRadius: radius.control,
+    borderRadiusLG: radius.card,
+    borderRadiusSM: radius.xs,
   },
 };
 

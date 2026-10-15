@@ -55,7 +55,7 @@ export default async function BlogsPage({ searchParams }: PageProps) {
   const listPath = pagination.page > 1 ? `/blogs?page=${pagination.page}` : "/blogs";
 
   return (
-    <div className="bg-slate-50">
+    <div className="bg-surface-muted">
       <JsonLd
         data={blogListJsonLd({
           locale,
@@ -76,20 +76,20 @@ export default async function BlogsPage({ searchParams }: PageProps) {
           <span className="w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
             {t("eyebrow")}
           </span>
-          <h1 className="font-georgian text-2xl font-bold leading-tight text-slate-900 sm:text-4xl">
+          <h1 className="font-georgian text-2xl font-bold leading-tight text-fg sm:text-4xl">
             {t("heading")}
           </h1>
-          <p className="text-[15px] leading-7 text-slate-600 sm:text-base">
+          <p className="text-body leading-7 text-fg-muted sm:text-base">
             {t("subtitle")}
           </p>
         </header>
 
         {backendUnavailable ? (
-          <p className="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center text-slate-500">
+          <p className="rounded-card border border-line bg-surface px-6 py-12 text-center text-fg-subtle">
             {t("unavailable")}
           </p>
         ) : data.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center text-slate-500">
+          <p className="rounded-card border border-dashed border-line-strong bg-surface px-6 py-12 text-center text-fg-subtle">
             {t("empty")}
           </p>
         ) : (

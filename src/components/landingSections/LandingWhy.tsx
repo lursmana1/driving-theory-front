@@ -14,7 +14,7 @@ export default async function LandingWhy() {
 
   return (
     <section
-      className="border-t border-hairline py-16 md:py-24"
+      className="border-t border-line py-16 md:py-24"
       aria-labelledby="why-title"
     >
       <div className="section">
@@ -23,13 +23,13 @@ export default async function LandingWhy() {
           {t("whyTitle")}
         </h2>
 
-        <div className="mt-12 grid border-t border-hairline md:grid-cols-3">
+        <div className="mt-12 grid border-t border-line md:grid-cols-3">
           {features.map((feat, i) => (
             <article
               key={feat.key}
               className={`px-0 py-8 md:px-8 md:py-10 ${
                 i < features.length - 1
-                  ? "border-b border-hairline md:border-b-0 md:border-r"
+                  ? "border-b border-line md:border-b-0 md:border-r"
                   : ""
               } ${i === 0 ? "md:pl-0" : ""}`}
             >

@@ -32,7 +32,7 @@ export default async function SubjectPickerContent({
   } catch {
     const t = await getTranslations("SubjectPicker");
     return (
-      <p className="py-16 text-center text-slate-500">{t("loadError")}</p>
+      <p className="py-16 text-center text-fg-subtle">{t("loadError")}</p>
     );
   }
 }

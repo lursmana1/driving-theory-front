@@ -31,7 +31,7 @@ export default function ToolbarImage({ editor }: ToolbarImageProps) {
   return (
     <label
       title="Insert image"
-      className="flex min-w-[28px] cursor-pointer items-center justify-center rounded px-2 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-200"
+      className="flex min-w-[28px] cursor-pointer items-center justify-center rounded-xs px-2 py-1.5 text-sm font-medium text-fg-muted transition-colors hover:bg-surface-strong"
     >
       <input
         type="file"

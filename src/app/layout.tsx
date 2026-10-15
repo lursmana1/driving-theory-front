@@ -4,6 +4,7 @@ import Script from "next/script";
 import { getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getMetadataBaseUrl, siteMetadata } from "@/lib/site-metadata";
+import { color } from "@/styles/tokens";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#030712",
+  themeColor: color.canvas,
 };
 
 export default async function RootLayout({

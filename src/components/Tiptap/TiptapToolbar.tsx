@@ -13,7 +13,7 @@ type TiptapToolbarProps = {
 };
 
 function ToolbarDivider() {
-  return <div className="mx-1 h-6 w-px shrink-0 bg-slate-200" />;
+  return <div className="mx-1 h-6 w-px shrink-0 bg-surface-strong" />;
 }
 
 export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
@@ -21,7 +21,7 @@ export default function TiptapToolbar({ editor }: TiptapToolbarProps) {
   const run = (fn: (e: Editor) => void) => () => fn(editor);
 
   return (
-    <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 bg-slate-50 p-2">
+    <div className="flex flex-wrap items-center gap-2 border-b border-line bg-surface-muted p-2">
       <ToolbarStructure editor={editor} run={run} />
       <ToolbarDivider />
       <ToolbarFont editor={editor} textStyle={textStyle} />

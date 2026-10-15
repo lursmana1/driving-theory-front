@@ -43,14 +43,14 @@ export default async function SubjectPickerPage({
   if (categoriesError) {
     const t = await getTranslations("SubjectPicker");
     return (
-      <div className="section py-16 text-center text-slate-500">
+      <div className="section py-16 text-center text-fg-subtle">
         {t("loadError")}
       </div>
     );
   }
 
   return (
-    <div className="section flex flex-col gap-5 bg-slate-50 py-6 sm:gap-6 sm:py-8">
+    <div className="section flex flex-col gap-5 bg-surface-muted py-6 sm:gap-6 sm:py-8">
       <GuestAuthBanner />
       <StatsRefreshListener />
       <CategoryPickerBar

@@ -61,7 +61,7 @@ export default function CategoryPickerBar({
         type="button"
         aria-label="Previous categories"
         onClick={() => scrollByStep("left")}
-        className="absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex sm:left-6"
+        className="absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-line bg-surface p-2 text-fg-muted shadow-raised transition hover:border-line-strong hover:bg-surface-muted sm:flex sm:left-6"
       >
         <Icon name="chevronLeft" className="h-4 w-4" />
       </button>
@@ -70,7 +70,7 @@ export default function CategoryPickerBar({
         type="button"
         aria-label="Next categories"
         onClick={() => scrollByStep("right")}
-        className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-md transition hover:border-slate-300 hover:bg-slate-50 sm:flex sm:right-6"
+        className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-line bg-surface p-2 text-fg-muted shadow-raised transition hover:border-line-strong hover:bg-surface-muted sm:flex sm:right-6"
       >
         <Icon name="chevronRight" className="h-4 w-4" />
       </button>
@@ -94,10 +94,10 @@ export default function CategoryPickerBar({
               role="tab"
               aria-selected={active}
               onClick={() => handleSelect(cat.id)}
-              className={`flex w-28 shrink-0 snap-center flex-col items-center gap-1.5 rounded-xl border px-3 py-3 transition sm:w-32 sm:px-4 sm:py-3.5 ${
+              className={`flex w-28 shrink-0 snap-center flex-col items-center gap-1.5 rounded-control border px-3 py-3 transition sm:w-32 sm:px-4 sm:py-3.5 ${
                 active
-                  ? "border-accent bg-accent text-white shadow-md"
-                  : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                  ? "border-accent bg-accent text-on-accent shadow-raised"
+                  : "border-line bg-surface text-fg-muted hover:border-line-strong hover:bg-surface-muted"
               }`}
             >
               <CategoryIcon
