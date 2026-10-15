@@ -25,18 +25,18 @@ function apexHostRedirect(request: NextRequest): NextResponse | null {
   );
 }
 
-/** 308 so Google consolidates `/ka` onto the unprefixed Georgian homepage. */
+/**
+ * next-intl redirects `/ka` → `/` with a temporary 307. Leave it temporary.
+ * `/ka` is also the internal rewrite target for `/`, so browsers must never
+ * cache this redirect. Turning it into a 308 made soft navigations fail with
+ * `Failed to fetch RSC payload` and fall back to a full reload.
+ * Canonical, hreflang and the sitemap already point Google at the unprefixed URL.
+ */
 function proxy(request: NextRequest) {
   const hostRedirect = apexHostRedirect(request);
   if (hostRedirect) return hostRedirect;
 
-  const response = handleI18nRouting(request);
-  if (response.status !== 307) return response;
-
-  return new NextResponse(response.body, {
-    status: 308,
-    headers: response.headers,
-  });
+  return handleI18nRouting(request);
 }
 
 export default proxy;

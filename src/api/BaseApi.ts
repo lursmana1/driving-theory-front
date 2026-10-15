@@ -1,7 +1,16 @@
 import axios from "axios";
 import { routing } from "@/i18n/routing";
-import { getAccessToken, clearAccessToken, hasSession } from "@/lib/authToken";
 import { getApiBaseUrl } from "@/lib/apiBaseUrl";
+
+/** Returns true when a signed-in user was just signed out by the 401. */
+type UnauthorizedHandler = () => boolean;
+
+let unauthorizedHandler: UnauthorizedHandler | null = null;
+
+/** Lets `UserProvider` drop its user when the API rejects the session cookie. */
+export function setUnauthorizedHandler(handler: UnauthorizedHandler | null): void {
+  unauthorizedHandler = handler;
+}
 
 function getClientLocale(): string {
   if (typeof window === "undefined") return routing.defaultLocale;
@@ -19,16 +28,12 @@ const instance = axios.create({
     "Content-Type": "application/json",
     "Accept-Language": "ka",
   },
-  // Bearer for email/password; httpOnly cookie for Google sign-in.
+  // Auth is the httpOnly `access_token` cookie set by the API; JS never sees the token.
   withCredentials: true,
 });
 
 instance.interceptors.request.use((config) => {
   config.headers["Accept-Language"] = getClientLocale();
-  const token = getAccessToken();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
   if (config.data instanceof FormData) {
     delete config.headers["Content-Type"];
   }
@@ -47,9 +52,9 @@ instance.interceptors.response.use(
       const isAuthRoute =
         url.includes("/auth/login") ||
         url.includes("/auth/register") ||
+        url.includes("/auth/logout") ||
         url.includes("/auth/me");
-      if (!isAuthRoute && hasSession()) {
-        clearAccessToken();
+      if (!isAuthRoute && unauthorizedHandler?.()) {
         const locale = getClientLocale();
         window.location.href = `/${locale}/auth`;
       }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { App, ConfigProvider } from "antd";
+import { ConfigProvider } from "antd";
 import Header from "@/layoutComponents/Header/Header";
 import { usePathname } from "@/i18n/navigation";
 import { BRAND_ACCENT, BRAND_ACCENT_STRONG } from "@/CONSTS/landing";
@@ -35,11 +35,8 @@ export function AppShell({
 
   return (
     <ConfigProvider theme={antdTheme}>
-      {/* No wrapper element: antd's App wrapper recolors every <a> with colorLink. */}
-      <App component={false}>
-        {!isMinimalChrome && <Header />}
-        {children}
-      </App>
+      {!isMinimalChrome && <Header />}
+      {children}
     </ConfigProvider>
   );
 }

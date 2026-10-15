@@ -1,6 +1,6 @@
 "use client";
 
-import { App, Form, Input, Button } from "antd";
+import { Form, Input, Button, message as antdMessage } from "antd";
 import type { FormInstance } from "antd";
 import axios from "axios";
 import { useState } from "react";
@@ -56,7 +56,7 @@ function toFormData(values: FormValues): FormData {
 }
 
 export default function CreateBlogForm() {
-  const { message } = App.useApp();
+  const [message, messageHolder] = antdMessage.useMessage();
   const [form] = Form.useForm<FormValues>();
   const [loading, setLoading] = useState(false);
 
@@ -85,6 +85,7 @@ export default function CreateBlogForm() {
       onFinish={onFinish}
       className="w-full max-w-3xl space-y-6 [&_.ant-form-item]:mb-0"
     >
+      {messageHolder}
       <Form.Item
         name="name"
         label="Name"

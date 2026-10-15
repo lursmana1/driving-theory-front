@@ -4,12 +4,12 @@ Same rules as `.cursor/rules/project-architecture.mdc`. Keep both in sync.
 
 Georgian driving-license **theory** exam prep. This repo is the **Next.js frontend**. Backend: NestJS (`github.com/lursmana1/driving-theory-back`), port 3000. Frontend typically 3001.
 
-**Stack:** Next 16 App Router, React 19, TS, Tailwind 4, Ant Design 6, next-intl (`ka` default, `en`, `ru`; `localePrefix: "always"`). Alias `@/*` → `src/*`. Folder `src/utills` is misspelled — **do not rename**.
+**Stack:** Next 16 App Router, React 19, TS, Tailwind 4, Ant Design 6, next-intl (`ka` default, `en`, `ru`; `localePrefix: "as-needed"`, default `ka` URLs unprefixed). Alias `@/*` → `src/*`. Folder `src/utills` is misspelled — **do not rename**.
 
 ## Agent rules (save tokens)
 
 - Reuse existing hooks / utils / API helpers. Do not duplicate or re-map the repo.
-- Client HTTP: `src/api/BaseApi.ts` (Axios, Bearer from `src/lib/authToken.ts`). Server HTTP: `getServerBaseApi()`.
+- Client HTTP: `src/api/BaseApi.ts` (Axios, `withCredentials`; no token in JS). Server HTTP: `getServerBaseApi()`.
 - Locale routes: `Link` / `useRouter` / `redirect` from `@/i18n/navigation`. Server redirect: `redirectTo()` in `@/i18n/redirectTo`.
 - UI copy lives in `messages/{ka,en,ru}.json`.
 - Exam size/pass/mistakes: `getExamRules(categoryId)` in `@/CONSTS/categories` — not hardcoded 30/3.
@@ -54,7 +54,7 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 - `userStats.ts` — `getReadiness`, `getWeakQuestions`, `getWeakSubjects`, `getSubjectProgress`, `getQuestionPool`
 - `auth.ts` — `login`, `register`, `logout`, `getAuthConfig`
 
-Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts`, `GET /user-stats/*`, `GET /auth/me`, blogs. **Auth is Bearer in localStorage**, not httpOnly cookies.
+Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts`, `GET /user-stats/*`, `GET /auth/me`, blogs. **Auth is the httpOnly `access_token` cookie** set by the API (never stored in JS); signed-in state comes from `GET /auth/me`.
 
 ## Hooks (`src/utills/helpers/hooks/`)
 
@@ -66,5 +66,5 @@ Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts
 
 ## lib / CONSTS
 
-- lib: `auth.ts` (`getUser` RSC), `authToken.ts`, `apiBaseUrl.ts`, `statsRefresh.ts`, `sanitize.ts`, `seo.ts`, `site-metadata.ts`, `sitemap.ts`, `searchParams.ts`
+- lib: `auth.ts` (`getUser` RSC), `legacyAuthStorage.ts`, `apiBaseUrl.ts`, `statsRefresh.ts`, `sanitize.ts`, `seo.ts`, `site-metadata.ts`, `sitemap.ts`, `searchParams.ts`
 - CONSTS: `categories.ts` (`DEFAULT_CATEGORY_ID = 1`), `subjects.ts`, `QuizExamConstats.ts`, `pagination.ts`, `navLinks.ts`, `categoryAssets.ts`, `icons.ts`
