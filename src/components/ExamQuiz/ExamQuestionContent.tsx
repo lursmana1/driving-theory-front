@@ -16,6 +16,7 @@ export default function ExamQuestionContent({
   isSwipeEnabled,
 }: ExamQuestionContentProps) {
   const qId = String(question.id);
+  const hasImage = !!question.hasImg && !!question.img;
 
   return (
     <div
@@ -27,6 +28,8 @@ export default function ExamQuestionContent({
         <div
           key={qId}
           className={`relative z-10 flex min-h-full flex-col ${
+            hasImage ? "" : "justify-center"
+          } ${
             direction === "next"
               ? "animate-slide-in-next"
               : "animate-slide-in-prev"
@@ -36,7 +39,7 @@ export default function ExamQuestionContent({
             transition: dragOffset !== 0 ? "none" : undefined,
           }}
         >
-          {!!question.hasImg && question.img && (
+          {hasImage && question.img && (
             <QuestionImage
               src={question.img}
               alt={question.question || ""}
@@ -45,7 +48,13 @@ export default function ExamQuestionContent({
             />
           )}
 
-          <p className="font-georgian mb-3 min-w-0 flex-1 wrap-break-word rounded-control border border-stage-line bg-stage-deep/60 p-3 text-sm font-medium tracking-wide text-stage-fg sm:mb-4 sm:p-4">
+          <p
+            className={`font-georgian mb-3 min-w-0 wrap-break-word rounded-control border border-stage-line bg-stage-deep/60 font-medium tracking-wide text-stage-fg sm:mb-4 ${
+              hasImage
+                ? "flex-1 p-3 text-sm sm:p-4 sm:text-base"
+                : "mx-auto w-full max-w-3xl p-5 text-base leading-relaxed sm:p-8 sm:text-lg"
+            }`}
+          >
             {question.question}
           </p>
         </div>
