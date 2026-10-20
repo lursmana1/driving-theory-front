@@ -9,6 +9,9 @@ export type ReadinessHeadlineKey =
   | "readinessLabelAlmost"
   | "readinessLabelHigh";
 
+/** Matches the API ready-score threshold (score = chance to pass a ticket). */
+const READINESS_ALMOST_SCORE = 85;
+
 /** Headline from score + readyForExam — not API `confidence` (that can say high at 11%). */
 export function getReadinessHeadlineKey(
   readiness: ReadinessScore,
@@ -22,7 +25,7 @@ export function getReadinessHeadlineKey(
 
   const score = readiness.readinessScore;
   if (score < 50) return "readinessLabelLow";
-  if (score < 90) return "readinessLabelMedium";
+  if (score < READINESS_ALMOST_SCORE) return "readinessLabelMedium";
   return "readinessLabelAlmost";
 }
 

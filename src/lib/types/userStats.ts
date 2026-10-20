@@ -11,13 +11,10 @@ export type ReadinessScore = {
   confidence: ReadinessConfidence;
   readyForExam: boolean;
   label: string;
-  examPart?: number;
-  coveragePart?: number;
-  stabilityPart?: number;
   lastAttemptPassed?: boolean | null;
-  /** Capped at 3 — used for score calculation only, not for display */
+  /** Full exams behind the score (capped at 20) — not for display */
   completedAttemptsUsed?: number;
-  /** Total completed exams for this category — use for "გამოცდები" display */
+  /** All full exams (every topic, official size) in this category — display this */
   completedAttemptsTotal?: number;
   subjectsCovered?: number;
   subjectsTotal?: number;
