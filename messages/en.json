@@ -310,6 +310,7 @@
     "subtitle": "The hardest tickets, road signs, and yard and city exam tips — everything that helps you pass on the first try.",
     "readMore": "Read article",
     "readTime": "{minutes} min read",
+    "views": "{views} {count, plural, one {view} other {views}}",
     "empty": "No posts yet.",
     "unavailable": "Service unavailable. Please try again later.",
     "back": "Back to blog"

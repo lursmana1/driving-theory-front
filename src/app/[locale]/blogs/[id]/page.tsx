@@ -17,6 +17,7 @@ import { siteMetadata } from "@/lib/site-metadata";
 import { plainTextExcerpt } from "@/utills/helpers/plainTextExcerpt";
 import { Icon } from "@/components/Icon/Icon";
 import { JsonLd } from "@/components/JsonLd";
+import BlogViewTracker from "@/components/Blogs/BlogViewTracker";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -123,6 +124,9 @@ export default async function BlogPage({ params }: Props) {
               <Icon name="clock" className="h-4 w-4 shrink-0 opacity-80" />
               {t("readTime", { minutes: getReadTime(blog.content ?? "") })}
             </span>
+            {blog.viewsCount != null && (
+              <BlogViewTracker blogId={blog.id} initialCount={blog.viewsCount} />
+            )}
           </div>
 
           {/* Hero image - rounded corners, below meta */}
