@@ -54,6 +54,12 @@ export function SubjectPickerTopics({
         </button>
       </div>
 
+      {!allChecked && selected.length > 0 && (
+        <p className="mb-3 text-xs text-warning sm:text-sm">
+          {t("partialNotCountedHint")}
+        </p>
+      )}
+
       <button
         type="button"
         aria-expanded={topicsOpen}
