@@ -1,6 +1,7 @@
 import type { Blog } from "@/lib/types/blog";
 import { getReadTime } from "@/utills/helpers/getReadTime";
 import { formatDate } from "@/utills/helpers/formatDate";
+import { viewsMessageValues } from "@/utills/helpers/formatViews";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
@@ -46,6 +47,15 @@ export default async function BlogCard({ post, locale }: BlogCardProps) {
               <Icon name="clock" className="h-3.5 w-3.5 opacity-70" />
               {t("readTime", { minutes: getReadTime(post.content ?? "") })}
             </span>
+            {post.viewsCount != null && (
+              <>
+                <span aria-hidden className="h-1 w-1 rounded-full bg-line-strong" />
+                <span className="flex items-center gap-1.5">
+                  <Icon name="eye" className="h-3.5 w-3.5 opacity-70" />
+                  {t("views", viewsMessageValues(post.viewsCount, locale, true))}
+                </span>
+              </>
+            )}
           </div>
 
           <h2 className="mb-2 line-clamp-2 font-georgian text-lg font-bold leading-snug text-fg transition-colors group-hover:text-accent sm:text-xl">

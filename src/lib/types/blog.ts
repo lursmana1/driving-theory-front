@@ -13,6 +13,8 @@ export type Blog = {
   /** Not sent by the API today. */
   updatedAt?: string | Date;
   creator?: BlogCreator;
+  /** Missing when the API predates view counting; the UI then hides the count. */
+  viewsCount?: number;
 };
 
 export type BlogsResponse = {
