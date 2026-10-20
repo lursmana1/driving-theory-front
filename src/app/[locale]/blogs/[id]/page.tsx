@@ -121,9 +121,7 @@ export default async function BlogPage({ params }: Props) {
               <Icon name="clock" className="h-4 w-4 shrink-0 opacity-80" />
               {t("readTime", { minutes: getReadTime(blog.content ?? "") })}
             </span>
-            {blog.viewsCount != null && (
-              <BlogViewTracker blogId={blog.id} initialCount={blog.viewsCount} />
-            )}
+            {blog.viewsCount != null && <BlogViewTracker blogId={blog.id} />}
           </div>
 
           {/* Hero image - rounded corners, below meta */}
