@@ -199,6 +199,7 @@
     "answerSaveError": "Couldn't save your answer. Try again."
   },
   "Auth": {
+    "streakLabel": "{count}-day streak",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
     "register": "Register",
@@ -246,6 +247,7 @@
     "statFailed": "Failed",
     "statUnfinished": "Unfinished",
     "statPassRate": "Pass rate",
+    "statStreak": "Current streak",
     "recentTitle": "Recent exams",
     "colDate": "Date",
     "colCategory": "Category",

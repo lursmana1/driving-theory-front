@@ -6,6 +6,8 @@ export type User = {
   surname?: string;
   email: string;
   type?: string;
+  /** Consecutive days with a visit; counted by GET /auth/me. */
+  streak?: { current: number; longest: number };
 };
 
 export async function getUser(): Promise<User | null> {

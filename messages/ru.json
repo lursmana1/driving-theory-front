@@ -199,6 +199,7 @@
     "answerSaveError": "Не удалось сохранить ответ. Попробуйте ещё раз."
   },
   "Auth": {
+    "streakLabel": "Дней подряд: {count}",
     "noAccount": "Нет аккаунта?",
     "hasAccount": "Уже есть аккаунт?",
     "register": "Регистрация",
@@ -246,6 +247,7 @@
     "statFailed": "Не сдано",
     "statUnfinished": "Незавершённые",
     "statPassRate": "% сдачи",
+    "statStreak": "Текущая серия",
     "recentTitle": "Последние экзамены",
     "colDate": "Дата",
     "colCategory": "Категория",

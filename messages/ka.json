@@ -199,6 +199,7 @@
     "answerSaveError": "პასუხი ვერ შეინახა. სცადეთ ხელახლა."
   },
   "Auth": {
+    "streakLabel": "დღე ზედიზედ: {count}",
     "noAccount": "არ გაქვთ ანგარიში?",
     "hasAccount": "უკვე გაქვთ ანგარიში?",
     "register": "რეგისტრაცია",
@@ -246,6 +247,7 @@
     "statFailed": "ჩაჭრილი",
     "statUnfinished": "დაუსრულებელი",
     "statPassRate": "ჩაბარების %",
+    "statStreak": "მიმდინარე სერია",
     "recentTitle": "ბოლო გამოცდები",
     "colDate": "თარიღი",
     "colCategory": "კატეგორია",

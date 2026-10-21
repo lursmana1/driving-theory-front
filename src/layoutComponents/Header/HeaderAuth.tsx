@@ -1,10 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { useUser } from "@/contexts/UserContext";
-import { headerAuthLink, headerAuthLogin } from "./headerStyles";
+import FireImage from "../../../public/images/jpg/fire.webp";
+import {
+  headerAuthLink,
+  headerAuthLogin,
+  headerStreak,
+} from "./headerStyles";
 
 export default function HeaderAuth() {
   const user = useUser();
@@ -12,6 +18,16 @@ export default function HeaderAuth() {
 
   return (
     <>
+      {user?.streak && user.streak.current > 0 && (
+        <Link
+          href="/profile"
+          aria-label={t("streakLabel", { count: user.streak.current })}
+          className={headerStreak}
+        >
+          <Image src={FireImage} alt="" aria-hidden className="h-4 w-auto" />
+          {user.streak.current}
+        </Link>
+      )}
       <div className="flex shrink-0 items-center">
         <LocaleSwitcher />
       </div>
