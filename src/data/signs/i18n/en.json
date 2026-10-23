@@ -1,0 +1,1050 @@
+{
+  "1-1": {
+    "name": "Level crossing with barrier",
+    "description": "Warns of an approaching level crossing with a barrier. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. Outside built-up areas the sign is repeated at a distance of at least 50 metres from the start of the hazardous section."
+  },
+  "1-2": {
+    "name": "Level crossing without barrier",
+    "description": "Warns of an approaching level crossing without a barrier. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. Outside built-up areas the sign is repeated at a distance of at least 50 metres from the start of the hazardous section."
+  },
+  "1-3-1": {
+    "name": "Single-track railway",
+    "description": "Warns of an approaching level crossing without a barrier on a single-track railway. Placed immediately before the level crossing."
+  },
+  "1-3-2": {
+    "name": "Multi-track railway",
+    "description": "Warns of an approaching level crossing without a barrier on a railway with two or more tracks. Placed immediately before the level crossing."
+  },
+  "1-4-1--1-4-6": {
+    "name": "Approaching a level crossing",
+    "description": "Additionally warns the driver outside built-up areas of an approaching level crossing.\nSigns 1.4.1−1.4.3 are placed on the right-hand side of the road, and signs 1.4.4−1.4.6 − on the left-hand side of the road. Signs 1.4.1 and 1.4.4 are placed, in the direction of travel, together with the main and the repeated sign 1.1 or 1.2, signs 1.4.3 and 1.4.6 − in the direction of travel, together with the repeated sign 1.1 or 1.2, and signs 1.4.2 and 1.4.5 − on their own, at an equal distance between the main and the repeated sign 1.1 or 1.2."
+  },
+  "1-5": {
+    "name": "Tram line crossing",
+    "description": "Warns of a tram line crossing the road. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-6": {
+    "name": "Crossroads of roads of equal importance",
+    "description": "An intersection of roads of equal importance. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-7-1": {
+    "name": "Crossroads with a minor road",
+    "description": "An intersection with a road on which drivers must give way. The sign is placed before the start of the hazardous section outside built-up areas at a distance of 150−300 metres, in built-up areas – 50–100 metres. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-7-2--1-7-7": {
+    "name": "Junction with a minor road",
+    "description": "A junction with a road on which drivers must give way (junction from the right – 1.7.2, 1.7.4 and 1.7.6, junction from the left – 1.7.3, 1.7.5 and 1.7.7). The sign is placed before the start of the hazardous section outside built-up areas at a distance of 150−300 metres, in built-up areas – 50–100 metres. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-8": {
+    "name": "Roundabout",
+    "description": "Warns of an approaching roundabout intersection marked with sign 4.3. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-9": {
+    "name": "Traffic signals",
+    "description": "An intersection, pedestrian crossing or section of road (other than a level crossing) where traffic is controlled by traffic lights. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-10": {
+    "name": "Opening bridge",
+    "description": "Warns of an approaching opening bridge or ferry crossing. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. Outside built-up areas the sign is repeated at a distance of at least 50 metres from the start of the hazardous section."
+  },
+  "1-11": {
+    "name": "Quayside or river bank",
+    "description": "Exit onto an embankment or the shore of a reservoir. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. Outside built-up areas the sign is repeated at a distance of at least 50 metres from the start of the hazardous section."
+  },
+  "1-12-1": {
+    "name": "Dangerous bend",
+    "description": "A dangerous bend to the right of small radius or with limited visibility. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-12-2": {
+    "name": "Dangerous bend",
+    "description": "A dangerous bend to the left of small radius or with limited visibility. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-13-1": {
+    "name": "Dangerous bends",
+    "description": "A section of road with dangerous bends: the first bend to the right. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-13-2": {
+    "name": "Dangerous bends",
+    "description": "A section of road with dangerous bends: the first bend to the left. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-14": {
+    "name": "Steep descent",
+    "description": "Warns of an approaching section of road with a steep descent. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. If an ascent and a descent (or a descent and an ascent) follow each other, signs 1.14 and 1.15 may be placed without plate 8.1.1, respectively, immediately before the ascent and the descent;"
+  },
+  "1-15": {
+    "name": "Steep ascent",
+    "description": "Warns of an approaching section of road with a steep ascent. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. If an ascent and a descent (or a descent and an ascent) follow each other, signs 1.14 and 1.15 may be placed without plate 8.1.1, respectively, immediately before the ascent and the descent;"
+  },
+  "1-16": {
+    "name": "Slippery road",
+    "description": "A slippery section of road on which the coefficient of tyre adhesion to the road surface is less than 0.4. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-17": {
+    "name": "Uneven road",
+    "description": "A section of road whose carriageway is damaged: waves, potholes, uneven joints with a bridge, etc. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-18": {
+    "name": "Speed bump",
+    "description": "A section of road with an artificial bump installed to force vehicles to reduce speed. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-19": {
+    "name": "Loose chippings",
+    "description": "A section of road where crushed stone, gravel, etc. may be thrown up from vehicle wheels. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-20": {
+    "name": "Dangerous verge",
+    "description": "A section of road where the condition of the verge does not meet the applicable standards. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-21-1": {
+    "name": "Road narrows",
+    "description": "A section of road where the width of the carriageway narrows on both sides. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-21-2": {
+    "name": "Road narrows",
+    "description": "A section of road where the width of the carriageway narrows on the right. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-21-3": {
+    "name": "Road narrows",
+    "description": "A section of road where the width of the carriageway narrows 1.21.3 − on the left. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-22": {
+    "name": "Two-way traffic",
+    "description": "The start of a section of road (carriageway) with two-way traffic, preceded by a section with one-way traffic. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-23": {
+    "name": "Pedestrian crossing",
+    "description": "Warns of an approaching pedestrian crossing marked with signs 5.19.1 and 5.19.2 and/or markings 1.14.1–1.14.3. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. Outside built-up areas the sign is repeated at a distance of at least 50 metres from the start of the hazardous section."
+  },
+  "1-24": {
+    "name": "Children",
+    "description": "Warns of a children's facility next to the section of road, from which children are likely to appear on the carriageway. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. In built-up and non-built-up areas the sign is repeated at a distance of at least 50 metres from the start of the hazardous section."
+  },
+  "1-25": {
+    "name": "Cycle path crossing",
+    "description": "Warns of an approaching place where a cycle path marked with sign 4.4 crosses the carriageway. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-26": {
+    "name": "Road works",
+    "description": "A section of road where works are being carried out. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it. In built-up and non-built-up areas the sign is repeated at a distance of at least 50 metres from the start of the hazardous section. When short-term works are carried out on the carriageway, the sign is placed 10−15 metres from the place of the works, without plate 8.1.1."
+  },
+  "1-27": {
+    "name": "Cattle",
+    "description": "A section of road passing a livestock (cattle) shelter, a farm and/or a place where livestock (cattle) is regularly driven across, where animals may appear on the carriageway. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-28": {
+    "name": "Wild animals",
+    "description": "A section of road passing a nature reserve, a hunting ground or a forest, or another area where wild animals may appear. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-29": {
+    "name": "Falling rocks",
+    "description": "A section of road whose carriageway is not protected against avalanches, landslides or falling rocks. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-30": {
+    "name": "Side wind",
+    "description": "A section of road where a strong side wind may occur. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-31": {
+    "name": "Low-flying aircraft",
+    "description": "A section of road near an aerodrome over which aeroplanes or helicopters fly at low altitude. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-32": {
+    "name": "Tunnel",
+    "description": "A tunnel without artificial lighting, or whose entrance portal is visible for less than 150 metres due to the terrain. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-33": {
+    "name": "Road blocked",
+    "description": "A section of road that is temporarily blocked. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-34": {
+    "name": "Other dangers",
+    "description": "A section of road where a danger may arise that is not covered by other warning signs. Outside built-up areas the sign is placed 150−300 metres before the start of the hazardous section, in built-up areas – 50–100 metres before it."
+  },
+  "1-35-1--1-35-6": {
+    "name": "Direction of bend",
+    "description": "Indicates the direction of travel on a small-radius curve of the road with limited visibility (1.35.1−1.35.3 − to the right, 1.35.4−1.35.6 − to the left) or the corresponding direction for bypassing a road works site."
+  },
+  "1-36-1--1-36-2": {
+    "name": "Direction of bend",
+    "description": "Indicates the direction of travel at a “T”-junction or a road fork (to the right and to the left) or the corresponding direction for bypassing a road works site."
+  },
+  "2-1": {
+    "name": "Priority road",
+    "description": "A road on which drivers have priority when passing through uncontrolled intersections. The sign is placed at the start of the road and repeated immediately before each intersection. Sign 2.1 with plate 8.13 is placed in built-up areas before the intersection at which the priority road changes direction, outside built-up areas − in advance, 150−300 metres before the intersection, and before the intersection."
+  },
+  "2-2": {
+    "name": "End of priority road",
+    "description": "The end of the section of road from which it loses the status of a priority road. If the priority road ends before a crossing with a road that has priority at that intersection, sign 2.2 is placed outside built-up areas in advance together with sign 2.4, in built-up areas − 25 metres from the intersection and/or together with sign 2.3 or 2.4. The sign may also be placed at another distance indicated on plate 8.1.1."
+  },
+  "2-3": {
+    "name": "Give way",
+    "description": "The driver travelling on the road where this sign is placed must give way to drivers travelling on the intersecting road, and, where plate 8.13 is present, to drivers travelling on the main road. Outside built-up areas, sign 2.3 is placed in advance, 150−300 metres before the intersection, with plate 8.1.1 if sign 2.3 is placed before the intersection, or with plate 8.1.2 if sign 2.4 is placed before the intersection. The sign applies to the intersection of carriageways in front of which the relevant sign is placed."
+  },
+  "2-4": {
+    "name": "Stop (no proceeding without stopping)",
+    "description": "Prohibits the driver from proceeding without stopping before the “STOP” line, or, if there is none, before the edge of the intersecting carriageway. The driver must give way to drivers travelling on the intersecting road, and, where plate 8.13 is present, to drivers travelling on the main road. The sign is placed where visibility of vehicles travelling on the intersecting road is not ensured. It may also be placed before a level crossing or a quarantine checkpoint (in this case the driver must stop before the “STOP” line, or, if there is none, before the sign). The sign applies to the intersection of carriageways in front of which the relevant sign is placed"
+  },
+  "2-5": {
+    "name": "Priority to oncoming traffic",
+    "description": "Prohibits the driver from entering a narrow section of road if this would obstruct traffic in the opposite direction. The driver must give way to an oncoming vehicle that is at the opposite approach or on the narrow section of road. The sign is placed immediately before the narrow section of road or in advance, with plate 8.1.1."
+  },
+  "2-6": {
+    "name": "Priority over oncoming traffic",
+    "description": "Gives the driver priority over vehicles travelling in the opposite direction when driving on a narrow section of road. The sign is placed immediately before the narrow section of road."
+  },
+  "3-1": {
+    "name": "No entry",
+    "description": "Prohibits all vehicles from entering in the given direction. The sign does not apply to route vehicles."
+  },
+  "3-2": {
+    "name": "No vehicles",
+    "description": "Prohibits the movement of all vehicles. The sign indicates that traffic is prohibited in both directions. The sign does not apply to route vehicles. The sign does not apply to vehicles serving an enterprise located in the designated zone, or serving or belonging to a person who lives or works in that zone. In this case, the vehicle enters the designated zone and leaves it at the intersection nearest to its destination. The sign does not apply to a vehicle driven by a person with the status of a significantly or severely expressed disability, or to a vehicle carrying such persons."
+  },
+  "3-3": {
+    "name": "No motor vehicles",
+    "description": "Prohibits the movement of all motor vehicles. The sign indicates that traffic is prohibited in both directions. The sign does not apply to route vehicles. The sign does not apply to vehicles serving an enterprise located in the designated zone, or serving or belonging to a person who lives or works in that zone. In this case, the vehicle enters the designated zone and leaves it at the intersection nearest to its destination. The sign does not apply to a vehicle driven by a person with the status of a significantly or severely expressed disability, or to a vehicle carrying such persons."
+  },
+  "3-4": {
+    "name": "No goods vehicles",
+    "description": "Prohibits the movement of vehicles and combinations of vehicles whose maximum permitted mass exceeds the maximum permitted mass limit shown on the sign. The sign indicates that traffic is prohibited in both directions. The sign does not apply to vehicles serving an enterprise located in the designated zone, or serving or belonging to a person who lives or works in that zone. In this case, the vehicle enters the designated zone and leaves it at the intersection nearest to its destination."
+  },
+  "3-5": {
+    "name": "No motorcycles",
+    "description": "Prohibits the movement of all motorcycles. The sign indicates that traffic is prohibited in both directions. The sign does not apply to vehicles serving an enterprise located in the designated zone, or serving or belonging to a person who lives or works in that zone. In this case, the vehicle enters the designated zone and leaves it at the intersection nearest to its destination."
+  },
+  "3-6": {
+    "name": "No tractors",
+    "description": "Prohibits the movement of all tractors and self-propelled specialised machines. The sign indicates that traffic is prohibited in both directions. The sign does not apply to vehicles serving an enterprise located in the designated zone, or serving or belonging to a person who lives or works in that zone. In this case, the vehicle enters the designated zone and leaves it at the intersection nearest to its destination."
+  },
+  "3-7": {
+    "name": "No vehicles with trailers",
+    "description": "Prohibits the movement of all lorries with trailers and tractors with trailers, as well as the towing of motor vehicles. The sign indicates that traffic is prohibited in both directions. The sign does not apply to vehicles serving an enterprise located in the designated zone, or serving or belonging to a person who lives or works in that zone. In this case, the vehicle enters the designated zone and leaves it at the intersection nearest to its destination."
+  },
+  "3-8": {
+    "name": "No animal-drawn vehicles",
+    "description": "Prohibits the movement of animal-drawn vehicles, pack and saddle animals, as well as the driving of livestock. The sign indicates that traffic is prohibited in both directions. The sign does not apply to vehicles serving an enterprise located in the designated zone, or serving or belonging to a person who lives or works in that zone. In this case, the vehicle enters the designated zone and leaves it at the intersection nearest to its destination."
+  },
+  "3-9": {
+    "name": "No cycling",
+    "description": "Prohibits the movement of bicycles and mopeds. The sign indicates that traffic is prohibited in both directions."
+  },
+  "3-10": {
+    "name": "No pedestrians",
+    "description": "Prohibits pedestrian traffic. The sign is placed where pedestrian traffic is not permitted for reasons of their safety. The sign applies only to the side of the road on which it is placed."
+  },
+  "3-11": {
+    "name": "Weight limit",
+    "description": "Prohibits the movement of vehicles and combinations of vehicles whose total actual mass exceeds that shown on the sign."
+  },
+  "3-12": {
+    "name": "Axle weight limit",
+    "description": "Prohibits the movement of vehicles whose actual load on any axle exceeds that shown on the sign."
+  },
+  "3-13": {
+    "name": "Height limit",
+    "description": "Prohibits the movement of vehicles whose overall height (laden or unladen) exceeds that shown on the sign."
+  },
+  "3-14": {
+    "name": "Width limit",
+    "description": "Prohibits the movement of vehicles whose overall width (laden or unladen) exceeds that shown on the sign."
+  },
+  "3-15": {
+    "name": "Length limit",
+    "description": "Prohibits the movement of vehicles and combinations of vehicles whose overall length (laden or unladen) exceeds that shown on the sign."
+  },
+  "3-16": {
+    "name": "Minimum distance",
+    "description": "Prohibits vehicles from travelling at a distance shorter than that shown on the sign. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed."
+  },
+  "3-17-1": {
+    "name": "Customs",
+    "description": "Prohibits passing a customs checkpoint (the customs control zone located at the customs border of Georgia) without stopping."
+  },
+  "3-17-2": {
+    "name": "Danger",
+    "description": "Prohibits further movement of all vehicles because of a road traffic accident or other danger."
+  },
+  "3-17-3": {
+    "name": "Control",
+    "description": "Prohibits passing a checkpoint (a police or quarantine post, an entrance to a border or closed zone, an exit onto a toll road, etc.) without stopping."
+  },
+  "3-18-1": {
+    "name": "No right turn",
+    "description": "Prohibits turning right at the nearest intersection of carriageways. The sign does not apply to route vehicles. The sign applies to the intersection of carriageways in front of which the sign is placed."
+  },
+  "3-18-2": {
+    "name": "No left turn",
+    "description": "Prohibits turning left at the nearest intersection of carriageways. The sign does not apply to route vehicles. The sign applies to the intersection of carriageways in front of which the sign is placed."
+  },
+  "3-19": {
+    "name": "No U-turns",
+    "description": "Prohibits U-turns at the nearest intersection of carriageways. The sign does not apply to route vehicles."
+  },
+  "3-20": {
+    "name": "No overtaking",
+    "description": "Prohibits overtaking all motor vehicles (except vehicles travelling at less than 30 km/h). Overtaking a motorcycle without a sidecar, a moped or a bicycle is permitted without crossing into the oncoming traffic lane. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed."
+  },
+  "3-21": {
+    "name": "End of no overtaking",
+    "description": "End of the zone of road sign 3.20 (No overtaking)."
+  },
+  "3-22": {
+    "name": "No overtaking by goods vehicles",
+    "description": "Prohibits goods vehicles with a maximum permitted mass of more than 3.5 tonnes from overtaking other vehicles (except vehicles travelling at less than 30 km/h), and also prohibits tractors from overtaking other vehicles (except animal-drawn vehicles and bicycles). The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed."
+  },
+  "3-23": {
+    "name": "End of no overtaking by goods vehicles",
+    "description": "End of the zone of road sign 3.22 (No overtaking by goods vehicles)."
+  },
+  "3-24": {
+    "name": "Maximum speed limit",
+    "description": "Prohibits driving at a speed (km/h) higher than that shown on the sign. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed. Sign 3.24 placed before a built-up area designated by signs 5.23.1 and 5.23.2 applies, respectively, up to the signs 5.23.1 and 5.23.2 that mark the built-up area."
+  },
+  "3-25": {
+    "name": "End of maximum speed limit",
+    "description": "End of the zone of sign 3.24 (Maximum speed limit)."
+  },
+  "3-26": {
+    "name": "Use of horn prohibited",
+    "description": "Prohibits the use of the horn, except when the signal is used to prevent a road traffic accident. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed."
+  },
+  "3-27": {
+    "name": "No stopping",
+    "description": "Prohibits both stopping and parking of vehicles. The sign does not apply to route vehicles. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed. The sign applies only to the side of the road on which it is placed."
+  },
+  "3-28": {
+    "name": "No parking",
+    "description": "Prohibits parking of vehicles. The sign does not apply to postal vehicles that have a white diagonal stripe on a blue background on the body, or to taxis with the taximeter switched on. The sign does not apply to a vehicle driven by a person with the status of a significantly or severely expressed disability, or to a vehicle carrying such persons. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed. The sign applies only to the side of the road on which it is placed."
+  },
+  "3-29": {
+    "name": "No parking on odd-numbered days",
+    "description": "Prohibits parking of vehicles on odd-numbered days of the month. When signs 3.29 and 3.30 are used together, the time for moving vehicles from one side of the road to the other is from 19:00 to 21:00. During this period parking is permitted on both sides of the carriageway. The sign does not apply to postal vehicles that have a white diagonal stripe on a blue background on the body, or to taxis with the taximeter switched on. The sign does not apply to a vehicle driven by a person with the status of a significantly or severely expressed disability, or to a vehicle carrying such persons. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed. The sign applies only to the side of the road on which it is placed."
+  },
+  "3-30": {
+    "name": "No parking on even-numbered days",
+    "description": "Prohibits parking of vehicles on even-numbered days of the month. When signs 3.29 and 3.30 are used together, the time for moving vehicles from one side of the road to the other is from 19:00 to 21:00. During this period parking is permitted on both sides of the carriageway. The sign does not apply to postal vehicles that have a white diagonal stripe on a blue background on the body, or to taxis with the taximeter switched on. The sign does not apply to a vehicle driven by a person with the status of a significantly or severely expressed disability, or to a vehicle carrying such persons. The sign applies from the place where the relevant sign is placed to the nearest intersection after it, and in a built-up area where there is no intersection, to the end of the built-up area. The sign also applies at exits from adjacent areas and at intersections (junctions) with field, forest and other secondary roads in front of which no corresponding sign is placed. The sign applies only to the side of the road on which it is placed."
+  },
+  "3-31": {
+    "name": "End of all restrictions",
+    "description": "End of the zone of several of signs 3.16, 3.20, 3.22, 3.24, 3.26–3.30 at the same time."
+  },
+  "3-32": {
+    "name": "No vehicles carrying dangerous goods",
+    "description": "Prohibits the movement of vehicles carrying dangerous goods which, under the legislation of Georgia, must be marked with the corresponding identification sign. The sign indicates that traffic is prohibited in both directions.\nThe sign is placed to prevent vehicles carrying dangerous, explosive and highly flammable goods from deviating from the route designated for them, and also to prohibit such vehicles from entering a road or area where they pose a particular danger to people."
+  },
+  "3-33": {
+    "name": "No vehicles carrying explosive and flammable goods",
+    "description": "Prohibits the movement of vehicles carrying explosive and highly flammable goods of classes 1.22–2.4, 3.1, 3.2, 5.2 as defined by state standard 19433-88, which, under the legislation of Georgia, must be marked with the identification sign “Dangerous goods”. The sign indicates that traffic is prohibited in both directions.\nThe sign is placed to prevent vehicles carrying dangerous, explosive and highly flammable goods from deviating from the route designated for them, and also to prohibit such vehicles from entering a road or area where they pose a particular danger to people."
+  },
+  "4-1-1": {
+    "name": "Ahead only",
+    "description": "Requires the driver to proceed straight ahead only. The sign applies to the intersection of carriageways in front of which the relevant sign is placed; The sign does not apply to route vehicles. The sign placed at the beginning of a road section applies up to the nearest intersection. The sign does not prohibit turning right into courtyards and entering other adjacent areas."
+  },
+  "4-1-2": {
+    "name": "Turn right only",
+    "description": "Requires the driver to turn right only. The sign applies to the intersection of carriageways in front of which the relevant sign is placed; The sign does not apply to route vehicles."
+  },
+  "4-1-3": {
+    "name": "Turn left only",
+    "description": "Requires the driver to turn left only. The sign also permits a U-turn. The sign applies to the intersection of carriageways in front of which the relevant sign is placed; The sign does not apply to route vehicles."
+  },
+  "4-1-4": {
+    "name": "Ahead or right only",
+    "description": "Requires the driver to proceed only straight ahead or turn right. The sign applies to the intersection of carriageways in front of which the relevant sign is placed; The sign does not apply to route vehicles."
+  },
+  "4-1-5": {
+    "name": "Proceed straight or turn left",
+    "description": "Requires the driver to proceed only straight ahead or to the left. The sign also permits U-turns. The sign applies to the intersection of carriageways before which the sign is placed; the sign does not apply to route vehicles."
+  },
+  "4-1-6": {
+    "name": "Turn right or left",
+    "description": "Requires the driver to proceed only to the right or to the left. The sign also permits U-turns. The sign applies to the intersection of carriageways before which the sign is placed; the sign does not apply to route vehicles."
+  },
+  "4-2-1": {
+    "name": "Pass obstacle on the right",
+    "description": "Indicates that a dividing strip, a safety island or any obstacle may be passed only on the right."
+  },
+  "4-2-2": {
+    "name": "Pass obstacle on the left",
+    "description": "Indicates that a dividing strip, a safety island or any obstacle may be passed only on the left."
+  },
+  "4-2-3": {
+    "name": "Pass obstacle on either side",
+    "description": "Indicates that a dividing strip, a safety island or any obstacle may be passed on the right or on the left."
+  },
+  "4-3": {
+    "name": "Roundabout",
+    "description": "Permits movement in the directions shown by the arrows at an intersection where roundabout traffic is organised."
+  },
+  "4-4": {
+    "name": "Cycle path",
+    "description": "A path intended for cycling that is structurally separated from the rest of the road or from other road elements. Sign 4.4 is placed as the main sign at the start of the cycle path, and as a repeater sign − after each intersection with a road."
+  },
+  "4-5": {
+    "name": "Footpath",
+    "description": "A path intended for pedestrian traffic, separated from the road. Sign 4.5 is placed as the main sign at the start of the footpath, and as a repeater sign − after each intersection with a road."
+  },
+  "4-6": {
+    "name": "Minimum speed limit",
+    "description": "Sets the minimum speed limit for traffic on the road. The sign applies after the sign, from the place where it is installed to the nearest intersection, and in a built-up area where there is no intersection − to the end of the built-up area."
+  },
+  "4-7": {
+    "name": "End of minimum speed limit zone",
+    "description": "End of the zone in which sign 4.6 applies."
+  },
+  "4-9-1--4-9-3": {
+    "name": "Direction of travel for vehicles carrying dangerous goods",
+    "description": "Indicates the permitted direction of travel for vehicles carrying dangerous goods which, under the legislation of Georgia, must be marked with the \"Dangerous goods\" identification sign."
+  },
+  "4-8": {
+    "name": "Snow chains compulsory",
+    "description": "A section of road on which a moving vehicle must have snow chains fitted on at least two drive wheels."
+  },
+  "5-1": {
+    "name": "Motorway",
+    "description": "A motorway on which the requirements of the rules governing motorway traffic apply. The sign is placed at the start of the motorway or near it with plate 8.1.1."
+  },
+  "5-2": {
+    "name": "End of motorway",
+    "description": "Indicates the end of the road marked with sign 5.1. Sign 5.2 is placed at the end of the motorway, at exits from the motorway, and in advance with plate 8.1.1 at distances of 400 and 1000 metres before the end of the motorway."
+  },
+  "5-3": {
+    "name": "Road for motor vehicles",
+    "description": "A road intended only for the traffic of cars and motorcycles."
+  },
+  "5-4": {
+    "name": "End of road for motor vehicles",
+    "description": "Indicates the end of the road marked with sign 5.3."
+  },
+  "5-5": {
+    "name": "One-way road",
+    "description": "A road or carriageway on which vehicles travel in one direction across its entire width."
+  },
+  "5-6": {
+    "name": "End of one-way road",
+    "description": "Indicates the end of the road or carriageway marked with sign 5.5."
+  },
+  "5-7-1": {
+    "name": "Entry to a one-way road",
+    "description": "Indicates entry to a one-way road or carriageway. The signs are placed before every side entrance. The signs may not be placed at the intersection of an exit from an adjacent area with the road if entry to that area is possible only from the road marked with sign 5.5."
+  },
+  "5-7-2": {
+    "name": "Entry to a one-way road",
+    "description": "Indicates entry to a one-way road or carriageway. The signs are placed before every side entrance. The signs may not be placed at the intersection of an exit from an adjacent area with the road if entry to that area is possible only from the road marked with sign 5.5."
+  },
+  "5-8": {
+    "name": "Reversible traffic",
+    "description": "The start of a section of road where the direction of traffic in one or more lanes may be reversed."
+  },
+  "5-9": {
+    "name": "End of reversible traffic",
+    "description": "Indicates the end of the section of road marked with sign 5.8."
+  },
+  "5-10": {
+    "name": "Entry to a road with reversible traffic",
+    "description": "Indicates entry to the section of road marked with sign 5.8. The sign is placed before every side exit. The sign may not be placed at the intersection of an exit from an adjacent area with the road if entry to that area is possible only from the road marked with sign 5.8."
+  },
+  "5-11": {
+    "name": "Road with a lane for route vehicles",
+    "description": "A road on which route vehicles travel in a specially designated lane in the direction opposite to the general flow of vehicles. The sign applies to the traffic lane on which it is placed."
+  },
+  "5-12": {
+    "name": "End of road with a lane for route vehicles",
+    "description": "Indicates the end of the road marked with sign 5.11."
+  },
+  "5-13-1": {
+    "name": "Entry to a road with a lane for route vehicles",
+    "description": "Indicates entry to the road marked with sign 5.11. The sign is placed before every side entrance. The signs may not be placed at the intersection of an exit from an adjacent area with the road if entry to that area is possible only from the road marked with sign 5.11."
+  },
+  "5-13-2": {
+    "name": "Entry to a road with a lane for route vehicles",
+    "description": "Indicates entry to the road marked with sign 5.11. The sign is placed before every side entrance. The signs may not be placed at the intersection of an exit from an adjacent area with the road if entry to that area is possible only from the road marked with sign 5.11."
+  },
+  "5-14": {
+    "name": "Lane for route vehicles",
+    "description": "A road on which route vehicles travel in a specially designated lane in the same direction as the general flow of vehicles. The sign applies to the traffic lane on which it is placed. A sign placed on the right-hand side of the road applies to the far right-hand lane of the carriageway."
+  },
+  "5-15-1": {
+    "name": "Lane directions",
+    "description": "Indicates the number of lanes and the permitted directions of travel in the lanes.\nSigns that permit turning from the far left-hand lane also permit U-turns from that lane.\nSigns placed before an intersection apply to the whole intersection, unless other 5.15.1 and 5.15.2 signs placed at it give different instructions;\nthe signs do not apply to route vehicles."
+  },
+  "5-15-2": {
+    "name": "Lane direction",
+    "description": "Indicates the permitted directions of travel in a lane.\nSigns that permit turning from the far left-hand lane also permit U-turns from that lane.\nSigns placed before an intersection apply to the whole intersection, unless other 5.15.1 and 5.15.2 signs placed at it give different instructions;\nthe signs do not apply to route vehicles."
+  },
+  "5-15-3": {
+    "name": "Start of lane",
+    "description": "Indicates the start of an additional lane on an uphill gradient or of a deceleration lane at a junction or intersection. If sign 4.6 (minimum speed limit) is shown on sign 5.15.3 placed before an additional lane, the driver of a vehicle that cannot continue in the main lane at the indicated speed or higher moves into the additional lane."
+  },
+  "5-15-4": {
+    "name": "Start of lane",
+    "description": "Indicates the start of a section of the middle lane on a three-lane road that is intended for traffic in the given direction."
+  },
+  "5-15-5": {
+    "name": "End of lane",
+    "description": "Indicates the end of an additional lane on an uphill gradient or of a deceleration lane."
+  },
+  "5-15-6": {
+    "name": "End of lane",
+    "description": "Indicates the end of the section of the lane on a three-lane road that is intended for traffic in the given direction."
+  },
+  "5-15-7": {
+    "name": "Direction of traffic in lanes",
+    "description": "Indicates the number of lanes and the direction of traffic in each lane. If another sign prohibiting the movement of a particular vehicle is shown on sign 5.15.7, the movement of that vehicle in the corresponding lane is prohibited."
+  },
+  "5-15-8": {
+    "name": "Number of lanes",
+    "description": "Indicates the number of lanes in the given direction and the modes established for traffic in the lanes. The sign is placed outside built-up areas at a distance of 150−300 metres from the start of the road section, and in built-up areas – at a distance of 50–150 metres."
+  },
+  "5-16": {
+    "name": "Bus and/or trolleybus stop",
+    "description": "Marks a bus and/or trolleybus stop and a taxi stand."
+  },
+  "5-17": {
+    "name": "Tram stop",
+    "description": "Marks a tram stop and a taxi stand."
+  },
+  "5-18": {
+    "name": "Taxi stand",
+    "description": "Marks a taxi stand."
+  },
+  "5-19-1": {
+    "name": "Pedestrian crossing",
+    "description": "A place on the road designated for pedestrians to cross. The sign is placed on the right-hand side of the road. If there is no 1.14 marking at the crossing, the sign is placed at the near boundary of the crossing."
+  },
+  "5-19-2": {
+    "name": "Pedestrian crossing",
+    "description": "A place on the road designated for pedestrians to cross. The sign is placed on the left-hand side of the road. If there is no 1.14 marking at the crossing, the sign is placed at the far boundary of the crossing."
+  },
+  "5-20": {
+    "name": "Speed hump",
+    "description": "Indicates a speed hump on the carriageway. The sign is placed at the speed hump or at the 1.25 marking, on the side facing approaching vehicles."
+  },
+  "5-21": {
+    "name": "Residential area",
+    "description": "A territory (zone) where the rules established for traffic in a residential area apply. The sign is placed at every entrance to the residential area."
+  },
+  "5-22": {
+    "name": "End of residential area",
+    "description": "Indicates the end of the residential area marked with sign 5.21. The sign is placed at every exit from the residential area."
+  },
+  "5-23-1": {
+    "name": "Beginning of built-up area",
+    "description": "Indicates the beginning of a built-up area in which the rules established for traffic in built-up areas apply. The sign is placed at every entrance to the built-up area."
+  },
+  "5-23-2": {
+    "name": "Beginning of built-up area",
+    "description": "Indicates the beginning of a built-up section of road that is not part of any built-up area and in which the rules established for traffic in built-up areas apply (holiday villages, separately located establishments, etc.). The sign is placed at every entrance to the built-up area."
+  },
+  "5-24-1": {
+    "name": "End of built-up area",
+    "description": "Indicates the end of a built-up area marked by signs 5.23.1 and 5.23.2 respectively. The sign is placed at every exit from the built-up area, at the actual boundary of the built-up zone."
+  },
+  "5-24-2": {
+    "name": "End of built-up area",
+    "description": "Indicates the end of a built-up area marked by signs 5.23.1 and 5.23.2 respectively. The sign is placed at every exit from the built-up area, at the actual boundary of the built-up zone."
+  },
+  "5-25": {
+    "name": "Beginning of built-up area",
+    "description": "Indicates the beginning of a built-up area in which the rules established for traffic in built-up areas do not apply. The sign is placed at every entrance to the built-up area."
+  },
+  "5-26": {
+    "name": "End of built-up area",
+    "description": "Indicates the end of a built-up area marked by sign 5.25. The sign is placed at every exit from the built-up area, at the actual boundary of the built-up zone."
+  },
+  "5-27": {
+    "name": "Restricted parking zone",
+    "description": "Marks an area within which parking is regulated or the maximum speed of traffic is restricted, respectively. The sign is placed at every entrance to the area."
+  },
+  "5-28": {
+    "name": "End of restricted parking zone",
+    "description": "Indicates the end of the area marked by sign 5.27. The sign is placed at every exit."
+  },
+  "5-29": {
+    "name": "Regulated parking zone",
+    "description": "Marks an area within which parking is regulated or the maximum speed of traffic is restricted, respectively. The sign is placed at every entrance to the area."
+  },
+  "5-30": {
+    "name": "End of regulated parking zone",
+    "description": "Indicates the end of the area marked by sign 5.29. The sign is placed at every exit."
+  },
+  "5-31": {
+    "name": "Maximum speed limit zone",
+    "description": "Marks an area within which parking is regulated or the maximum speed of traffic is restricted, respectively. The sign is placed at every entrance to the area."
+  },
+  "5-32": {
+    "name": "End of maximum speed limit zone",
+    "description": "Indicates the end of the area marked by sign 5.31. The sign is placed at every exit."
+  },
+  "5-33": {
+    "name": "Pedestrian zone",
+    "description": "An area in which movement is permitted for pedestrians only. The sign is placed at every entrance to the area."
+  },
+  "5-34": {
+    "name": "End of pedestrian zone",
+    "description": "Indicates the end of the area marked by sign 5.33. The sign is placed at every exit."
+  },
+  "5-35": {
+    "name": "Hospital",
+    "description": "Indicates that there is a medical facility near the road. When passing the sign, the driver should avoid unnecessary noise as far as possible."
+  },
+  "5-36": {
+    "name": "Merging point",
+    "description": "The point where an entry road (acceleration lane) from another road merges with the motorway."
+  },
+  "6-1": {
+    "name": "First aid station",
+    "description": "First aid station sign."
+  },
+  "6-2": {
+    "name": "Filling station",
+    "description": "Filling station sign."
+  },
+  "6-3": {
+    "name": "Vehicle repair service",
+    "description": "Vehicle repair service sign."
+  },
+  "6-4": {
+    "name": "Car wash",
+    "description": "Car wash sign."
+  },
+  "6-5": {
+    "name": "Telephone",
+    "description": "Telephone sign."
+  },
+  "6-6": {
+    "name": "Restaurant",
+    "description": "Restaurant sign."
+  },
+  "6-7": {
+    "name": "Drinking water",
+    "description": "Drinking water sign."
+  },
+  "6-8": {
+    "name": "Hotel or motel",
+    "description": "Hotel or motel sign."
+  },
+  "6-9": {
+    "name": "Camping site",
+    "description": "Camping site sign."
+  },
+  "6-10": {
+    "name": "Rest area",
+    "description": "Rest area sign"
+  },
+  "6-11": {
+    "name": "Patrol police post",
+    "description": "Patrol police post sign."
+  },
+  "6-12": {
+    "name": "Police",
+    "description": "Police sign."
+  },
+  "6-13": {
+    "name": "International road haulage checkpoint",
+    "description": "International road haulage checkpoint sign."
+  },
+  "6-14": {
+    "name": "Reception area of a radio station broadcasting traffic information",
+    "description": "Sign for the reception area of a radio station broadcasting traffic information."
+  },
+  "6-15": {
+    "name": "Radio communication zone with emergency services",
+    "description": "Sign for the radio communication zone with emergency services."
+  },
+  "6-16": {
+    "name": "Swimming pool or beach",
+    "description": "Swimming pool or beach sign."
+  },
+  "6-17": {
+    "name": "Toilet",
+    "description": "Toilet sign."
+  },
+  "7-1": {
+    "name": "General maximum speed limits",
+    "description": "Provides information on the general speed limits established by the traffic rules on the roads of Georgia. The sign is placed at the entrance to the territory of Georgia, at the border checkpoint."
+  },
+  "7-2": {
+    "name": "Recommended speed",
+    "description": "Indicates the speed at which it is recommended to travel on the given section of road. The sign is placed at the beginning of the road. The sign applies up to the nearest intersection, and when used together with a warning sign − over the entire length of the hazardous section."
+  },
+  "7-3-1": {
+    "name": "U-turn point",
+    "description": "Indicates a place for making a U-turn. The sign is placed in front of or above the U-turn point, or in advance with plate 8.1.1. The sign does not permit a left turn."
+  },
+  "7-3-2": {
+    "name": "U-turn zone",
+    "description": "Indicates the length of the U-turn zone. The sign is placed in front of or above the U-turn point, or in advance with plate 8.1.1. The sign does not permit a left turn."
+  },
+  "7-4": {
+    "name": "Parking place",
+    "description": "A place intended for parking vehicles. The area covered by the sign is defined by road markings; where there are none, the sign applies up to the nearest intersection or is limited by plate 8.2.1."
+  },
+  "7-5": {
+    "name": "Emergency stopping lane",
+    "description": "Indicates that there is an emergency stopping lane on a steep descent. The sign is placed in front of the entrance to the emergency stopping lane."
+  },
+  "7-6": {
+    "name": "Pedestrian subway",
+    "description": "Pedestrian subway. The sign is placed at every entrance to and at the pedestrian crossing."
+  },
+  "7-7": {
+    "name": "Pedestrian footbridge",
+    "description": "Pedestrian footbridge. The sign is placed at every entrance to and at the pedestrian crossing."
+  },
+  "7-8-1": {
+    "name": "Dead end",
+    "description": "A road with no through exit. The sign is placed at the beginning of the road."
+  },
+  "7-8-2": {
+    "name": "Dead end",
+    "description": "A road with no through exit. The sign is placed before the junction with a road that has no through exit."
+  },
+  "7-8-3": {
+    "name": "Dead end",
+    "description": "A road with no through exit. The sign is placed before the junction with a road that has no through exit."
+  },
+  "7-9-3": {
+    "name": "Traffic scheme",
+    "description": "Indicates the traffic scheme at an intersection where certain manoeuvres are prohibited, or the permitted directions of movement at a complex intersection. The sign is placed immediately before the intersection."
+  },
+  "7-9-1": {
+    "name": "Advance direction signs",
+    "description": "Indicates the directions/direction of movement towards a built-up area and other destinations, as well as the directions/direction for bypassing a section of road on which restrictions have been introduced. The signs may also display the image of sign 7.14.1, motorway and airport symbols, sports and other pictograms. The sign may also display images of other signs that give information about particular features of traffic. The lower part of the sign shows the distance from the place where the sign is installed to the intersection or to the start of the deceleration lane. On this sign placed outside a built-up area, a green or blue background indicates that traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively. On this sign placed in a built-up area, a green or blue background indicates that, after leaving the given built-up area, traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively, while a white background indicates that the specified destination is in the given built-up area."
+  },
+  "7-9-2": {
+    "name": "Advance direction sign",
+    "description": "Indicates the directions/direction of movement towards a built-up area and other destinations, as well as the directions/direction for bypassing a section of road on which restrictions have been introduced. The signs may also display the image of sign 7.14.1, motorway and airport symbols, sports and other pictograms. On this sign placed outside a built-up area, a green or blue background indicates that traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively. On this sign placed in a built-up area, a green or blue background indicates that, after leaving the given built-up area, traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively, while a white background indicates that the specified destination is in the given built-up area."
+  },
+  "7-10-2": {
+    "name": "Direction sign",
+    "description": "Indicates the directions/direction of movement towards a built-up area and other destinations. The signs show the distance (km) to the destinations marked on them, as well as motorway and airport symbols, sports and other pictograms. On this sign placed outside a built-up area, a green or blue background indicates that traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively. On this sign placed in a built-up area, a green or blue background indicates that, after leaving the given built-up area, traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively, while a white background indicates that the specified destination is in the given built-up area."
+  },
+  "7-10-1": {
+    "name": "Direction signs",
+    "description": "Indicates the directions/direction of movement towards a built-up area and other destinations. The signs show the distance (km) to the destinations marked on them, as well as motorway and airport symbols, sports and other pictograms. On this sign placed outside a built-up area, a green or blue background indicates that traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively. On this sign placed in a built-up area, a green or blue background indicates that, after leaving the given built-up area, traffic to the specified built-up area or other destination proceeds via a motorway or another road, respectively, while a white background indicates that the specified destination is in the given built-up area."
+  },
+  "7-12": {
+    "name": "Distance sign",
+    "description": "Indicates the distance (km) to built-up areas and other destinations located on the route."
+  },
+  "7-11": {
+    "name": "Name of object",
+    "description": "Indicates the name of an object other than a built-up area – a street, river, lake, mountain pass, landmark, etc. The sign is placed immediately before the object."
+  },
+  "7-13": {
+    "name": "Kilometre sign",
+    "description": "Indicates the distance (km) from the place where the sign is installed to the start or end of the road. The sign is placed every 1 km."
+  },
+  "7-14-1": {
+    "name": "Route number",
+    "description": "Indicates the number and direction of a road (route) approved in the established manner."
+  },
+  "7-14-2": {
+    "name": "Route number",
+    "description": "Indicates the number and direction of a road (route) approved in the established manner."
+  },
+  "7-15-1--7-15-3": {
+    "name": "Direction of movement for lorries",
+    "description": "Indicates the recommended direction of movement for lorries, tractors and self-propelled machines if their movement in one of the directions at the intersection is prohibited. The signs are placed at the start of the recommended direction before the intersection or at a distance of 100−150 metres before the intersection."
+  },
+  "7-16": {
+    "name": "Stop line",
+    "description": "Indicates the place where a vehicle must stop at a signal-controlled intersection and at an uncontrolled level crossing;"
+  },
+  "7-18-1--7-18-3": {
+    "name": "Detour direction",
+    "description": "Indicates the direction for bypassing a section of road temporarily closed to traffic. The signs are placed on the detour route before every intersection."
+  },
+  "7-17": {
+    "name": "Detour scheme",
+    "description": "Indicates the scheme for bypassing a section of road temporarily closed to traffic. Outside a built-up area the sign is placed at a distance of 150−300 metres from the intersection where the detour route begins; in a built-up area − at a distance of 50−100 metres."
+  },
+  "7-19-1": {
+    "name": "Advance sign for changing to another carriageway",
+    "description": "Indicates the direction for bypassing a section of carriageway closed to traffic on a road with a central reservation, or the direction of movement for returning to the right-hand carriageway."
+  },
+  "7-19-2": {
+    "name": "Advance sign for changing to another carriageway",
+    "description": "Indicates the direction for bypassing a section of carriageway closed to traffic on a road with a central reservation, or the direction of movement for returning to the right-hand carriageway."
+  },
+  "8-1-1--8-1-4": {
+    "name": "Distance to object",
+    "description": "Indicates the distance from the sign to the start of a dangerous section, to the place where the corresponding restriction is introduced, or to a particular object (place) located ahead in the direction of travel. 8.1.2 indicates the distance from sign 2.3 to the intersection if sign 2.4 is placed before the intersection. 8.1.3 - 8.1.4 indicate the distance to an object located away from the road."
+  },
+  "8-2-1--8-2-6": {
+    "name": "Zone of operation",
+    "description": "Indicates the length of a dangerous section of road marked by a warning sign, or the zone of operation of a prohibitory or information-direction sign. 8.2.2 indicates the length of a dangerous section of road marked by a warning sign, or the zone of operation of a prohibitory or information-direction sign. 8.2.3 indicates the end of the zone of operation of signs 3.27–3.30. 8.2.4 informs the driver that they are within the zone of operation of signs 3.27–3.30. 8.2.5 - 8.2.6: the zone of operation of signs 3.27–3.30 when stopping and parking are prohibited along one side of a square, building façade, etc."
+  },
+  "8-3-1--8-3-3": {
+    "name": "Directions of operation",
+    "description": "Indicates the direction in which a sign placed before an intersection applies, or the direction of movement towards a marked object located directly by the road."
+  },
+  "8-4-1": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies. The plates extend the sign to lorries (with or without a trailer) with a maximum permitted mass of more than 3.5 t;"
+  },
+  "8-4-2": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies. The plates extend the sign to lorries or tractors with any type of trailer or semi-trailer, as well as to vehicles towing a power-driven vehicle;"
+  },
+  "8-4-3": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies. The plates extend the sign to passenger cars;"
+  },
+  "8-4-4": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies."
+  },
+  "8-4-5": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies. The plates extend the sign to"
+  },
+  "8-4-6": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies."
+  },
+  "8-4-7": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies."
+  },
+  "8-4-8": {
+    "name": "Type of vehicle",
+    "description": "Indicates the type of vehicle to which the sign applies. The plates extend the sign to vehicles marked with the identification sign for dangerous goods."
+  },
+  "8-5-1": {
+    "name": "Saturdays, Sundays and public holidays",
+    "description": "Vehicles marked with the identification sign for dangerous goods."
+  },
+  "8-5-2": {
+    "name": "Working days",
+    "description": "Vehicles marked with the identification sign for dangerous goods."
+  },
+  "8-5-3": {
+    "name": "Days of the week",
+    "description": "Vehicles marked with the identification sign for dangerous goods."
+  },
+  "8-5-4": {
+    "name": "Time of operation",
+    "description": "Indicates the time of day during which the sign applies."
+  },
+  "8-5-5": {
+    "name": "Time of operation",
+    "description": "Indicates the days of the week and the time of day during which the signs apply."
+  },
+  "8-5-6": {
+    "name": "Time of operation",
+    "description": "Indicates the days of the week and the time of day during which the signs apply."
+  },
+  "8-5-7": {
+    "name": "Time of operation",
+    "description": "Indicates the days of the week and the time of day during which the signs apply."
+  },
+  "8-6-1": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, plate 8.6.1 indicates that all vehicles in the parking place must park on the carriageway along the pavement."
+  },
+  "8-6-2": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-6-3": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-6-4": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-6-5": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-6-6": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-6-7": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-6-8": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-6-9": {
+    "name": "Method of parking a vehicle",
+    "description": "Specifies how a vehicle must be positioned in a parking place; in addition, the plate indicates how passenger cars and motorcycles must be positioned in a parking place adjacent to the pavement."
+  },
+  "8-7": {
+    "name": "Parking with the engine switched off",
+    "description": "Indicates that in the parking place marked with sign 7.4, vehicles may park only with the engine switched off."
+  },
+  "8-8": {
+    "name": "Paid service",
+    "description": "Indicates that the service at the parking place marked with sign 7.4 is paid."
+  },
+  "8-9": {
+    "name": "Parking time limit",
+    "description": "Indicates that the maximum parking time of a vehicle at the parking place marked with sign 7.4 is limited."
+  },
+  "8-10": {
+    "name": "Vehicle inspection place",
+    "description": "Indicates that there is a ramp or an inspection pit on the area marked with sign 7.4 or 6.10."
+  },
+  "8-11": {
+    "name": "Maximum authorised mass limit",
+    "description": "Indicates that the sign applies only to vehicles whose maximum authorised mass exceeds the one shown on the plate."
+  },
+  "8-12": {
+    "name": "Dangerous roadside",
+    "description": "Indicates that moving onto the roadside is dangerous because of repair works being carried out on it. The plate is used together with sign 1.26."
+  },
+  "8-13": {
+    "name": "Direction of the main road",
+    "description": "Indicates the direction of the main road at an intersection. The plate is placed together with signs 2.1, 2.3 and 2.4 when the main road changes direction at the intersection."
+  },
+  "8-14": {
+    "name": "Traffic lane",
+    "description": "Indicates the traffic lane to which the sign or traffic light applies. The plate is placed above the traffic lane."
+  },
+  "8-15": {
+    "name": "Blind pedestrians",
+    "description": "Indicates that the pedestrian crossing is used by blind or visually impaired persons. The plate is used together with signs 1.23, 5.19.1 and 5.19.2 and with traffic lights."
+  },
+  "8-16": {
+    "name": "Wet surface",
+    "description": "Indicates that the sign applies during the period when the surface of the carriageway is wet. The plate is used together with signs 1.16, 3.20, 3.22 and 3.24."
+  },
+  "8-17": {
+    "name": "Person with disabilities",
+    "description": "Indicates that sign 7.4 applies to vehicles displaying the identification sign \"Person with disabilities\"."
+  },
+  "8-18": {
+    "name": "Except persons with disabilities",
+    "description": "Indicates that the sign does not apply to vehicles displaying the identification sign \"Person with disabilities\"."
+  },
+  "8-19": {
+    "name": "Class of dangerous goods",
+    "description": "Indicates that the sign applies to vehicles carrying goods of the hazard class shown on the plate, as defined by state standard 19433-88. The plate is used together with signs 3.32, 3.33 and 4.8.1−4.8.3."
+  },
+  "8-20-1--8-20-2": {
+    "name": "Type of vehicle bogie",
+    "description": "Indicates the number of closely spaced axles of a vehicle, for each of which the mass shown on sign 3.12 is the permitted limit."
+  },
+  "8-21-1": {
+    "name": "Type of route vehicle",
+    "description": "Indicates a parking area at a metro station. The plate is used together with sign 7.4."
+  },
+  "8-21-2": {
+    "name": "Type of route vehicle",
+    "description": "Indicates a bus and/or trolleybus parking area at a metro station. The plate is used together with sign 7.4."
+  },
+  "8-21-3": {
+    "name": "Type of route vehicle",
+    "description": "Indicates a tram parking area at a metro station. The plate is used together with sign 7.4."
+  },
+  "8-22-1--8-22-3": {
+    "name": "Obstacle",
+    "description": "Used together with signs 4.2.1, 4.2.2 and 4.2.3 to help the driver find their way better when passing around an obstacle."
+  },
+  "marking-1-1": {
+    "name": "",
+    "description": "Separates traffic flows moving in opposite directions and marks the boundaries of traffic lanes on dangerous sections; marks the boundaries of the carriageway where entry is prohibited; marks the boundaries of vehicle parking places and the edges of the carriageway on roads that, by traffic conditions, are not classed as motorways. Crossing line 1.1 is prohibited. Crossing line 1.1 that marks the edge of the carriageway and lies on the driver's right is allowed in order to stop the vehicle at the side of the road."
+  },
+  "marking-1-2": {
+    "name": "",
+    "description": "A wide solid line marks the edges of the carriageway on a motorway. Crossing line 1.2 is allowed in order to stop the vehicle at the side of the road."
+  },
+  "marking-1-3": {
+    "name": "",
+    "description": "Separates traffic flows moving in opposite directions on roads with four or more traffic lanes. Crossing line 1.3 is prohibited."
+  },
+  "marking-1-4": {
+    "name": "",
+    "description": "Marks a place where stopping is prohibited; it is used on its own or in combination with sign 3.27; it is painted along the edge of the carriageway or on top of the kerb."
+  },
+  "marking-1-5": {
+    "name": "",
+    "description": "Separates traffic flows moving in opposite directions on roads with two or three traffic lanes; marks the boundaries of traffic lanes when there are two or more lanes intended for traffic in one direction. Crossing line 1.5 is allowed from either side."
+  },
+  "marking-1-6": {
+    "name": "",
+    "description": "Approach line (a broken line whose dashes are three times longer than the gaps between them) warns of approaching marking 1.1 or 1.11 that separates traffic flows moving in opposite or the same directions. Crossing line 1.6 is allowed from either side."
+  },
+  "marking-1-7": {
+    "name": "",
+    "description": "A broken line with short dashes and gaps of the same length marks traffic lanes within an intersection. Crossing line 1.7 is allowed from either side."
+  },
+  "marking-1-8": {
+    "name": "",
+    "description": "Wide broken line: marks the boundary between acceleration or deceleration lanes and the main lane of the carriageway (at intersections, at grade-separated junctions, at bus stop areas, etc.). Crossing line 1.8 is allowed from either side."
+  },
+  "marking-1-9": {
+    "name": "",
+    "description": "Marks the boundaries of traffic lanes with reversible traffic control; separates traffic flows moving in opposite directions (when the reversible traffic lights are switched off) on roads with reversible traffic control."
+  },
+  "marking-1-10": {
+    "name": "",
+    "description": "Marks a place where parking is prohibited; it is used on its own or in combination with sign 3.28; it is painted along the edge of the carriageway or on top of the kerb."
+  },
+  "marking-1-11": {
+    "name": "",
+    "description": "Separates traffic flows moving in opposite or the same directions on a section of road where changing lanes is allowed from one lane only; marks turning places, exits from and entrances to parking areas, etc., where movement is allowed in one direction only. Crossing line 1.11 is allowed from the broken-line side, and also from the solid-line side, but only when completing overtaking or passing around."
+  },
+  "marking-1-12": {
+    "name": "",
+    "description": "The \"stop line\" shows the place where the driver must stop when sign 2.5 is present, or at a prohibiting signal of a traffic light or traffic controller."
+  },
+  "marking-1-13": {
+    "name": "",
+    "description": "Shows the place where the driver must, if necessary, stop and give way to vehicles moving on the intersecting road."
+  },
+  "marking-1-14-1": {
+    "name": "",
+    "description": "The \"zebra\" marks an uncontrolled pedestrian crossing;"
+  },
+  "marking-1-14-2": {
+    "name": "",
+    "description": "The \"zebra\" marks an uncontrolled pedestrian crossing; the arrows of marking 1.14.2 show the direction of pedestrian movement."
+  },
+  "marking-1-14-3": {
+    "name": "",
+    "description": "Marks a pedestrian crossing where traffic is controlled by a traffic light."
+  },
+  "marking-1-15": {
+    "name": "",
+    "description": "Marks the place where a cycle track crosses the carriageway."
+  },
+  "marking-1-16-1--1-16-3": {
+    "name": "",
+    "description": "Marks guide islands at places where traffic flows split or merge."
+  },
+  "marking-1-17": {
+    "name": "",
+    "description": "Marks stops of route vehicles and taxi ranks."
+  },
+  "marking-1-18": {
+    "name": "",
+    "description": "Marks the permitted directions of movement in the lanes at an intersection; it is used on its own or in combination with signs 5.8.1, 5.8.2; marking with a dead-end symbol indicates that turning onto the nearest carriageway is prohibited; marking that allows a left turn from the far-left lane also allows a U-turn from that lane."
+  },
+  "marking-1-19": {
+    "name": "",
+    "description": "Warns of approaching a narrowing of the carriageway (a section where the number of traffic lanes in the given direction decreases) or marking 1.1 or 1.11 that separates traffic flows moving in opposite directions. In the first case, marking 1.19 may be used in combination with signs 1.18.1–1.18.3."
+  },
+  "marking-1-20": {
+    "name": "",
+    "description": "Warns of approaching marking 1.13."
+  },
+  "marking-1-21": {
+    "name": "",
+    "description": "The inscription \"STOP\" warns of approaching marking 1.12 when it is used in combination with sign 2.5."
+  },
+  "marking-1-22": {
+    "name": "",
+    "description": "Shows the road (route) number."
+  },
+  "marking-1-23": {
+    "name": "",
+    "description": "Marks a special lane intended for the movement of route vehicles."
+  }
+}

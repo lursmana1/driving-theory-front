@@ -5,6 +5,7 @@ import { getSubjectIds } from "@/CONSTS/subjects";
 import { getApiBaseUrl } from "@/lib/apiBaseUrl";
 import { BLOGS_PAGE_SIZE, TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
 import { absoluteUrl, languageAlternates } from "@/lib/seo";
+import { DEFAULT_SIGN_GROUP_ID, SIGN_GROUP_SLUGS, signGroupHref } from "@/CONSTS/signGroups";
 
 type SitemapPath = {
   href: string;
@@ -21,6 +22,7 @@ export const STATIC_SITEMAP_PATHS: SitemapPath[] = [
   { href: "/city-exam?cat=cd", changeFrequency: "monthly", priority: 0.7 },
   { href: "/city-exam?cat=cede", changeFrequency: "monthly", priority: 0.7 },
   { href: "/yard-exam", changeFrequency: "monthly", priority: 0.75 },
+  { href: "/signs", changeFrequency: "monthly", priority: 0.8 },
   { href: "/blogs", changeFrequency: "weekly", priority: 0.7 },
 ];
 
@@ -216,8 +218,14 @@ export async function buildSitemapEntries(): Promise<MetadataRoute.Sitemap> {
     });
   }
 
+  const signGroupPaths: SitemapPath[] = Object.keys(SIGN_GROUP_SLUGS)
+    .map(Number)
+    .filter((id) => id !== DEFAULT_SIGN_GROUP_ID)
+    .map((id) => ({ href: signGroupHref(id), changeFrequency: "monthly", priority: 0.7 }));
+
   return [
     ...STATIC_SITEMAP_PATHS.map((item) => sitemapEntry(item.href, item)),
+    ...signGroupPaths.map((item) => sitemapEntry(item.href, item)),
     ...ticketPaths.map((item) => sitemapEntry(item.href, item)),
     ...subjectPaths.map((item) => sitemapEntry(item.href, item)),
     ...blogListPaths.map((item) => sitemapEntry(item.href, item)),

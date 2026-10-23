@@ -261,6 +261,36 @@ export function blogListJsonLd(input: {
   };
 }
 
+/** A category page that lists items (e.g. one road-sign group). */
+export function collectionPageJsonLd(input: {
+  locale: string;
+  title: string;
+  description: string;
+  path: string;
+  items: { name: string; href: string; image?: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: input.title,
+    description: input.description,
+    url: absoluteUrl(input.path, input.locale),
+    inLanguage: input.locale,
+    isPartOf: { "@type": "WebSite", name: siteMetadata.name, url: siteMetadata.url },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: input.items.length,
+      itemListElement: input.items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        url: absoluteUrl(item.href, input.locale),
+        ...(item.image ? { image: `${siteMetadata.url.replace(/\/$/, "")}${item.image}` } : {}),
+      })),
+    },
+  };
+}
+
 export function breadcrumbJsonLd(
   locale: string,
   items: { name: string; href: string }[],

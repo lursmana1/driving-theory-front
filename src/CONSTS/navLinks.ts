@@ -5,5 +5,6 @@ export const navLinks = [
   { href: "/", labelKey: "navHome" },
   { href: "/subjectpicker", labelKey: "navExam" },
   { href: `/tickets/${DEFAULT_CATEGORY_ID}`, labelKey: "navTickets" },
+  { href: "/signs", labelKey: "navSigns" },
   { href: "/blogs", labelKey: "navBlog" },
 ] as const;

@@ -13,6 +13,7 @@ export const ICONS = {
   question: "/svg/icons/question.svg",
   xCircle: "/svg/icons/x-circle.svg",
   sparkle: "/svg/icons/sparkle.svg",
+  search: "/svg/icons/search.svg",
 } as const;
 
 export type IconName = keyof typeof ICONS;
