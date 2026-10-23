@@ -8,6 +8,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 
 ## Agent rules (save tokens)
 
+- **Never create Artifacts or Claude Docs** (nothing published to the Claude app, not even via `edits`). Plans and notes are `.md` files in the repo; edit files with Edit/Write.
 - Reuse existing hooks / utils / API helpers. Do not duplicate or re-map the repo.
 - Client HTTP: `src/api/BaseApi.ts` (Axios, `withCredentials`; no token in JS). Server HTTP: `getServerBaseApi()`.
 - Locale routes: `Link` / `useRouter` / `redirect` from `@/i18n/navigation`. Server redirect: `redirectTo()` in `@/i18n/redirectTo`.
@@ -29,11 +30,14 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /blogs, /blogs/[id]    articles
 /city-exam             practical technical Q&A (category switcher)
 /yard-exam             yard elements + penalty points (GIFs)
+/signs                 road-sign atlas, opens on warning signs (grid 2/3/4 per row, click → explanation panel under the row; name search across groups)
+/signs/category/[group] one page per sign group (own title/h1/ItemList JSON-LD); warning → redirects to /signs
+                       Road markings: one column, picture + explanation always shown. No page per sign: a sign is `<group page>#<slug>`
 /auth, /auth/logout    login/register
 /createblog            admin only
 ```
 
-SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectpicker, city-exam, yard-exam, blogs). Categories 0–9 (AM, B, A, C, D, …).
+SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectpicker, city-exam, yard-exam, signs + sign group pages, blogs). Categories 0–9 (AM, B, A, C, D, …).
 
 ## Where code lives
 
@@ -44,6 +48,7 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 | Profile | `ProfileClient` (auth gate), `ProfileHeader`, `ProfileAttemptStats`, `ProfileExamHistory`, `ProfileOverviewSection` |
 | Auth UI | `src/components/AuthForm/`, `src/contexts/UserContext.tsx` |
 | Header | `src/layoutComponents/Header/` |
+| Signs | `src/components/Signs/` (`SignsIndexView`, `SignsExplorer`, `SignGrid`, `SignMarkingsList`, `SignTile`, `SignLinkedText`), data `src/data/signs/` + `public/images/signs/`, helpers `src/lib/signs.ts` (server only) + `src/utills/helpers/signLinks.ts` |
 | i18n / proxy | `src/i18n/`, `src/proxy.ts` |
 | Types | `src/lib/types/` (`exam.ts` has `getAiTutorText`, `getQuestionAudioUrl`) |
 
@@ -64,6 +69,16 @@ Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts
 ## Utils (`src/utills/helpers/`)
 
 `normalizeQuestions`, `getAnswers`, `getQuestionImageSrc`, `questionLinks` (`getQuestionTicketPath`), `formatDate`, `formatExamDuration`, `getReadTime`, `pagination`.
+
+## Signs (front-only, no API)
+
+- Data comes from teoria.on.ge: `node scripts/signs/crawl.mjs` → `Desktop/pravage-signs`. English/Russian names + explanations live in `Desktop/pravage-signs/i18n/{en,ru}.json` (translated by Claude, not Gemini — keep sign numbers exact, ПДД / Vienna terms). `node scripts/signs/import.mjs` → `src/data/signs/signs.json` (ka, server only), `src/data/signs/i18n/{en,ru}.json` (server only), `lookup.{ka,en,ru}.json` (slim number → sign map, the client loads only its own language, lazily) and the SVGs. Sign translations never go into `messages/`. Don't hand-edit the JSON; re-run import.
+- Slugs never contain dots (`3-24`, `1-4-1--1-4-6`, `marking-1-1`): `src/proxy.ts` skips any path with a dot.
+- Group URLs: `src/CONSTS/signGroups.ts` (`signGroupHref`). Search is by sign name only, with a simple Georgian stem match (drops the final vowel of longer words).
+- Every sign `<img>` has width/height and sits in an aspect-ratio box (no layout shift).
+- Sign numbers in ticket explanations / AI tutor text / sign explanations become popover links via `SignLinkedText`. A number only links when the word next to it is ნიშანი/ნიშნ…/მონიშვნ…, sign(s)/marking(s), знак…/разметк… (`splitSignRefs`), so "დანართის 4.3 პუნქტის" / "clause 4.3" stays plain text. Touch devices use click, hover devices use hover.
+- Every sign's explanation is in the HTML (a hidden copy under each grid item) so the group's text is indexed. Don't write the URL hash on click (Next router error); only read `#slug` on load / `hashchange`.
+- Desktop picks groups with link chips at the top; phones use an antd `Select` (the chips stay in the HTML for crawlers).
 
 ## lib / CONSTS
 
