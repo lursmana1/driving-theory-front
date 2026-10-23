@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import SignLinkedText from "@/components/Signs/SignLinkedText";
 
 type QuestionExplanationProps = {
   questionId: string | number;
@@ -77,7 +78,7 @@ export default function QuestionExplanation({
             }`}
           >
             <p className="font-georgian text-sm leading-relaxed text-fg-muted">
-              {explanation}
+              <SignLinkedText text={explanation ?? ""} />
             </p>
           </div>
         </div>

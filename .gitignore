@@ -47,7 +47,7 @@ next-env.d.ts
 **/mongodbcredentials*
 
 # Local product notes (not for git)
-futureplan.md
+plans/
 
 # TikTok promo video generator (local only)
 scripts/tiktok/

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/Icon/Icon";
+import SignLinkedText from "@/components/Signs/SignLinkedText";
 
 type AiTutorTextProps = {
   text: string;
@@ -74,7 +75,8 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
       {open && (
         <div className="px-3 pb-3">
           <p className="font-georgian text-sm leading-relaxed">
-            {text.slice(0, chars)}
+            {/* sign numbers become links once the text has finished typing */}
+            {done ? <SignLinkedText text={text} tone="stage" /> : text.slice(0, chars)}
             {!done && <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-accent align-middle" />}
           </p>
         </div>
