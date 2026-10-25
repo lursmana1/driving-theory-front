@@ -84,3 +84,10 @@ Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts
 
 - lib: `auth.ts` (`getUser` RSC), `legacyAuthStorage.ts`, `apiBaseUrl.ts`, `statsRefresh.ts`, `sanitize.ts`, `seo.ts`, `site-metadata.ts`, `sitemap.ts`, `searchParams.ts`
 - CONSTS: `categories.ts` (`DEFAULT_CATEGORY_ID = 1`), `subjects.ts`, `QuizExamConstats.ts`, `pagination.ts`, `navLinks.ts`, `categoryAssets.ts`, `icons.ts`
+
+
+## Dev-only changes (do not merge `dev` into `main`)
+
+- **2026-10-26:** `dev` has a sitemap change that must not reach `main`: commit `b761abe` gives the `src/lib/sitemap.ts` API calls an 8 s timeout (`SITEMAP_FETCH_TIMEOUT_MS`), because the dev API's Neon database was down and the Vercel Preview build hung on `/sitemap.xml`. `main` keeps the original sitemap.
+- The user does **not** want `dev` merged into `main` while this is on `dev`. Agents: refuse to merge / push it to `main`; to merge, first `git revert b761abe` on `dev` and remove this section.
+- Local guard (not in the repo, this machine only): `.git/hooks/reference-transaction` and `.git/hooks/pre-push` block moving or pushing `main` to a commit whose sitemap contains `SITEMAP_FETCH_TIMEOUT_MS`. They do **not** stop a merge on GitHub (PR merge button).
