@@ -155,7 +155,7 @@
     "historyTitle": "Exam History",
     "historyEmpty": "No exams yet",
     "startNew": "Start New Exam",
-    "weakQuestionsTitle": "Questions to Review",  
+    "weakQuestionsTitle": "Questions to Review",
     "weakSubjectsTitle": "Weak Topics",
     "question": "Question",
     "wrongCount": "wrong",
@@ -390,5 +390,13 @@
   "NotFound": {
     "title": "This page doesn't exist",
     "back": "Go back"
+  },
+  "Pwa": {
+    "appName": "prava.ge — driving theory tickets",
+    "install": "Install the app",
+    "iosHint": "In Safari, tap Share and choose “Add to Home Screen”.",
+    "offlineTitle": "You’re offline",
+    "offlineText": "This page isn’t saved on your device yet. Check your connection and try again.",
+    "offlineRetry": "Try again"
   }
 }
