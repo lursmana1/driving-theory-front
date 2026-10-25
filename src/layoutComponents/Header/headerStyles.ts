@@ -7,6 +7,9 @@ export const headerNavLinkActive = "bg-fg/5 text-fg";
 export const headerAuthLink =
   "shrink-0 rounded-xs px-2 py-1.5 text-xs font-medium text-fg-muted transition-colors hover:bg-fg/5 hover:text-fg sm:px-3 sm:py-2 sm:text-sm";
 
+export const headerStreak =
+  "inline-flex shrink-0 items-center gap-1 rounded-full border border-line bg-surface px-2.5 py-1 text-xs font-semibold tabular-nums text-fg transition-colors hover:bg-fg/5 sm:text-sm";
+
 export const headerAuthLogin =
   "hidden h-10 shrink-0 items-center justify-center rounded-full bg-accent px-4 text-xs font-semibold text-on-accent transition hover:bg-accent-strong sm:text-sm lg:inline-flex";
 

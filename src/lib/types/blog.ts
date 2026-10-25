@@ -13,7 +13,7 @@ export type Blog = {
   /** Not sent by the API today. */
   updatedAt?: string | Date;
   creator?: BlogCreator;
-  /** Missing when the API predates view counting; the UI then hides the count. */
+  /** Not shown in the UI. Missing when the API predates view counting; then no view is recorded. */
   viewsCount?: number;
 };
 

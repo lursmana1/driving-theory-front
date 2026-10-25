@@ -10,10 +10,10 @@ export const ICONS = {
   close: "/svg/icons/close.svg",
   calendar: "/svg/icons/calendar.svg",
   clock: "/svg/icons/clock.svg",
-  eye: "/svg/icons/eye.svg",
   question: "/svg/icons/question.svg",
   xCircle: "/svg/icons/x-circle.svg",
   sparkle: "/svg/icons/sparkle.svg",
+  search: "/svg/icons/search.svg",
 } as const;
 
 export type IconName = keyof typeof ICONS;

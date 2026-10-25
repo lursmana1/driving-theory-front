@@ -8,11 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { pageMeta } from "@/lib/pageMeta";
-import {
-  blogPostingJsonLd,
-  breadcrumbJsonLd,
-  buildMetadata,
-} from "@/lib/seo";
+import { blogPostingJsonLd, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 import { siteMetadata } from "@/lib/site-metadata";
 import { plainTextExcerpt } from "@/utills/helpers/plainTextExcerpt";
 import { Icon } from "@/components/Icon/Icon";
@@ -45,9 +41,7 @@ export async function generateMetadata({ params }: Props) {
       keywords: [blog.name, ...siteMetadata.keywords],
       path: `/blogs/${id}`,
       locale,
-      image: blog.imageUrl
-        ? { url: blog.imageUrl, alt: blog.name }
-        : undefined,
+      image: blog.imageUrl ? { url: blog.imageUrl, alt: blog.name } : undefined,
       openGraph: {
         type: "article",
         ...(publishedTime ? { publishedTime } : {}),
@@ -115,7 +109,10 @@ export default async function BlogPage({ params }: Props) {
           </h1>
 
           {/* Meta - centered with icons */}
-          <div className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-fg-subtle">
+          <div
+            className="mb-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-fg-subtle"
+            data-nosnippet=""
+          >
             <time dateTime={dateTime} className="flex items-center gap-2">
               <Icon name="calendar" className="h-4 w-4 shrink-0 opacity-80" />
               {formatDate(blog.createdAt, locale, "MMMM D, YYYY")}
@@ -124,9 +121,7 @@ export default async function BlogPage({ params }: Props) {
               <Icon name="clock" className="h-4 w-4 shrink-0 opacity-80" />
               {t("readTime", { minutes: getReadTime(blog.content ?? "") })}
             </span>
-            {blog.viewsCount != null && (
-              <BlogViewTracker blogId={blog.id} initialCount={blog.viewsCount} />
-            )}
+            {blog.viewsCount != null && <BlogViewTracker blogId={blog.id} />}
           </div>
 
           {/* Hero image - rounded corners, below meta */}
@@ -145,7 +140,10 @@ export default async function BlogPage({ params }: Props) {
           )}
 
           {/* Body content - white card with soft shadow */}
-          <div className="rounded-card border border-line-subtle bg-surface px-6 py-8 shadow-card sm:px-10 sm:py-12">
+          <div
+            data-nosnippet=""
+            className="rounded-card border border-line-subtle bg-surface px-6 py-8 shadow-card sm:px-10 sm:py-12"
+          >
             <div className="blog-content max-w-none">
               <Tiptap value={blog.content ?? ""} readonly bare />
             </div>

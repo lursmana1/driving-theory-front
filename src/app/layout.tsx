@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Georgian } from "next/font/google";
 import Script from "next/script";
+import { preconnect } from "react-dom";
 import { getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getMetadataBaseUrl, siteMetadata } from "@/lib/site-metadata";
@@ -55,6 +56,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = (await getLocale().catch(() => routing.defaultLocale)) as string;
+  if (process.env.NODE_ENV === "production") {
+    // analytics: open the connections early, the script itself loads when the page is idle
+    preconnect("https://cloud.umami.is");
+    preconnect("https://gateway.umami.is");
+  }
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -67,7 +73,8 @@ export default async function RootLayout({
           <Script
             src="https://cloud.umami.is/script.js"
             data-website-id="057369d0-1bed-428b-9e09-f25863e52de4"
-            strategy="afterInteractive"
+            // after the page is idle, so it does not compete with React on slow phones
+            strategy="lazyOnload"
           />
         ) : null}
       </body>

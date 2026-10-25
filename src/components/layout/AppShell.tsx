@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { ConfigProvider } from "antd";
 import Header from "@/layoutComponents/Header/Header";
+import { ServiceWorkerRegister } from "@/components/Pwa/ServiceWorkerRegister";
 import { usePathname } from "@/i18n/navigation";
 import type { ThemeConfig } from "antd";
 import { color, fontFamily, radius } from "@/styles/tokens";
@@ -57,6 +58,7 @@ export function AppShell({
     <ConfigProvider theme={antdTheme}>
       {!isMinimalChrome && <Header />}
       {children}
+      <ServiceWorkerRegister />
     </ConfigProvider>
   );
 }

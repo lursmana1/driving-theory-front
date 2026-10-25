@@ -52,6 +52,11 @@ export default async function LandingFooter() {
               <h3 className={LANDING.headingFooter}>{t("footerResources")}</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
                 <li>
+                  <Link href="/blogs" className={footerLink}>
+                    {t("footerBlogs")}
+                  </Link>
+                </li>
+                <li>
                   <Link href="#faq" className={footerLink}>
                     {t("footerFaq")}
                   </Link>
