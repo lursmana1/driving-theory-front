@@ -60,16 +60,28 @@ export function sitemapEntry(
 
 const MAX_TICKET_SITEMAP_PAGES = 200;
 
+/**
+ * The sitemap is prerendered at build time, and Next kills a page after 60 s.
+ * Each API call gets a short limit so a slow or unreachable API falls back
+ * (fewer ticket pages for an hour) instead of failing the build.
+ */
+const SITEMAP_FETCH_TIMEOUT_MS = 8_000;
+
+function sitemapFetch(url: string): Promise<Response> {
+  return fetch(url, {
+    next: { revalidate: 3600 },
+    headers: { Accept: "application/json" },
+    signal: AbortSignal.timeout(SITEMAP_FETCH_TIMEOUT_MS),
+  });
+}
+
 async function fetchCategoryIds(): Promise<number[]> {
   const fallback = licenseCategories.map((c) => c.id);
   const base = getApiBaseUrl();
   if (!base) return fallback;
 
   try {
-    const res = await fetch(`${base}/categories`, {
-      next: { revalidate: 3600 },
-      headers: { Accept: "application/json" },
-    });
+    const res = await sitemapFetch(`${base}/categories`);
     if (!res.ok) return fallback;
     const payload: unknown = await res.json();
     const rows = Array.isArray(payload) ? payload : [];
@@ -89,12 +101,8 @@ async function fetchCategoryQuestionTotal(
   if (!base) return 0;
 
   try {
-    const res = await fetch(
+    const res = await sitemapFetch(
       `${base}/questions?category=${categoryId}&page=1&size=1`,
-      {
-        next: { revalidate: 3600 },
-        headers: { Accept: "application/json" },
-      },
     );
     if (!res.ok) return 0;
     const payload = (await res.json()) as { total?: number };
@@ -165,12 +173,8 @@ async function fetchBlogSitemap(): Promise<{
 
   try {
     while (page <= totalPages && page <= 20) {
-      const res = await fetch(
+      const res = await sitemapFetch(
         `${base}/blogs?page=${page}&size=${BLOGS_PAGE_SIZE}`,
-        {
-          next: { revalidate: 3600 },
-          headers: { Accept: "application/json" },
-        },
       );
       if (!res.ok) break;
       const payload = (await res.json()) as BlogListPayload;
