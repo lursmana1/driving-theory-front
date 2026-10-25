@@ -52,3 +52,5 @@ futureplan.md
 # TikTok promo video generator (local only)
 scripts/tiktok/
 .claude/rules/tiktok-videos.md
+
+plans/
