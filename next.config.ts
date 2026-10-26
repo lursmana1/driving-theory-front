@@ -21,6 +21,19 @@ const nextConfig: NextConfig = {
   },
   allowedDevOrigins: ["10.0.0.153"],
 
+  // the service worker must never be served from the HTTP cache, or app updates get stuck
+  async headers() {
+    return [
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+        ],
+      },
+    ];
+  },
+
   experimental: {
     optimizePackageImports: [
       "react",

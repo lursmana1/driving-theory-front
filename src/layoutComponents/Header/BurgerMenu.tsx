@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { navLinks } from "@/CONSTS/navLinks";
 import { moreInfoLinks } from "@/CONSTS/moreInfoLinks";
 import { useUser } from "@/contexts/UserContext";
+import { InstallAppItem } from "@/components/Pwa/InstallAppItem";
+import { useInstallPrompt } from "@/utills/helpers/hooks/useInstallPrompt";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import {
@@ -21,6 +23,7 @@ export default function BurgerMenu() {
   const tHeader = useTranslations("Header");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const { canInstall, install, guide } = useInstallPrompt();
 
   const closeMenu = () => {
     setIsClosing(true);
@@ -136,6 +139,16 @@ export default function BurgerMenu() {
                       {tAuth("login")}
                     </Link>
                   )}
+                  <div className="mt-2">
+                    <InstallAppItem
+                      canInstall={canInstall}
+                      guide={guide}
+                      onInstall={() => {
+                        closeMenu();
+                        void install();
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </nav>
