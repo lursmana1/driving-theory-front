@@ -23,7 +23,7 @@ export default function BurgerMenu() {
   const tHeader = useTranslations("Header");
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const { canInstall, install, showIosHint } = useInstallPrompt();
+  const { canInstall, install, guide } = useInstallPrompt();
 
   const closeMenu = () => {
     setIsClosing(true);
@@ -142,7 +142,7 @@ export default function BurgerMenu() {
                   <div className="mt-2">
                     <InstallAppItem
                       canInstall={canInstall}
-                      showIosHint={showIosHint}
+                      guide={guide}
                       onInstall={() => {
                         closeMenu();
                         void install();

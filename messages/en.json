@@ -394,7 +394,15 @@
   "Pwa": {
     "appName": "prava.ge — driving theory tickets",
     "install": "Install the app",
-    "iosHint": "In Safari, tap Share and choose “Add to Home Screen”.",
+    "iosTitle": "How to add it on iPhone",
+    "iosStep1": "Tap the Share button <share></share> in Safari’s bottom bar. On newer iPhones it’s inside the “⋯” menu.",
+    "iosStep1Browser": "Tap the Share button <share></share> next to the address bar.",
+    "iosStep2": "Scroll down and choose “Add to Home Screen”.",
+    "iosStep3": "Tap “Add”. The prava.ge icon appears on your home screen.",
+    "iosSignIn": "You’ll sign in once inside the app: it doesn’t share Safari’s login.",
+    "inAppTitle": "Open the page in your browser first",
+    "inAppStep1": "Apps like TikTok and Instagram can’t install it. Tap “⋯” and choose “Open in browser”.",
+    "inAppStep2": "In the browser, open this menu again and tap “Install the app”.",
     "offlineTitle": "You’re offline",
     "offlineText": "This page isn’t saved on your device yet. Check your connection and try again.",
     "offlineRetry": "Try again"
