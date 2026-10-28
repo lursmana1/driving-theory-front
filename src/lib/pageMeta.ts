@@ -9,6 +9,7 @@ export type MetaPage =
   | "tickets"
   | "subjectpicker"
   | "exam"
+  | "practice"
   | "profile"
   | "blogs"
   | "cityExam"
@@ -21,6 +22,7 @@ const PAGE_PATH: Record<MetaPage, string> = {
   tickets: "/tickets",
   subjectpicker: "/subjectpicker",
   exam: "/exam",
+  practice: "/practice",
   profile: "/profile",
   blogs: "/blogs",
   cityExam: "/city-exam",
@@ -31,6 +33,7 @@ const PAGE_PATH: Record<MetaPage, string> = {
 
 const NOINDEX: ReadonlySet<MetaPage> = new Set([
   "exam",
+  "practice",
   "profile",
   "auth",
   "logout",

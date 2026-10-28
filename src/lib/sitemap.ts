@@ -33,6 +33,8 @@ export const ROBOTS_DISALLOW = [
   "/exam/",
   "/profile",
   "/profile/",
+  "/practice",
+  "/practice/",
   "/createblog",
   "/createleaderboard",
   "/*/auth",
@@ -41,6 +43,8 @@ export const ROBOTS_DISALLOW = [
   "/*/exam/",
   "/*/profile",
   "/*/profile/",
+  "/*/practice",
+  "/*/practice/",
   "/*/createblog",
   "/*/createleaderboard",
 ];

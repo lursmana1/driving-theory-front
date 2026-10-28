@@ -1,5 +1,6 @@
 import BaseApi from "./BaseApi";
 import { markStatsStale } from "@/lib/statsRefresh";
+import type { QuestionProgress } from "@/lib/types/trainer";
 
 export type PracticeAnswerResponse = {
   questionId: number;
@@ -7,6 +8,8 @@ export type PracticeAnswerResponse = {
   subject: number | null;
   correct: boolean | null;
   seenOnly: boolean;
+  /** Mistake-trainer state after this answer; null for seen-only. */
+  progress?: QuestionProgress | null;
 };
 
 export async function postPracticeAnswer(

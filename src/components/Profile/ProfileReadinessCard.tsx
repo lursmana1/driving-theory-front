@@ -43,12 +43,13 @@ export function ProfileReadinessCard({
       </div>
 
       {categories.length > 0 && (
-        <div className="border-b border-line-subtle px-2 py-3 sm:px-4">
+        <div className="border-b border-line-subtle py-3">
           <CategoryPickerBar
             categories={categories}
             activeCategoryId={categoryId}
             pathname="/profile"
             searchParams={queryParams}
+            inCard
           />
         </div>
       )}

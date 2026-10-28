@@ -237,6 +237,16 @@
     "errorGeneric": "Something went wrong. Please try again.",
     "loggingOut": "Signing out..."
   },
+  "Notifications": {
+    "title": "Notifications",
+    "open": "Notifications: {count}",
+    "trainerTitle": "Today's goal: {count, plural, one {# question} other {# questions}}",
+    "trainerBody": "Mistake practice · category {category} · {total} in total",
+    "trainerCta": "Let's start",
+    "allDoneTitle": "Well done! No mistakes to practise today 🎉",
+    "allDoneBody": "Keep going with new tickets.",
+    "allDoneCta": "Go to tickets"
+  },
   "Profile": {
     "title": "My Profile",
     "subtitle": "Your progress and exam statistics",
@@ -309,7 +319,9 @@
     "logoutTitle": "Signing out",
     "logoutDescription": "Signing out of prava.ge",
     "createBlogTitle": "Create blog",
-    "createBlogDescription": "New article"
+    "createBlogDescription": "New article",
+    "practiceTitle": "Mistake trainer",
+    "practiceDescription": "Practice the theory questions you answered wrong until you get them right."
   },
   "Blogs": {
     "title": "Blog",
@@ -406,5 +418,47 @@
     "offlineTitle": "You’re offline",
     "offlineText": "This page isn’t saved on your device yet. Check your connection and try again.",
     "offlineRetry": "Try again"
+  },
+  "Trainer": {
+    "title": "Mistake trainer",
+    "subtitle": "These are questions you got wrong before. Answer them correctly over a few days and they count as learned and leave the list.",
+    "cardBody": "Fix the questions you answered wrong in exams and tickets.",
+    "cta": "Practice my mistakes",
+    "loading": "Loading your mistakes…",
+    "error": "Could not load your mistakes.",
+    "retry": "Try again",
+    "saving": "Saving…",
+    "saveFailed": "Couldn't save your answer.",
+    "dueNow": "Due now",
+    "activeMistakes": "Mistakes",
+    "clearedRecently": "Cleared this week",
+    "next": "Next question",
+    "finish": "Finish",
+    "keyboardHint": "Keyboard: 1–4 to answer, ← → for the previous / next question",
+    "feedbackWrong": "Not quite. This question stays on your list and will come back.",
+    "feedbackCleared": "Correct! This question is learned and off your list 🎉",
+    "feedbackAdvanced": "Correct! You'll see this question again on {date}. {left, plural, one {# more correct answer} other {# more correct answers}} and it's learned.",
+    "feedbackEarly": "Correct, but this question isn't due yet. You'll see it again on {date}.",
+    "emptyTitle": "No mistakes to practice",
+    "emptyBody": "Questions you answer wrong in exams or tickets will show up here.",
+    "emptyNextDue": "Nothing to review right now. Next review: {date}.",
+    "toExam": "Take an exam",
+    "toTickets": "Open tickets",
+    "doneTitle": "Session complete",
+    "doneStats": "Answered {answered}, correct {correct}, cleared {cleared}.",
+    "again": "Practice more",
+    "backToProfile": "Back to profile",
+    "statDue": "Left today",
+    "statCorrect": "Correct this session",
+    "statCleared": "Learned this week",
+    "answeredCount": "Answered {answered} / {total}",
+    "questionN": "Question {n}",
+    "autoNext": "Moving to the next question…",
+    "autoFinish": "Finishing the session…",
+    "endSession": "End session",
+    "endConfirm": "You haven't answered {count, plural, one {# question} other {# questions}} yet. Are you sure you want to finish?",
+    "endNow": "End",
+    "keepGoing": "Keep going",
+    "doneSkipped": "Skipped: {count}."
   }
 }

@@ -8,6 +8,7 @@ import { getCategories } from "@/api/categories";
 import { useProfileOverview } from "@/utills/helpers/hooks/useProfileOverview";
 import { ProfileReadinessCard } from "@/components/Profile/ProfileReadinessCard";
 import { ProfileWeakCharts } from "@/components/Profile/ProfileWeakCharts";
+import { ProfileTrainerCard } from "@/components/Profile/ProfileTrainerCard";
 
 type ProfileOverviewSectionProps = {
   defaultCategoryId?: number;
@@ -65,6 +66,7 @@ export default function ProfileOverviewSection({
         readinessError={overview.readinessError}
         poolExposure={overview.poolExposure}
       />
+      <ProfileTrainerCard categoryId={categoryId} />
       <ProfileWeakCharts
         categoryId={categoryId}
         weakQuestions={overview.weakQuestions}

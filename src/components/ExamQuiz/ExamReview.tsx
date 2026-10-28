@@ -59,7 +59,6 @@ export default function ExamReview({ items, onDone }: ExamReviewProps) {
           question={item.question}
           questionIndex={index + 1}
           selectedAnswer={item.picked}
-          onSelect={() => {}}
           priority
         />
       </div>

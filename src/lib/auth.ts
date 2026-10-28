@@ -8,6 +8,11 @@ export type User = {
   type?: string;
   /** Consecutive days with a visit; counted by GET /auth/me. */
   streak?: { current: number; longest: number };
+  /**
+   * Mistakes due for review now, per category the user has taken an exam in
+   * (all categories with mistakes if none yet), most due first. Header bell.
+   */
+  trainer?: { categoryId: number; dueNow: number }[];
 };
 
 export async function getUser(): Promise<User | null> {

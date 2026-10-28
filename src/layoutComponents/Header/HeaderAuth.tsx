@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { useUser } from "@/contexts/UserContext";
 import FireImage from "../../../public/images/jpg/fire.webp";
+import HeaderNotifications from "./HeaderNotifications";
 import {
   headerAuthLink,
   headerAuthLogin,
@@ -18,6 +19,7 @@ export default function HeaderAuth() {
 
   return (
     <>
+      <HeaderNotifications />
       {user?.streak && user.streak.current > 0 && (
         <Link
           href="/profile"

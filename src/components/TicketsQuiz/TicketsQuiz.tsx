@@ -8,6 +8,8 @@ import {
   type ExamQuestion,
 } from "@/lib/types/exam";
 import { usePracticeAnswers } from "@/utills/helpers/hooks/usePracticeAnswers";
+import useAnswerKeyboard from "@/utills/helpers/hooks/useAnswerKeyboard";
+import type { PracticeAnswerResponse } from "@/api/practiceAnswers";
 import QuestionImage from "@/components/QuestionImage/QuestionImage";
 import QuizButton from "../QuizButton/QuizButton";
 import ExamFooter from "../ExamFooter/ExamFooter";
@@ -27,8 +29,20 @@ type TicketQuizProps = {
   question: ExamQuestion;
   questionIndex?: number;
   selectedAnswer: string | null;
-  onSelect: (key: string) => void;
+  /** Left out in read-only views (exam review), where the pick is fixed. */
+  onSelect?: (key: string) => void;
   priority?: boolean;
+  /** Called with the saved answer (grade + trainer progress). */
+  onRecorded?: (response: PracticeAnswerResponse) => void;
+  /** Called when saving the answer failed. */
+  onRecordFailed?: () => void;
+  /** Footer arrows (single-question views such as the trainer). */
+  onPrevious?: () => void;
+  onNext?: () => void;
+  /** Keys 1–4 pick an answer. Only for one question per page. */
+  keyboard?: boolean;
+  /** Rendered right under the question text (e.g. the trainer's auto-next checkbox). */
+  belowQuestion?: React.ReactNode;
 };
 
 export default function TicketQuiz({
@@ -37,6 +51,12 @@ export default function TicketQuiz({
   selectedAnswer,
   onSelect,
   priority = false,
+  onRecorded,
+  onRecordFailed,
+  onPrevious,
+  onNext,
+  keyboard = false,
+  belowQuestion,
 }: TicketQuizProps) {
   const t = useTranslations("Tickets");
   const { recordAnswer } = usePracticeAnswers();
@@ -48,7 +68,7 @@ export default function TicketQuiz({
 
   const handleSelect = (key: string) => {
     if (selectedAnswer) return;
-    onSelect(key);
+    onSelect?.(key);
     if (postedRef.current) return;
     postedRef.current = true;
     const id = questionNumericId(question);
@@ -56,14 +76,18 @@ export default function TicketQuiz({
       postedRef.current = false;
       return;
     }
-    void recordAnswer(id, key).then((ok) => {
-      if (!ok) postedRef.current = false;
+    void recordAnswer(id, key, onRecorded).then((ok) => {
+      if (ok) return;
+      postedRef.current = false;
+      onRecordFailed?.();
     });
   };
 
+  useAnswerKeyboard(!keyboard || !!selectedAnswer, answers, handleSelect);
+
   return (
     <>
-      <div className="relative h-auto scroll-mt-4 bg-stage p-4">
+      <div className="relative h-auto scroll-mt-4 bg-stage p-3 sm:p-4">
         <div className="relative z-10">
           <QuestionExplanation
             questionId={question.id}
@@ -93,13 +117,15 @@ export default function TicketQuiz({
             {question.question}
           </p>
 
+          {belowQuestion && <div className="-mt-2 mb-2">{belowQuestion}</div>}
+
           {aiTutorText !== "" && (
             <div className="mb-4">
               <AiTutorText text={aiTutorText} label={t("aiTutorShowText")} />
             </div>
           )}
 
-          <div className="grid auto-rows-fr grid-cols-1 items-stretch gap-2 sm:grid-cols-2">
+          <div className="grid grid-cols-1 items-stretch gap-2 sm:auto-rows-fr sm:grid-cols-2">
             {answers.map((a) => (
               <QuizButton
                 key={a.key}
@@ -119,6 +145,8 @@ export default function TicketQuiz({
         correctAnswer={question.correct_answer}
         selectAnswer={handleSelect}
         selectedAnswer={selectedAnswer || undefined}
+        showPrevious={onPrevious}
+        showNext={onNext}
       />
     </>
   );

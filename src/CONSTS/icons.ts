@@ -14,6 +14,7 @@ export const ICONS = {
   xCircle: "/svg/icons/x-circle.svg",
   sparkle: "/svg/icons/sparkle.svg",
   search: "/svg/icons/search.svg",
+  bell: "/svg/icons/bell.svg",
 } as const;
 
 export type IconName = keyof typeof ICONS;

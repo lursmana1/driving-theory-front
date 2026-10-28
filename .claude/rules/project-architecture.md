@@ -27,6 +27,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /subjectpicker         pick subjects → /exam?category=&subjects=
 /exam                  timed exam (no site header)
 /profile               readiness, weak topics, attempt history (auth)
+/practice              mistake trainer (auth, noindex) ?category&subjects — due mistakes one at a time
 /blogs, /blogs/[id]    articles
 /city-exam             practical technical Q&A (category switcher)
 /yard-exam             yard elements + penalty points (GIFs)
@@ -45,9 +46,10 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 |---|---|
 | Exam UI | `src/components/ExamQuiz/` (`Quiz.tsx` + `useExamQuiz`) |
 | Tickets UI | `src/components/TicketsQuiz/` |
-| Profile | `ProfileClient` (auth gate), `ProfileHeader`, `ProfileAttemptStats`, `ProfileExamHistory`, `ProfileOverviewSection` |
+| Profile | `ProfileClient` (auth gate), `ProfileHeader`, `ProfileAttemptStats`, `ProfileExamHistory`, `ProfileOverviewSection` (+ `ProfileTrainerCard`) |
+| Mistake trainer | `src/components/Trainer/` (`TrainerPageClient`, `TrainerFeedback`, `TrainerSummaryBar`, `TrainerEndState`), hook `useTrainerSession`; reuses `TicketQuiz` (`onRecorded` prop) |
 | Auth UI | `src/components/AuthForm/`, `src/contexts/UserContext.tsx` |
-| Header | `src/layoutComponents/Header/` |
+| Header | `src/layoutComponents/Header/` (`HeaderNotifications` = bell panel; items come from `GET /auth/me` → `trainer: { categoryId, dueNow }[]`, one row per studied category. New sources such as the study plan add an item kind there, not a new badge) |
 | Signs | `src/components/Signs/` (`SignsIndexView`, `SignsExplorer`, `SignGrid`, `SignMarkingsList`, `SignTile`, `SignLinkedText`), data `src/data/signs/` + `public/images/signs/`, helpers `src/lib/signs.ts` (server only) + `src/utills/helpers/signLinks.ts` |
 | i18n / proxy | `src/i18n/`, `src/proxy.ts` |
 | Types | `src/lib/types/` (`exam.ts` has `getAiTutorText`, `getQuestionAudioUrl`) |
@@ -59,12 +61,13 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 - `examAttemptsServer.ts` — `fetchExamServer` (RSC)
 - `userStats.ts` — `getReadiness`, `getWeakQuestions`, `getWeakSubjects`, `getSubjectProgress`, `getQuestionPool`
 - `auth.ts` — `login`, `register`, `logout`, `getAuthConfig`
+- `trainer.ts` — `getTrainerSummary`, `getTrainerSession` (`GET /trainer/*`); `practiceAnswers.ts` response carries `progress` (review schedule is server-side)
 
 Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts`, `GET /user-stats/*`, `GET /auth/me`, blogs. **Auth is the httpOnly `access_token` cookie** set by the API (never stored in JS); signed-in state comes from `GET /auth/me`.
 
 ## Hooks (`src/utills/helpers/hooks/`)
 
-`exam/useExamQuiz`, `useAutoAdvance`, `useExamRestart`, `useExamProgress`, `useQuizNavigation`, `useArrowNavigation`, `useAnswerKeyboard`, `useSwipeable`, `useMediaQuery`, `useWindowSize`, `useProfileOverview`. Prefer these over `src/hooks/useWindowSize.tsx`.
+`exam/useExamQuiz`, `useAutoAdvance`, `useExamRestart`, `useExamProgress`, `useQuizNavigation`, `useArrowNavigation`, `useAnswerKeyboard`, `useSwipeable`, `useMediaQuery`, `useWindowSize`, `useProfileOverview`, `useTrainerSession`, `usePracticeAnswers`. Prefer these over `src/hooks/useWindowSize.tsx`.
 
 ## Utils (`src/utills/helpers/`)
 

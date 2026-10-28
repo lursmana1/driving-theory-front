@@ -17,6 +17,10 @@ export const headerAuthLogin =
 export const examCtaPillBase =
   "rounded-full bg-accent font-semibold text-on-accent transition hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-50";
 
+/** Outlined secondary pill; add the size (h-*, px-*) at the call site. */
+export const outlinePillBase =
+  "inline-flex items-center justify-center rounded-full border border-line text-sm font-semibold text-fg transition-colors hover:bg-fg/5";
+
 export const headerMenuPanel =
   "rounded-control border border-line bg-surface text-fg shadow-overlay";
 

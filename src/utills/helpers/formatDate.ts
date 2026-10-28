@@ -68,3 +68,13 @@ export function formatAttemptDateTime(
 ): string {
   return formatDateTime(attempt.createdAt, locale);
 }
+
+/**
+ * "On <day month>" for a sentence: Georgian needs the dative ("28 ოქტომბერს",
+ * "5 აგვისტოს"); English and Russian use the plain "D MMMM" form.
+ */
+export function formatDayMonthOn(date: Date | string, locale: string = "ka"): string {
+  const text = formatDate(date, locale, "D MMMM");
+  if (resolveLocale(locale) !== "ka" || text === "—") return text;
+  return text.endsWith("ი") ? `${text.slice(0, -1)}ს` : `${text}ს`;
+}

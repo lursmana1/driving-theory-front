@@ -13,14 +13,37 @@ type CategoryPickerBarProps = {
   activeCategoryId: number;
   pathname?: string;
   searchParams?: Record<string, string>;
+  /** Inside a padded card: no edge-to-edge bleed, chips line up with the card's padding. */
+  inCard?: boolean;
 };
+
+/** Edge spacing: full-bleed on a page, or lined up with a card's padding. */
+const GUTTERS = {
+  page: {
+    bleed: "-mx-6 sm:-mx-8",
+    left: "left-4 sm:left-6",
+    right: "right-4 sm:right-6",
+    track: "px-6 scroll-px-6 sm:px-8 sm:scroll-px-8",
+  },
+  card: {
+    bleed: "",
+    left: "left-1",
+    right: "right-1",
+    track: "px-4 scroll-px-4 sm:px-5 sm:scroll-px-5",
+  },
+};
+
+const arrowClass =
+  "absolute top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-line bg-surface p-2 text-fg-muted shadow-raised transition hover:border-line-strong hover:bg-surface-muted sm:flex";
 
 export default function CategoryPickerBar({
   categories,
   activeCategoryId,
   pathname = "/subjectpicker",
   searchParams = {},
+  inCard = false,
 }: CategoryPickerBarProps) {
+  const gutter = GUTTERS[inCard ? "card" : "page"];
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const trackRef = useRef<HTMLDivElement>(null);
@@ -55,13 +78,13 @@ export default function CategoryPickerBar({
 
   return (
     <div
-      className={`relative -mx-6 sm:-mx-8 ${isPending ? "pointer-events-none opacity-60" : ""}`}
+      className={`relative ${gutter.bleed} ${isPending ? "pointer-events-none opacity-60" : ""}`}
     >
       <button
         type="button"
         aria-label="Previous categories"
         onClick={() => scrollByStep("left")}
-        className="absolute left-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-line bg-surface p-2 text-fg-muted shadow-raised transition hover:border-line-strong hover:bg-surface-muted sm:flex sm:left-6"
+        className={`${arrowClass} ${gutter.left}`}
       >
         <Icon name="chevronLeft" className="h-4 w-4" />
       </button>
@@ -70,7 +93,7 @@ export default function CategoryPickerBar({
         type="button"
         aria-label="Next categories"
         onClick={() => scrollByStep("right")}
-        className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-line bg-surface p-2 text-fg-muted shadow-raised transition hover:border-line-strong hover:bg-surface-muted sm:flex sm:right-6"
+        className={`${arrowClass} ${gutter.right}`}
       >
         <Icon name="chevronRight" className="h-4 w-4" />
       </button>
@@ -79,7 +102,7 @@ export default function CategoryPickerBar({
         ref={trackRef}
         role="tablist"
         aria-label="License category"
-        className="flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth px-6 py-1 scroll-px-6 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-3 sm:px-8 sm:scroll-px-8 [&::-webkit-scrollbar]:hidden"
+        className={`flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-smooth py-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-3 [&::-webkit-scrollbar]:hidden ${gutter.track}`}
       >
         {categories.map((cat) => {
           const active = cat.id === activeCategoryId;

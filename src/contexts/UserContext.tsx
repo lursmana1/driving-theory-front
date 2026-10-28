@@ -12,6 +12,7 @@ import { setUnauthorizedHandler } from "@/api/BaseApi";
 import { getMe, logout as logoutApi } from "@/api/auth";
 import type { User } from "@/lib/auth";
 import { purgeLegacyAuthStorage } from "@/lib/legacyAuthStorage";
+import { subscribeStatsRefresh } from "@/lib/statsRefresh";
 
 type UserContextValue = {
   user: User | null;
@@ -59,6 +60,29 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     purgeLegacyAuthStorage();
     refresh();
   }, [refresh]);
+
+  // Answers change the due count in /auth/me (header badge). One re-read after
+  // a burst of answers, not one per answer.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const unsubscribe = subscribeStatsRefresh(() => {
+      if (!userRef.current) return;
+      clearTimeout(timer);
+      // Keep the user on a failed re-read; a real 401 goes through the
+      // unauthorized handler below.
+      timer = setTimeout(() => {
+        getMe()
+          .then((me) => {
+            if (userRef.current) setUser(me);
+          })
+          .catch(() => undefined);
+      }, 1500);
+    });
+    return () => {
+      clearTimeout(timer);
+      unsubscribe();
+    };
+  }, []);
 
   // Any other 401 means the cookie expired or was revoked mid-session.
   useEffect(() => {

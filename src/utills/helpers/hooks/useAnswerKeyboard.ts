@@ -9,8 +9,10 @@ const useAnswerKeyboard = (
   onSelect: (key: string) => void,
 ) => {
   useEffect(() => {
+    // No listener at all while off (a tickets page renders many quizzes).
+    if (disabled) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (isTypingTarget(document.activeElement) || disabled) return;
+      if (isTypingTarget(document.activeElement)) return;
 
       const key = e.key;
       if (ANSWER_KEYS.includes(key) && answers.some((a) => a.key === key)) {
