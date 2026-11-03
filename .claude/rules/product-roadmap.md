@@ -23,22 +23,26 @@ After pass/fail, walk **wrong answers only** with explanation + AI tutor + audio
 
 ## 3. Auth polish
 
-- Show login/register errors (`LoginForm` has a TODO)
-- Forgot-password flow
+- ~~Show login/register errors~~ (done)
+- Forgot-password flow (built, **hidden**: link + page are behind `PASSWORD_RESET_ENABLED` in `src/CONSTS/features.ts`. Set it to `true` after the Resend domain DNS is verified and the backend has its Resend env)
 - Guest exam → save progress after signup (if backend allows)
 
 ## 4. Honest marketing + SEO
 
-- Landing stats (50k / 98%) must match reality or come down
+- ~~Landing stats (50k / 98%)~~ removed from the landing and from `messages/*` (done)
 - Keep `src/app/sitemap.ts` + `robots.ts` in sync when adding **public** routes
 - Fill `generateMetadata` / `buildMetadata` on public pages; share image in `src/lib/seo.ts`
-- Translate hardcoded blog copy (`"Blogs"`, `"No posts yet."`)
+- ~~Translate hardcoded blog copy~~ (done)
 
-## 5. Leaderboard — ship or remove
+## 5. Leaderboard — removed from the landing (done)
 
-`/leaderboard` and `/createleaderboard` redirect home, but the landing still advertises XP/board. Either implement with existing `src/lib/types/leaderboard.ts` + `CreateLeaderboardForm`, or remove from landing/`LandingLeaderboardPreview`.
+`/leaderboard` and `/createleaderboard` still redirect home. Bring a board back only with real effort scores from the study plan (see `plans/reports/Study plan design research.md`, phase 5). No filler users.
 
-## 6. Later (only after 1–5)
+## 6. Study plan (next big feature)
+
+Research + build plan: `plans/reports/Study plan design research.md` (wins where it differs), then `plans/study-plan-roadmap.md` and backend `nneesstt/docs/study-plan-roadmap.md`. Phase 0 first: forgot-password + 04:00 Tbilisi study day.
+
+## 7. Later (only after 1–6)
 
 Flag-for-review in exam, unfinished-attempt banner, 10-question quick test, daily drill, freemium/AI-tutor paywall, PWA/offline, tests for `useExamProgress` / finish rules.
 

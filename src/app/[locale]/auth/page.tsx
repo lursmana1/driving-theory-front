@@ -1,5 +1,5 @@
-import { Link } from "@/i18n/navigation";
 import AuthForm from "@/components/AuthForm/AuthForm";
+import AuthPageShell from "@/components/AuthForm/AuthPageShell";
 import { googleCallbackErrorKey } from "@/utills/helpers/authErrorKey";
 import { pageMeta } from "@/lib/pageMeta";
 
@@ -26,24 +26,8 @@ export default async function AuthPage({ searchParams }: PageProps) {
   const oauthErrorKey = googleCallbackErrorKey(oauthParams);
 
   return (
-    <main className="min-h-screen py-8 font-georgian">
-      <div className="section mb-6">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-lg font-bold text-fg"
-        >
-          <span
-            className="flex h-9 w-9 items-center justify-center rounded-control bg-linear-to-br from-accent to-accent-strong text-sm font-bold text-fg-inverse"
-            aria-hidden
-          >
-            P
-          </span>
-          prava.ge
-        </Link>
-      </div>
-      <div className="section">
-        <AuthForm initialMode={initialMode} oauthErrorKey={oauthErrorKey} />
-      </div>
-    </main>
+    <AuthPageShell>
+      <AuthForm initialMode={initialMode} oauthErrorKey={oauthErrorKey} />
+    </AuthPageShell>
   );
 }

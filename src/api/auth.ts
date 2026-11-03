@@ -1,5 +1,6 @@
 import BaseApi from "@/api/BaseApi";
 import type { User } from "@/lib/auth";
+import type { AppLocale } from "@/CONSTS/subjects";
 
 /** The session itself is the httpOnly cookie the API sets on this response. */
 export type AuthResponse = {
@@ -35,6 +36,26 @@ export async function register(payload: {
   password: string;
 }): Promise<AuthResponse> {
   const res = await BaseApi.post<AuthResponse>("/auth/register", payload);
+  return { user: res.data.user };
+}
+
+/** Always resolves the same way whether or not the address has an account. */
+export async function forgotPassword(
+  email: string,
+  locale: AppLocale,
+): Promise<void> {
+  await BaseApi.post("/auth/forgot-password", { email, locale });
+}
+
+/** Sets the new password and signs this browser in (cookie). */
+export async function resetPassword(
+  token: string,
+  password: string,
+): Promise<AuthResponse> {
+  const res = await BaseApi.post<AuthResponse>("/auth/reset-password", {
+    token,
+    password,
+  });
   return { user: res.data.user };
 }
 

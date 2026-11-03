@@ -12,6 +12,8 @@ export type AuthErrorKey =
   | "errorGoogle"
   | "errorNetwork"
   | "errorGeneric"
+  | "errorResetLinkInvalid"
+  | "errorResetUnavailable"
   | "emailInvalid"
   | "nameRequired"
   | "surnameRequired";
@@ -26,7 +28,7 @@ function nestMessage(err: AxiosError): string {
 
 export function authErrorKey(
   err: unknown,
-  mode: "login" | "register",
+  mode: "login" | "register" | "forgot" | "reset",
 ): AuthErrorKey {
   if (!axios.isAxiosError(err)) return "errorGeneric";
 
@@ -37,6 +39,12 @@ export function authErrorKey(
 
   if (status === 429 || msg.includes("throttl") || msg.includes("too many")) {
     return "errorRateLimited";
+  }
+  if (mode === "forgot" && status === 503) {
+    return "errorResetUnavailable";
+  }
+  if (mode === "reset" && msg.includes("reset link")) {
+    return "errorResetLinkInvalid";
   }
   if (
     status === 409 ||

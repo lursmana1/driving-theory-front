@@ -13,8 +13,18 @@ export type YardExamElement = {
   items: YardExamItem[];
 };
 
+/** Pass rule + instant-fail list (Articles 34 and 39 of the exam rules). */
+export type YardExamDisqualification = {
+  title: string;
+  passRule: string;
+  intro: string;
+  items: string[];
+  source: string;
+};
+
 export type YardExamData = {
   note: string;
+  disqualification: YardExamDisqualification;
   elements: YardExamElement[];
   general: {
     title: string;

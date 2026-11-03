@@ -1,4 +1,8 @@
-import type { YardExamElement, YardExamItem } from "@/lib/types/yardExam";
+import type {
+  YardExamDisqualification,
+  YardExamElement,
+  YardExamItem,
+} from "@/lib/types/yardExam";
 import { isYardExamImageSrc } from "@/lib/types/yardExam";
 
 type YardExamElementCardProps = {
@@ -48,6 +52,41 @@ export default function YardExamElementCard({ element }: YardExamElementCardProp
 
       <PointsList items={element.items} />
     </article>
+  );
+}
+
+export function YardExamDisqualificationSection({
+  data,
+}: {
+  data: YardExamDisqualification;
+}) {
+  return (
+    <section
+      id="disqualification"
+      className="rounded-card border border-danger-muted bg-surface px-4 py-5 sm:px-6 sm:py-6"
+    >
+      <h2 className="font-georgian text-lg font-bold text-fg sm:text-xl">
+        {data.title}
+      </h2>
+      <p className="mt-3 rounded-control bg-surface-muted px-4 py-3 text-body leading-7 text-fg">
+        {data.passRule}
+      </p>
+      <p className="mt-4 text-sm leading-6 text-fg-muted">{data.intro}</p>
+      <ol className="mt-3 space-y-3">
+        {data.items.map((item, index) => (
+          <li key={item} className="flex gap-3 text-body leading-7 text-fg-muted">
+            <span
+              aria-hidden
+              className="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full bg-danger-soft text-xs font-semibold text-danger-strong"
+            >
+              {index + 1}
+            </span>
+            <span className="min-w-0 flex-1">{item}</span>
+          </li>
+        ))}
+      </ol>
+      <p className="mt-5 text-xs leading-5 text-fg-subtle">{data.source}</p>
+    </section>
   );
 }
 

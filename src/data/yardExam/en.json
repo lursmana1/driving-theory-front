@@ -1,5 +1,23 @@
 {
   "note": "Exam elements must be performed sequentially according to voice prompts from the electronic system installed in the vehicle or instructions from the examiner. In case of conflicting instructions, examiner directives take priority.",
+  "disqualification": {
+    "title": "What fails you on the spot",
+    "passRule": "You start with 100 points and every mistake deducts penalty points. You pass if you collect no more than 39 penalty points (so you finish with at least 61) and you are not disqualified.",
+    "intro": "In any of these cases the exam stops immediately and counts as failed, whatever your score:",
+    "items": [
+      "You collected more than 39 penalty points.",
+      "You created a dangerous situation, could not stop the car in time or lost control, so the examiner had to intervene or stop the exam.",
+      "You did not complete an exam element the required way.",
+      "By not performing an element or dragging it out, you held up the exam or got in the way of other candidates.",
+      "You broke the order of the elements, skipped an element or did not follow the examiner's lawful instruction.",
+      "In the \"Dead End\" you did not turn with the whole car inside the marked area, or did not finish on the left side, parallel to the start, fully leaving the area.",
+      "On the \"Hill\" you went more than 1 metre past the \"STOP\" line without stopping.",
+      "On the \"Hill\" the car rolled back more than 20 cm and you did not pull the handbrake immediately.",
+      "Jerky (non-smooth) driving was recorded for the third time.",
+      "You showed a low level of driving skill throughout the exam."
+    ],
+    "source": "Source: Driving licence exam rules, Articles 34 and 39 (matsne.gov.ge)"
+  },
   "elements": [
     {
       "id": "parallel",
@@ -87,6 +105,16 @@
           "code": "C.d)",
           "text": "The element must be completed without crossing or hitting boundary lines/markings.",
           "points": "20 penalty points"
+        },
+        {
+          "code": "C.e)",
+          "text": "The turn must be made so that the car's outer contour stays entirely inside the marked area.",
+          "points": "Disqualification"
+        },
+        {
+          "code": "C.f)",
+          "text": "The element must end on the left side, parallel to the starting side, with the car fully leaving the marked area.",
+          "points": "Disqualification"
         }
       ]
     },
