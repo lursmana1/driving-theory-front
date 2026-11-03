@@ -24,7 +24,7 @@ After pass/fail, walk **wrong answers only** with explanation + AI tutor + audio
 ## 3. Auth polish
 
 - ~~Show login/register errors~~ (done)
-- Forgot-password flow (built, **hidden**: link + page are behind `NEXT_PUBLIC_PASSWORD_RESET_ENABLED=true` in `src/CONSTS/features.ts`. Turn on after the Resend domain DNS is verified and the backend has its Resend env; it is build-time, so redeploy)
+- Forgot-password flow (built, **hidden**: link + page are behind `PASSWORD_RESET_ENABLED` in `src/CONSTS/features.ts`. Set it to `true` after the Resend domain DNS is verified and the backend has its Resend env)
 - Guest exam → save progress after signup (if backend allows)
 
 ## 4. Honest marketing + SEO
