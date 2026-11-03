@@ -4,10 +4,11 @@ import { useState } from "react";
 import { login as loginApi } from "@/api/auth";
 import { Form, Input, Button } from "antd";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
 import { authErrorKey, type AuthErrorKey } from "@/utills/helpers/authErrorKey";
 import AuthFormError from "./AuthFormError";
+import { PASSWORD_RESET_ENABLED } from "@/CONSTS/features";
 
 export default function LoginForm() {
   const t = useTranslations("Auth");
@@ -77,6 +78,17 @@ export default function LoginForm() {
           disabled={submitting}
         />
       </Form.Item>
+
+      {PASSWORD_RESET_ENABLED ? (
+        <div className="-mt-3 text-right">
+          <Link
+            href="/auth/forgot-password"
+            className="text-sm font-medium text-accent hover:text-accent-strong hover:underline"
+          >
+            {t("forgotLink")}
+          </Link>
+        </div>
+      ) : null}
 
       <Form.Item className="mb-0! pt-1">
         <Button

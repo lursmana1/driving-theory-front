@@ -14,6 +14,8 @@ export type MetaPage =
   | "blogs"
   | "cityExam"
   | "auth"
+  | "forgotPassword"
+  | "resetPassword"
   | "logout"
   | "createBlog";
 
@@ -27,6 +29,8 @@ const PAGE_PATH: Record<MetaPage, string> = {
   blogs: "/blogs",
   cityExam: "/city-exam",
   auth: "/auth",
+  forgotPassword: "/auth/forgot-password",
+  resetPassword: "/auth/reset-password",
   logout: "/auth/logout",
   createBlog: "/createblog",
 };
@@ -36,6 +40,8 @@ const NOINDEX: ReadonlySet<MetaPage> = new Set([
   "practice",
   "profile",
   "auth",
+  "forgotPassword",
+  "resetPassword",
   "logout",
   "createBlog",
 ]);

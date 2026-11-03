@@ -24,6 +24,7 @@ export default function HeaderAuth() {
         <Link
           href="/profile"
           aria-label={t("streakLabel", { count: user.streak.current })}
+          title={t("streakDayHint")}
           className={headerStreak}
         >
           <Image src={FireImage} alt="" aria-hidden className="h-4 w-auto" />

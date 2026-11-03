@@ -291,6 +291,32 @@ export function collectionPageJsonLd(input: {
   };
 }
 
+export function videoObjectJsonLd(input: {
+  locale: string;
+  href: string;
+  name: string;
+  description: string;
+  contentUrl: string;
+  thumbnailUrl: string;
+  duration: string;
+  uploadDate: string;
+  inLanguage: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: input.name,
+    description: input.description,
+    contentUrl: input.contentUrl,
+    thumbnailUrl: [input.thumbnailUrl],
+    duration: input.duration,
+    uploadDate: input.uploadDate,
+    inLanguage: input.inLanguage,
+    url: absoluteUrl(input.href, input.locale),
+    publisher: siteOrganization(),
+  };
+}
+
 export function breadcrumbJsonLd(
   locale: string,
   items: { name: string; href: string }[],

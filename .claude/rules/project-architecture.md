@@ -34,7 +34,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /signs                 road-sign atlas, opens on warning signs (grid 2/3/4 per row, click → explanation panel under the row; name search across groups)
 /signs/category/[group] one page per sign group (own title/h1/ItemList JSON-LD); warning → redirects to /signs
                        Road markings: one column, picture + explanation always shown. No page per sign: a sign is `<group page>#<slug>`
-/auth, /auth/logout    login/register
+/auth, /auth/logout    login/register; /auth/forgot-password, /auth/reset-password (noindex)
 /createblog            admin only
 ```
 
