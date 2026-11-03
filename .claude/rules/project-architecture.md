@@ -30,11 +30,11 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /practice              mistake trainer (auth, noindex) ?category&subjects — due mistakes one at a time
 /blogs, /blogs/[id]    articles
 /city-exam             practical technical Q&A (category switcher)
-/yard-exam             yard elements + penalty points (GIFs)
+/yard-exam             yard elements + penalty points (GIFs) + narrated walkthrough video (`YardExamVideo`, 9:16, S3, no preload, VideoObject JSON-LD; pinned right column on desktop)
 /signs                 road-sign atlas, opens on warning signs (grid 2/3/4 per row, click → explanation panel under the row; name search across groups)
 /signs/category/[group] one page per sign group (own title/h1/ItemList JSON-LD); warning → redirects to /signs
                        Road markings: one column, picture + explanation always shown. No page per sign: a sign is `<group page>#<slug>`
-/auth, /auth/logout    login/register; /auth/forgot-password, /auth/reset-password (noindex)
+/auth, /auth/logout    login/register; /auth/forgot-password, /auth/reset-password (noindex). Forgot-password link + page hidden while `PASSWORD_RESET_ENABLED` (`src/CONSTS/features.ts`) is `false`; the page then redirects to /auth
 /createblog            admin only
 ```
 
@@ -48,7 +48,7 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 | Tickets UI | `src/components/TicketsQuiz/` |
 | Profile | `ProfileClient` (auth gate), `ProfileHeader`, `ProfileAttemptStats`, `ProfileExamHistory`, `ProfileOverviewSection` (+ `ProfileTrainerCard`) |
 | Mistake trainer | `src/components/Trainer/` (`TrainerPageClient`, `TrainerFeedback`, `TrainerSummaryBar`, `TrainerEndState`), hook `useTrainerSession`; reuses `TicketQuiz` (`onRecorded` prop) |
-| Auth UI | `src/components/AuthForm/`, `src/contexts/UserContext.tsx` |
+| Auth UI | `src/components/AuthForm/` (`LoginForm`, `ForgotPasswordForm`, `ResetPasswordForm`, `AuthPageShell`), `src/contexts/UserContext.tsx` |
 | Header | `src/layoutComponents/Header/` (`HeaderNotifications` = bell panel; items come from `GET /auth/me` → `trainer: { categoryId, dueNow }[]`, one row per studied category. New sources such as the study plan add an item kind there, not a new badge) |
 | Signs | `src/components/Signs/` (`SignsIndexView`, `SignsExplorer`, `SignGrid`, `SignMarkingsList`, `SignTile`, `SignLinkedText`), data `src/data/signs/` + `public/images/signs/`, helpers `src/lib/signs.ts` (server only) + `src/utills/helpers/signLinks.ts` |
 | i18n / proxy | `src/i18n/`, `src/proxy.ts` |
@@ -60,7 +60,7 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 - `examAttempts.ts` — `fetchExamClient`, `startPersonalizedExam`, `submitAnswer`, `finishExam`, `getAttemptsHistory`
 - `examAttemptsServer.ts` — `fetchExamServer` (RSC)
 - `userStats.ts` — `getReadiness`, `getWeakQuestions`, `getWeakSubjects`, `getSubjectProgress`, `getQuestionPool`
-- `auth.ts` — `login`, `register`, `logout`, `getAuthConfig`
+- `auth.ts` — `login`, `register`, `logout`, `getAuthConfig`, `forgotPassword`, `resetPassword`
 - `trainer.ts` — `getTrainerSummary`, `getTrainerSession` (`GET /trainer/*`); `practiceAnswers.ts` response carries `progress` (review schedule is server-side)
 
 Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts`, `GET /user-stats/*`, `GET /auth/me`, blogs. **Auth is the httpOnly `access_token` cookie** set by the API (never stored in JS); signed-in state comes from `GET /auth/me`.
@@ -86,4 +86,4 @@ Backend in use: `POST /exam-attempts/start`, answers/finish, `GET /exam-attempts
 ## lib / CONSTS
 
 - lib: `auth.ts` (`getUser` RSC), `legacyAuthStorage.ts`, `apiBaseUrl.ts`, `statsRefresh.ts`, `sanitize.ts`, `seo.ts`, `site-metadata.ts`, `sitemap.ts`, `searchParams.ts`
-- CONSTS: `categories.ts` (`DEFAULT_CATEGORY_ID = 1`), `subjects.ts`, `QuizExamConstats.ts`, `pagination.ts`, `navLinks.ts`, `categoryAssets.ts`, `icons.ts`
+- CONSTS: `categories.ts` (`DEFAULT_CATEGORY_ID = 1`), `subjects.ts`, `QuizExamConstats.ts`, `pagination.ts`, `navLinks.ts`, `categoryAssets.ts`, `icons.ts`, `features.ts` (plain feature switches, not env), `yardExamVideo.ts` (video URL/poster/duration)
