@@ -43,6 +43,13 @@ type TicketQuizProps = {
   keyboard?: boolean;
   /** Rendered right under the question text (e.g. the trainer's auto-next checkbox). */
   belowQuestion?: React.ReactNode;
+  /** Image height classes; the study plan uses a shorter image. */
+  imageClassName?: string;
+  /**
+   * Study plan lessons: hide the AI explanation until the answer, then show
+   * it open under the answers.
+   */
+  revealExplanation?: boolean;
 };
 
 export default function TicketQuiz({
@@ -57,6 +64,8 @@ export default function TicketQuiz({
   onNext,
   keyboard = false,
   belowQuestion,
+  imageClassName = "max-h-110",
+  revealExplanation = false,
 }: TicketQuizProps) {
   const t = useTranslations("Tickets");
   const { recordAnswer } = usePracticeAnswers();
@@ -108,7 +117,7 @@ export default function TicketQuiz({
             <QuestionImage
               src={question.img}
               alt={question.question || ""}
-              className="max-h-110"
+              className={imageClassName}
               priority={priority}
             />
           )}
@@ -119,7 +128,7 @@ export default function TicketQuiz({
 
           {belowQuestion && <div className="-mt-2 mb-2">{belowQuestion}</div>}
 
-          {aiTutorText !== "" && (
+          {aiTutorText !== "" && !revealExplanation && (
             <div className="mb-4">
               <AiTutorText text={aiTutorText} label={t("aiTutorShowText")} />
             </div>
@@ -137,6 +146,18 @@ export default function TicketQuiz({
               />
             ))}
           </div>
+
+          {revealExplanation && selectedAnswer && aiTutorText !== "" && (
+            <div className="mt-4">
+              <AiTutorText
+                key={qId}
+                // A "Hello!" after every question reads oddly mid-lesson.
+                text={aiTutorText.replace(/^გამარჯობა[!,.]?\s*/u, "")}
+                label={t("aiTutorShowText")}
+                defaultOpen
+              />
+            </div>
+          )}
         </div>
       </div>
 

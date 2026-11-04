@@ -16,7 +16,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 - **Design tokens only.** Colors/radius/type/shadow are tokens in `src/app/globals.css` (TS hex mirror for Ant Design/SVG/OG: `src/styles/tokens.ts`, keep in sync). Use `bg-canvas|surface|surface-muted|surface-sunken`, `text-fg|fg-muted|fg-subtle|fg-faint`, `border-line`, `bg-accent`/`text-on-accent`, `success|danger|warning(-soft)`, dark exam `stage-*`, `rounded-xs|control|card|panel`, `shadow-card|raised|overlay`. Never raw Tailwind palette (`slate-*`, `white`, `rose-*`), hex, or `text-[15px]`-style arbitrary values. Change the brand by editing the `--brand-*` ramp.
 - Exam size/pass/mistakes: `getExamRules(categoryId)` in `@/CONSTS/categories` — not hardcoded 30/3.
 - `/leaderboard`, `/createleaderboard`, `/exam/history` **redirect** (stubs). History is on `/profile`.
-- Feature work: follow `.claude/rules/product-roadmap.md` **in order**. Do not add monetization/PWA until listed items ship.
+- Feature work: follow `.claude/rules/product-roadmap.md` **in order**. Do not add monetization until the study plan ships.
 
 ## Module sitemap (`src/app/[locale]/`)
 

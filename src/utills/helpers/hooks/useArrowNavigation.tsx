@@ -1,18 +1,20 @@
 import { useEffect } from "react";
 import { isTypingTarget } from "@/utills/helpers/isTypingTarget";
 
+/** ← / → call the handlers. With neither handler, no listener is added. */
 const useArrowNavigation = (
-  handlePrevious: () => void,
-  handleNext: () => void,
+  handlePrevious?: () => void,
+  handleNext?: () => void,
 ) => {
   useEffect(() => {
+    if (!handlePrevious && !handleNext) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (isTypingTarget(e.target)) return;
 
-      if (e.key === "ArrowLeft") {
+      if (e.key === "ArrowLeft" && handlePrevious) {
         e.preventDefault();
         handlePrevious();
-      } else if (e.key === "ArrowRight") {
+      } else if (e.key === "ArrowRight" && handleNext) {
         e.preventDefault();
         handleNext();
       }

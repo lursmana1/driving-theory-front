@@ -10,6 +10,7 @@ export type MetaPage =
   | "subjectpicker"
   | "exam"
   | "practice"
+  | "plan"
   | "profile"
   | "blogs"
   | "cityExam"
@@ -25,6 +26,7 @@ const PAGE_PATH: Record<MetaPage, string> = {
   subjectpicker: "/subjectpicker",
   exam: "/exam",
   practice: "/practice",
+  plan: "/plan",
   profile: "/profile",
   blogs: "/blogs",
   cityExam: "/city-exam",
@@ -38,6 +40,8 @@ const PAGE_PATH: Record<MetaPage, string> = {
 const NOINDEX: ReadonlySet<MetaPage> = new Set([
   "exam",
   "practice",
+  // MVP: progress is client-only. Index once the public preview is server-rendered.
+  "plan",
   "profile",
   "auth",
   "forgotPassword",

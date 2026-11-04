@@ -4,6 +4,7 @@ import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 export const navLinks = [
   { href: "/", labelKey: "navHome" },
   { href: "/subjectpicker", labelKey: "navExam" },
+  { href: "/plan", labelKey: "navPlan" },
   { href: `/tickets/${DEFAULT_CATEGORY_ID}`, labelKey: "navTickets" },
   { href: "/signs", labelKey: "navSigns" },
   { href: "/blogs", labelKey: "navBlog" },
