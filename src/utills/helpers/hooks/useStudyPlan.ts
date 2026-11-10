@@ -177,46 +177,65 @@ export function useStudyPlan() {
     (fn: (prev: SavedStudyPlan) => SavedStudyPlan) => {
       const current =
         mode === "account" ? (account?.plan ?? null) : parse(readRaw());
-      if (current) commit(fn(current));
+      if (!current) return;
+      const next = fn(current);
+      // Unchanged (e.g. a mistake already listed): no save round-trip.
+      if (next !== current) commit(next);
     },
     [mode, commit],
   );
 
   const start = useCallback(
     (input: StudyPlanChoice) =>
-      commit({ version: 1, ...input, done: {}, tests: {} }),
+      commit({ version: 1, ...input, done: {}, tests: {}, mistakes: {} }),
     [commit],
   );
 
   const reset = useCallback(() => commit(null), [commit]);
 
   const markStepDone = useCallback(
-    (dayIndex: number, stepIndex: number) => {
+    (dayIndex: number, stepIndex: number) =>
+      update((prev) => withStepDone(prev, dayIndex, stepIndex, studyDayOf())),
+    [update],
+  );
+
+  /**
+   * A finished day test, saved in one write: the best try, its wrong answers
+   * as day mistakes, and the step done only when it passed.
+   */
+  const recordTest = useCallback(
+    (
+      dayIndex: number,
+      stepIndex: number,
+      result: DayTestResult,
+      wrongIds: number[],
+    ) => {
       const today = studyDayOf();
       update((prev) => {
-        const day = String(dayIndex);
-        return {
-          ...prev,
-          done: {
-            ...prev.done,
-            [day]: { ...prev.done[day], [String(stepIndex)]: today },
-          },
-        };
+        const next = withMistakes(
+          withTest(prev, dayIndex, result),
+          dayIndex,
+          wrongIds,
+        );
+        return result.passed
+          ? withStepDone(next, dayIndex, stepIndex, today)
+          : next;
       });
     },
     [update],
   );
 
-  const saveTest = useCallback(
-    (dayIndex: number, result: DayTestResult) => {
-      update((prev) => {
-        const key = String(dayIndex);
-        const best = prev.tests[key];
-        // Keep the best try, so a weaker retry never lowers the day's score.
-        const keep = best && best.correct >= result.correct ? best : result;
-        return { ...prev, tests: { ...prev.tests, [key]: keep } };
-      });
-    },
+  /** Adds question ids to the day's mistakes (no duplicates). */
+  const addMistakes = useCallback(
+    (dayIndex: number, ids: number[]) =>
+      update((prev) => withMistakes(prev, dayIndex, ids)),
+    [update],
+  );
+
+  /** Removes a fixed question (answered right in the mistakes round). */
+  const fixMistake = useCallback(
+    (dayIndex: number, id: number) =>
+      update((prev) => withoutMistake(prev, dayIndex, id)),
     [update],
   );
 
@@ -230,6 +249,65 @@ export function useStudyPlan() {
     start,
     reset,
     markStepDone,
-    saveTest,
+    recordTest,
+    addMistakes,
+    fixMistake,
   };
+}
+
+// Pure progress updates. Each returns `prev` itself when nothing changes, so
+// `update` can skip the save.
+
+function withStepDone(
+  prev: SavedStudyPlan,
+  dayIndex: number,
+  stepIndex: number,
+  today: string,
+): SavedStudyPlan {
+  const day = String(dayIndex);
+  const step = String(stepIndex);
+  if (prev.done[day]?.[step]) return prev;
+  return {
+    ...prev,
+    done: { ...prev.done, [day]: { ...prev.done[day], [step]: today } },
+  };
+}
+
+/** Keeps the best try, so a weaker retry never lowers the day's score. */
+function withTest(
+  prev: SavedStudyPlan,
+  dayIndex: number,
+  result: DayTestResult,
+): SavedStudyPlan {
+  const key = String(dayIndex);
+  const best = prev.tests[key];
+  if (best && best.correct >= result.correct) return prev;
+  return { ...prev, tests: { ...prev.tests, [key]: result } };
+}
+
+function withMistakes(
+  prev: SavedStudyPlan,
+  dayIndex: number,
+  ids: number[],
+): SavedStudyPlan {
+  const key = String(dayIndex);
+  const list = prev.mistakes?.[key] ?? [];
+  const merged = [...new Set([...list, ...ids])];
+  if (merged.length === list.length) return prev;
+  return { ...prev, mistakes: { ...prev.mistakes, [key]: merged } };
+}
+
+function withoutMistake(
+  prev: SavedStudyPlan,
+  dayIndex: number,
+  id: number,
+): SavedStudyPlan {
+  const key = String(dayIndex);
+  const list = prev.mistakes?.[key] ?? [];
+  if (!list.includes(id)) return prev;
+  const mistakes = { ...prev.mistakes };
+  const rest = list.filter((x) => x !== id);
+  if (rest.length) mistakes[key] = rest;
+  else delete mistakes[key];
+  return { ...prev, mistakes };
 }

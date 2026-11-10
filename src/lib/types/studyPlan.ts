@@ -73,4 +73,37 @@ export type SavedStudyPlan = {
   done: Record<string, Record<string, string>>;
   /** dayIndex → day test result. */
   tests: Record<string, DayTestResult>;
+  /**
+   * dayIndex → question ids answered wrong that day and not fixed yet.
+   * Missing in plans saved before it existed.
+   */
+  mistakes?: Record<string, number[]>;
+};
+
+/** One card of a card lesson (`GET /study-plans/preview/card-lesson`). */
+export type LessonCard = {
+  id: string;
+  kind: "sign" | "marking" | "rule";
+  signNumber: string | null;
+  /** Public path, e.g. `/images/signs/1/1.1.svg`; null for most rules. */
+  image: string | null;
+  title: string;
+  body: string | null;
+  /** Plain-language explanation; null when not written. */
+  tutor: string | null;
+  /** Audio of `tutor` (S3 URL); null when not recorded. */
+  audio: string | null;
+  /** Tickets taught right after this card. */
+  questionIds: number[];
+};
+
+export type CardLesson = {
+  categoryId: number;
+  subjectId: number;
+  from: number;
+  totalCards: number;
+  cards: LessonCard[];
+  /** Tickets of the subject with no card; only on the last page. */
+  withoutCard: number[];
+  questions: ExamQuestion[];
 };

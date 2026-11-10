@@ -15,6 +15,10 @@ type PlanQuizRunnerProps = {
   /** Shown above the first question (lesson intro). */
   intro?: React.ReactNode;
   onFinish: () => void;
+  /** Every pick, with whether it was right (day mistakes list). */
+  onAnswered?: (questionId: number, correct: boolean) => void;
+  /** Finish button label; defaults to "finish step". */
+  finishLabel?: string;
 };
 
 /**
@@ -26,6 +30,8 @@ export function PlanQuizRunner({
   questions,
   intro,
   onFinish,
+  onAnswered,
+  finishLabel,
 }: PlanQuizRunnerProps) {
   const t = useTranslations("StudyPlan");
   const [index, setIndex] = useState(0);
@@ -78,7 +84,10 @@ export function PlanQuizRunner({
           question={question}
           questionIndex={index + 1}
           selectedAnswer={selected}
-          onSelect={(key) => setAnswers((a) => ({ ...a, [id]: key }))}
+          onSelect={(key) => {
+            setAnswers((a) => ({ ...a, [id]: key }));
+            onAnswered?.(Number(question.id), key === question.correct_answer);
+          }}
           onPrevious={prev}
           onNext={next}
           keyboard
@@ -94,7 +103,7 @@ export function PlanQuizRunner({
             onClick={isLast ? onFinish : next}
             className={`inline-flex h-12 items-center gap-2 px-7 text-base shadow-raised ${examCtaPillBase}`}
           >
-            {isLast ? t("finishStep") : t("nextQuestion")}
+            {isLast ? (finishLabel ?? t("finishStep")) : t("nextQuestion")}
             <LineIcon name="arrowRight" className="h-5 w-5" />
           </button>
         </div>

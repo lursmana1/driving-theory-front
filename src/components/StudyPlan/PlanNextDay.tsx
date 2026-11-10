@@ -14,6 +14,8 @@ type PlanNextDayProps = {
   /** The day that opens next; null when the plan is over. */
   nextDay: PlanDay | null;
   categoryId: number;
+  /** The finished day whose open mistakes the "fix" button opens. */
+  mistakes?: { dayIndex: number; count: number };
   /** "light" sits on the accent hero, "plain" on a normal card. */
   tone?: "light" | "plain";
 };
@@ -25,11 +27,12 @@ function formatLeft(ms: number): string {
 
 /**
  * "Done for today" block: countdown to the next day (hh:mm), tomorrow's
- * topics, and what to do meanwhile (mistakes, a full mock).
+ * topics, and what to do meanwhile (that day's mistakes, a full mock).
  */
 export function PlanNextDay({
   nextDay,
   categoryId,
+  mistakes,
   tone = "plain",
 }: PlanNextDayProps) {
   const t = useTranslations("StudyPlan");
@@ -37,10 +40,7 @@ export function PlanNextDay({
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
-    const timer = setInterval(
-      () => setNow(Date.now()),
-      PLAN_COUNTDOWN_TICK_MS,
-    );
+    const timer = setInterval(() => setNow(Date.now()), PLAN_COUNTDOWN_TICK_MS);
     return () => clearInterval(timer);
   }, []);
 
@@ -75,10 +75,12 @@ export function PlanNextDay({
         )}
       </div>
       <div className="flex flex-wrap gap-2">
-        <Link href={`/practice?category=${categoryId}`} className={pill}>
-          <LineIcon name="repeat" className="h-4 w-4" />
-          {t("meanwhileMistakes")}
-        </Link>
+        {mistakes && mistakes.count > 0 && (
+          <Link href={`/plan/day/${mistakes.dayIndex}?fix=1`} className={pill}>
+            <LineIcon name="repeat" className="h-4 w-4" />
+            {t("meanwhileMistakes", { count: mistakes.count })}
+          </Link>
+        )}
         <Link href={`/exam?category=${categoryId}`} className={pill}>
           <LineIcon name="timer" className="h-4 w-4" />
           {t("meanwhileExam")}

@@ -9,6 +9,7 @@ import type { PlanDay, SavedStudyPlan } from "@/lib/types/studyPlan";
 import {
   currentDayIndex,
   dayStatus,
+  dayMistakes,
   isDayDone,
 } from "@/utills/helpers/studyPlanProgress";
 import { outlinePillBase } from "@/layoutComponents/Header/headerStyles";
@@ -102,6 +103,14 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
             <PlanNextDay
               nextDay={currentDay}
               categoryId={plan.categoryId}
+              mistakes={
+                currentDay.index > 0
+                  ? {
+                      dayIndex: currentDay.index - 1,
+                      count: dayMistakes(plan, currentDay.index - 1).length,
+                    }
+                  : undefined
+              }
               tone="light"
             />
           )}

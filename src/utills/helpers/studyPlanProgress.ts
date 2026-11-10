@@ -4,6 +4,7 @@ import type {
   SavedStudyPlan,
 } from "@/lib/types/studyPlan";
 import type { CategoryExamRules } from "@/CONSTS/categories";
+import { PLAN_TEST_STRICTNESS } from "@/CONSTS/studyPlan";
 
 /** Steps a day needs to count as done. Review and mock exams are extra. */
 const REQUIRED_KINDS: ReadonlySet<PlanStepKind> = new Set([
@@ -43,6 +44,20 @@ export function isStepDone(
   return !!doneSteps(saved, dayIndex)[String(stepIndex)];
 }
 
+/**
+ * A step counts once it is marked done; the day test also needs a passed
+ * try (plans saved before this rule marked failed tests done too).
+ */
+export function isStepComplete(
+  saved: SavedStudyPlan,
+  dayIndex: number,
+  stepIndex: number,
+  kind: PlanStepKind,
+): boolean {
+  if (!isStepDone(saved, dayIndex, stepIndex)) return false;
+  return kind !== "test" || !!saved.tests[String(dayIndex)]?.passed;
+}
+
 export function isDayDone(saved: SavedStudyPlan, day: PlanDay): boolean {
   const required = day.steps
     .map((step, i) => ({ step, i }))
@@ -51,7 +66,14 @@ export function isDayDone(saved: SavedStudyPlan, day: PlanDay): boolean {
   if (required.length === 0) {
     return Object.keys(doneSteps(saved, day.index)).length > 0;
   }
-  return required.every(({ i }) => isStepDone(saved, day.index, i));
+  return required.every(({ step, i }) =>
+    isStepComplete(saved, day.index, i, step.kind),
+  );
+}
+
+/** Question ids answered wrong on a plan day and not fixed yet. */
+export function dayMistakes(saved: SavedStudyPlan, dayIndex: number): number[] {
+  return saved.mistakes?.[String(dayIndex)] ?? [];
 }
 
 /** Study day on which the day's last step was done. */
@@ -92,18 +114,26 @@ export function currentDayIndex(
   return day ? day.index : null;
 }
 
-/** Mistakes allowed in a day test: the category's exam ratio. */
+/**
+ * Mistakes allowed in a day test: the category's exam ratio, made stricter
+ * (`PLAN_TEST_STRICTNESS`) because the test only covers the day's topics.
+ */
 export function dayTestAllowedMistakes(
   total: number,
   rules: CategoryExamRules,
 ): number {
   if (rules.totalQuestions <= 0) return 0;
-  return Math.floor((total * rules.maxMistakes) / rules.totalQuestions);
+  return Math.floor(
+    (total * rules.maxMistakes * PLAN_TEST_STRICTNESS) / rules.totalQuestions,
+  );
 }
 
-/** 3 stars at ≤ half the allowed mistakes, 2 at ≤ allowed (pass), else 1. */
+/**
+ * 3 stars with no mistake, 2 at ≤ allowed (pass), else 1. When no mistake is
+ * allowed (short tests) a pass is always 3 stars.
+ */
 export function dayTestStars(mistakes: number, allowed: number): 1 | 2 | 3 {
-  if (mistakes <= allowed / 2) return 3;
+  if (mistakes === 0) return 3;
   if (mistakes <= allowed) return 2;
   return 1;
 }

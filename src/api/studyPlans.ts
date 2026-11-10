@@ -1,6 +1,7 @@
 import axios from "axios";
 import BaseApi from "./BaseApi";
 import type {
+  CardLesson,
   PlanDaySession,
   SavedStudyPlan,
   StudyPlanPreview,
@@ -53,9 +54,8 @@ export async function getPlanDay(
 /** Signed-in user's saved plan; null when they have none (404). */
 export async function getMyPlan(): Promise<SavedStudyPlan | null> {
   try {
-    const res = await BaseApi.get<Omit<SavedStudyPlan, "version">>(
-      "/study-plans/me",
-    );
+    const res =
+      await BaseApi.get<Omit<SavedStudyPlan, "version">>("/study-plans/me");
     return { version: 1, ...res.data };
   } catch (err) {
     if (axios.isAxiosError(err) && err.response?.status === 404) return null;
@@ -72,9 +72,26 @@ export async function saveMyPlan(plan: SavedStudyPlan): Promise<void> {
     examDay: plan.examDay,
     done: plan.done,
     tests: plan.tests,
+    mistakes: plan.mistakes ?? {},
   });
 }
 
 export async function deleteMyPlan(): Promise<void> {
   await BaseApi.delete("/study-plans/me");
+}
+
+/** Public (prototype). A subject's cards in teaching order with their tickets. */
+export async function getCardLesson(
+  categoryId: number,
+  subjectId: number,
+  from: number,
+  lang: string,
+): Promise<CardLesson> {
+  const res = await BaseApi.get<CardLesson>(
+    "/study-plans/preview/card-lesson",
+    {
+      params: { category: categoryId, subject: subjectId, from, lang },
+    },
+  );
+  return res.data;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
@@ -23,6 +23,7 @@ import { TrainerFeedback } from "./TrainerFeedback";
 import { TrainerSummaryBar } from "./TrainerSummaryBar";
 import { TrainerProgress } from "./TrainerProgress";
 import { TrainerEndState } from "./TrainerEndState";
+import { PlanStepFinished } from "@/components/StudyPlan/PlanStepFinished";
 
 type TrainerPageClientProps = {
   categoryId: number;
@@ -130,9 +131,7 @@ export default function TrainerPageClient({
     body = (
       <div className="space-y-4">
         {/* Dark panel all the way down, so the answer keys and arrows stand out. */}
-        <div
-          className="overflow-hidden rounded-card bg-stage pb-2 shadow-card"
-        >
+        <div className="overflow-hidden rounded-card bg-stage pb-2 shadow-card">
           <TicketQuiz
             key={currentId}
             question={current.question}
@@ -187,6 +186,18 @@ export default function TrainerPageClient({
 
   return (
     <main className="section space-y-4 py-6 font-georgian sm:space-y-5 sm:py-8">
+      {/* Opened from a plan's review step: it counts once every due question
+          was answered (or nothing was due); ending the round early does not. */}
+      <Suspense fallback={null}>
+        <PlanStepFinished
+          finished={
+            session.status !== "loading" &&
+            session.status !== "error" &&
+            (session.items.length === 0 ||
+              (session.finished && session.unanswered === 0))
+          }
+        />
+      </Suspense>
       <header className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h1 className="text-xl font-bold text-fg sm:text-2xl">
@@ -198,7 +209,11 @@ export default function TrainerPageClient({
             )}
           </h1>
           {inProgress && (
-            <button type="button" onClick={endSession} className={secondaryButton}>
+            <button
+              type="button"
+              onClick={endSession}
+              className={secondaryButton}
+            >
               {t("endSession")}
             </button>
           )}
@@ -241,8 +256,16 @@ export default function TrainerPageClient({
         <section className="space-y-4 rounded-card border border-line bg-surface p-4 shadow-card sm:p-5">
           <TrainerSummaryBar
             stats={[
-              { label: t("statDue"), value: session.summary.dueNow, tone: "danger" },
-              { label: t("statCorrect"), value: session.totals.correct, tone: "neutral" },
+              {
+                label: t("statDue"),
+                value: session.summary.dueNow,
+                tone: "danger",
+              },
+              {
+                label: t("statCorrect"),
+                value: session.totals.correct,
+                tone: "neutral",
+              },
               {
                 label: t("statCleared"),
                 value: session.summary.clearedRecently,

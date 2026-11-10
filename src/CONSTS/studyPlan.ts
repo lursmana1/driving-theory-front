@@ -30,3 +30,22 @@ export const PLAN_TEST_LOW_TIME_SECONDS = 60;
 
 /** "New day in hh:mm" countdown refresh. */
 export const PLAN_COUNTDOWN_TICK_MS = 30_000;
+
+/**
+ * The day test only covers the day's topics, so it is stricter than the
+ * real exam: this share of the exam's mistake ratio (getExamRules). B allows
+ * 5 of 30 at the exam (17%), so a 20-question day test allows 1.
+ */
+export const PLAN_TEST_STRICTNESS = 0.5;
+
+/** A failed test with more than this share wrong suggests redoing the lessons. */
+export const PLAN_TEST_REPEAT_LESSONS_SHARE = 0.5;
+
+/**
+ * `?planStep=<day>.<step>` on /exam and /practice: the plan step that page
+ * was opened from; it counts as done once the exam / review is finished.
+ */
+export const PLAN_STEP_PARAM = "planStep";
+
+/** Day test picture slot: a fixed height, so questions don't shift the page. */
+export const PLAN_TEST_IMAGE_SLOT = "h-40 sm:h-44";

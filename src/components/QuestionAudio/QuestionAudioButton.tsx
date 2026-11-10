@@ -15,13 +15,26 @@ type QuestionAudioButtonProps = {
   src: string;
   namespace?: "Tickets" | "Exam";
   size?: "default" | "compact" | "labeled";
+  /** Overrides the listen label (e.g. a lesson card, which is not a question) */
+  label?: string;
+  /** `stage` = on the dark exam / photo stage, `surface` = on a light card */
+  tone?: "stage" | "surface";
 };
+
+const TONE_CLASS = {
+  stage:
+    "border-stage-fg/40 bg-stage-fg/10 text-stage-fg backdrop-blur-sm hover:bg-stage-fg/20 focus-visible:ring-stage-fg/60",
+  surface:
+    "border-line bg-surface-muted text-fg hover:bg-surface-sunken focus-visible:ring-accent",
+} as const;
 
 export function QuestionAudioButton({
   id,
   src,
   namespace = "Tickets",
   size = "default",
+  label,
+  tone = "stage",
 }: QuestionAudioButtonProps) {
   const t = useTranslations(namespace);
   const [playing, setPlaying] = useState(false);
@@ -52,7 +65,7 @@ export function QuestionAudioButton({
     audio.play().catch(() => stopGlobalAudio());
   }, [id, playing, src]);
 
-  const listenLabel = t("questionListen");
+  const listenLabel = label ?? t("questionListen");
   const stopLabel = t("questionStop");
   const iconClass = compact ? "h-3.5 w-3.5" : "h-5 w-5";
 
@@ -63,7 +76,7 @@ export function QuestionAudioButton({
       title={playing ? stopLabel : listenLabel}
       aria-label={playing ? stopLabel : listenLabel}
       aria-pressed={playing}
-      className={`inline-flex shrink-0 items-center justify-center rounded-full border border-stage-fg/40 bg-stage-fg/10 text-stage-fg backdrop-blur-sm transition hover:bg-stage-fg/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-stage-fg/60 ${
+      className={`inline-flex shrink-0 items-center justify-center rounded-full border transition focus:outline-none focus-visible:ring-2 ${TONE_CLASS[tone]} ${
         labeled
           ? "h-8 gap-1.5 px-2.5 text-xs font-semibold sm:px-3"
           : compact
@@ -77,7 +90,7 @@ export function QuestionAudioButton({
         <Icon name="speaker" className={iconClass} />
       )}
       {labeled ? (
-        <span>{playing ? stopLabel : t("questionListenShort")}</span>
+        <span>{playing ? stopLabel : (label ?? t("questionListenShort"))}</span>
       ) : null}
     </button>
   );

@@ -8,9 +8,10 @@ import type {
   SavedStudyPlan,
 } from "@/lib/types/studyPlan";
 import {
-  isStepDone,
+  isStepComplete,
   isStepRequired,
 } from "@/utills/helpers/studyPlanProgress";
+import { PLAN_STEP_PARAM } from "@/CONSTS/studyPlan";
 import {
   examCtaPillBase,
   outlinePillBase,
@@ -28,7 +29,6 @@ type PlanStepListProps = {
   nextStep: number | undefined;
   signedIn: boolean;
   onStart: (stepIndex: number) => void;
-  onMarkDone: (stepIndex: number) => void;
 };
 
 /** The day path: one node per step on a vertical line. */
@@ -40,7 +40,6 @@ export function PlanStepList({
   nextStep,
   signedIn,
   onStart,
-  onMarkDone,
 }: PlanStepListProps) {
   const t = useTranslations("StudyPlan");
   const lessonTitle = useLessonTitle();
@@ -49,10 +48,12 @@ export function PlanStepList({
   return (
     <ol>
       {steps.map((step, i) => {
-        const done = isStepDone(plan, dayIndex, i);
+        const done = isStepComplete(plan, dayIndex, i, step.kind);
         const isNext = i === nextStep;
         const isLast = i === steps.length - 1;
-        const lesson = step.lessonId ? lessonById.get(step.lessonId) : undefined;
+        const lesson = step.lessonId
+          ? lessonById.get(step.lessonId)
+          : undefined;
         const optional = !isStepRequired(step.kind);
         const test = step.kind === "test" ? dayTest : undefined;
         return (
@@ -120,8 +121,8 @@ export function PlanStepList({
                 primary={isNext}
                 categoryId={plan.categoryId}
                 signedIn={signedIn}
+                planStep={`${dayIndex}.${i}`}
                 onStart={() => onStart(i)}
-                onMarkDone={() => onMarkDone(i)}
               />
             </div>
           </li>
@@ -138,19 +139,23 @@ type StepActionProps = {
   primary: boolean;
   categoryId: number;
   signedIn: boolean;
+  /** `<day>.<step>`: the exam / trainer page marks it done when finished. */
+  planStep: string;
   onStart: () => void;
-  onMarkDone: () => void;
 };
 
-/** Learn / mix / test run here; review and exam open their own pages. */
+/**
+ * Learn / mix / test run here; review and exam open their own pages, which
+ * mark the step done only once the review / exam is finished.
+ */
 function StepAction({
   step,
   done,
   primary,
   categoryId,
   signedIn,
+  planStep,
   onStart,
-  onMarkDone,
 }: StepActionProps) {
   const t = useTranslations("StudyPlan");
   const className = `inline-flex h-10 shrink-0 items-center justify-center px-5 text-sm ${
@@ -158,21 +163,16 @@ function StepAction({
   }`;
 
   if (step.kind === "review" || step.kind === "exam") {
+    const back = `${PLAN_STEP_PARAM}=${planStep}`;
     const href =
       step.kind === "review"
         ? signedIn
-          ? `/practice?category=${categoryId}`
+          ? `/practice?category=${categoryId}&${back}`
           : "/auth"
-        : `/exam?category=${categoryId}`;
-    // A guest's review link only leads to sign-in: nothing was reviewed yet.
-    const countsAsDone = step.kind === "exam" || signedIn;
+        : `/exam?category=${categoryId}&${back}`;
     return (
       <div className="flex shrink-0 flex-wrap gap-2">
-        <Link
-          href={href}
-          onClick={countsAsDone ? onMarkDone : undefined}
-          className={className}
-        >
+        <Link href={href} className={className}>
           {step.kind === "review" ? t("reviewOpen") : t("examOpen")}
         </Link>
       </div>

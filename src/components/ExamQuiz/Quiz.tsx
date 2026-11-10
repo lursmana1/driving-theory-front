@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { PlanStepFinished } from "@/components/StudyPlan/PlanStepFinished";
 import type { ExamQuestion } from "@/lib/types/exam";
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import { EXAM_DURATION_SECONDS } from "@/CONSTS/QuizExamConstats";
@@ -67,6 +68,10 @@ export default function ExamQuiz({
 
   return (
     <div className="relative flex flex-1 flex-col min-h-0 overflow-hidden bg-stage">
+      {/* Opened from a study plan step: it counts once the exam has ended. */}
+      <Suspense fallback={null}>
+        <PlanStepFinished finished={examEnded} />
+      </Suspense>
       <ExamImagePreloader
         questions={exam.safeQuestions}
         currentIndex={nav.index}
@@ -143,22 +148,25 @@ export default function ExamQuiz({
         />
       )}
 
-      {examFinished && !examFailed && !reviewing && (exam.finishResult || !attemptId) && (
-        <ExamSuccessModal
-          handleRestart={exam.handleRestart}
-          passed={
-            exam.finishResult?.passed ?? exam.score >= examRules.passScore
-          }
-          durationSeconds={exam.finishResult?.durationSeconds ?? 0}
-          elapsedSeconds={exam.elapsedSeconds}
-          correctCount={exam.score}
-          totalCount={exam.safeQuestions.length}
-          onReview={() => setReviewing(true)}
-          reviewCount={exam.wrongQuestions.length}
-          reviewReady={exam.reviewReady}
-          isGuest={!attemptId}
-        />
-      )}
+      {examFinished &&
+        !examFailed &&
+        !reviewing &&
+        (exam.finishResult || !attemptId) && (
+          <ExamSuccessModal
+            handleRestart={exam.handleRestart}
+            passed={
+              exam.finishResult?.passed ?? exam.score >= examRules.passScore
+            }
+            durationSeconds={exam.finishResult?.durationSeconds ?? 0}
+            elapsedSeconds={exam.elapsedSeconds}
+            correctCount={exam.score}
+            totalCount={exam.safeQuestions.length}
+            onReview={() => setReviewing(true)}
+            reviewCount={exam.wrongQuestions.length}
+            reviewReady={exam.reviewReady}
+            isGuest={!attemptId}
+          />
+        )}
     </div>
   );
 }
