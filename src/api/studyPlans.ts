@@ -1,7 +1,6 @@
 import axios from "axios";
 import BaseApi from "./BaseApi";
 import type {
-  CardLesson,
   PlanDaySession,
   SavedStudyPlan,
   StudyPlanPreview,
@@ -78,20 +77,4 @@ export async function saveMyPlan(plan: SavedStudyPlan): Promise<void> {
 
 export async function deleteMyPlan(): Promise<void> {
   await BaseApi.delete("/study-plans/me");
-}
-
-/** Public (prototype). A subject's cards in teaching order with their tickets. */
-export async function getCardLesson(
-  categoryId: number,
-  subjectId: number,
-  from: number,
-  lang: string,
-): Promise<CardLesson> {
-  const res = await BaseApi.get<CardLesson>(
-    "/study-plans/preview/card-lesson",
-    {
-      params: { category: categoryId, subject: subjectId, from, lang },
-    },
-  );
-  return res.data;
 }

@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/UserContext";
 import { getPlanDay, getPlanPreview } from "@/api/studyPlans";
 import type {
   DayTestResult,
+  LessonCard,
   PlanDayStep,
   PlanLesson,
 } from "@/lib/types/studyPlan";
@@ -30,6 +31,7 @@ import {
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
 import { LineIcon } from "@/components/Icon/LineIcon";
 import { PlanQuizRunner } from "./PlanQuizRunner";
+import { PlanLessonRunner } from "./PlanLessonRunner";
 import { PlanDayTest } from "./PlanDayTest";
 import { PlanNextDay } from "./PlanNextDay";
 import { PlanDayHeader } from "./PlanDayHeader";
@@ -97,6 +99,15 @@ export default function PlanDayClient({
       ),
     [session],
   );
+  const cardsByLesson = useMemo(() => {
+    const map = new Map<string, LessonCard[]>();
+    for (const card of session?.cards ?? []) {
+      const list = map.get(card.lessonId);
+      if (list) list.push(card);
+      else map.set(card.lessonId, [card]);
+    }
+    return map;
+  }, [session]);
   const lessonById = useMemo(
     () =>
       new Map<string, PlanLesson>(
@@ -274,6 +285,8 @@ export default function PlanDayClient({
       ? lessonById.get(activeStep.lessonId)
       : undefined;
     const signGroup = lesson ? SUBJECT_SIGN_GROUP[lesson.subjectId] : undefined;
+    const signsHref = signGroup != null ? signGroupHref(signGroup) : undefined;
+    const lessonCards = lesson ? cardsByLesson.get(lesson.id) : undefined;
     return (
       <Page>
         <div className="space-y-1">
@@ -314,6 +327,15 @@ export default function PlanDayClient({
               scrollToTop();
             }}
           />
+        ) : lessonCards ? (
+          <PlanLessonRunner
+            key={active}
+            signsHref={signsHref}
+            cards={lessonCards}
+            questions={questionsOf(activeStep)}
+            onFinish={finish}
+            onAnswered={onLessonAnswer}
+          />
         ) : (
           <PlanQuizRunner
             key={active}
@@ -321,9 +343,9 @@ export default function PlanDayClient({
             onFinish={finish}
             onAnswered={onLessonAnswer}
             intro={
-              signGroup != null ? (
+              signsHref ? (
                 <Link
-                  href={signGroupHref(signGroup)}
+                  href={signsHref}
                   target="_blank"
                   className="inline-flex text-sm font-medium text-accent hover:underline"
                 >

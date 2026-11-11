@@ -110,7 +110,12 @@ export function PlanStepList({
                       : t("reviewGuest")
                     : step.kind === "exam"
                       ? t("examBody")
-                      : t("stepQuestions", { count: step.questionCount })}
+                      : step.cardCount
+                        ? t("stepCardsQuestions", {
+                            cards: step.cardCount,
+                            count: step.questionCount,
+                          })
+                        : t("stepQuestions", { count: step.questionCount })}
                   {test &&
                     ` · ${t("testResult", { correct: test.correct, total: test.total })}`}
                 </p>

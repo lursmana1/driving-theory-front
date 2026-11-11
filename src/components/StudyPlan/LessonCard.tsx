@@ -13,6 +13,8 @@ type LessonCardProps = {
   /** The card's sign group page; omitted for rule cards. */
   signsHref?: string;
   onContinue: () => void;
+  /** Button label instead of "to the tickets" / "next card" (last card). */
+  continueLabel?: string;
 };
 
 /**
@@ -20,7 +22,12 @@ type LessonCardProps = {
  * and explanation, then a button to its tickets. The same view serves every
  * card kind; signs also link to their group page on /signs.
  */
-export function LessonCard({ card, signsHref, onContinue }: LessonCardProps) {
+export function LessonCard({
+  card,
+  signsHref,
+  onContinue,
+  continueLabel,
+}: LessonCardProps) {
   const t = useTranslations("StudyPlan");
   const count = card.questionIds.length;
   const text = card.tutor ?? card.body;
@@ -73,7 +80,9 @@ export function LessonCard({ card, signsHref, onContinue }: LessonCardProps) {
             onClick={onContinue}
             className={`inline-flex h-12 items-center justify-center gap-2 px-6 text-base ${examCtaPillBase}`}
           >
-            {count > 0 ? t("cardToTickets") : t("cardNext")}
+            {count > 0
+              ? t("cardToTickets")
+              : (continueLabel ?? t("cardNext"))}
             <LineIcon name="arrowRight" className="h-5 w-5" />
           </button>
         </div>

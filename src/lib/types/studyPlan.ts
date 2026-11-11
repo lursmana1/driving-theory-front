@@ -10,12 +10,16 @@ export type PlanLesson = {
   part: number;
   parts: number;
   questionCount: number;
+  /** Cards taught in the lesson (sign subjects); 0 for plain ticket lessons. */
+  cardCount: number;
 };
 
 export type PlanStep = {
   kind: PlanStepKind;
   lessonId?: string;
   questionCount: number;
+  /** `learn` steps of card lessons. */
+  cardCount?: number;
 };
 
 export type PlanDay = {
@@ -48,6 +52,8 @@ export type PlanDaySession = Omit<PlanDay, "steps"> & {
   categoryId: number;
   dayCount: number;
   steps: PlanDayStep[];
+  /** Cards of the day's card lessons, in lesson order. */
+  cards: LessonCard[];
   questions: ExamQuestion[];
 };
 
@@ -80,9 +86,11 @@ export type SavedStudyPlan = {
   mistakes?: Record<string, number[]>;
 };
 
-/** One card of a card lesson (`GET /study-plans/preview/card-lesson`). */
+/** One card of a plan day's card lesson (`GET /study-plans/preview/days/:i`). */
 export type LessonCard = {
   id: string;
+  /** The day lesson (`PlanLesson.id`) that teaches it. */
+  lessonId: string;
   kind: "sign" | "marking" | "rule";
   signNumber: string | null;
   /** Public path, e.g. `/images/signs/1/1.1.svg`; null for most rules. */
@@ -93,17 +101,6 @@ export type LessonCard = {
   tutor: string | null;
   /** Audio of `tutor` (S3 URL); null when not recorded. */
   audio: string | null;
-  /** Tickets taught right after this card. */
+  /** Tickets taught right after this card in its lesson. */
   questionIds: number[];
-};
-
-export type CardLesson = {
-  categoryId: number;
-  subjectId: number;
-  from: number;
-  totalCards: number;
-  cards: LessonCard[];
-  /** Tickets of the subject with no card; only on the last page. */
-  withoutCard: number[];
-  questions: ExamQuestion[];
 };
