@@ -32,9 +32,9 @@ export const PLAN_TEST_LOW_TIME_SECONDS = 60;
 export const PLAN_COUNTDOWN_TICK_MS = 30_000;
 
 /**
- * The day test only covers the day's topics, so it is stricter than the
- * real exam: this share of the exam's mistake ratio (getExamRules). B allows
- * 5 of 30 at the exam (17%), so a 20-question day test allows 1.
+ * The mixed day exam (today's tickets, yesterday's extras, a few older ones)
+ * is graded stricter than the real exam: this share of the exam's mistake
+ * ratio (getExamRules). B allows 5 of 30 (17%), so 15–29 questions allow 1.
  */
 export const PLAN_TEST_STRICTNESS = 0.5;
 

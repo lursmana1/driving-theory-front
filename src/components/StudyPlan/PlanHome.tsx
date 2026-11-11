@@ -11,6 +11,7 @@ import {
   dayStatus,
   dayMistakes,
   isDayDone,
+  extraTicketsDone,
 } from "@/utills/helpers/studyPlanProgress";
 import { outlinePillBase } from "@/layoutComponents/Header/headerStyles";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
@@ -20,7 +21,7 @@ import { LineIcon } from "@/components/Icon/LineIcon";
 import { PlanDayList } from "./PlanDayList";
 import { PlanRing } from "./PlanRing";
 import { PlanNextDay } from "./PlanNextDay";
-import { PlanLoadError } from "./PlanPrimitives";
+import { PlanLoadError, PlanProgressBar } from "./PlanPrimitives";
 import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
 import { addPlanDays, daysBetween, formatPlanDayLong } from "./planDates";
 import { useDayTopics } from "./planLabels";
@@ -56,6 +57,7 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
   const currentOpen =
     current != null && dayStatus(plan, days, current, today) === "open";
   const categoryName = getCategoryById(plan.categoryId)?.name ?? "";
+  const extraDone = extraTicketsDone(plan, days);
   const toExam = plan.examDay ? daysBetween(today, plan.examDay) : null;
   const topics = currentDay ? topicsOf(currentDay) : [];
 
@@ -136,6 +138,25 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          {preview.optionalQuestions > 0 && (
+            <section className="space-y-2 rounded-card border border-line bg-surface p-4 shadow-card">
+              <p className="flex items-center gap-2 text-sm font-semibold text-fg">
+                <LineIcon name="star" className="h-4 w-4 text-accent" />
+                {t("stepExtra")}
+              </p>
+              <PlanProgressBar
+                value={extraDone}
+                max={preview.optionalQuestions}
+                className="h-1.5"
+              />
+              <p className="text-xs text-fg-muted">
+                {t("extraProgressBody", {
+                  done: extraDone,
+                  total: preview.optionalQuestions,
+                })}
+              </p>
+            </section>
+          )}
           <section className="space-y-3 rounded-card border border-line bg-surface p-4 shadow-card">
             <span
               className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-soft text-accent"

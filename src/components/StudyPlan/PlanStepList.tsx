@@ -110,7 +110,9 @@ export function PlanStepList({
                       : t("reviewGuest")
                     : step.kind === "exam"
                       ? t("examBody")
-                      : step.cardCount
+                      : step.kind === "extra"
+                        ? t("extraBody", { count: step.questionCount })
+                        : step.cardCount
                         ? t("stepCardsQuestions", {
                             cards: step.cardCount,
                             count: step.questionCount,

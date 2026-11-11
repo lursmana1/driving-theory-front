@@ -8,6 +8,7 @@ export const STEP_LABEL = {
   mix: "stepMix",
   test: "stepTest",
   exam: "stepExam",
+  extra: "stepExtra",
 } as const satisfies Record<PlanStepKind, string>;
 
 export const STEP_ICON: Record<PlanStepKind, LineIconName> = {
@@ -16,4 +17,5 @@ export const STEP_ICON: Record<PlanStepKind, LineIconName> = {
   mix: "shuffle",
   test: "clipboardCheck",
   exam: "timer",
+  extra: "star",
 };

@@ -17,7 +17,7 @@ import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinne
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
 import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
 import { PlanDayList } from "./PlanDayList";
-import { PlanStat } from "./PlanPrimitives";
+import { PlanNote, PlanStat } from "./PlanPrimitives";
 import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
 import { addPlanDays, formatPlanDayLong } from "./planDates";
 import { LineIcon } from "@/components/Icon/LineIcon";
@@ -201,6 +201,20 @@ export function PlanPicker({
                   label={t("minutesUnit")}
                 />
               </div>
+              {preview.mode === "short" && preview.optionalQuestions > 0 && (
+                <PlanNote>
+                  {t("shortPlanNote", { count: preview.optionalQuestions })}
+                </PlanNote>
+              )}
+              {preview.daysForTargetMinutes != null &&
+                preview.dayCount < preview.daysForTargetMinutes && (
+                  <PlanNote>
+                    {t("longerPlanHint", {
+                      minutes: preview.targetMinutes,
+                      days: preview.daysForTargetMinutes,
+                    })}
+                  </PlanNote>
+                )}
               {preview.intensive && (
                 <p className="rounded-control bg-warning-soft px-3 py-2 text-sm text-fg">
                   {t("intensiveWarning")}

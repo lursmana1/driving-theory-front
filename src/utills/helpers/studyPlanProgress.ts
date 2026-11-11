@@ -6,7 +6,7 @@ import type {
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import { PLAN_TEST_STRICTNESS } from "@/CONSTS/studyPlan";
 
-/** Steps a day needs to count as done. Review and mock exams are extra. */
+/** Steps a day needs to count as done. Review, mock exams and `extra` rounds are optional. */
 const REQUIRED_KINDS: ReadonlySet<PlanStepKind> = new Set([
   "learn",
   "mix",
@@ -56,6 +56,26 @@ export function isStepComplete(
 ): boolean {
   if (!isStepDone(saved, dayIndex, stepIndex)) return false;
   return kind !== "test" || !!saved.tests[String(dayIndex)]?.passed;
+}
+
+/** Short plans: tickets done in the optional `extra` rounds. */
+export function extraTicketsDone(
+  saved: SavedStudyPlan,
+  days: readonly PlanDay[],
+): number {
+  return days.reduce(
+    (n, day) =>
+      n +
+      day.steps.reduce(
+        (m, step, i) =>
+          step.kind === "extra" &&
+          isStepComplete(saved, day.index, i, step.kind)
+            ? m + step.questionCount
+            : m,
+        0,
+      ),
+    0,
+  );
 }
 
 export function isDayDone(saved: SavedStudyPlan, day: PlanDay): boolean {
@@ -116,7 +136,7 @@ export function currentDayIndex(
 
 /**
  * Mistakes allowed in a day test: the category's exam ratio, made stricter
- * (`PLAN_TEST_STRICTNESS`) because the test only covers the day's topics.
+ * (`PLAN_TEST_STRICTNESS`): its tickets were all met in the last two days.
  */
 export function dayTestAllowedMistakes(
   total: number,

@@ -1,7 +1,14 @@
 import type { ExamQuestion } from "@/lib/types/exam";
 
 /** Mirrors the backend `study-plans.types.ts` (GET /study-plans/preview*). */
-export type PlanStepKind = "learn" | "review" | "mix" | "test" | "exam";
+export type PlanStepKind =
+  | "learn"
+  | "review"
+  | "mix"
+  | "test"
+  | "exam"
+  /** Short plans, optional: the day's remaining tickets. */
+  | "extra";
 
 export type PlanLesson = {
   /** `<subjectId>-<part>` */
@@ -35,6 +42,10 @@ export type PlanDay = {
 export type StudyPlanPreview = {
   categoryId: number;
   dayCount: number;
+  /** `short` (up to 21 days): 1 key ticket per rule, the rest optional. */
+  mode: "full" | "short";
+  /** Short plans: tickets in the optional `extra` steps. */
+  optionalQuestions: number;
   learnDays: number;
   lessonSize: number;
   totalQuestions: number;
@@ -43,6 +54,9 @@ export type StudyPlanPreview = {
   startDay: string;
   examDay: string | null;
   intensive: boolean;
+  /** Shortest plan whose average day fits `targetMinutes`; null if none does. */
+  daysForTargetMinutes: number | null;
+  targetMinutes: number;
   days: PlanDay[];
 };
 

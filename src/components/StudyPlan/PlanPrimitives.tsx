@@ -19,6 +19,15 @@ export function PlanStat({
   );
 }
 
+/** A short muted note under the plan summary (picker hints). */
+export function PlanNote({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="rounded-control bg-surface-muted px-3 py-2 text-sm text-fg-muted">
+      {children}
+    </p>
+  );
+}
+
 type PlanProgressBarProps = {
   value: number;
   max: number;
