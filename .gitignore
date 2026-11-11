@@ -52,3 +52,6 @@ plans/
 # TikTok promo video generator (local only)
 scripts/tiktok/
 .claude/rules/tiktok-videos.md
+
+# Product roadmap (local only)
+.claude/rules/product-roadmap.md
