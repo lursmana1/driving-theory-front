@@ -14,6 +14,8 @@ type PlanDayListProps = {
   /** Without it the list is a read-only preview. */
   statusOf?: (day: PlanDay) => DayStatus;
   currentIndex?: number | null;
+  /** Whether the day's extra round is done (`null`: the day has none). */
+  extraDoneOf?: (day: PlanDay) => boolean | null;
 };
 
 const DAYS_PER_WEEK = 7;
@@ -34,6 +36,7 @@ export function PlanDayList({
   dateOf,
   statusOf,
   currentIndex,
+  extraDoneOf,
 }: PlanDayListProps) {
   const t = useTranslations("StudyPlan");
   const formatDay = usePlanDateFormat();
@@ -60,6 +63,8 @@ export function PlanDayList({
               const clickable = !!status && status !== "locked";
               const topics = topicsOf(day);
               const last = i === week.length - 1;
+              const extra = day.steps.find((s) => s.kind === "extra");
+              const extraDone = extraDoneOf?.(day) ?? null;
               const row = (
                 <div
                   className={`group flex gap-3 rounded-card px-2 py-2 transition-colors ${
@@ -141,6 +146,24 @@ export function PlanDayList({
                         <span className="px-1 py-0.5 text-2xs text-fg-subtle">
                           {t("stepQuestions", { count: day.newQuestions })}
                         </span>
+                        {extra && (
+                          <span
+                            className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-2xs ${
+                              extraDone
+                                ? "bg-success-soft text-success"
+                                : "border border-dashed border-line text-fg-subtle"
+                            }`}
+                          >
+                            {extraDone && (
+                              <LineIcon
+                                name="check"
+                                className="h-3 w-3"
+                                strokeWidth={3}
+                              />
+                            )}
+                            {t("extraChip", { count: extra.questionCount })}
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>

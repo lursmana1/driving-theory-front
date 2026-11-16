@@ -27,6 +27,8 @@ export type PlanStep = {
   questionCount: number;
   /** `learn` steps of card lessons. */
   cardCount?: number;
+  /** `test` (the mixed day exam): carried extras of earlier days, today's, older ones. */
+  examParts?: { carry: number; today: number; older: number };
 };
 
 export type PlanDay = {

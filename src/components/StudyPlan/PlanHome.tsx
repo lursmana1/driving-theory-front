@@ -10,8 +10,10 @@ import {
   currentDayIndex,
   dayStatus,
   dayMistakes,
+  extraRoundDone,
   isDayDone,
   extraTicketsDone,
+  planCoverage,
 } from "@/utills/helpers/studyPlanProgress";
 import { outlinePillBase } from "@/layoutComponents/Header/headerStyles";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
@@ -58,6 +60,7 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
     current != null && dayStatus(plan, days, current, today) === "open";
   const categoryName = getCategoryById(plan.categoryId)?.name ?? "";
   const extraDone = extraTicketsDone(plan, days);
+  const seen = planCoverage(plan, days);
   const toExam = plan.examDay ? daysBetween(today, plan.examDay) : null;
   const topics = currentDay ? topicsOf(currentDay) : [];
 
@@ -92,6 +95,30 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
             total={days.length}
             label={t("daysDone", { done: doneCount, total: days.length })}
           />
+        </div>
+
+        {/* Ticket coverage: what the plan has shown so far; the extra rounds fill the rest. */}
+        <div className="mt-5 space-y-1.5">
+          <div className="flex items-baseline justify-between gap-3 text-sm">
+            <span className="font-semibold">{t("coverageLabel")}</span>
+            <span className="tabular-nums text-on-accent/85">
+              {t("coverageOf", { seen, total: preview.totalQuestions })}
+            </span>
+          </div>
+          <PlanProgressBar
+            value={seen}
+            max={preview.totalQuestions}
+            tone="light"
+            className="h-2"
+            label={t("coverageOf", { seen, total: preview.totalQuestions })}
+          />
+          {preview.optionalQuestions > extraDone && (
+            <p className="text-xs text-on-accent/80">
+              {t("coverageHint", {
+                count: preview.optionalQuestions - extraDone,
+              })}
+            </p>
+          )}
         </div>
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -136,15 +163,16 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
             dateOf={dateOf}
             currentIndex={currentOpen ? current : null}
             statusOf={(day) => dayStatus(plan, days, day.index, today)}
+            extraDoneOf={(day) => extraRoundDone(plan, day)}
           />
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
           {preview.optionalQuestions > 0 && (
-            <section className="space-y-2 rounded-card border border-line bg-surface p-4 shadow-card">
+            <section className="space-y-2 rounded-card border border-accent/40 bg-accent-soft/40 p-4 shadow-card">
               <p className="flex items-center gap-2 text-sm font-semibold text-fg">
                 <LineIcon name="star" className="h-4 w-4 text-accent" />
-                {t("stepExtra")}
+                {t("extraSectionTitle")}
               </p>
               <PlanProgressBar
                 value={extraDone}

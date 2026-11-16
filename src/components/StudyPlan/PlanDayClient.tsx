@@ -21,6 +21,7 @@ import {
   isDayDone,
   isStepComplete,
   isStepRequired,
+  openExtraStep,
 } from "@/utills/helpers/studyPlanProgress";
 import { signGroupHref } from "@/CONSTS/signGroups";
 import { SUBJECT_SIGN_GROUP } from "@/CONSTS/studyPlan";
@@ -375,6 +376,7 @@ export default function PlanDayClient({
     ({ step, i }) => !isStepComplete(plan, index, i, step.kind),
   )?.i;
   const dayTest = plan.tests[String(index)];
+  const extraStep = openExtraStep(plan, { index, steps: session.steps });
 
   return (
     <Page className="space-y-6">
@@ -401,6 +403,25 @@ export default function PlanDayClient({
               </p>
             </div>
           </div>
+          {extraStep != null && (
+            <div className="flex flex-col gap-3 rounded-card border border-accent/40 bg-surface p-4 sm:flex-row sm:items-center">
+              <p className="flex-1 text-sm text-fg">
+                {t("extraNudge", {
+                  count: session.steps[extraStep].questionCount,
+                })}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setActive(extraStep);
+                  scrollToTop();
+                }}
+                className={`h-11 shrink-0 px-5 text-sm ${examCtaPillBase}`}
+              >
+                {t("stepStart")}
+              </button>
+            </div>
+          )}
           {nextStatus === "open" ? (
             <Link
               href={`/plan/day/${index + 1}`}

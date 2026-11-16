@@ -105,8 +105,16 @@ export function PlanStepList({
                     </span>
                   )}
                   {optional && (
-                    <span className="ml-2 rounded-full bg-surface-sunken px-2 py-0.5 text-2xs font-medium text-fg-subtle">
-                      {t("stepOptional")}
+                    <span
+                      className={`ml-2 rounded-full px-2 py-0.5 text-2xs font-medium ${
+                        step.kind === "extra"
+                          ? "bg-accent-soft text-accent"
+                          : "bg-surface-sunken text-fg-subtle"
+                      }`}
+                    >
+                      {step.kind === "extra"
+                        ? t("stepFinalPart")
+                        : t("stepOptional")}
                     </span>
                   )}
                 </p>

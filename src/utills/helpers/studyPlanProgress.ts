@@ -78,6 +78,54 @@ export function extraTicketsDone(
   );
 }
 
+/**
+ * Tickets the plan has shown so far: the new tickets of done lessons, the
+ * carried extras of passed day tests, and done mix / extra rounds. Against
+ * `totalQuestions` it is the "ticket coverage" the extra rounds fill up.
+ */
+export function planCoverage(
+  saved: SavedStudyPlan,
+  days: readonly PlanDay[],
+): number {
+  return days.reduce(
+    (n, day) =>
+      n +
+      day.steps.reduce((m, step, i) => {
+        if (!isStepComplete(saved, day.index, i, step.kind)) return m;
+        if (step.kind === "test") return m + (step.examParts?.carry ?? 0);
+        if (
+          step.kind === "learn" ||
+          step.kind === "mix" ||
+          step.kind === "extra"
+        ) {
+          return m + step.questionCount;
+        }
+        return m;
+      }, 0),
+    0,
+  );
+}
+
+/** Index of the day's extra round while it is not done yet; null otherwise. */
+export function openExtraStep(
+  saved: SavedStudyPlan,
+  day: Pick<PlanDay, "index" | "steps">,
+): number | null {
+  const i = day.steps.findIndex((s) => s.kind === "extra");
+  if (i === -1 || isStepComplete(saved, day.index, i, "extra")) return null;
+  return i;
+}
+
+/** `true` / `false` for a day with an extra round, `null` for one without. */
+export function extraRoundDone(
+  saved: SavedStudyPlan,
+  day: Pick<PlanDay, "index" | "steps">,
+): boolean | null {
+  const i = day.steps.findIndex((s) => s.kind === "extra");
+  if (i === -1) return null;
+  return isStepComplete(saved, day.index, i, "extra");
+}
+
 export function isDayDone(saved: SavedStudyPlan, day: PlanDay): boolean {
   const required = day.steps
     .map((step, i) => ({ step, i }))

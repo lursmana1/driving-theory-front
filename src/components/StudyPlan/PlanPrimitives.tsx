@@ -31,7 +31,8 @@ export function PlanNote({ children }: { children: React.ReactNode }) {
 type PlanProgressBarProps = {
   value: number;
   max: number;
-  tone?: "accent" | "success";
+  /** `light`: white-on-accent, for the plan hero. */
+  tone?: "accent" | "success" | "light";
   className?: string;
   /** Accessible name. Without it the bar is decorative (a text next to it says the same). */
   label?: string;
@@ -58,11 +59,17 @@ export function PlanProgressBar({
   return (
     <div
       {...a11y}
-      className={`overflow-hidden rounded-full bg-surface-sunken ${className}`}
+      className={`overflow-hidden rounded-full ${
+        tone === "light" ? "bg-on-accent/20" : "bg-surface-sunken"
+      } ${className}`}
     >
       <div
         className={`h-full rounded-full transition-all motion-reduce:transition-none ${
-          tone === "success" ? "bg-success" : "bg-accent"
+          tone === "success"
+            ? "bg-success"
+            : tone === "light"
+              ? "bg-on-accent"
+              : "bg-accent"
         }`}
         style={{ width: `${share * 100}%` }}
       />
