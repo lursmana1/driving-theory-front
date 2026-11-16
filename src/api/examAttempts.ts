@@ -104,8 +104,12 @@ export type AttemptSummary = {
   completedAt: string | null;
   passed: boolean | null;
   durationSeconds: number | null;
-  /** Stored on the attempt; omitted from list API until backend includes it */
+  /** Category filter the attempt was started with (`[]` for legacy rows). */
   categories?: number[];
+  /**
+   * Sent by the API since 2026-11. `null` only for legacy attempts started
+   * without a category; the rule-based guess below is just for those.
+   */
   categoryId?: number | null;
 };
 
