@@ -1,16 +1,22 @@
 type PlanRingProps = {
   done: number;
   total: number;
+  /** Read by screen readers instead of the two bare numbers. */
+  label: string;
 };
 
 /** Days-done ring for the accent hero (light strokes on the accent fill). */
-export function PlanRing({ done, total }: PlanRingProps) {
+export function PlanRing({ done, total, label }: PlanRingProps) {
   const share = total > 0 ? Math.min(1, done / total) : 0;
   const radius = 42;
   const circumference = 2 * Math.PI * radius;
 
   return (
-    <div className="relative h-20 w-20 shrink-0 sm:h-24 sm:w-24">
+    <div
+      role="img"
+      aria-label={label}
+      className="relative h-20 w-20 shrink-0 sm:h-24 sm:w-24"
+    >
       <svg
         className="h-full w-full -rotate-90"
         viewBox="0 0 100 100"
@@ -29,14 +35,17 @@ export function PlanRing({ done, total }: PlanRingProps) {
           cy="50"
           r={radius}
           fill="none"
-          className="stroke-on-accent transition-all duration-700"
+          className="stroke-on-accent transition-all duration-700 motion-reduce:transition-none"
           strokeWidth="9"
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={circumference * (1 - share)}
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
+      <div
+        aria-hidden
+        className="absolute inset-0 flex flex-col items-center justify-center leading-none"
+      >
         <span className="text-xl font-bold tabular-nums sm:text-2xl">
           {done}
         </span>

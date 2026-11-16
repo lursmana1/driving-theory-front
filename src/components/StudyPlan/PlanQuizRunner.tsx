@@ -50,6 +50,10 @@ export function PlanQuizRunner({
   const id = String(question.id);
   const selected = answers[id] ?? null;
   const answered = Object.keys(answers).length;
+  // Finish only once every question has an answer: arrows move freely, so
+  // on the last question the button goes back to the first skipped one.
+  const firstSkipped = questions.findIndex((q) => !answers[String(q.id)]);
+  const allAnswered = firstSkipped === -1;
   const right = questions.filter(
     (q) => answers[String(q.id)] === q.correct_answer,
   ).length;
@@ -62,10 +66,12 @@ export function PlanQuizRunner({
         <span className="flex shrink-0 gap-2 text-xs font-semibold tabular-nums">
           <span className="inline-flex items-center gap-0.5 text-success">
             <LineIcon name="check" className="h-3.5 w-3.5" strokeWidth={3} />
+            <span className="sr-only">{t("quizRight")}: </span>
             {right}
           </span>
           <span className="inline-flex items-center gap-0.5 text-danger">
             <LineIcon name="x" className="h-3.5 w-3.5" strokeWidth={3} />
+            <span className="sr-only">{t("quizWrong")}: </span>
             {wrong}
           </span>
         </span>
@@ -73,6 +79,10 @@ export function PlanQuizRunner({
           value={answered}
           max={questions.length}
           className="h-1.5 flex-1"
+          label={t("progressAnswered", {
+            n: answered,
+            total: questions.length,
+          })}
         />
         <span className="text-xs tabular-nums text-fg-subtle">
           {t("questionOf", { n: index + 1, total: questions.length })}
@@ -100,10 +110,18 @@ export function PlanQuizRunner({
         <div className="flex justify-end">
           <button
             type="button"
-            onClick={isLast ? onFinish : next}
+            onClick={
+              !isLast
+                ? next
+                : allAnswered
+                  ? onFinish
+                  : () => setIndex(firstSkipped)
+            }
             className={`inline-flex h-12 items-center gap-2 px-7 text-base shadow-raised ${examCtaPillBase}`}
           >
-            {isLast ? (finishLabel ?? t("finishStep")) : t("nextQuestion")}
+            {isLast && allAnswered
+              ? (finishLabel ?? t("finishStep"))
+              : t("nextQuestion")}
             <LineIcon name="arrowRight" className="h-5 w-5" />
           </button>
         </div>

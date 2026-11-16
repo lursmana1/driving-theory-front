@@ -96,10 +96,23 @@ export function dayMistakes(saved: SavedStudyPlan, dayIndex: number): number[] {
   return saved.mistakes?.[String(dayIndex)] ?? [];
 }
 
-/** Study day on which the day's last step was done. */
-function dayDoneOn(saved: SavedStudyPlan, dayIndex: number): string | null {
-  const days = Object.values(doneSteps(saved, dayIndex));
-  return days.length ? days.sort().at(-1)! : null;
+/**
+ * Study day on which the day was finished: when its last required step was
+ * done. Optional rounds (mock exam, extra tickets) done later don't move it,
+ * so finishing one never re-locks the next day. Review days have no
+ * required step: their first done step counts.
+ */
+function dayDoneOn(saved: SavedStudyPlan, day: PlanDay): string | null {
+  const done = doneSteps(saved, day.index);
+  const required = day.steps
+    .map((step, i) => ({ step, i }))
+    .filter(({ step }) => isStepRequired(step.kind));
+  if (required.length === 0) {
+    const dates = Object.values(done).sort();
+    return dates[0] ?? null;
+  }
+  const dates = required.map(({ i }) => done[String(i)]).filter(Boolean);
+  return dates.length === required.length ? dates.sort().at(-1)! : null;
 }
 
 export type DayStatus = "done" | "open" | "locked";
@@ -121,7 +134,7 @@ export function dayStatus(
   if (index === 0) return "open";
   const prev = days[index - 1];
   if (!isDayDone(saved, prev)) return "locked";
-  const prevOn = dayDoneOn(saved, prev.index);
+  const prevOn = dayDoneOn(saved, prev);
   return prevOn && prevOn < today ? "open" : "locked";
 }
 

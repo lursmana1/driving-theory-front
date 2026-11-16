@@ -33,6 +33,8 @@ type PlanProgressBarProps = {
   max: number;
   tone?: "accent" | "success";
   className?: string;
+  /** Accessible name. Without it the bar is decorative (a text next to it says the same). */
+  label?: string;
 };
 
 /** Thin progress bar (answered questions, finished steps). */
@@ -41,14 +43,25 @@ export function PlanProgressBar({
   max,
   tone = "accent",
   className = "h-1.5",
+  label,
 }: PlanProgressBarProps) {
   const share = max > 0 ? Math.min(1, value / max) : 0;
+  const a11y = label
+    ? {
+        role: "progressbar",
+        "aria-label": label,
+        "aria-valuemin": 0,
+        "aria-valuemax": max,
+        "aria-valuenow": Math.min(value, max),
+      }
+    : { "aria-hidden": true };
   return (
     <div
+      {...a11y}
       className={`overflow-hidden rounded-full bg-surface-sunken ${className}`}
     >
       <div
-        className={`h-full rounded-full transition-all ${
+        className={`h-full rounded-full transition-all motion-reduce:transition-none ${
           tone === "success" ? "bg-success" : "bg-accent"
         }`}
         style={{ width: `${share * 100}%` }}

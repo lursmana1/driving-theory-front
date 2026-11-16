@@ -49,7 +49,7 @@ export function PlanDayList({
       {weeks.map((week, w) => (
         <section key={w} className="space-y-2">
           {weeks.length > 1 && (
-            <h3 className="text-2xs font-bold uppercase tracking-wider text-fg-faint">
+            <h3 className="text-2xs font-bold uppercase tracking-wider text-fg-subtle">
               {t("weekLabel", { n: w + 1 })}
             </h3>
           )}
@@ -102,25 +102,27 @@ export function PlanDayList({
                         }`}
                       >
                         {t("dayLabel", { n: day.index + 1 })}
+                        {status === "locked" && (
+                          <span className="sr-only">
+                            {" "}
+                            ({t("statusLocked")})
+                          </span>
+                        )}
                         <span className="ml-2 text-xs font-normal text-fg-subtle">
                           {formatDay(dateOf ? dateOf(day) : day.date)}
                         </span>
                       </p>
-                      <span
-                        className={`shrink-0 text-xs ${
-                          current
-                            ? "font-semibold text-accent"
-                            : status === "done"
-                              ? "font-medium text-success"
-                              : "text-fg-faint"
-                        }`}
-                      >
-                        {current
-                          ? t("statusToday")
-                          : status === "done"
-                            ? t("statusDone")
-                            : t("minutes", { minutes: day.minutes })}
-                      </span>
+                      {(current || status === "done") && (
+                        <span
+                          className={`shrink-0 text-xs ${
+                            current
+                              ? "font-semibold text-accent"
+                              : "font-medium text-success"
+                          }`}
+                        >
+                          {current ? t("statusToday") : t("statusDone")}
+                        </span>
+                      )}
                     </div>
                     {day.kind === "review" ? (
                       <p className="mt-1 text-xs text-fg-muted">
@@ -136,7 +138,7 @@ export function PlanDayList({
                             {topic}
                           </span>
                         ))}
-                        <span className="px-1 py-0.5 text-2xs text-fg-faint">
+                        <span className="px-1 py-0.5 text-2xs text-fg-subtle">
                           {t("stepQuestions", { count: day.newQuestions })}
                         </span>
                       </div>
@@ -145,7 +147,11 @@ export function PlanDayList({
                 </div>
               );
               return (
-                <li key={day.index} className="pb-2">
+                <li
+                  key={day.index}
+                  className="pb-2"
+                  aria-current={current ? "date" : undefined}
+                >
                   {clickable ? (
                     <Link href={`/plan/day/${day.index}`} className="block">
                       {row}

@@ -80,9 +80,7 @@ export function LessonCard({
             onClick={onContinue}
             className={`inline-flex h-12 items-center justify-center gap-2 px-6 text-base ${examCtaPillBase}`}
           >
-            {count > 0
-              ? t("cardToTickets")
-              : (continueLabel ?? t("cardNext"))}
+            {count > 0 ? t("cardToTickets") : (continueLabel ?? t("cardNext"))}
             <LineIcon name="arrowRight" className="h-5 w-5" />
           </button>
         </div>

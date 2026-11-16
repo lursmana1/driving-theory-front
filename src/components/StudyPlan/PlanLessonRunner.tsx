@@ -78,7 +78,12 @@ export function PlanLessonRunner({
   return (
     <div className="space-y-4">
       <LessonStrip cards={cards} items={items} position={position} />
-      <PlanProgressBar value={position} max={items.length} className="h-1.5" />
+      <PlanProgressBar
+        value={position}
+        max={items.length}
+        className="h-1.5"
+        label={t("progressLesson", { n: position + 1, total: items.length })}
+      />
 
       {item.kind === "card" && (
         <LessonCard
@@ -151,7 +156,11 @@ function LessonStrip({
   }
   return (
     <div className="flex items-center gap-3">
-      <div className="flex min-w-0 flex-1 gap-1.5 overflow-x-auto pb-1">
+      {/* Decorative: the "card n / total" text next to it says the same. */}
+      <div
+        aria-hidden
+        className="flex min-w-0 flex-1 gap-1.5 overflow-x-auto pb-1"
+      >
         {cards.map((card, i) => {
           const n = i + 1;
           const state =

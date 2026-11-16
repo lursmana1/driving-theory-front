@@ -57,7 +57,11 @@ export function PlanStepList({
         const optional = !isStepRequired(step.kind);
         const test = step.kind === "test" ? dayTest : undefined;
         return (
-          <li key={i} className="flex gap-3 sm:gap-4">
+          <li
+            key={i}
+            className="flex gap-3 sm:gap-4"
+            aria-current={isNext ? "step" : undefined}
+          >
             <div className="relative flex w-11 shrink-0 justify-center">
               {!isLast && (
                 <span
@@ -94,6 +98,12 @@ export function PlanStepList({
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-fg">
                   {t(STEP_LABEL[step.kind])}
+                  {(done || isNext) && (
+                    <span className="sr-only">
+                      {" "}
+                      ({done ? t("statusDone") : t("stepNext")})
+                    </span>
+                  )}
                   {optional && (
                     <span className="ml-2 rounded-full bg-surface-sunken px-2 py-0.5 text-2xs font-medium text-fg-subtle">
                       {t("stepOptional")}
@@ -113,11 +123,11 @@ export function PlanStepList({
                       : step.kind === "extra"
                         ? t("extraBody", { count: step.questionCount })
                         : step.cardCount
-                        ? t("stepCardsQuestions", {
-                            cards: step.cardCount,
-                            count: step.questionCount,
-                          })
-                        : t("stepQuestions", { count: step.questionCount })}
+                          ? t("stepCardsQuestions", {
+                              cards: step.cardCount,
+                              count: step.questionCount,
+                            })
+                          : t("stepQuestions", { count: step.questionCount })}
                   {test &&
                     ` · ${t("testResult", { correct: test.correct, total: test.total })}`}
                 </p>
@@ -165,7 +175,7 @@ function StepAction({
   onStart,
 }: StepActionProps) {
   const t = useTranslations("StudyPlan");
-  const className = `inline-flex h-10 shrink-0 items-center justify-center px-5 text-sm ${
+  const className = `inline-flex h-11 shrink-0 items-center justify-center px-5 text-sm ${
     primary ? examCtaPillBase : outlinePillBase
   }`;
 

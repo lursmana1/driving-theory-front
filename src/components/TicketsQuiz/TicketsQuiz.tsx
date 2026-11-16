@@ -152,7 +152,10 @@ export default function TicketQuiz({
               <AiTutorText
                 key={qId}
                 // A "Hello!" after every question reads oddly mid-lesson.
-                text={aiTutorText.replace(/^გამარჯობა[!,.]?\s*/u, "")}
+                text={aiTutorText.replace(
+                  /^(?:გამარჯობა|hello|hi|привет|здравствуйте)[!,.]?\s*/iu,
+                  "",
+                )}
                 label={t("aiTutorShowText")}
                 defaultOpen
               />

@@ -208,6 +208,18 @@ export function PlanDayTest({
   );
   useAnswerKeyboard(phase !== "running" || !question, answerOptions, pick);
 
+  // Phones: the question dots are one scrollable row; keep the current one in view.
+  const navRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const nav = navRef.current;
+    const dot = nav?.querySelector<HTMLElement>('[aria-current="step"]');
+    if (!nav || !dot || nav.scrollWidth <= nav.clientWidth) return;
+    nav.scrollTo({
+      left: dot.offsetLeft - nav.clientWidth / 2 + dot.offsetWidth / 2,
+      behavior: "smooth",
+    });
+  }, [index, phase]);
+
   if (phase === "intro") {
     return (
       <div className="space-y-5 rounded-panel border border-line bg-surface p-5 text-center shadow-card sm:p-7">
@@ -244,7 +256,10 @@ export function PlanDayTest({
     const wrongAnswered = reviewItems.length;
     const tooMany = mistakes > total * PLAN_TEST_REPEAT_LESSONS_SHARE;
     return (
-      <div className="space-y-4 rounded-panel border border-line bg-surface p-5 text-center shadow-card sm:p-7">
+      <div
+        role="status"
+        className="space-y-4 rounded-panel border border-line bg-surface p-5 text-center shadow-card sm:p-7"
+      >
         <div
           role="img"
           aria-label={`${stars}/3`}
@@ -329,7 +344,7 @@ export function PlanDayTest({
   const hasImage = !!question.hasImg && !!question.img;
   const lowTime = secondsLeft <= PLAN_TEST_LOW_TIME_SECONDS;
   const navButton =
-    "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line text-fg-muted hover:bg-surface-muted disabled:opacity-30";
+    "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-fg-muted hover:bg-surface-muted disabled:opacity-30";
 
   // Every control sits above the question, and the picture slot has a fixed
   // height, so nothing moves when the next question (with or without a
@@ -338,7 +353,7 @@ export function PlanDayTest({
     <div className="relative space-y-3">
       <ExamImagePreloader questions={questions} currentIndex={index} />
       <div className="space-y-2 rounded-card border border-line bg-surface px-3 py-2 shadow-card sm:px-4">
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3">
           <button
             type="button"
             onClick={prev}
@@ -349,16 +364,22 @@ export function PlanDayTest({
             <LineIcon name="arrowLeft" className="h-4 w-4" />
           </button>
           <span
+            role="timer"
             className={`inline-flex shrink-0 items-center gap-1.5 font-mono text-base font-bold tabular-nums ${lowTime ? "text-danger" : "text-fg"}`}
             aria-label={t("testTimeLeft")}
           >
             <LineIcon name="timer" className="h-5 w-5" />
             {formatExamDuration(secondsLeft)}
           </span>
+          {/* Said once, when the last minute starts. */}
+          <span className="sr-only" aria-live="assertive">
+            {lowTime ? t("testLowTime") : ""}
+          </span>
           <PlanProgressBar
             value={answeredCount}
             max={total}
             className="h-1.5 min-w-8 flex-1"
+            label={t("progressAnswered", { n: answeredCount, total })}
           />
           <span className="shrink-0 text-xs tabular-nums text-fg-subtle">
             {t("questionOf", { n: index + 1, total })}
@@ -375,7 +396,7 @@ export function PlanDayTest({
           <button
             type="button"
             onClick={finish}
-            className={`h-9 shrink-0 px-4 text-sm ${
+            className={`h-9 shrink-0 basis-full px-4 text-sm sm:basis-auto ${
               unanswered > 0 ? outlinePillBase : examCtaPillBase
             }`}
           >
@@ -383,8 +404,9 @@ export function PlanDayTest({
           </button>
         </div>
         <nav
+          ref={navRef}
           aria-label={t("testNavigator")}
-          className="flex flex-wrap justify-center gap-1"
+          className="scrollbar-thin -mx-1 flex gap-1.5 overflow-x-auto px-1 py-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0"
         >
           {questions.map((q, i) => {
             const done = !!answers[String(q.id)];
@@ -396,12 +418,12 @@ export function PlanDayTest({
                 onClick={() => goTo(i)}
                 aria-label={t("questionOf", { n: i + 1, total })}
                 aria-current={current ? "step" : undefined}
-                className={`h-7 w-7 rounded-full text-2xs font-semibold tabular-nums transition-colors ${
+                className={`h-9 min-w-9 shrink-0 rounded-full px-1 text-xs font-semibold tabular-nums transition-colors ${
                   current
                     ? "bg-accent text-on-accent"
                     : done
                       ? "bg-accent-soft text-fg"
-                      : "border border-line bg-surface text-fg-faint hover:bg-surface-muted"
+                      : "border border-line bg-surface text-fg-subtle hover:bg-surface-muted"
                 }`}
               >
                 {i + 1}

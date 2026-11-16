@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
@@ -75,6 +75,11 @@ export default function PlanDayClient({
    * the day's list, but the round keeps its questions until it is closed.
    */
   const [roundIds, setRoundIds] = useState<number[] | null>(null);
+  /** The open step's heading takes focus, so screen readers land on the runner. */
+  const stepHeading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (active != null) stepHeading.current?.focus({ preventScroll: true });
+  }, [active]);
 
   const categoryId = plan?.categoryId;
   const dayCount = plan?.dayCount;
@@ -183,7 +188,6 @@ export default function PlanDayClient({
       index={index}
       dayCount={plan.dayCount}
       date={addPlanDays(plan.startDay, index)}
-      minutes={planDay?.minutes ?? 0}
       requiredDone={requiredDone}
       requiredTotal={required.length}
     />
@@ -218,7 +222,8 @@ export default function PlanDayClient({
   };
 
   if (active === MISTAKES) {
-    // `?fix=1` opens the round before any click: freeze the list on first render.
+    // `?fix=1` opens the round before any click: freeze the list on first
+    // render (setState during render is React's own pattern for derived state).
     const ids = roundIds ?? dayMistakes(plan, index);
     if (roundIds == null) setRoundIds(ids);
     const round = ids.flatMap((id) => {
@@ -298,7 +303,11 @@ export default function PlanDayClient({
             <LineIcon name="arrowLeft" className="h-4 w-4" />
             {t("dayLabel", { n: index + 1 })}
           </button>
-          <h1 className="flex flex-wrap items-center gap-2 text-xl font-bold text-fg">
+          <h1
+            ref={stepHeading}
+            tabIndex={-1}
+            className="flex flex-wrap items-center gap-2 text-xl font-bold text-fg outline-none"
+          >
             <LineIcon
               name={STEP_ICON[activeStep.kind]}
               className="h-6 w-6 text-accent"

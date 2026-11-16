@@ -81,15 +81,17 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
                     ? t("reviewDay")
                     : topics.join(" · ")}
             </h2>
-            {currentDay && currentOpen && (
+            {currentDay && currentOpen && currentDay.newQuestions > 0 && (
               <p className="text-sm text-on-accent/80">
-                {currentDay.newQuestions > 0 &&
-                  `${t("stepQuestions", { count: currentDay.newQuestions })} · `}
-                {t("minutes", { minutes: currentDay.minutes })}
+                {t("stepQuestions", { count: currentDay.newQuestions })}
               </p>
             )}
           </div>
-          <PlanRing done={doneCount} total={days.length} />
+          <PlanRing
+            done={doneCount}
+            total={days.length}
+            label={t("daysDone", { done: doneCount, total: days.length })}
+          />
         </div>
 
         <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -148,6 +150,10 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
                 value={extraDone}
                 max={preview.optionalQuestions}
                 className="h-1.5"
+                label={t("extraProgressBody", {
+                  done: extraDone,
+                  total: preview.optionalQuestions,
+                })}
               />
               <p className="text-xs text-fg-muted">
                 {t("extraProgressBody", {
@@ -188,14 +194,14 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
                   <button
                     type="button"
                     onClick={onReset}
-                    className={`h-9 px-4 text-danger ${outlinePillBase}`}
+                    className={`h-11 px-4 text-danger ${outlinePillBase}`}
                   >
                     {t("resetYes")}
                   </button>
                   <button
                     type="button"
                     onClick={() => setConfirmReset(false)}
-                    className={`h-9 px-4 ${outlinePillBase}`}
+                    className={`h-11 px-4 ${outlinePillBase}`}
                   >
                     {t("resetNo")}
                   </button>

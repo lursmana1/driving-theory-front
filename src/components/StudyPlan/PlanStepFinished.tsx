@@ -2,7 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { PLAN_STEP_PARAM } from "@/CONSTS/studyPlan";
+import {
+  PLAN_STEP_PARAM,
+  STUDY_PLAN_MAX_STEPS_PER_DAY,
+} from "@/CONSTS/studyPlan";
 import { useStudyPlan } from "@/utills/helpers/hooks/useStudyPlan";
 
 const STEP_PATTERN = /^(\d{1,2})\.(\d{1,2})$/;
@@ -38,7 +41,8 @@ function MarkStepDone({
 
   useEffect(() => {
     if (!finished || marked.current || !ready || !plan) return;
-    if (day >= plan.dayCount) return;
+    // A stale / edited link must not write a key the server rejects.
+    if (day >= plan.dayCount || step >= STUDY_PLAN_MAX_STEPS_PER_DAY) return;
     marked.current = true;
     markStepDone(day, step);
   }, [finished, ready, plan, day, step, markStepDone]);

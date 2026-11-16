@@ -4,6 +4,15 @@ export const STUDY_PLAN_RECOMMENDED_DAYS = 14;
 export const STUDY_PLAN_MIN_DAYS = 3;
 export const STUDY_PLAN_MAX_DAYS = 60;
 
+/**
+ * Saved-progress caps, same as the backend `parsePlanProgress`: a plan that
+ * breaks one is rejected (400) on every save after, so the client never
+ * writes past them.
+ */
+export const STUDY_PLAN_MAX_STEPS_PER_DAY = 40;
+export const STUDY_PLAN_DAY_MISTAKES_MAX = 300;
+export const STUDY_PLAN_MISTAKES_TOTAL_MAX = 1000;
+
 /** Sign subjects (`src/data/subjects.json`) → sign group on `/signs`. */
 export const SUBJECT_SIGN_GROUP: Record<number, number> = {
   3: 1, // warning

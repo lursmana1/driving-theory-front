@@ -4,6 +4,10 @@ import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 import { useAuth } from "@/contexts/UserContext";
 import { deleteMyPlan, getMyPlan, saveMyPlan } from "@/api/studyPlans";
 import type { DayTestResult, SavedStudyPlan } from "@/lib/types/studyPlan";
+import {
+  STUDY_PLAN_DAY_MISTAKES_MAX,
+  STUDY_PLAN_MISTAKES_TOTAL_MAX,
+} from "@/CONSTS/studyPlan";
 import { studyDayOf } from "@/utills/helpers/studyPlanProgress";
 
 /**
@@ -76,7 +80,7 @@ const accountListeners = new Set<() => void>();
 /** Saves go out one after another, so the last write always wins. */
 let saveQueue: Promise<void> = Promise.resolve();
 
-function setAccount(next: AccountState) {
+function setAccount(next: AccountState | null) {
   account = next;
   accountListeners.forEach((fn) => fn());
 }
@@ -151,7 +155,11 @@ export function useStudyPlan() {
 
   useEffect(() => {
     if (userId != null) loadAccount(userId);
-  }, [userId]);
+    // Signed out: drop the cached plan, so the next sign-in fetches afresh
+    // (progress made on another device meanwhile) and nothing of the old
+    // user lingers in this tab.
+    else if (!authLoading && account) setAccount(null);
+  }, [userId, authLoading]);
 
   const accountForUser =
     userId != null && accountState?.userId === userId ? accountState : null;
@@ -285,6 +293,11 @@ function withTest(
   return { ...prev, tests: { ...prev.tests, [key]: result } };
 }
 
+/**
+ * Adds ids to the day's list (no duplicates), within the server's caps:
+ * the newest stay, the oldest of this day go first, then of the earliest
+ * other days, so a save is never rejected.
+ */
 function withMistakes(
   prev: SavedStudyPlan,
   dayIndex: number,
@@ -292,9 +305,32 @@ function withMistakes(
 ): SavedStudyPlan {
   const key = String(dayIndex);
   const list = prev.mistakes?.[key] ?? [];
-  const merged = [...new Set([...list, ...ids])];
-  if (merged.length === list.length) return prev;
-  return { ...prev, mistakes: { ...prev.mistakes, [key]: merged } };
+  const merged = [...new Set([...list, ...ids])].slice(
+    -STUDY_PLAN_DAY_MISTAKES_MAX,
+  );
+  if (
+    merged.length === list.length &&
+    merged.every((id, i) => id === list[i])
+  ) {
+    return prev;
+  }
+  const mistakes = { ...prev.mistakes, [key]: merged };
+  let total = Object.values(mistakes).reduce((n, l) => n + l.length, 0);
+  for (const other of Object.keys(mistakes).sort(
+    (a, b) => Number(a) - Number(b),
+  )) {
+    if (total <= STUDY_PLAN_MISTAKES_TOTAL_MAX) break;
+    if (other === key) continue;
+    const drop = Math.min(
+      mistakes[other].length,
+      total - STUDY_PLAN_MISTAKES_TOTAL_MAX,
+    );
+    total -= drop;
+    const rest = mistakes[other].slice(drop);
+    if (rest.length) mistakes[other] = rest;
+    else delete mistakes[other];
+  }
+  return { ...prev, mistakes };
 }
 
 function withoutMistake(

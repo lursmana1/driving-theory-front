@@ -52,8 +52,8 @@ export function PlanNextDay({
       : topicsOf(nextDay)
     : [];
   const pill = light
-    ? "inline-flex h-10 items-center justify-center gap-2 rounded-full bg-on-accent/15 px-4 text-sm font-semibold transition hover:bg-on-accent/25"
-    : `h-10 gap-2 px-4 ${outlinePillBase}`;
+    ? "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-on-accent/15 px-4 text-sm font-semibold transition hover:bg-on-accent/25"
+    : `h-11 gap-2 px-4 ${outlinePillBase}`;
 
   return (
     <div className="space-y-3">

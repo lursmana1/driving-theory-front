@@ -84,7 +84,7 @@ export function PlanPicker({
                   type="button"
                   onClick={() => setCategoryId(c.id)}
                   aria-pressed={active}
-                  className={`h-9 min-w-11 rounded-control border px-3 text-sm font-semibold transition-colors ${
+                  className={`h-11 min-w-11 rounded-control border px-3 text-sm font-semibold transition-colors ${
                     active
                       ? "border-accent bg-accent text-on-accent"
                       : "border-line bg-surface text-fg-muted hover:bg-surface-muted"
@@ -151,7 +151,7 @@ export function PlanPicker({
                     className={`mt-1 text-2xs font-medium ${
                       n === STUDY_PLAN_RECOMMENDED_DAYS
                         ? "text-accent"
-                        : "text-fg-faint"
+                        : "text-fg-subtle"
                     }`}
                   >
                     {note}
@@ -190,15 +190,11 @@ export function PlanPicker({
         {preview && (
           <>
             <div className="space-y-4 rounded-panel border border-line bg-surface p-4 shadow-card sm:p-5">
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 <PlanStat value={preview.dayCount} label={t("daysUnit")} />
                 <PlanStat
                   value={preview.totalQuestions}
                   label={t("questionsUnit")}
-                />
-                <PlanStat
-                  value={`~${preview.minutesPerDayAvg}`}
-                  label={t("minutesUnit")}
                 />
               </div>
               {preview.mode === "short" && preview.optionalQuestions > 0 && (
@@ -206,18 +202,12 @@ export function PlanPicker({
                   {t("shortPlanNote", { count: preview.optionalQuestions })}
                 </PlanNote>
               )}
-              {preview.daysForTargetMinutes != null &&
-                preview.dayCount < preview.daysForTargetMinutes && (
-                  <PlanNote>
-                    {t("longerPlanHint", {
-                      minutes: preview.targetMinutes,
-                      days: preview.daysForTargetMinutes,
-                    })}
-                  </PlanNote>
-                )}
               {preview.intensive && (
                 <p className="rounded-control bg-warning-soft px-3 py-2 text-sm text-fg">
-                  {t("intensiveWarning")}
+                  {t("intensiveWarning", {
+                    intensive: INTENSIVE_DAYS,
+                    recommended: STUDY_PLAN_RECOMMENDED_DAYS,
+                  })}
                 </p>
               )}
               <button
