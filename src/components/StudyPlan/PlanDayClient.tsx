@@ -370,13 +370,17 @@ export default function PlanDayClient({
   }
 
   const dayDone = planDay ? isDayDone(plan, planDay) : false;
+  const extraStep = openExtraStep(plan, { index, steps: session.steps });
   const nextStatus =
     index + 1 < days.length ? dayStatus(plan, days, index + 1, today) : null;
-  const nextStep = required.find(
-    ({ step, i }) => !isStepComplete(plan, index, i, step.kind),
-  )?.i;
+  // The next step: the first open required one; after those, the day's extra
+  // round (the plan's final part) is the default next step, skip stays possible.
+  const nextStep =
+    required.find(({ step, i }) => !isStepComplete(plan, index, i, step.kind))
+      ?.i ??
+    extraStep ??
+    undefined;
   const dayTest = plan.tests[String(index)];
-  const extraStep = openExtraStep(plan, { index, steps: session.steps });
 
   return (
     <Page className="space-y-6">

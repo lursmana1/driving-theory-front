@@ -61,6 +61,15 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
   const categoryName = getCategoryById(plan.categoryId)?.name ?? "";
   const extraDone = extraTicketsDone(plan, days);
   const seen = planCoverage(plan, days);
+  const total = preview.totalQuestions;
+  const remaining = Math.max(0, total - seen);
+  // Learn days from today on: the pace that still covers everything.
+  const learnDaysLeft =
+    current == null
+      ? 0
+      : days.filter((d) => d.kind === "learn" && d.index >= current).length;
+  const pace = learnDaysLeft > 0 ? Math.ceil(remaining / learnDaysLeft) : 0;
+  const pastHalf = total > 0 && seen / total >= 0.5;
   const toExam = plan.examDay ? daysBetween(today, plan.examDay) : null;
   const topics = currentDay ? topicsOf(currentDay) : [];
 
@@ -97,26 +106,31 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
           />
         </div>
 
-        {/* Ticket coverage: what the plan has shown so far; the extra rounds fill the rest. */}
+        {/*
+         * Ticket coverage: what the plan has shown so far; the extra rounds fill
+         * the rest. Before the half-way point the done count leads, after it the
+         * remaining count (small-area rule), and a pace line keeps it attainable.
+         */}
         <div className="mt-5 space-y-1.5">
           <div className="flex items-baseline justify-between gap-3 text-sm">
             <span className="font-semibold">{t("coverageLabel")}</span>
             <span className="tabular-nums text-on-accent/85">
-              {t("coverageOf", { seen, total: preview.totalQuestions })}
+              {pastHalf
+                ? t("coverageRemaining", { count: remaining })
+                : t("coverageOf", { seen, total })}
             </span>
           </div>
           <PlanProgressBar
             value={seen}
-            max={preview.totalQuestions}
+            max={total}
             tone="light"
             className="h-2"
-            label={t("coverageOf", { seen, total: preview.totalQuestions })}
+            label={t("coverageOf", { seen, total })}
           />
-          {preview.optionalQuestions > extraDone && (
+          {remaining > 0 && (
             <p className="text-xs text-on-accent/80">
-              {t("coverageHint", {
-                count: preview.optionalQuestions - extraDone,
-              })}
+              {pace > 0 && `${t("coveragePace", { count: pace })} `}
+              {t("coverageHint")}
             </p>
           )}
         </div>
@@ -201,7 +215,7 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
             <div>
               <p className="text-sm font-semibold text-fg">{t("fullExam")}</p>
               <p className="text-xs leading-relaxed text-fg-subtle">
-                {t("fullExamBody")}
+                {t("fullExamBody")} {t("coverageNotReadiness")}
               </p>
             </div>
             <Link
