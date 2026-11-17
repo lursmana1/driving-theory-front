@@ -12,7 +12,10 @@ import {
   STUDY_PLAN_RECOMMENDED_DAYS,
 } from "@/CONSTS/studyPlan";
 import type { PlanLengthError, StudyPlanPreview } from "@/lib/types/studyPlan";
-import { examCtaPillBase } from "@/layoutComponents/Header/headerStyles";
+import {
+  examCtaPillBase,
+  outlinePillBase,
+} from "@/layoutComponents/Header/headerStyles";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
 import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
@@ -59,8 +62,24 @@ export function PlanPicker({
   const [categoryId, setCategoryId] = useState(initialCategoryId);
   const [examDay, setExamDay] = useState("");
   const [days, setDays] = useState<number>(STUDY_PLAN_RECOMMENDED_DAYS);
-  const request = usePlanRequest(`${categoryId}:${examDay || days}`, () =>
-    getPlanPreview(categoryId, examDay ? { examDay } : { days }),
+  /** "სხვა": any length 3-60, typed by the learner. */
+  const [custom, setCustom] = useState(false);
+  const [customText, setCustomText] = useState("");
+  const customDays = Number.parseInt(customText, 10);
+  const customValid =
+    Number.isInteger(customDays) &&
+    customDays >= STUDY_PLAN_MIN_DAYS &&
+    customDays <= STUDY_PLAN_MAX_DAYS;
+  const length = examDay
+    ? { examDay }
+    : custom
+      ? customValid
+        ? { days: customDays }
+        : null
+      : { days };
+  const request = usePlanRequest(
+    length == null ? null : `${categoryId}:${examDay || length.days}`,
+    () => getPlanPreview(categoryId, length ?? { days }),
   );
   const preview = request.data;
   const rangeError = request.error ? lengthError(request.error) : null;
@@ -119,9 +138,9 @@ export function PlanPicker({
 
         <div className="space-y-3">
           <p className="text-sm text-fg-muted">{t("orPreset")}</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {STUDY_PLAN_PRESET_DAYS.map((n) => {
-              const active = !examDay && days === n;
+              const active = !examDay && !custom && days === n;
               const note =
                 n === INTENSIVE_DAYS
                   ? t("presetIntensive")
@@ -134,6 +153,7 @@ export function PlanPicker({
                   type="button"
                   onClick={() => {
                     setExamDay("");
+                    setCustom(false);
                     setDays(n);
                   }}
                   aria-pressed={active}
@@ -159,7 +179,94 @@ export function PlanPicker({
                 </button>
               );
             })}
+            <button
+              type="button"
+              onClick={() => {
+                setExamDay("");
+                setCustom(true);
+              }}
+              aria-pressed={!examDay && custom}
+              className={`relative flex flex-col items-center justify-center rounded-card border px-2 py-3 transition-colors ${
+                !examDay && custom
+                  ? "border-accent bg-accent-soft"
+                  : "border-line bg-surface hover:bg-surface-muted"
+              }`}
+            >
+              <span className="text-2xl font-bold tabular-nums text-fg">
+                {custom && customValid ? customDays : "…"}
+              </span>
+              <span className="text-xs text-fg-muted">{t("daysUnit")}</span>
+              <span className="mt-1 text-2xs font-medium text-fg-subtle">
+                {t("presetCustom")}
+              </span>
+            </button>
           </div>
+          {custom && !examDay && (
+            <div className="space-y-1.5">
+              <label
+                htmlFor="plan-custom-days"
+                className="block text-xs font-medium text-fg-muted"
+              >
+                {t("customDaysLabel", {
+                  min: STUDY_PLAN_MIN_DAYS,
+                  max: STUDY_PLAN_MAX_DAYS,
+                })}
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label={t("customDaysLess")}
+                  onClick={() =>
+                    setCustomText(
+                      String(
+                        Math.max(
+                          STUDY_PLAN_MIN_DAYS,
+                          (customValid ? customDays : days) - 1,
+                        ),
+                      ),
+                    )
+                  }
+                  className={`h-11 w-11 ${outlinePillBase}`}
+                >
+                  −
+                </button>
+                <input
+                  id="plan-custom-days"
+                  type="number"
+                  inputMode="numeric"
+                  min={STUDY_PLAN_MIN_DAYS}
+                  max={STUDY_PLAN_MAX_DAYS}
+                  value={customText}
+                  placeholder={String(days)}
+                  onChange={(e) => setCustomText(e.target.value)}
+                  aria-invalid={customText !== "" && !customValid}
+                  className={`h-11 w-24 rounded-control border bg-surface px-3 text-center text-base tabular-nums text-fg ${
+                    customText !== "" && !customValid
+                      ? "border-danger"
+                      : "border-line"
+                  }`}
+                />
+                <button
+                  type="button"
+                  aria-label={t("customDaysMore")}
+                  onClick={() =>
+                    setCustomText(
+                      String(
+                        Math.min(
+                          STUDY_PLAN_MAX_DAYS,
+                          (customValid ? customDays : days) + 1,
+                        ),
+                      ),
+                    )
+                  }
+                  className={`h-11 w-11 ${outlinePillBase}`}
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-xs text-fg-subtle">{t("customDaysHint")}</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -190,11 +297,16 @@ export function PlanPicker({
         {preview && (
           <>
             <div className="space-y-4 rounded-panel border border-line bg-surface p-4 shadow-card sm:p-5">
-              <div className="grid grid-cols-2 gap-2">
+              {/* What the plan requires vs what stays optional: the trade-off behind the length. */}
+              <div className="grid grid-cols-3 gap-2">
                 <PlanStat value={preview.dayCount} label={t("daysUnit")} />
                 <PlanStat
-                  value={preview.totalQuestions}
-                  label={t("questionsUnit")}
+                  value={preview.totalQuestions - preview.optionalQuestions}
+                  label={t("requiredUnit")}
+                />
+                <PlanStat
+                  value={preview.optionalQuestions}
+                  label={t("optionalUnit")}
                 />
               </div>
               {preview.mode === "short" && preview.optionalQuestions > 0 && (

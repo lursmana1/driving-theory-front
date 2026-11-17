@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getPlanPreview } from "@/api/studyPlans";
 import { getCategoryById } from "@/CONSTS/categories";
+import { PLAN_HERO_TOPICS } from "@/CONSTS/studyPlan";
 import type { PlanDay, SavedStudyPlan } from "@/lib/types/studyPlan";
 import {
   currentDayIndex,
@@ -25,6 +26,7 @@ import { PlanRing } from "./PlanRing";
 import { PlanNextDay } from "./PlanNextDay";
 import { PlanLoadError, PlanProgressBar } from "./PlanPrimitives";
 import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
+import { PlanReadiness } from "./PlanReadiness";
 import { addPlanDays, daysBetween, formatPlanDayLong } from "./planDates";
 import { useDayTopics } from "./planLabels";
 
@@ -91,12 +93,32 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
                   ? t("doneForToday")
                   : currentDay.kind === "review"
                     ? t("reviewDay")
-                    : topics.join(" · ")}
+                    : t("todayHeadline", { count: topics.length })}
             </h2>
-            {currentDay && currentOpen && currentDay.newQuestions > 0 && (
-              <p className="text-sm text-on-accent/80">
-                {t("stepQuestions", { count: currentDay.newQuestions })}
-              </p>
+            {currentDay && currentOpen && currentDay.kind === "learn" && (
+              <ul
+                className="flex flex-wrap gap-1.5"
+                aria-label={t("todayTopics")}
+              >
+                {topics.slice(0, PLAN_HERO_TOPICS).map((topic) => (
+                  <li
+                    key={topic}
+                    className="rounded-full bg-on-accent/15 px-2.5 py-1 text-xs font-medium"
+                  >
+                    {topic}
+                  </li>
+                ))}
+                {topics.length > PLAN_HERO_TOPICS && (
+                  <li className="rounded-full bg-on-accent/15 px-2.5 py-1 text-xs font-medium">
+                    +{topics.length - PLAN_HERO_TOPICS}
+                  </li>
+                )}
+                {currentDay.newQuestions > 0 && (
+                  <li className="px-1 py-1 text-xs text-on-accent/80">
+                    {t("stepQuestions", { count: currentDay.newQuestions })}
+                  </li>
+                )}
+              </ul>
             )}
           </div>
           <PlanRing
@@ -182,6 +204,13 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          <PlanReadiness
+            categoryId={plan.categoryId}
+            seen={seen}
+            total={total}
+            daysDone={doneCount}
+            dayCount={days.length}
+          />
           {preview.optionalQuestions > 0 && (
             <section className="space-y-2 rounded-card border border-accent/40 bg-accent-soft/40 p-4 shadow-card">
               <p className="flex items-center gap-2 text-sm font-semibold text-fg">
@@ -215,7 +244,7 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
             <div>
               <p className="text-sm font-semibold text-fg">{t("fullExam")}</p>
               <p className="text-xs leading-relaxed text-fg-subtle">
-                {t("fullExamBody")} {t("coverageNotReadiness")}
+                {t("fullExamBody")}
               </p>
             </div>
             <Link

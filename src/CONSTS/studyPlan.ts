@@ -56,5 +56,14 @@ export const PLAN_TEST_REPEAT_LESSONS_SHARE = 0.5;
  */
 export const PLAN_STEP_PARAM = "planStep";
 
+/**
+ * Readiness (Fahren-Lernen-style light): yellow once every ticket was seen,
+ * green once this many full simulations in a row were passed.
+ */
+export const PLAN_READY_MOCKS_IN_A_ROW = 3;
+
+/** Topics shown as chips in the plan hero before "+N". */
+export const PLAN_HERO_TOPICS = 3;
+
 /** Day test picture slot: a fixed height, so questions don't shift the page. */
 export const PLAN_TEST_IMAGE_SLOT = "h-40 sm:h-44";
