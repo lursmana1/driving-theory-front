@@ -184,6 +184,8 @@ export function PlanPicker({
               onClick={() => {
                 setExamDay("");
                 setCustom(true);
+                // Start from the current length, so the preview never disappears.
+                if (!customValid) setCustomText(String(days));
               }}
               aria-pressed={!examDay && custom}
               className={`relative flex flex-col items-center justify-center rounded-card border px-2 py-3 transition-colors ${
