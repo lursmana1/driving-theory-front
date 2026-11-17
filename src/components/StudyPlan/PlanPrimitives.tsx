@@ -77,6 +77,19 @@ export function PlanProgressBar({
   );
 }
 
+/**
+ * Phone-only action bar pinned to the bottom (safe-area aware), so the day's
+ * primary action stays reachable while the list scrolls. Pages that show it
+ * add bottom padding (`pb-28`) so nothing hides behind it.
+ */
+export function PlanStickyBar({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-overlay backdrop-blur lg:hidden">
+      <div className="mx-auto max-w-xl">{children}</div>
+    </div>
+  );
+}
+
 /** "Could not load the plan" + retry. */
 export function PlanLoadError({
   onRetry,

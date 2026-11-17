@@ -134,37 +134,54 @@ export function PlanDayList({
                         {t("reviewDay")}
                       </p>
                     ) : (
-                      <div className="mt-1.5 flex flex-wrap gap-1">
-                        {topics.map((topic) => (
-                          <span
-                            key={topic}
-                            className="rounded-full bg-surface-sunken px-2 py-0.5 text-2xs text-fg-muted"
-                          >
-                            {topic}
-                          </span>
-                        ))}
-                        <span className="px-1 py-0.5 text-2xs text-fg-subtle">
-                          {t("stepQuestions", { count: day.newQuestions })}
-                        </span>
-                        {extra && (
-                          <span
-                            className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-2xs ${
-                              extraDone
-                                ? "bg-success-soft text-success"
-                                : "border border-dashed border-line text-fg-subtle"
-                            }`}
-                          >
-                            {extraDone && (
-                              <LineIcon
-                                name="check"
-                                className="h-3 w-3"
-                                strokeWidth={3}
-                              />
-                            )}
-                            {t("extraChip", { count: extra.questionCount })}
-                          </span>
+                      <>
+                        {/* Phones: one line per day keeps a 14-day list short. */}
+                        {!current && (
+                          <p className="mt-1 truncate text-xs text-fg-muted sm:hidden">
+                            {topics.join(" · ")}
+                            {" · "}
+                            {t("stepQuestions", { count: day.newQuestions })}
+                            {extra &&
+                              ` · ${t("extraChip", { count: extra.questionCount })}`}
+                            {extraDone && " ✓"}
+                          </p>
                         )}
-                      </div>
+                        <div
+                          className={`mt-1.5 flex-wrap gap-1 ${
+                            current ? "flex" : "hidden sm:flex"
+                          }`}
+                        >
+                          {topics.map((topic) => (
+                            <span
+                              key={topic}
+                              className="rounded-full bg-surface-sunken px-2 py-0.5 text-2xs text-fg-muted"
+                            >
+                              {topic}
+                            </span>
+                          ))}
+                          <span className="px-1 py-0.5 text-2xs text-fg-subtle">
+                            {t("stepQuestions", { count: day.newQuestions })}
+                          </span>
+                          {extra && (
+                            <span
+                              className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-2xs ${
+                                extraDone
+                                  ? "bg-success-soft text-success"
+                                  : "border border-dashed border-line text-fg-subtle"
+                              }`}
+                            >
+                              {extraDone && (
+                                <LineIcon
+                                  name="check"
+                                  className="h-3 w-3"
+                                  strokeWidth={3}
+                                />
+                              )}
+                              {t("extraChip", { count: extra.questionCount })}
+                            </span>
+                          )}
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>

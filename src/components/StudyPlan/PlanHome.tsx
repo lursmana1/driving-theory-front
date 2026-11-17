@@ -16,7 +16,10 @@ import {
   extraTicketsDone,
   planCoverage,
 } from "@/utills/helpers/studyPlanProgress";
-import { outlinePillBase } from "@/layoutComponents/Header/headerStyles";
+import {
+  examCtaPillBase,
+  outlinePillBase,
+} from "@/layoutComponents/Header/headerStyles";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
 import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
@@ -24,9 +27,13 @@ import { LineIcon } from "@/components/Icon/LineIcon";
 import { PlanDayList } from "./PlanDayList";
 import { PlanRing } from "./PlanRing";
 import { PlanNextDay } from "./PlanNextDay";
-import { PlanLoadError, PlanProgressBar } from "./PlanPrimitives";
+import {
+  PlanLoadError,
+  PlanProgressBar,
+  PlanStickyBar,
+} from "./PlanPrimitives";
 import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
-import { PlanReadiness } from "./PlanReadiness";
+import { PlanReadiness, useMockStreak } from "./PlanReadiness";
 import { addPlanDays, daysBetween, formatPlanDayLong } from "./planDates";
 import { useDayTopics } from "./planLabels";
 
@@ -43,6 +50,7 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
   const today = useStudyDay();
   const topicsOf = useDayTopics();
   const [confirmReset, setConfirmReset] = useState(false);
+  const mockStreak = useMockStreak(plan.categoryId);
   const request = usePlanRequest(`${plan.categoryId}:${plan.dayCount}`, () =>
     getPlanPreview(plan.categoryId, { days: plan.dayCount }),
   );
@@ -161,7 +169,7 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
           {currentDay == null ? null : currentOpen ? (
             <Link
               href={`/plan/day/${currentDay.index}`}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-surface px-7 text-base font-semibold text-fg shadow-card transition hover:bg-surface-muted"
+              className="hidden h-12 items-center justify-center gap-2 rounded-full bg-surface px-7 text-base font-semibold text-fg shadow-card transition hover:bg-surface-muted lg:inline-flex"
             >
               {t("startDay", { n: currentDay.index + 1 })}
               <LineIcon name="arrowRight" className="h-5 w-5" />
@@ -192,8 +200,19 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
         </div>
       </section>
 
+      {/* Phones: the readiness light sits right under the hero, not after 14 days of list. */}
+      <PlanReadiness
+        streak={mockStreak}
+        seen={seen}
+        total={total}
+        daysDone={doneCount}
+        dayCount={days.length}
+        className="lg:hidden"
+      />
+
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+        {/* min-w-0: a grid column must not grow to the one-line day summaries. */}
+        <div className="min-w-0 lg:col-span-2">
           <PlanDayList
             days={days}
             dateOf={dateOf}
@@ -205,11 +224,12 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
 
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
           <PlanReadiness
-            categoryId={plan.categoryId}
+            streak={mockStreak}
             seen={seen}
             total={total}
             daysDone={doneCount}
             dayCount={days.length}
+            className="hidden lg:block"
           />
           {preview.optionalQuestions > 0 && (
             <section className="space-y-2 rounded-card border border-accent/40 bg-accent-soft/40 p-4 shadow-card">
@@ -290,6 +310,18 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
           </section>
         </aside>
       </div>
+
+      {currentDay && currentOpen && (
+        <PlanStickyBar>
+          <Link
+            href={`/plan/day/${currentDay.index}`}
+            className={`inline-flex h-12 w-full items-center justify-center gap-2 text-base shadow-raised ${examCtaPillBase}`}
+          >
+            {t("startDay", { n: currentDay.index + 1 })}
+            <LineIcon name="arrowRight" className="h-5 w-5" />
+          </Link>
+        </PlanStickyBar>
+      )}
     </div>
   );
 }

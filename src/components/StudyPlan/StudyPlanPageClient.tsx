@@ -20,7 +20,7 @@ export default function StudyPlanPageClient({
   const save = { mode, offline, saveFailed };
 
   return (
-    <main className="section space-y-5 py-6 font-georgian sm:py-8">
+    <main className="section space-y-5 pt-6 pb-28 font-georgian sm:pt-8 lg:pb-8">
       <header className="space-y-1">
         <h1 className="text-2xl font-bold text-fg sm:text-3xl">{t("title")}</h1>
         <p className="text-sm text-fg-muted">{t("subtitle")}</p>

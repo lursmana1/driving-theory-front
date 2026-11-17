@@ -20,7 +20,7 @@ import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinne
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
 import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
 import { PlanDayList } from "./PlanDayList";
-import { PlanNote, PlanStat } from "./PlanPrimitives";
+import { PlanNote, PlanStat, PlanStickyBar } from "./PlanPrimitives";
 import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
 import { addPlanDays, formatPlanDayLong } from "./planDates";
 import { LineIcon } from "@/components/Icon/LineIcon";
@@ -325,7 +325,7 @@ export function PlanPicker({
               <button
                 type="button"
                 onClick={() => onStart(preview)}
-                className={`inline-flex h-12 w-full items-center justify-center gap-2 text-base shadow-raised ${examCtaPillBase}`}
+                className={`hidden h-12 w-full items-center justify-center gap-2 text-base shadow-raised lg:inline-flex ${examCtaPillBase}`}
               >
                 {t("startPlan")}
                 <LineIcon name="arrowRight" className="h-5 w-5" />
@@ -333,6 +333,16 @@ export function PlanPicker({
               <PlanSaveNotice {...save} className="text-center" />
             </div>
             <PlanDayList days={preview.days} />
+            <PlanStickyBar>
+              <button
+                type="button"
+                onClick={() => onStart(preview)}
+                className={`inline-flex h-12 w-full items-center justify-center gap-2 text-base shadow-raised ${examCtaPillBase}`}
+              >
+                {t("startPlan")}
+                <LineIcon name="arrowRight" className="h-5 w-5" />
+              </button>
+            </PlanStickyBar>
           </>
         )}
       </section>

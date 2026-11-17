@@ -12,12 +12,14 @@ import { subscribeStatsRefresh } from "@/lib/statsRefresh";
 import { LineIcon } from "@/components/Icon/LineIcon";
 
 type PlanReadinessProps = {
-  categoryId: number;
+  /** Passed simulations in a row (`useMockStreak`); null for guests / loading. */
+  streak: number | null;
   /** Tickets the plan has shown so far, out of `total`. */
   seen: number;
   total: number;
   daysDone: number;
   dayCount: number;
+  className?: string;
 };
 
 /** Recent full exams of this category, newest first (signed-in users only). */
@@ -25,9 +27,12 @@ const HISTORY_PAGE = 20;
 
 /**
  * Passed simulations in a row, counted from the newest finished attempt of
- * the category; null while loading or for guests.
+ * the category; null while loading or for guests. Call it once per page and
+ * pass the value down, so two cards never fetch twice.
  */
-function useMockStreak(categoryId: number, enabled: boolean): number | null {
+export function useMockStreak(categoryId: number): number | null {
+  const { user } = useAuth();
+  const enabled = !!user;
   const [streak, setStreak] = useState<number | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
@@ -76,15 +81,15 @@ type Light = "started" | "almost" | "ready";
  * and readiness are two different things and the card says so.
  */
 export function PlanReadiness({
-  categoryId,
+  streak,
   seen,
   total,
   daysDone,
   dayCount,
+  className = "",
 }: PlanReadinessProps) {
   const t = useTranslations("StudyPlan");
   const { user } = useAuth();
-  const streak = useMockStreak(categoryId, !!user);
   const covered = total > 0 && seen >= total;
   const mocksDone = Math.min(streak ?? 0, PLAN_READY_MOCKS_IN_A_ROW);
   const light: Light =
@@ -124,17 +129,15 @@ export function PlanReadiness({
 
   return (
     <section
-      aria-labelledby="plan-readiness-title"
-      className="space-y-3 rounded-card border border-line bg-surface p-4 shadow-card"
+      aria-label={t("readinessTitle")}
+      className={`space-y-3 rounded-card border border-line bg-surface p-4 shadow-card ${className}`}
     >
       <div className="flex items-center gap-2">
         <span
           aria-hidden
           className={`h-3 w-3 shrink-0 rounded-full ${lightClass}`}
         />
-        <p id="plan-readiness-title" className="text-sm font-semibold text-fg">
-          {t("readinessTitle")}
-        </p>
+        <p className="text-sm font-semibold text-fg">{t("readinessTitle")}</p>
       </div>
       <ol className="space-y-1.5">
         {steps.map((step) => (
