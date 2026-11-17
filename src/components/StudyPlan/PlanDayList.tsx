@@ -137,7 +137,7 @@ export function PlanDayList({
                       <>
                         {/* Phones: one line per day keeps a 14-day list short. */}
                         {!current && (
-                          <p className="mt-1 truncate text-xs text-fg-muted sm:hidden">
+                          <p className="mt-1 min-w-0 max-w-full truncate text-xs text-fg-muted sm:hidden">
                             {topics.join(" · ")}
                             {" · "}
                             {t("stepQuestions", { count: day.newQuestions })}

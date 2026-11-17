@@ -270,7 +270,8 @@ export function PlanPicker({
         </div>
       </section>
 
-      <section className="space-y-5 lg:col-span-3">
+      {/* min-w-0: the preview's one-line day summaries must not widen the grid column. */}
+      <section className="min-w-0 space-y-5 lg:col-span-3">
         {request.loading && <ProfileSectionSpinner label={t("loading")} />}
 
         {request.error != null && (
