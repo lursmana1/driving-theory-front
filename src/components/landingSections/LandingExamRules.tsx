@@ -71,17 +71,17 @@ export default function LandingExamRules({ rows }: { rows: LandingRuleRow[] }) {
               })}
             </div>
 
-            <dl className="mt-8 grid grid-cols-3 gap-3 sm:gap-4">
+            <dl className="mt-8 grid gap-2 sm:grid-cols-3 sm:gap-4">
               {stats.map((s) => (
                 <div
                   key={s.label}
-                  className="flex flex-col-reverse justify-end rounded-card border border-line-subtle bg-surface p-4 shadow-card sm:p-5"
+                  className="flex min-w-0 flex-row-reverse items-baseline justify-end gap-3 rounded-card border border-line-subtle bg-surface px-4 py-3 shadow-card sm:flex-col-reverse sm:items-start sm:gap-0 sm:p-5"
                 >
-                  <dt className="mt-2 text-xs font-medium leading-4 text-fg-subtle sm:text-sm">
+                  <dt className="text-sm font-medium leading-5 text-fg-subtle sm:mt-2 sm:leading-4">
                     {s.label}
                   </dt>
                   <dd
-                    className={`text-4xl font-extrabold tabular-nums tracking-display sm:text-5xl ${s.tone}`}
+                    className={`text-3xl font-extrabold tabular-nums tracking-display sm:text-5xl ${s.tone}`}
                   >
                     {s.value}
                   </dd>
@@ -109,7 +109,7 @@ export default function LandingExamRules({ rows }: { rows: LandingRuleRow[] }) {
 
             <Link
               href={`/subjectpicker?category=${active.id}`}
-              className={`mt-6 h-12 w-full sm:w-fit ${LANDING.gradientCta}`}
+              className={`mt-6 min-h-12 w-full py-3 text-center sm:w-fit ${LANDING.gradientCta}`}
             >
               {t("rulesCta", { name: active.name })}
               <LandingIcon name="arrow" className="h-5 w-5" />
@@ -128,7 +128,7 @@ export default function LandingExamRules({ rows }: { rows: LandingRuleRow[] }) {
                   <th scope="col" className="px-2 py-3 text-right align-bottom sm:px-3">
                     {t("rulesQuestions")}
                   </th>
-                  <th scope="col" className="px-2 py-3 text-right align-bottom sm:px-3">
+                  <th scope="col" className="hidden px-2 py-3 sm:table-cell text-right align-bottom sm:px-3">
                     {t("rulesPass")}
                   </th>
                   <th scope="col" className="py-3 pl-2 pr-3 text-right align-bottom sm:px-4">
@@ -154,7 +154,7 @@ export default function LandingExamRules({ rows }: { rows: LandingRuleRow[] }) {
                         {row.name}
                       </th>
                       <td className="px-2 py-2.5 text-right text-fg-muted sm:px-3">{row.total}</td>
-                      <td className="px-2 py-2.5 text-right text-fg-muted sm:px-3">{row.pass}</td>
+                      <td className="hidden px-2 py-2.5 text-right text-fg-muted sm:table-cell sm:px-3">{row.pass}</td>
                       <td className="py-2.5 pl-2 pr-3 text-right font-semibold text-success-strong sm:px-4">
                         {row.mistakes}
                       </td>

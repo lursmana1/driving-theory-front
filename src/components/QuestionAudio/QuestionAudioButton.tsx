@@ -67,7 +67,8 @@ export function QuestionAudioButton({
 
   const listenLabel = label ?? t("questionListen");
   const stopLabel = t("questionStop");
-  const iconClass = compact ? "h-3.5 w-3.5" : "h-5 w-5";
+  // the icon files are drawn white; on a light surface flip them to dark
+  const iconClass = `${compact ? "h-3.5 w-3.5" : "h-5 w-5"}${tone === "surface" ? " invert" : ""}`;
 
   return (
     <button

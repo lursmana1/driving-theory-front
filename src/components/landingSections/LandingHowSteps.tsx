@@ -53,19 +53,19 @@ export async function LandingHowSteps() {
           </Link>
         </div>
 
-        <ol className="mt-12 grid gap-5 md:grid-cols-3">
+        <ol className="mt-12 grid gap-5 lg:grid-cols-3">
           {steps.map((step) => (
             <li
               key={step.n}
-              className="flex flex-col overflow-hidden rounded-panel border border-line bg-surface shadow-card"
+              className="flex flex-col overflow-hidden rounded-panel border border-line bg-surface shadow-card md:flex-row lg:flex-col"
             >
               <div
-                className="flex h-44 items-center justify-center border-b border-line-subtle bg-canvas px-6"
+                className="flex h-44 shrink-0 items-center justify-center border-b border-line-subtle bg-canvas px-6 md:h-auto md:w-80 md:border-b-0 md:border-r lg:h-44 lg:w-auto lg:border-b lg:border-r-0"
                 aria-hidden
               >
                 {step.mock}
               </div>
-              <div className="p-6">
+              <div className="p-6 md:self-center lg:self-auto">
                 <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-accent text-xs font-bold tabular-nums text-on-accent">
                   {step.n}
                 </span>

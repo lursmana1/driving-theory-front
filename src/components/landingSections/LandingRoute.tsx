@@ -27,14 +27,14 @@ export default async function LandingRoute() {
         </h2>
         <p className={`mt-4 max-w-2xl ${LANDING.body}`}>{t("routeSubtitle")}</p>
 
-        <ol className="relative mt-12 grid gap-4 md:grid-cols-3 md:gap-0">
+        <ol className="relative mt-12 grid gap-4 lg:grid-cols-3 lg:gap-0">
           {STAGES.map((s, i) => (
-            <li key={s.key} className="relative flex md:pr-10 md:last:pr-0">
+            <li key={s.key} className="relative flex lg:pr-10 lg:last:pr-0">
               {/* connector to the next stage (desktop) */}
               {i < STAGES.length - 1 ? (
                 <div
                   aria-hidden
-                  className="absolute left-14 right-0 top-7 hidden items-center md:flex"
+                  className="absolute left-14 right-0 top-7 hidden items-center lg:flex"
                 >
                   <span className="h-0.5 flex-1 bg-line" />
                   {i === 0 ? (
@@ -46,7 +46,7 @@ export default async function LandingRoute() {
                 </div>
               ) : null}
 
-              <div className="relative flex w-full gap-4 md:flex-col">
+              <div className="relative flex w-full gap-4 lg:flex-col">
                 <span
                   className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-4 border-canvas text-lg font-extrabold tabular-nums ${
                     i === 0 ? "bg-accent text-on-accent" : "bg-inverse text-fg-inverse"
@@ -54,7 +54,7 @@ export default async function LandingRoute() {
                 >
                   {s.n}
                 </span>
-                <div className="min-w-0 flex-1 rounded-panel border border-line bg-surface p-5 md:mr-0">
+                <div className="min-w-0 flex-1 rounded-panel border border-line bg-surface p-5">
                   <p className="text-2xs font-semibold uppercase tracking-eyebrow text-fg-faint">
                     {t("routeStep", { n: s.n })}
                   </p>

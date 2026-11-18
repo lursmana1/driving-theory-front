@@ -15,7 +15,7 @@ export default async function LandingCta() {
             aria-hidden
             className="absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full bg-accent opacity-40 blur-3xl"
           />
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-xl">
               <h2
                 id="cta-title"
@@ -28,13 +28,13 @@ export default async function LandingCta() {
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-center">
-              <Link href="/plan" className={`h-13 ${LANDING.gradientCta}`}>
+              <Link href="/plan" className={`min-h-13 py-3 text-center ${LANDING.gradientCta}`}>
                 {t("ctaBtn")}
                 <LandingIcon name="arrow" className="h-5 w-5" />
               </Link>
               <Link
                 href="/auth?mode=register"
-                className="inline-flex h-13 items-center justify-center rounded-control border border-fg-inverse/30 px-7 text-base font-semibold text-fg-inverse transition hover:bg-fg-inverse/10"
+                className="inline-flex min-h-13 items-center justify-center rounded-control border border-fg-inverse/30 px-7 py-3 text-center text-base font-semibold text-fg-inverse transition hover:bg-fg-inverse/10"
               >
                 {t("ctaRegister")}
               </Link>

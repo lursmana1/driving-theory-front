@@ -10,7 +10,7 @@ export const LANDING = {
   gradientCta:
     "inline-flex items-center justify-center gap-2 rounded-control bg-accent px-7 font-semibold text-on-accent transition hover:bg-accent-strong",
   heroPrimaryCta:
-    "inline-flex h-13 items-center justify-center gap-3 rounded-control bg-accent px-7 text-base font-bold text-on-accent shadow-raised transition hover:bg-accent-strong",
+    "inline-flex h-13 items-center justify-center gap-3 whitespace-nowrap rounded-control bg-accent px-5 text-sm font-bold text-on-accent shadow-raised transition hover:bg-accent-strong sm:px-7 sm:text-base",
   heroSecondaryCta:
     "inline-flex h-13 items-center justify-center rounded-control border border-line-strong bg-surface px-7 text-base font-semibold text-fg transition hover:border-fg-faint hover:bg-surface-muted",
   footerLogoMark:
