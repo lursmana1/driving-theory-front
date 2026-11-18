@@ -1,72 +1,82 @@
 import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { LANDING } from "@/CONSTS/landing";
-import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
+import { DEFAULT_CATEGORY_ID, getExamRules } from "@/CONSTS/categories";
+import { getLandingDemoQuestion } from "@/api/landingDemo";
 import { LandingHeroRoad } from "./LandingHeroRoad";
-import GuestAuthHint from "@/components/GuestAuth/GuestAuthHint";
+import LandingDemoTicket from "./LandingDemoTicket";
+import { LandingIcon } from "./LandingIcons";
 
-const STEP_KEYS = ["stepShort1", "stepShort2", "stepShort3"] as const;
+const TRUST_KEYS = ["heroTrust1", "heroTrust2", "heroTrust3"] as const;
 
 export default async function LandingHero() {
-  const t = await getTranslations("Home");
+  const locale = await getLocale();
+  const [t, demo] = await Promise.all([
+    getTranslations("Home"),
+    getLandingDemoQuestion(locale),
+  ]);
+  const rulesB = getExamRules(DEFAULT_CATEGORY_ID);
 
   return (
     <section className={LANDING.heroBg} aria-labelledby="hero-title">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-accent-soft via-canvas to-canvas"
+      />
       <div className="section">
-      <div className="grid lg:min-h-[calc(100svh-8rem)] lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.95fr)]">
-        <div className="flex flex-col justify-center py-12 lg:border-r lg:border-line lg:py-16 lg:pr-12">
-          <h1 id="hero-title" className={LANDING.headingHero}>
-            {t("heroTitleLine1")}
-          </h1>
+        <div className="grid items-start gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16 lg:py-20">
+          <div className="flex flex-col lg:pt-10">
+            <p className="inline-flex w-fit items-center gap-2 rounded-full border border-accent-muted bg-surface px-3 py-1 text-xs font-semibold text-accent shadow-card">
+              <span className="h-1.5 w-1.5 rounded-full bg-success" aria-hidden />
+              {t("heroRulesBadge", {
+                pass: rulesB.passScore,
+                total: rulesB.totalQuestions,
+              })}
+            </p>
 
-          <p className={`mt-7 max-w-md ${LANDING.body}`}>
-            {t("heroDescription")}
-          </p>
+            <h1 id="hero-title" className={`mt-6 ${LANDING.headingHero}`}>
+              {t("heroTitleLine1")}
+            </h1>
+            <p className="mt-4 max-w-xl text-balance text-xl font-semibold leading-snug text-fg-muted sm:text-2xl">
+              {t("heroLead")}
+            </p>
+            <p className={`mt-5 max-w-lg ${LANDING.body}`}>
+              {t("heroDescription")}
+            </p>
 
-          <div className="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+              <Link href="/plan" className={LANDING.heroPrimaryCta}>
+                {t("heroCta1")}
+                <LandingIcon name="arrow" className="h-5 w-5" />
+              </Link>
+              <Link href="/subjectpicker" className={LANDING.heroSecondaryCta}>
+                {t("heroCta2")}
+              </Link>
+            </div>
             <Link
               href={`/tickets/${DEFAULT_CATEGORY_ID}`}
-              className={LANDING.heroPrimaryCta}
+              className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
             >
-              {t("heroCta1")}
-              <span aria-hidden className="text-xl leading-none">
-                →
-              </span>
+              {t("heroTicketsLink")}
+              <LandingIcon name="arrow" className="h-4 w-4" />
             </Link>
-            <Link href="/subjectpicker" className={LANDING.heroSecondaryCta}>
-              {t("heroCta2")}
-            </Link>
+
+            <ul className="mt-8 grid gap-2.5 border-t border-line pt-6 text-sm text-fg-muted sm:grid-cols-3 sm:gap-4">
+              {TRUST_KEYS.map((key) => (
+                <li key={key} className="flex items-start gap-2">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success-soft text-success-strong">
+                    <LandingIcon name="check" className="h-3.5 w-3.5" />
+                  </span>
+                  {t(key)}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <GuestAuthHint />
-        </div>
-
-        <div className="flex items-center justify-center px-4 pb-6 sm:px-8 lg:px-6 lg:py-10">
-          <LandingHeroRoad />
-        </div>
-      </div>
-
-      <div className="grid border-t border-line sm:grid-cols-3">
-        {STEP_KEYS.map((key, i) => (
-          <div
-            key={key}
-            className={`flex items-baseline gap-4 py-4 ${
-              i === 0 ? "sm:pr-8" : i === STEP_KEYS.length - 1 ? "sm:pl-8" : "sm:px-8"
-            } ${
-              i < STEP_KEYS.length - 1
-                ? "border-b border-line sm:border-b-0 sm:border-r"
-                : ""
-            }`}
-          >
-            <span className="text-xs font-semibold tabular-nums text-accent/70">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <span className="text-body font-semibold text-fg">
-              {t(key)}
-            </span>
+          <div className="flex justify-center lg:justify-end">
+            {demo ? <LandingDemoTicket question={demo} /> : <LandingHeroRoad />}
           </div>
-        ))}
-      </div>
+        </div>
       </div>
     </section>
   );

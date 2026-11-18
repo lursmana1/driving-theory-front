@@ -28,6 +28,11 @@ export default async function LandingFooter() {
               <h3 className={LANDING.headingFooter}>{t("footerPlatform")}</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
                 <li>
+                  <Link href="/plan" className={footerLink}>
+                    {t("footerPlan")}
+                  </Link>
+                </li>
+                <li>
                   <Link href="/subjectpicker" className={footerLink}>
                     {t("footerSimulation")}
                   </Link>
@@ -40,17 +45,27 @@ export default async function LandingFooter() {
                     {t("footerTopics")}
                   </Link>
                 </li>
-                <li>
-                  <Link href="/city-exam" className={footerLink}>
-                    {t("footerCityExam")}
-                  </Link>
-                </li>
               </ul>
             </nav>
 
             <nav aria-label={t("footerResources")}>
               <h3 className={LANDING.headingFooter}>{t("footerResources")}</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
+                <li>
+                  <Link href="/signs" className={footerLink}>
+                    {t("footerSigns")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/yard-exam" className={footerLink}>
+                    {t("footerYardExam")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/city-exam" className={footerLink}>
+                    {t("footerCityExam")}
+                  </Link>
+                </li>
                 <li>
                   <Link href="/blogs" className={footerLink}>
                     {t("footerBlogs")}

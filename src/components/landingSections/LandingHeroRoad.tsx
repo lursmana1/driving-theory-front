@@ -117,34 +117,6 @@ export function LandingHeroRoad() {
         <path d="M4 -33 l7 6 l-7 6 z" fill="var(--neutral-50)" />
       </g>
 
-      {/* numbered callouts */}
-      <g
-        fill="var(--color-fg)"
-        fontFamily="system-ui, sans-serif"
-        fontSize="12"
-        fontWeight="700"
-      >
-        <path d="M126 470 H198" stroke="var(--color-fg)" strokeWidth="1" />
-        <circle cx="198" cy="470" r="3" fill="var(--color-fg)" />
-        <circle cx="106" cy="470" r="18" fill="var(--color-canvas)" stroke="var(--color-fg)" strokeWidth="1.2" />
-        <text x="106" y="474" textAnchor="middle">
-          01
-        </text>
-
-        <path d="M126 252 H200" stroke="var(--color-fg)" strokeWidth="1" />
-        <circle cx="200" cy="252" r="3" fill="var(--color-fg)" />
-        <circle cx="106" cy="252" r="18" fill="var(--color-canvas)" stroke="var(--color-fg)" strokeWidth="1.2" />
-        <text x="106" y="256" textAnchor="middle">
-          02
-        </text>
-
-        <path d="M690 100 L672 176" stroke="var(--color-fg)" strokeWidth="1" />
-        <circle cx="694" cy="82" r="18" fill="var(--color-canvas)" stroke="var(--color-fg)" strokeWidth="1.2" />
-        <text x="694" y="86" textAnchor="middle">
-          03
-        </text>
-      </g>
-
       <defs>
         <linearGradient id="carSheen" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="var(--neutral-0)" stopOpacity="0.18" />
