@@ -1,0 +1,328 @@
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { isAxiosError } from "axios";
+import { getPlanPreview } from "@/api/studyPlans";
+import { licenseCategories } from "@/CONSTS/categories";
+import {
+  STUDY_PLAN_MAX_DAYS,
+  STUDY_PLAN_MIN_DAYS,
+  STUDY_PLAN_PRESET_DAYS,
+  STUDY_PLAN_RECOMMENDED_DAYS,
+} from "@/CONSTS/studyPlan";
+import type { PlanLengthError, StudyPlanPreview } from "@/lib/types/studyPlan";
+import {
+  examCtaPillBase,
+  outlinePillBase,
+} from "@/layoutComponents/Header/headerStyles";
+import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
+import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
+import { PlanDayList } from "./PlanDayList";
+import { PlanNote, PlanStat, PlanStickyBar } from "./PlanPrimitives";
+import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
+import { LineIcon } from "@/components/Icon/LineIcon";
+
+type PlanPickerProps = {
+  initialCategoryId: number;
+  onStart: (preview: StudyPlanPreview) => void;
+  save: PlanSaveState;
+};
+
+function lengthError(err: unknown): PlanLengthError | null {
+  if (!isAxiosError(err)) return null;
+  const reason = (err.response?.data as { reason?: string } | undefined)
+    ?.reason;
+  return reason === "too-soon" || reason === "too-far" ? reason : null;
+}
+
+const INTENSIVE_DAYS = STUDY_PLAN_PRESET_DAYS[0];
+
+function StepTitle({ n, children }: { n: number; children: React.ReactNode }) {
+  return (
+    <p className="flex items-center gap-2 text-sm font-semibold text-fg">
+      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent-soft text-xs font-bold text-accent">
+        {n}
+      </span>
+      {children}
+    </p>
+  );
+}
+
+/** Category, then the plan length (presets or 3-60 days); live preview of the day list. */
+export function PlanPicker({
+  initialCategoryId,
+  onStart,
+  save,
+}: PlanPickerProps) {
+  const t = useTranslations("StudyPlan");
+  const [categoryId, setCategoryId] = useState(initialCategoryId);
+  const [days, setDays] = useState<number>(STUDY_PLAN_RECOMMENDED_DAYS);
+  /** "სხვა": any length 3-60, typed by the learner. */
+  const [custom, setCustom] = useState(false);
+  const [customText, setCustomText] = useState("");
+  const customDays = Number.parseInt(customText, 10);
+  const customValid =
+    Number.isInteger(customDays) &&
+    customDays >= STUDY_PLAN_MIN_DAYS &&
+    customDays <= STUDY_PLAN_MAX_DAYS;
+  const length = custom
+    ? customValid
+      ? { days: customDays }
+      : null
+    : { days };
+  const request = usePlanRequest(
+    length == null ? null : `${categoryId}:${length.days}`,
+    () => getPlanPreview(categoryId, length ?? { days }),
+  );
+  const preview = request.data;
+  const rangeError = request.error ? lengthError(request.error) : null;
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-5">
+      <section className="space-y-6 rounded-panel border border-line bg-surface p-4 shadow-card sm:p-6 lg:sticky lg:top-24 lg:col-span-2 lg:self-start">
+        <div className="space-y-3">
+          <StepTitle n={1}>{t("categoryLabel")}</StepTitle>
+          <div
+            role="group"
+            aria-label={t("categoryLabel")}
+            className="flex flex-wrap gap-1.5"
+          >
+            {licenseCategories.map((c) => {
+              const active = c.id === categoryId;
+              return (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => setCategoryId(c.id)}
+                  aria-pressed={active}
+                  className={`h-11 min-w-11 rounded-control border px-3 text-sm font-semibold transition-colors ${
+                    active
+                      ? "border-accent bg-accent text-on-accent"
+                      : "border-line bg-surface text-fg-muted hover:bg-surface-muted"
+                  }`}
+                >
+                  {c.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <StepTitle n={2}>{t("planLengthLabel")}</StepTitle>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {STUDY_PLAN_PRESET_DAYS.map((n) => {
+              const active = !custom && days === n;
+              // Only the two ends carry a label; the rest is the learner's choice.
+              const note =
+                n === INTENSIVE_DAYS
+                  ? t("presetIntensive")
+                  : n === STUDY_PLAN_RECOMMENDED_DAYS
+                    ? t("presetRecommended")
+                    : null;
+              return (
+                <button
+                  key={n}
+                  type="button"
+                  onClick={() => {
+                    setCustom(false);
+                    setDays(n);
+                  }}
+                  aria-pressed={active}
+                  className={`relative flex flex-col items-center justify-center rounded-card border px-2 py-3 transition-colors ${
+                    active
+                      ? "border-accent bg-accent-soft"
+                      : "border-line bg-surface hover:bg-surface-muted"
+                  }`}
+                >
+                  <span className="text-2xl font-bold tabular-nums text-fg">
+                    {n}
+                  </span>
+                  <span className="text-xs text-fg-muted">{t("daysUnit")}</span>
+                  {note && (
+                    <span
+                      className={`mt-1 text-2xs font-medium ${
+                        n === STUDY_PLAN_RECOMMENDED_DAYS
+                          ? "text-accent"
+                          : "text-fg-subtle"
+                      }`}
+                    >
+                      {note}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => {
+                setCustom(true);
+                // Start from the current length, so the preview never disappears.
+                if (!customValid) setCustomText(String(days));
+              }}
+              aria-pressed={custom}
+              className={`relative flex flex-col items-center justify-center rounded-card border px-2 py-3 transition-colors ${
+                custom
+                  ? "border-accent bg-accent-soft"
+                  : "border-line bg-surface hover:bg-surface-muted"
+              }`}
+            >
+              <span className="text-2xl font-bold tabular-nums text-fg">
+                {custom && customValid ? customDays : "…"}
+              </span>
+              <span className="text-xs text-fg-muted">{t("daysUnit")}</span>
+              <span className="mt-1 text-2xs font-medium text-fg-subtle">
+                {t("presetCustom")}
+              </span>
+            </button>
+          </div>
+          {custom && (
+            <div className="space-y-1.5">
+              <label
+                htmlFor="plan-custom-days"
+                className="block text-xs font-medium text-fg-muted"
+              >
+                {t("customDaysLabel", {
+                  min: STUDY_PLAN_MIN_DAYS,
+                  max: STUDY_PLAN_MAX_DAYS,
+                })}
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label={t("customDaysLess")}
+                  onClick={() =>
+                    setCustomText(
+                      String(
+                        Math.max(
+                          STUDY_PLAN_MIN_DAYS,
+                          (customValid ? customDays : days) - 1,
+                        ),
+                      ),
+                    )
+                  }
+                  className={`h-11 w-11 ${outlinePillBase}`}
+                >
+                  −
+                </button>
+                <input
+                  id="plan-custom-days"
+                  type="number"
+                  inputMode="numeric"
+                  min={STUDY_PLAN_MIN_DAYS}
+                  max={STUDY_PLAN_MAX_DAYS}
+                  value={customText}
+                  placeholder={String(days)}
+                  onChange={(e) => setCustomText(e.target.value)}
+                  aria-invalid={customText !== "" && !customValid}
+                  className={`h-11 w-24 rounded-control border bg-surface px-3 text-center text-base tabular-nums text-fg ${
+                    customText !== "" && !customValid
+                      ? "border-danger"
+                      : "border-line"
+                  }`}
+                />
+                <button
+                  type="button"
+                  aria-label={t("customDaysMore")}
+                  onClick={() =>
+                    setCustomText(
+                      String(
+                        Math.min(
+                          STUDY_PLAN_MAX_DAYS,
+                          (customValid ? customDays : days) + 1,
+                        ),
+                      ),
+                    )
+                  }
+                  className={`h-11 w-11 ${outlinePillBase}`}
+                >
+                  +
+                </button>
+              </div>
+              <p className="text-xs text-fg-subtle">{t("customDaysHint")}</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* min-w-0: the preview's one-line day summaries must not widen the grid column. */}
+      <section className="min-w-0 space-y-5 lg:col-span-3">
+        {request.loading && <ProfileSectionSpinner label={t("loading")} />}
+
+        {request.error != null && (
+          <div className="space-y-3 rounded-card border border-line bg-surface p-5 text-center">
+            <p className={`text-sm ${rangeError ? "text-fg" : "text-danger"}`}>
+              {rangeError === "too-soon"
+                ? t("tooSoon")
+                : rangeError === "too-far"
+                  ? t("tooFar", { max: STUDY_PLAN_MAX_DAYS })
+                  : t("error")}
+            </p>
+            {!rangeError && (
+              <button
+                type="button"
+                onClick={request.retry}
+                className={`h-10 px-5 text-sm ${examCtaPillBase}`}
+              >
+                {t("retry")}
+              </button>
+            )}
+          </div>
+        )}
+
+        {preview && (
+          <>
+            <div className="space-y-4 rounded-panel border border-line bg-surface p-4 shadow-card sm:p-5">
+              {/* What the plan requires vs what stays optional: the trade-off behind the length. */}
+              <div className="grid grid-cols-3 gap-2">
+                <PlanStat value={preview.dayCount} label={t("daysUnit")} />
+                <PlanStat
+                  value={preview.totalQuestions - preview.optionalQuestions}
+                  label={t("requiredUnit")}
+                />
+                <PlanStat
+                  value={preview.optionalQuestions}
+                  label={t("optionalUnit")}
+                />
+              </div>
+              {preview.mode === "short" && preview.optionalQuestions > 0 && (
+                <PlanNote>
+                  {t("shortPlanNote", { count: preview.optionalQuestions })}
+                </PlanNote>
+              )}
+              {preview.intensive && (
+                <p className="rounded-control bg-warning-soft px-3 py-2 text-sm text-fg">
+                  {t("intensiveWarning", {
+                    intensive: INTENSIVE_DAYS,
+                    recommended: STUDY_PLAN_RECOMMENDED_DAYS,
+                  })}
+                </p>
+              )}
+              <button
+                type="button"
+                onClick={() => onStart(preview)}
+                className={`hidden h-12 w-full items-center justify-center gap-2 text-base shadow-raised lg:inline-flex ${examCtaPillBase}`}
+              >
+                {t("startPlan")}
+                <LineIcon name="arrowRight" className="h-5 w-5" />
+              </button>
+              <PlanSaveNotice {...save} className="text-center" />
+            </div>
+            <PlanDayList days={preview.days} />
+            <PlanStickyBar>
+              <button
+                type="button"
+                onClick={() => onStart(preview)}
+                className={`inline-flex h-12 w-full items-center justify-center gap-2 text-base shadow-raised ${examCtaPillBase}`}
+              >
+                {t("startPlan")}
+                <LineIcon name="arrowRight" className="h-5 w-5" />
+              </button>
+            </PlanStickyBar>
+          </>
+        )}
+      </section>
+    </div>
+  );
+}

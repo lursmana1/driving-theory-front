@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { navLinks } from "@/CONSTS/navLinks";
 import { moreInfoLinks } from "@/CONSTS/moreInfoLinks";
@@ -14,13 +14,22 @@ import {
   burgerDivider,
   burgerDrawer,
   burgerNavItem,
+  burgerNavItemActive,
   burgerOverlay,
+  burgerSubItem,
 } from "./headerStyles";
+
+function isActivePath(pathname: string, href: string) {
+  const base = href.replace(/\/\d+$/, "");
+  if (base === "/") return pathname === "/";
+  return pathname === base || pathname.startsWith(`${base}/`);
+}
 
 export default function BurgerMenu() {
   const user = useUser();
   const tAuth = useTranslations("Auth");
   const tHeader = useTranslations("Header");
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const { canInstall, install, guide } = useInstallPrompt();
@@ -90,33 +99,41 @@ export default function BurgerMenu() {
             >
               <div className="section flex flex-col pb-4 pt-2">
                 <ul className="flex flex-col">
-                  {navLinks.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        onClick={closeMenu}
-                        className={burgerNavItem}
-                      >
-                        {tHeader(link.labelKey)}
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="pt-2">
-                    <p className="px-0 py-2 text-xs font-semibold uppercase tracking-wide text-fg-faint">
+                  {navLinks.map((link) => {
+                    const active = isActivePath(pathname, link.href);
+                    return (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          onClick={closeMenu}
+                          aria-current={active ? "page" : undefined}
+                          className={`${burgerNavItem} ${active ? burgerNavItemActive : ""}`}
+                        >
+                          {tHeader(link.labelKey)}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                  <li className="mt-2 border-t border-line pt-2">
+                    <p className="px-3 pt-1 pb-1 text-2xs font-semibold uppercase tracking-wide text-fg-subtle">
                       {tHeader("navMoreInfo")}
                     </p>
                     <ul className="flex flex-col">
-                      {moreInfoLinks.map((link) => (
-                        <li key={link.href}>
-                          <Link
-                            href={link.href}
-                            onClick={closeMenu}
-                            className={burgerNavItem}
-                          >
-                            {tHeader(link.labelKey)}
-                          </Link>
-                        </li>
-                      ))}
+                      {moreInfoLinks.map((link) => {
+                        const active = isActivePath(pathname, link.href);
+                        return (
+                          <li key={link.href}>
+                            <Link
+                              href={link.href}
+                              onClick={closeMenu}
+                              aria-current={active ? "page" : undefined}
+                              className={`${burgerSubItem} ${active ? burgerNavItemActive : ""}`}
+                            >
+                              {tHeader(link.labelKey)}
+                            </Link>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </li>
                 </ul>
@@ -139,7 +156,7 @@ export default function BurgerMenu() {
                       {tAuth("login")}
                     </Link>
                   )}
-                  <div className="mt-2">
+                  <div>
                     <InstallAppItem
                       canInstall={canInstall}
                       guide={guide}

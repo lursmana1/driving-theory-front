@@ -7,12 +7,18 @@ import SignLinkedText from "@/components/Signs/SignLinkedText";
 type AiTutorTextProps = {
   text: string;
   label: string;
+  /** Start open (study plan lessons show it right after the answer). */
+  defaultOpen?: boolean;
 };
 
 const CHAR_MS = 18;
 
-export function AiTutorText({ text, label }: AiTutorTextProps) {
-  const [open, setOpen] = useState(false);
+export function AiTutorText({
+  text,
+  label,
+  defaultOpen = false,
+}: AiTutorTextProps) {
+  const [open, setOpen] = useState(defaultOpen);
   /** Tagged with the text it belongs to, so a different `text` restarts from 0 without an effect */
   const [typed, setTyped] = useState({ text: "", chars: 0 });
   const rafRef = useRef(0);
@@ -76,8 +82,14 @@ export function AiTutorText({ text, label }: AiTutorTextProps) {
         <div className="px-3 pb-3">
           <p className="font-georgian text-sm leading-relaxed">
             {/* sign numbers become links once the text has finished typing */}
-            {done ? <SignLinkedText text={text} tone="stage" /> : text.slice(0, chars)}
-            {!done && <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-accent align-middle" />}
+            {done ? (
+              <SignLinkedText text={text} tone="stage" />
+            ) : (
+              text.slice(0, chars)
+            )}
+            {!done && (
+              <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-accent align-middle" />
+            )}
           </p>
         </div>
       )}
