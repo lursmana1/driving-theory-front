@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
 import { getPlanDay, getPlanPreview } from "@/api/studyPlans";
 import type {
@@ -15,6 +15,12 @@ import type { ExamQuestion } from "@/lib/types/exam";
 import { useStudyPlan } from "@/utills/helpers/hooks/useStudyPlan";
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
 import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
+import {
+  PLAN_STEP_MISTAKES,
+  usePlanStepParam,
+  type PlanStepParam,
+} from "@/utills/helpers/hooks/usePlanStepParam";
+import { usePlanLeaveGuard } from "@/utills/helpers/hooks/usePlanLeaveGuard";
 import {
   dayMistakes,
   dayStatus,
@@ -30,56 +36,106 @@ import {
   outlinePillBase,
 } from "@/layoutComponents/Header/headerStyles";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
-import { LineIcon } from "@/components/Icon/LineIcon";
+import { LineIcon, type LineIconName } from "@/components/Icon/LineIcon";
 import { PlanQuizRunner } from "./PlanQuizRunner";
 import { PlanLessonRunner } from "./PlanLessonRunner";
 import { PlanDayTest } from "./PlanDayTest";
 import { PlanNextDay } from "./PlanNextDay";
 import { PlanDayHeader } from "./PlanDayHeader";
 import { PlanStepList } from "./PlanStepList";
-import { PlanLoadError } from "./PlanPrimitives";
+import {
+  PlanBackButton,
+  PlanConfirmSheet,
+  PlanLoadError,
+} from "./PlanPrimitives";
 import { addPlanDays } from "./planDates";
 import { useLessonTitle } from "./planLabels";
 import { STEP_ICON, STEP_LABEL } from "./planSteps";
 
 type PlanDayClientProps = {
   index: number;
-  /** `?fix=1`: open the day's mistakes round right away. */
-  fixMistakes?: boolean;
 };
 
 /** `active` value of the day's mistakes round (steps are 0, 1, ...). */
-const MISTAKES = "mistakes";
+const MISTAKES = PLAN_STEP_MISTAKES;
 
-function scrollToTop() {
-  window.scrollTo({ top: 0 });
-}
-
-/** `/plan/day/[index]`: the day's steps, and the runner for the open step. */
-export default function PlanDayClient({
-  index,
-  fixMistakes = false,
-}: PlanDayClientProps) {
+/**
+ * `/plan/day/[index]`: the day's steps, and the runner for the open step.
+ * The open step is `?step=<i>` / `?step=mistakes` (old links: `?fix=1`), so
+ * the phone's Back closes it.
+ */
+export default function PlanDayClient({ index }: PlanDayClientProps) {
   const t = useTranslations("StudyPlan");
   const locale = useLocale();
   const { user } = useAuth();
-  const router = useRouter();
   const { plan, ready, markStepDone, recordTest, addMistakes, fixMistake } =
     useStudyPlan();
   const today = useStudyDay();
   const lessonTitle = useLessonTitle();
-  const [active, setActive] = useState<number | typeof MISTAKES | null>(
-    fixMistakes ? MISTAKES : null,
-  );
+  const { active, open: openStep, close: closeStep } = usePlanStepParam();
   /**
    * The mistakes round's question ids, frozen when it opens: fixing shrinks
    * the day's list, but the round keeps its questions until it is closed.
    */
   const [roundIds, setRoundIds] = useState<number[] | null>(null);
-  /** The open step's heading takes focus, so screen readers land on the runner. */
+  // Left by Back (not by `close`): the frozen round must not outlive it.
+  if (active !== MISTAKES && roundIds != null) setRoundIds(null);
+
+  /** A running day test: Back and the step's back button ask first. */
+  const [testRunning, setTestRunning] = useState(false);
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const guard = usePlanLeaveGuard(testRunning, () => setConfirmLeave(true));
+
+  /** The step to bring back into view when the day list shows again. */
+  const lastOpened = useRef<number | null>(null);
+  const open = useCallback(
+    (step: Exclude<PlanStepParam, null>) => {
+      if (typeof step === "number") lastOpened.current = step;
+      openStep(step);
+    },
+    [openStep],
+  );
+  /** `toTop`: after finishing a step the day's progress is the news. */
+  const close = useCallback(
+    (toTop = false) => {
+      if (toTop) lastOpened.current = null;
+      setConfirmLeave(false);
+      closeStep();
+    },
+    [closeStep],
+  );
+  const stayInTest = useCallback(() => setConfirmLeave(false), []);
+  const requestClose = useCallback(() => {
+    if (testRunning) setConfirmLeave(true);
+    else close();
+  }, [testRunning, close]);
+
+  /**
+   * An opened step starts at the top with its heading focused (screen readers
+   * land on the runner); back on the list, the step's row is scrolled into
+   * view and focused.
+   */
   const stepHeading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
-    if (active != null) stepHeading.current?.focus({ preventScroll: true });
+    if (active != null) {
+      window.scrollTo({ top: 0 });
+      stepHeading.current?.focus({ preventScroll: true });
+      return;
+    }
+    const step = lastOpened.current;
+    lastOpened.current = null;
+    const row =
+      step == null
+        ? null
+        : document.querySelector<HTMLElement>(`[data-plan-step="${step}"]`);
+    if (!row) {
+      window.scrollTo({ top: 0 });
+      return;
+    }
+    row.scrollIntoView({ block: "center" });
+    row
+      .querySelector<HTMLElement>("a, button")
+      ?.focus({ preventScroll: true });
   }, [active]);
 
   const categoryId = plan?.categoryId;
@@ -216,11 +272,7 @@ export default function PlanDayClient({
     );
   }
 
-  const openMistakesRound = () => {
-    setRoundIds(dayMistakes(plan, index));
-    setActive(MISTAKES);
-    scrollToTop();
-  };
+  const openMistakesRound = () => open(MISTAKES);
 
   if (active === MISTAKES) {
     // `?fix=1` opens the round before any click: freeze the list on first
@@ -231,35 +283,22 @@ export default function PlanDayClient({
       const q = questionsById.get(String(id));
       return q ? [q] : [];
     });
-    const close = () => {
-      setActive(null);
-      setRoundIds(null);
-      // Drop `?fix=1` so a refresh or Back doesn't reopen the round.
-      if (fixMistakes) router.replace(`/plan/day/${index}`);
-      scrollToTop();
-    };
     return (
       <Page>
-        <div className="space-y-1">
-          <button
-            type="button"
-            onClick={close}
-            className="inline-flex items-center gap-1 text-sm text-fg-subtle hover:text-fg"
-          >
-            <LineIcon name="arrowLeft" className="h-4 w-4" />
-            {t("dayLabel", { n: index + 1 })}
-          </button>
-          <h1 className="flex items-center gap-2 text-xl font-bold text-fg">
-            <LineIcon name="repeat" className="h-6 w-6 text-accent" />
-            {t("dayMistakesTitle")}
-          </h1>
-        </div>
+        <StepHeader
+          backLabel={t("dayLabel", { n: index + 1 })}
+          onBack={() => close()}
+          icon="repeat"
+          eyebrow={t("dayLabel", { n: index + 1 })}
+          title={t("dayMistakesTitle")}
+          headingRef={stepHeading}
+        />
         {round.length === 0 ? (
           <div className="space-y-4 rounded-card border border-success bg-success-soft p-5">
             <p className="text-sm text-fg">{t("dayMistakesNone")}</p>
             <button
               type="button"
-              onClick={close}
+              onClick={() => close()}
               className={`h-11 px-6 text-sm ${examCtaPillBase}`}
             >
               {t("backToDay")}
@@ -269,7 +308,7 @@ export default function PlanDayClient({
           <PlanQuizRunner
             questions={round}
             onAnswered={onMistakeAnswer}
-            onFinish={close}
+            onFinish={() => close(true)}
             finishLabel={t("backToDay")}
           />
         )}
@@ -281,11 +320,9 @@ export default function PlanDayClient({
     typeof active === "number" ? session.steps[active] : undefined;
 
   if (activeStep && typeof active === "number") {
-    const close = () => setActive(null);
     const finish = () => {
       markStepDone(index, active);
-      close();
-      scrollToTop();
+      close(true);
     };
     const lesson = activeStep.lessonId
       ? lessonById.get(activeStep.lessonId)
@@ -295,32 +332,18 @@ export default function PlanDayClient({
     const lessonCards = lesson ? cardsByLesson.get(lesson.id) : undefined;
     return (
       <Page>
-        <div className="space-y-1">
-          <button
-            type="button"
-            onClick={close}
-            className="inline-flex items-center gap-1 text-sm text-fg-subtle hover:text-fg"
-          >
-            <LineIcon name="arrowLeft" className="h-4 w-4" />
-            {t("dayLabel", { n: index + 1 })}
-          </button>
-          <h1
-            ref={stepHeading}
-            tabIndex={-1}
-            className="flex flex-wrap items-center gap-2 text-xl font-bold text-fg outline-none"
-          >
-            <LineIcon
-              name={STEP_ICON[activeStep.kind]}
-              className="h-6 w-6 text-accent"
-            />
-            {t(STEP_LABEL[activeStep.kind])}
-            {lesson && (
-              <span className="ml-2 text-base font-medium text-fg-subtle">
-                {lessonTitle(lesson)}
-              </span>
-            )}
-          </h1>
-        </div>
+        <StepHeader
+          backLabel={t("dayLabel", { n: index + 1 })}
+          onBack={requestClose}
+          icon={STEP_ICON[activeStep.kind]}
+          eyebrow={
+            lesson
+              ? t(STEP_LABEL[activeStep.kind])
+              : t("dayLabel", { n: index + 1 })
+          }
+          title={lesson ? lessonTitle(lesson) : t(STEP_LABEL[activeStep.kind])}
+          headingRef={stepHeading}
+        />
         {activeStep.kind === "test" ? (
           <PlanDayTest
             key={active}
@@ -329,12 +352,13 @@ export default function PlanDayClient({
             onResult={(result, wrongIds) =>
               onTestResult(active, result, wrongIds)
             }
-            onBack={close}
+            onBack={() => close()}
+            onRunningChange={setTestRunning}
             onFixMistakes={openMistakesRound}
             onRepeatLessons={() => {
               const first = session.steps.findIndex((s) => s.kind === "learn");
-              setActive(first === -1 ? null : first);
-              scrollToTop();
+              if (first === -1) close(true);
+              else open(first);
             }}
           />
         ) : lessonCards ? (
@@ -365,6 +389,15 @@ export default function PlanDayClient({
             }
           />
         )}
+        <PlanConfirmSheet
+          open={confirmLeave}
+          title={t("testLeaveTitle")}
+          body={t("testLeaveBody")}
+          stayLabel={t("testLeaveStay")}
+          leaveLabel={t("testLeaveGo")}
+          onStay={stayInTest}
+          onLeave={() => guard.leave(() => close())}
+        />
       </Page>
     );
   }
@@ -416,10 +449,7 @@ export default function PlanDayClient({
               </p>
               <button
                 type="button"
-                onClick={() => {
-                  setActive(extraStep);
-                  scrollToTop();
-                }}
+                onClick={() => open(extraStep)}
                 className={`h-11 shrink-0 px-5 text-sm ${examCtaPillBase}`}
               >
                 {t("stepStart")}
@@ -464,12 +494,45 @@ export default function PlanDayClient({
         lessonById={lessonById}
         nextStep={nextStep}
         signedIn={!!user}
-        onStart={(i) => {
-          setActive(i);
-          scrollToTop();
-        }}
+        onStart={open}
       />
     </Page>
+  );
+}
+
+/** Back control, a small eyebrow and the step's title as the page heading. */
+function StepHeader({
+  backLabel,
+  onBack,
+  icon,
+  eyebrow,
+  title,
+  headingRef,
+}: {
+  backLabel: string;
+  onBack: () => void;
+  icon: LineIconName;
+  eyebrow: string;
+  title: string;
+  headingRef: React.Ref<HTMLHeadingElement>;
+}) {
+  return (
+    <div className="space-y-2">
+      <PlanBackButton onClick={onBack}>{backLabel}</PlanBackButton>
+      <div className="space-y-1">
+        <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-accent">
+          <LineIcon name={icon} className="h-4 w-4" />
+          {eyebrow}
+        </p>
+        <h1
+          ref={headingRef}
+          tabIndex={-1}
+          className="text-xl font-bold leading-snug text-fg outline-none sm:text-2xl"
+        >
+          {title}
+        </h1>
+      </div>
+    </div>
   );
 }
 

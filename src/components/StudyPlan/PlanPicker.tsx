@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { isAxiosError } from "axios";
 import { getPlanPreview } from "@/api/studyPlans";
 import { licenseCategories } from "@/CONSTS/categories";
@@ -18,11 +18,9 @@ import {
 } from "@/layoutComponents/Header/headerStyles";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
-import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
 import { PlanDayList } from "./PlanDayList";
 import { PlanNote, PlanStat, PlanStickyBar } from "./PlanPrimitives";
 import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
-import { addPlanDays, formatPlanDayLong } from "./planDates";
 import { LineIcon } from "@/components/Icon/LineIcon";
 
 type PlanPickerProps = {
@@ -51,16 +49,14 @@ function StepTitle({ n, children }: { n: number; children: React.ReactNode }) {
   );
 }
 
-/** Exam date first, presets under it; live preview of the day list. */
+/** Category, then the plan length (presets or 3-60 days); live preview of the day list. */
 export function PlanPicker({
   initialCategoryId,
   onStart,
   save,
 }: PlanPickerProps) {
   const t = useTranslations("StudyPlan");
-  const locale = useLocale();
   const [categoryId, setCategoryId] = useState(initialCategoryId);
-  const [examDay, setExamDay] = useState("");
   const [days, setDays] = useState<number>(STUDY_PLAN_RECOMMENDED_DAYS);
   /** "სხვა": any length 3-60, typed by the learner. */
   const [custom, setCustom] = useState(false);
@@ -70,20 +66,17 @@ export function PlanPicker({
     Number.isInteger(customDays) &&
     customDays >= STUDY_PLAN_MIN_DAYS &&
     customDays <= STUDY_PLAN_MAX_DAYS;
-  const length = examDay
-    ? { examDay }
-    : custom
-      ? customValid
-        ? { days: customDays }
-        : null
-      : { days };
+  const length = custom
+    ? customValid
+      ? { days: customDays }
+      : null
+    : { days };
   const request = usePlanRequest(
-    length == null ? null : `${categoryId}:${examDay || length.days}`,
+    length == null ? null : `${categoryId}:${length.days}`,
     () => getPlanPreview(categoryId, length ?? { days }),
   );
   const preview = request.data;
   const rangeError = request.error ? lengthError(request.error) : null;
-  const today = useStudyDay();
 
   return (
     <div className="grid gap-6 lg:grid-cols-5">
@@ -117,47 +110,27 @@ export function PlanPicker({
         </div>
 
         <div className="space-y-3">
-          <StepTitle n={2}>{t("examDateLabel")}</StepTitle>
-          <input
-            type="date"
-            aria-label={t("examDateLabel")}
-            value={examDay}
-            min={addPlanDays(today, STUDY_PLAN_MIN_DAYS)}
-            max={addPlanDays(today, STUDY_PLAN_MAX_DAYS)}
-            onChange={(e) => setExamDay(e.target.value)}
-            className={`block h-12 w-full rounded-control border bg-surface px-3 text-base text-fg ${
-              examDay ? "border-accent" : "border-line"
-            }`}
-          />
-          <p className="text-xs text-fg-subtle">
-            {examDay
-              ? t("examOn", { date: formatPlanDayLong(examDay, locale) })
-              : t("examDateHint")}
-          </p>
-        </div>
-
-        <div className="space-y-3">
-          <p className="text-sm text-fg-muted">{t("orPreset")}</p>
+          <StepTitle n={2}>{t("planLengthLabel")}</StepTitle>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
             {STUDY_PLAN_PRESET_DAYS.map((n) => {
-              const active = !examDay && !custom && days === n;
+              const active = !custom && days === n;
+              // Only the two ends carry a label; the rest is the learner's choice.
               const note =
                 n === INTENSIVE_DAYS
                   ? t("presetIntensive")
                   : n === STUDY_PLAN_RECOMMENDED_DAYS
                     ? t("presetRecommended")
-                    : t("presetDurable");
+                    : null;
               return (
                 <button
                   key={n}
                   type="button"
                   onClick={() => {
-                    setExamDay("");
                     setCustom(false);
                     setDays(n);
                   }}
                   aria-pressed={active}
-                  className={`relative flex flex-col items-center rounded-card border px-2 py-3 transition-colors ${
+                  className={`relative flex flex-col items-center justify-center rounded-card border px-2 py-3 transition-colors ${
                     active
                       ? "border-accent bg-accent-soft"
                       : "border-line bg-surface hover:bg-surface-muted"
@@ -167,29 +140,30 @@ export function PlanPicker({
                     {n}
                   </span>
                   <span className="text-xs text-fg-muted">{t("daysUnit")}</span>
-                  <span
-                    className={`mt-1 text-2xs font-medium ${
-                      n === STUDY_PLAN_RECOMMENDED_DAYS
-                        ? "text-accent"
-                        : "text-fg-subtle"
-                    }`}
-                  >
-                    {note}
-                  </span>
+                  {note && (
+                    <span
+                      className={`mt-1 text-2xs font-medium ${
+                        n === STUDY_PLAN_RECOMMENDED_DAYS
+                          ? "text-accent"
+                          : "text-fg-subtle"
+                      }`}
+                    >
+                      {note}
+                    </span>
+                  )}
                 </button>
               );
             })}
             <button
               type="button"
               onClick={() => {
-                setExamDay("");
                 setCustom(true);
                 // Start from the current length, so the preview never disappears.
                 if (!customValid) setCustomText(String(days));
               }}
-              aria-pressed={!examDay && custom}
+              aria-pressed={custom}
               className={`relative flex flex-col items-center justify-center rounded-card border px-2 py-3 transition-colors ${
-                !examDay && custom
+                custom
                   ? "border-accent bg-accent-soft"
                   : "border-line bg-surface hover:bg-surface-muted"
               }`}
@@ -203,7 +177,7 @@ export function PlanPicker({
               </span>
             </button>
           </div>
-          {custom && !examDay && (
+          {custom && (
             <div className="space-y-1.5">
               <label
                 htmlFor="plan-custom-days"

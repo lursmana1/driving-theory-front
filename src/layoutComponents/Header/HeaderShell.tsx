@@ -13,7 +13,7 @@ export default function HeaderShell() {
           <HeaderLogo />
           <HeaderNav />
         </div>
-        <div className="flex shrink-0 items-center gap-2 md:gap-3">
+        <div className="flex shrink-0 items-center gap-2 md:gap-3 lg:gap-2 xl:gap-3">
           <HeaderAuth />
           <BurgerMenu />
         </div>

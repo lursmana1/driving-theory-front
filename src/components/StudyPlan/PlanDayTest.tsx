@@ -17,10 +17,7 @@ import { formatExamDuration } from "@/utills/helpers/formatExamDuration";
 import { usePracticeAnswers } from "@/utills/helpers/hooks/usePracticeAnswers";
 import useAnswerKeyboard from "@/utills/helpers/hooks/useAnswerKeyboard";
 import useArrowNavigation from "@/utills/helpers/hooks/useArrowNavigation";
-import {
-  dayTestAllowedMistakes,
-  dayTestStars,
-} from "@/utills/helpers/studyPlanProgress";
+import { dayTestAllowedMistakes } from "@/utills/helpers/studyPlanProgress";
 import { getExamReviewItems } from "@/utills/helpers/examReview";
 import QuestionImage from "@/components/QuestionImage/QuestionImage";
 import ExamAnswerButtons from "@/components/ExamQuiz/ExamAnswerButtons";
@@ -39,6 +36,8 @@ type PlanDayTestProps = {
   /** Graded try + the ids answered wrong or left open. */
   onResult: (result: DayTestResult, wrongIds: number[]) => void;
   onBack: () => void;
+  /** Whether the timed part runs (the day page guards Back meanwhile). */
+  onRunningChange?: (running: boolean) => void;
   /** Opens the day's mistakes round (after a failed try). */
   onFixMistakes: () => void;
   /** Back to the day's first lesson (after a bad try). */
@@ -71,6 +70,7 @@ export function PlanDayTest({
   questions: initialQuestions,
   onResult,
   onBack,
+  onRunningChange,
   onFixMistakes,
   onRepeatLessons,
 }: PlanDayTestProps) {
@@ -146,6 +146,11 @@ export function PlanDayTest({
     setDeadline(at + total * PLAN_TEST_SECONDS_PER_QUESTION * 1000);
     setPhase("running");
   };
+
+  useEffect(() => {
+    onRunningChange?.(phase === "running");
+  }, [phase, onRunningChange]);
+  useEffect(() => () => onRunningChange?.(false), [onRunningChange]);
 
   // Latest `finish` for the clock callback (it runs outside render).
   const finishRef = useRef(finish);
@@ -252,7 +257,6 @@ export function PlanDayTest({
   }
 
   if (phase === "result") {
-    const stars = dayTestStars(mistakes, allowed);
     const wrongAnswered = reviewItems.length;
     const tooMany = mistakes > total * PLAN_TEST_REPEAT_LESSONS_SHARE;
     return (
@@ -260,20 +264,18 @@ export function PlanDayTest({
         role="status"
         className="space-y-4 rounded-panel border border-line bg-surface p-5 text-center shadow-card sm:p-7"
       >
-        <div
-          role="img"
-          aria-label={`${stars}/3`}
-          className="flex justify-center gap-1"
+        <span
+          aria-hidden
+          className={`mx-auto flex h-14 w-14 items-center justify-center rounded-full ${
+            passed ? "bg-success-soft text-success" : "bg-danger-soft text-danger"
+          }`}
         >
-          {[0, 1, 2].map((i) => (
-            <LineIcon
-              key={i}
-              name="star"
-              filled={i < stars}
-              className={`h-9 w-9 ${i < stars ? "text-warning" : "text-line-strong"}`}
-            />
-          ))}
-        </div>
+          <LineIcon
+            name={passed ? "check" : "x"}
+            className="h-7 w-7"
+            strokeWidth={3}
+          />
+        </span>
         <p className="text-3xl font-bold tabular-nums text-fg">
           {correct}
           <span className="text-lg font-medium text-fg-subtle">/{total}</span>
@@ -282,6 +284,8 @@ export function PlanDayTest({
           className={`text-sm font-semibold ${passed ? "text-success" : "text-danger"}`}
         >
           {passed ? t("testPassed") : t("testFailed")}
+          {" · "}
+          {t("testMistakesLine", { mistakes, allowed })}
         </p>
         <p className="text-sm text-fg-muted">
           {t("testNeeded", { need: total - allowed, total })}

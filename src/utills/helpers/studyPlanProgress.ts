@@ -208,13 +208,3 @@ export function dayTestAllowedMistakes(
     (total * rules.maxMistakes * PLAN_TEST_STRICTNESS) / rules.totalQuestions,
   );
 }
-
-/**
- * 3 stars with no mistake, 2 at ≤ allowed (pass), else 1. When no mistake is
- * allowed (short tests) a pass is always 3 stars.
- */
-export function dayTestStars(mistakes: number, allowed: number): 1 | 2 | 3 {
-  if (mistakes === 0) return 3;
-  if (mistakes <= allowed) return 2;
-  return 1;
-}

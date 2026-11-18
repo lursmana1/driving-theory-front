@@ -16,7 +16,7 @@ export default function HeaderNav() {
   return (
     <nav
       aria-label="Main navigation"
-      className="ml-0.5 hidden flex-nowrap items-center gap-0.5 lg:ml-2 lg:flex lg:gap-1"
+      className="ml-0.5 hidden flex-nowrap items-center gap-0.5 lg:ml-2 lg:flex lg:gap-0 xl:gap-1"
     >
       {navLinks.map((link) => {
         const active = isActivePath(pathname, link.href);

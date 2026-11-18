@@ -7,5 +7,4 @@ export const navLinks = [
   { href: "/plan", labelKey: "navPlan" },
   { href: `/tickets/${DEFAULT_CATEGORY_ID}`, labelKey: "navTickets" },
   { href: "/signs", labelKey: "navSigns" },
-  { href: "/blogs", labelKey: "navBlog" },
 ] as const;

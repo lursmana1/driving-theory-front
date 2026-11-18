@@ -1,6 +1,6 @@
 /** Same bounds as the backend `study-plan.constants.ts`. */
 export const STUDY_PLAN_PRESET_DAYS = [7, 14, 28] as const;
-export const STUDY_PLAN_RECOMMENDED_DAYS = 14;
+export const STUDY_PLAN_RECOMMENDED_DAYS = 28;
 export const STUDY_PLAN_MIN_DAYS = 3;
 export const STUDY_PLAN_MAX_DAYS = 60;
 

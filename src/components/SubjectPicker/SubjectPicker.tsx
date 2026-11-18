@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import type { CategoryExamRules } from "@/CONSTS/categories";
 import type { Subject } from "@/lib/types/subject";
@@ -26,10 +26,13 @@ export default function SubjectPicker({
   const t = useTranslations("SubjectPicker");
   const allIds = useMemo(() => subjects.map((s) => s.id), [subjects]);
   const [selected, setSelected] = useState<number[]>(allIds);
-
-  useEffect(() => {
-    setSelected(subjects.map((s) => s.id));
-  }, [subjects]);
+  // A new category's subjects: select all of them again (adjusted during
+  // render, React's pattern for state derived from props).
+  const [selectedFor, setSelectedFor] = useState(subjects);
+  if (selectedFor !== subjects) {
+    setSelectedFor(subjects);
+    setSelected(allIds);
+  }
 
   const startExam = () => {
     if (!selected.length) return;
@@ -63,7 +66,7 @@ export default function SubjectPicker({
         />
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] backdrop-blur md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 pt-3 pb-safe-bar backdrop-blur md:hidden">
         <p className="mb-2 text-center text-xs text-fg-subtle">
           {t("selectedCount", { selected: selected.length, total: allIds.length })}
         </p>

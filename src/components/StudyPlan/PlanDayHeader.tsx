@@ -1,9 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-import { LineIcon } from "@/components/Icon/LineIcon";
-import { PlanProgressBar } from "./PlanPrimitives";
+import { PlanBackButton, PlanProgressBar } from "./PlanPrimitives";
 import { usePlanDateFormat } from "./planLabels";
 
 type PlanDayHeaderProps = {
@@ -27,14 +25,8 @@ export function PlanDayHeader({
   const formatDay = usePlanDateFormat();
 
   return (
-    <div className="space-y-3">
-      <Link
-        href="/plan"
-        className="inline-flex items-center gap-1 text-sm text-fg-subtle hover:text-fg"
-      >
-        <LineIcon name="arrowLeft" className="h-4 w-4" />
-        {t("backToPlan")}
-      </Link>
+    <div className="space-y-2">
+      <PlanBackButton href="/plan">{t("backToPlan")}</PlanBackButton>
       <div>
         <p className="text-xs font-semibold uppercase tracking-wider text-fg-subtle">
           {formatDay(date)}

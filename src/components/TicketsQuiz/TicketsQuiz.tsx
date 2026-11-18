@@ -164,14 +164,7 @@ export default function TicketQuiz({
         </div>
       </div>
 
-      <ExamFooter
-        questions={answers}
-        correctAnswer={question.correct_answer}
-        selectAnswer={handleSelect}
-        selectedAnswer={selectedAnswer || undefined}
-        showPrevious={onPrevious}
-        showNext={onNext}
-      />
+      <ExamFooter showPrevious={onPrevious} showNext={onNext} />
     </>
   );
 }

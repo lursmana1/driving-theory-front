@@ -45,6 +45,21 @@ function answerStateClass(state: AnswerState) {
   }
 }
 
+/** The answer's number: quiet until picked, then it takes the row's colour. */
+function badgeStateClass(state: AnswerState) {
+  switch (state) {
+    case "idle":
+      return "border-stage-line bg-stage-deep/60 text-stage-fg/70 group-hover:border-accent group-hover:text-stage-fg";
+    case "pending":
+      return "border-stage-fg/50 text-stage-fg";
+    case "correct":
+    case "wrong":
+      return "border-on-accent/40 bg-on-accent/15 text-on-accent";
+    case "muted":
+      return "border-stage-line text-stage-fg/70";
+  }
+}
+
 const QuizButton = ({
   selectAnswer,
   answerKey,
@@ -72,9 +87,13 @@ const QuizButton = ({
         selectAnswer(answerKey);
       }}
       disabled={!canClick}
-      className={`flex w-full min-w-0 items-center gap-2 rounded-control border p-3 text-left font-georgian leading-snug transition sm:gap-4 sm:p-4 ${answerStateClass(state)}`}
+      className={`group flex min-h-14 w-full min-w-0 items-center gap-3 rounded-control border px-3 py-3 text-left font-georgian leading-snug transition sm:min-h-16 sm:gap-3.5 sm:px-4 sm:py-4 ${answerStateClass(state)}`}
     >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xs bg-stage-fg text-base font-bold text-fg shadow-card sm:h-12 sm:w-14 sm:text-lg">
+      {/* The whole row is the target; the small number matches keys 1–4 on desktop. */}
+      <span
+        aria-hidden
+        className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold tabular-nums transition-colors ${badgeStateClass(state)}`}
+      >
         {answerKey}
       </span>
       <span className="min-w-0 overflow-hidden wrap-break-word">{answerText}</span>

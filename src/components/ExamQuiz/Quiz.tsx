@@ -124,15 +124,7 @@ export default function ExamQuiz({
       </div>
 
       <div className="shrink-0">
-        <ExamFooter
-          questions={answers}
-          correctAnswer={q.correct_answer}
-          selectedCorrect={exam.selectedCorrect}
-          showPrevious={nav.prev}
-          showNext={nav.next}
-          selectAnswer={exam.handleSelect}
-          selectedAnswer={selectedAnswer || undefined}
-        />
+        <ExamFooter showPrevious={nav.prev} showNext={nav.next} />
       </div>
 
       {examFailed && !reviewing && (

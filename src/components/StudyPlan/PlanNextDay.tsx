@@ -76,7 +76,7 @@ export function PlanNextDay({
       </div>
       <div className="flex flex-wrap gap-2">
         {mistakes && mistakes.count > 0 && (
-          <Link href={`/plan/day/${mistakes.dayIndex}?fix=1`} className={pill}>
+          <Link href={`/plan/day/${mistakes.dayIndex}?step=mistakes`} className={pill}>
             <LineIcon name="repeat" className="h-4 w-4" />
             {t("meanwhileMistakes", { count: mistakes.count })}
           </Link>

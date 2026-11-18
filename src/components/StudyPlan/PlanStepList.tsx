@@ -60,6 +60,7 @@ export function PlanStepList({
           <li
             key={i}
             className="flex gap-3 sm:gap-4"
+            data-plan-step={i}
             aria-current={isNext ? "step" : undefined}
           >
             <div className="relative flex w-11 shrink-0 justify-center">

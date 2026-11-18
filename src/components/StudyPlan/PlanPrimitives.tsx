@@ -1,7 +1,123 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { examCtaPillBase } from "@/layoutComponents/Header/headerStyles";
+import { Link } from "@/i18n/navigation";
+import {
+  examCtaPillBase,
+  outlinePillBase,
+} from "@/layoutComponents/Header/headerStyles";
+import { LineIcon } from "@/components/Icon/LineIcon";
+
+const backClass =
+  "-ml-2 inline-flex h-11 items-center gap-1.5 rounded-full pr-3 pl-2 text-sm font-medium text-fg-muted transition-colors hover:bg-surface-muted hover:text-fg";
+
+/** The plan's back control: a 44 px target, a link or a button. */
+export function PlanBackButton({
+  href,
+  onClick,
+  children,
+}: {
+  href?: string;
+  onClick?: () => void;
+  children: React.ReactNode;
+}) {
+  const content = (
+    <>
+      <LineIcon name="arrowLeft" className="h-5 w-5" />
+      {children}
+    </>
+  );
+  return href ? (
+    <Link href={href} className={backClass}>
+      {content}
+    </Link>
+  ) : (
+    <button type="button" onClick={onClick} className={backClass}>
+      {content}
+    </button>
+  );
+}
+
+type PlanConfirmSheetProps = {
+  open: boolean;
+  title: string;
+  body: string;
+  /** Safe choice, gets the focus (and Esc / backdrop). */
+  stayLabel: string;
+  leaveLabel: string;
+  onStay: () => void;
+  onLeave: () => void;
+};
+
+/**
+ * In-page confirm (never `window.confirm`, which blocks the tab): a bottom
+ * sheet on phones, a centred dialog from `sm:`.
+ */
+export function PlanConfirmSheet({
+  open,
+  title,
+  body,
+  stayLabel,
+  leaveLabel,
+  onStay,
+  onLeave,
+}: PlanConfirmSheetProps) {
+  const stayRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.activeElement as HTMLElement | null;
+    stayRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onStay();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      previous?.focus?.({ preventScroll: true });
+    };
+  }, [open, onStay]);
+
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center sm:p-4">
+      <div className="absolute inset-0 bg-fg/40" aria-hidden onClick={onStay} />
+      <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="plan-confirm-title"
+        aria-describedby="plan-confirm-body"
+        className="relative w-full max-w-md space-y-4 rounded-t-panel bg-surface p-5 pb-safe-sheet shadow-overlay sm:rounded-panel sm:p-6"
+      >
+        <div className="space-y-1.5">
+          <h2 id="plan-confirm-title" className="text-lg font-bold text-fg">
+            {title}
+          </h2>
+          <p id="plan-confirm-body" className="text-sm text-fg-muted">
+            {body}
+          </p>
+        </div>
+        <div className="flex flex-col gap-2 sm:flex-row-reverse">
+          <button
+            ref={stayRef}
+            type="button"
+            onClick={onStay}
+            className={`h-12 px-6 text-base sm:h-11 sm:text-sm ${examCtaPillBase}`}
+          >
+            {stayLabel}
+          </button>
+          <button
+            type="button"
+            onClick={onLeave}
+            className={`h-12 px-6 text-danger sm:h-11 ${outlinePillBase}`}
+          >
+            {leaveLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /** Big number over a small label (picker summary, day test intro). */
 export function PlanStat({
@@ -84,7 +200,7 @@ export function PlanProgressBar({
  */
 export function PlanStickyBar({ children }: { children: React.ReactNode }) {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-overlay backdrop-blur lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 pt-3 pb-safe-bar shadow-overlay backdrop-blur lg:hidden">
       <div className="mx-auto max-w-xl">{children}</div>
     </div>
   );

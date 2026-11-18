@@ -5,7 +5,6 @@ import { pageMeta } from "@/lib/pageMeta";
 
 type PlanDayPageProps = {
   params: Promise<{ locale: string; day: string }>;
-  searchParams: Promise<{ fix?: string }>;
 };
 
 export async function generateMetadata({ params }: PlanDayPageProps) {
@@ -13,15 +12,10 @@ export async function generateMetadata({ params }: PlanDayPageProps) {
   return pageMeta("plan", { locale, index: false });
 }
 
-export default async function PlanDayPage({
-  params,
-  searchParams,
-}: PlanDayPageProps) {
+/** The open step (`?step=`, old `?fix=1`) is read on the client. */
+export default async function PlanDayPage({ params }: PlanDayPageProps) {
   const { day } = await params;
-  const { fix } = await searchParams;
   const n = Number(day);
   if (!Number.isInteger(n) || n < 0 || n >= STUDY_PLAN_MAX_DAYS) notFound();
-  return (
-    <PlanDayClient key={`${n}:${fix}`} index={n} fixMistakes={fix === "1"} />
-  );
+  return <PlanDayClient key={n} index={n} />;
 }
