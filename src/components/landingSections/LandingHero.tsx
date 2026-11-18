@@ -55,7 +55,7 @@ export default async function LandingHero() {
             </div>
             <Link
               href={`/tickets/${DEFAULT_CATEGORY_ID}`}
-              className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
+              className="mt-2 inline-flex min-h-11 w-fit items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
             >
               {t("heroTicketsLink")}
               <LandingIcon name="arrow" className="h-4 w-4" />

@@ -59,7 +59,7 @@ export default function LandingExamRules({ rows }: { rows: LandingRuleRow[] }) {
                     type="button"
                     aria-pressed={on}
                     onClick={() => setActiveId(row.id)}
-                    className={`h-9 rounded-full border px-3.5 text-sm font-semibold transition ${
+                    className={`h-11 rounded-full border px-4 text-sm font-semibold transition sm:h-9 sm:px-3.5 ${
                       on
                         ? "border-accent bg-accent text-on-accent"
                         : "border-line bg-surface text-fg-muted hover:border-accent hover:text-accent"

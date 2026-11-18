@@ -134,10 +134,10 @@ export default function LandingDemoTicket({ question }: Props) {
                   </div>
                 ) : null}
 
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
+                <div className="flex flex-wrap items-center gap-x-5">
                   <Link
                     href={getQuestionTicketPath(question.id, question)}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
+                    className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
                   >
                     {t("demoMore")}
                     <LandingIcon name="arrow" className="h-4 w-4" />
@@ -145,7 +145,7 @@ export default function LandingDemoTicket({ question }: Props) {
                   <button
                     type="button"
                     onClick={() => setPicked(null)}
-                    className="text-sm font-medium text-fg-subtle transition hover:text-fg"
+                    className="min-h-11 text-sm font-medium text-fg-subtle transition hover:text-fg"
                   >
                     {t("demoRetry")}
                   </button>

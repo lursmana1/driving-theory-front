@@ -64,7 +64,7 @@ export default async function LandingRoute() {
                   <p className={`mt-2 ${LANDING.body}`}>{t(`${s.key}Text` as const)}</p>
                   <Link
                     href={s.href}
-                    className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
+                    className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
                   >
                     {t(`${s.key}Link` as const)}
                     <LandingIcon name="arrow" className="h-4 w-4" />
