@@ -1,7 +1,8 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import LandingFaq from "./LandingFaq";
-import landingFaq from "@/data/landingFaq.json";
-import { LANDING } from "@/CONSTS/landing";
+import { LandingSectionHeader } from "./LandingSectionHeader";
+import { LANDING, LANDING_FAQ } from "@/CONSTS/landing";
+import { DEFAULT_CATEGORY_ID, getExamRules } from "@/CONSTS/categories";
 import { JsonLd } from "@/components/JsonLd";
 import { faqJsonLd } from "@/lib/seo";
 
@@ -11,16 +12,23 @@ export default async function LandingFaqSection() {
     getLocale(),
   ]);
 
-  const items = landingFaq.map((item, i) => ({
-    key: String(i + 1),
-    label: t(`${item.key}Q`),
-    children: t(`${item.key}A`),
+  const rulesB = getExamRules(DEFAULT_CATEGORY_ID);
+  const values = {
+    total: rulesB.totalQuestions,
+    pass: rulesB.passScore,
+    mistakes: rulesB.maxMistakes,
+  };
+
+  const items = LANDING_FAQ.map((key) => ({
+    key,
+    label: t(`${key}Q` as const),
+    children: t(`${key}A` as const, values),
   }));
 
   return (
     <section
       id="faq"
-      className="border-t border-line py-16 md:py-24"
+      className={LANDING.section}
       aria-labelledby="faq-title"
     >
       <JsonLd
@@ -33,10 +41,11 @@ export default async function LandingFaqSection() {
         )}
       />
       <div className="section">
-        <p className={LANDING.eyebrow}>{t("faqEyebrow")}</p>
-        <h2 id="faq-title" className={`mt-4 max-w-2xl ${LANDING.headingSection}`}>
-          {t("faqSectionTitle")}
-        </h2>
+        <LandingSectionHeader
+          id="faq-title"
+          eyebrow={t("faqEyebrow")}
+          title={t("faqSectionTitle")}
+        />
         <div className="mt-12 max-w-3xl">
           <LandingFaq items={items} />
         </div>

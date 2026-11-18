@@ -3,7 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { LANDING } from "@/CONSTS/landing";
 import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 
-const footerLink = "text-fg-subtle transition-colors hover:text-accent";
+const footerLink =
+  "inline-flex min-h-10 items-center text-fg-subtle transition-colors hover:text-accent sm:min-h-0";
 
 export default async function LandingFooter() {
   const t = await getTranslations("Home");
@@ -26,7 +27,12 @@ export default async function LandingFooter() {
           <div className="grid grid-cols-2 gap-8 md:contents">
             <nav aria-label={t("footerPlatform")}>
               <h3 className={LANDING.headingFooter}>{t("footerPlatform")}</h3>
-              <ul className="mt-4 space-y-2.5 text-sm">
+              <ul className="mt-3 text-sm sm:mt-4 sm:space-y-2.5">
+                <li>
+                  <Link href="/plan" className={footerLink}>
+                    {t("footerPlan")}
+                  </Link>
+                </li>
                 <li>
                   <Link href="/subjectpicker" className={footerLink}>
                     {t("footerSimulation")}
@@ -40,17 +46,27 @@ export default async function LandingFooter() {
                     {t("footerTopics")}
                   </Link>
                 </li>
-                <li>
-                  <Link href="/city-exam" className={footerLink}>
-                    {t("footerCityExam")}
-                  </Link>
-                </li>
               </ul>
             </nav>
 
             <nav aria-label={t("footerResources")}>
               <h3 className={LANDING.headingFooter}>{t("footerResources")}</h3>
-              <ul className="mt-4 space-y-2.5 text-sm">
+              <ul className="mt-3 text-sm sm:mt-4 sm:space-y-2.5">
+                <li>
+                  <Link href="/signs" className={footerLink}>
+                    {t("footerSigns")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/yard-exam" className={footerLink}>
+                    {t("footerYardExam")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/city-exam" className={footerLink}>
+                    {t("footerCityExam")}
+                  </Link>
+                </li>
                 <li>
                   <Link href="/blogs" className={footerLink}>
                     {t("footerBlogs")}
@@ -67,10 +83,10 @@ export default async function LandingFooter() {
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-fg-faint">
+          <p className="text-xs text-fg-subtle">
             {t("footerCopyright", { year })}
           </p>
-          <p className="text-xs tracking-wide text-fg-faint">
+          <p className="text-xs tracking-wide text-fg-subtle">
             {t("heroBrandMark")}
           </p>
         </div>

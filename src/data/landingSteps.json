@@ -1,5 +1,0 @@
-[
-  { "n": 1, "titleKey": "step1Title", "textKey": "step1Text" },
-  { "n": 2, "titleKey": "step2Title", "textKey": "step2Text" },
-  { "n": 3, "titleKey": "step3Title", "textKey": "step3Text", "successStep": true }
-]

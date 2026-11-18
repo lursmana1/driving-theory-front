@@ -1,73 +1,81 @@
-import type { CSSProperties } from "react";
-import type { FeatureTone } from "@/types/landingData";
+import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
+import type { LandingIconName } from "@/components/landingSections/LandingIcons";
 
-/* Colors come from the design tokens in globals.css (raw hex mirror: src/styles/tokens.ts). */
-
-/** Faint vertical pinstripe overlay for large paper panels */
-export const LANDING_PIN_STRIPE_STYLE: CSSProperties = {
-  opacity: 0.5,
-  backgroundImage:
-    "repeating-linear-gradient(90deg, transparent 0, transparent 22px, color-mix(in srgb, var(--color-fg) 3%, transparent) 22px, color-mix(in srgb, var(--color-fg) 3%, transparent) 23px)",
-};
+/*
+ * Landing class recipes. Every value is a design token from globals.css
+ * (colors / radius / type / shadow / aspect); no raw palette, hex or arbitrary sizes.
+ * Raw hex mirror for antd / SVG / OG images: src/styles/tokens.ts.
+ */
 
 export const LANDING = {
+  /* layout */
   /** <main> wrapper */
   page: "landing-paper min-h-screen font-georgian text-fg antialiased",
-  heroBg: "relative font-georgian",
-  ctaSection: "relative border-t border-line py-16 md:py-24",
-  ctaGlow: "hidden",
-  gradientCta:
-    "inline-flex items-center justify-center gap-2 rounded-control bg-accent px-8 font-semibold text-on-accent transition hover:bg-accent-strong",
+  heroBg: "relative isolate overflow-hidden font-georgian",
+  /** every content section after the hero */
+  section: "border-t border-line py-16 md:py-24",
+  /** white card with a hairline border */
+  card: "rounded-panel border border-line bg-surface",
+
+  /* actions */
+  /** filled brand button; callers add height / text size */
+  ctaPrimary:
+    "inline-flex items-center justify-center gap-2 rounded-control bg-accent px-7 font-semibold text-on-accent transition hover:bg-accent-strong",
   heroPrimaryCta:
-    "inline-flex h-13 items-center justify-center gap-3 rounded-control bg-accent px-7 text-base font-bold text-on-accent transition hover:bg-accent-strong",
+    "inline-flex h-13 items-center justify-center gap-3 whitespace-nowrap rounded-control bg-accent px-5 text-sm font-bold text-on-accent shadow-raised transition hover:bg-accent-strong sm:px-7 sm:text-base",
   heroSecondaryCta:
-    "inline-flex h-13 items-center justify-center rounded-control border border-fg/25 px-7 text-base font-semibold text-fg transition hover:border-fg/45 hover:bg-fg/5",
-  howSection: "relative border-t border-line px-4 py-16 md:px-6 md:py-24",
+    "inline-flex h-13 items-center justify-center rounded-control border border-line-strong bg-surface px-7 text-base font-semibold text-fg transition hover:border-fg-faint hover:bg-surface-muted",
+  /** inline text link with an arrow; 44px tall tap area */
+  textLink:
+    "inline-flex min-h-11 w-fit items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong",
   footerLogoMark:
     "flex h-10 w-10 items-center justify-center rounded-full border border-fg text-sm font-bold text-fg",
 
-  /** h2 — section titles */
-  headingSection:
-    "font-georgian text-balance font-bold tracking-tight text-fg text-3xl md:text-4xl lg:text-heading",
-  /** kept for API compatibility — landing is all one paper tone now */
-  headingSectionDark:
-    "font-georgian text-balance font-bold tracking-tight text-fg text-3xl md:text-4xl lg:text-heading",
+  /* type */
   /** h1 — hero */
   headingHero:
     "font-georgian font-extrabold tracking-display text-fg text-display-sm sm:text-5xl lg:text-display",
+  /** h2 — section titles */
+  headingSection:
+    "font-georgian text-balance font-bold tracking-tight text-fg text-3xl md:text-4xl lg:text-heading",
   headingCard: "font-georgian font-semibold text-fg text-lg md:text-xl",
-  headingCardDark:
-    "font-georgian font-semibold leading-snug text-fg text-lg md:text-xl",
-  headingPanelTitle:
-    "font-georgian text-balance font-bold tracking-tight text-fg text-title sm:text-3xl md:text-4xl",
   headingFooter: "font-georgian font-semibold text-fg text-base",
-
-  /** shared bits */
-  eyebrow:
-    "text-2xs font-semibold uppercase tracking-eyebrow text-secondary/70",
+  /** small spaced label above a section title */
+  eyebrow: "text-2xs font-semibold uppercase tracking-eyebrow text-accent",
+  /** small spaced meta label inside a card */
+  label: "text-2xs font-semibold uppercase tracking-eyebrow text-fg-subtle",
   body: "text-body leading-7 text-fg-muted",
-  hairline: "border-line",
 } as const;
 
-const FEATURE_BADGE: Record<FeatureTone, string> = {
-  blue: "bg-secondary text-on-accent",
-  violet: "bg-secondary text-on-accent",
-  emerald: "bg-secondary text-on-accent",
-  amber: "bg-accent text-on-accent",
+/** Category order in the landing rules table (most common first). */
+export const LANDING_RULES_ORDER = [1, 2, 0, 3, 5, 4, 6, 7, 8, 9];
+
+export type LandingFeature = {
+  key: string;
+  href: string;
+  icon: LandingIconName;
+  /** Works only when signed in */
+  account?: boolean;
 };
 
-const FEATURE_NUMBER: Record<FeatureTone, string> = {
-  blue: "01",
-  violet: "02",
-  emerald: "03",
-  amber: "04",
-};
+/** Feature grid tiles; copy is `Home.<key>Title` / `Home.<key>Text`. */
+export const LANDING_FEATURES: LandingFeature[] = [
+  { key: "featPlan", href: "/plan", icon: "calendar" },
+  { key: "featTickets", href: `/tickets/${DEFAULT_CATEGORY_ID}`, icon: "ticket" },
+  { key: "featExam", href: "/subjectpicker", icon: "timer" },
+  { key: "featTrainer", href: "/practice", icon: "repeat", account: true },
+  { key: "featSigns", href: "/signs", icon: "sign" },
+  { key: "featReadiness", href: "/profile", icon: "gauge", account: true },
+];
 
-export function featureIconClass(tone: string): string {
-  const badge = FEATURE_BADGE[tone as FeatureTone] ?? FEATURE_BADGE.blue;
-  return `mb-5 inline-flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold tabular-nums ${badge}`;
-}
-
-export function featureEmoji(tone: string): string {
-  return FEATURE_NUMBER[tone as FeatureTone] ?? "01";
-}
+/** FAQ order; copy is `Home.<key>Q` / `Home.<key>A`. */
+export const LANDING_FAQ = [
+  "faqMistakes",
+  "faqAccount",
+  "faqPlan",
+  "faqNew3",
+  "faqSchool",
+  "faqAfter",
+  "faqNew2",
+  "faqNew4",
+] as const;
