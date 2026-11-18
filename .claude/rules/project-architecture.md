@@ -13,6 +13,8 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 - Client HTTP: `src/api/BaseApi.ts` (Axios, `withCredentials`; no token in JS). Server HTTP: `getServerBaseApi()`.
 - Locale routes: `Link` / `useRouter` / `redirect` from `@/i18n/navigation`. Server redirect: `redirectTo()` in `@/i18n/redirectTo`.
 - UI copy lives in `messages/{ka,en,ru}.json`.
+- **Client messages are trimmed.** Only namespaces in `CLIENT_NAMESPACES` (`src/i18n/clientMessages.ts`) reach the browser; server-only ones (Meta, Home, Blogs, …) stay on the server. A new `useTranslations("X")` in a client component needs "X" there, or in its route layout (`/plan` adds `StudyPlan`). Landing client islands get their `Home` strings as props (`landingLabels.ts`).
+- **antd is not global.** `AppShell` lazy-loads `AntdTheme` (the ConfigProvider) for every route except those in `NO_ANTD_PATHS` (the landing page). Keep antd out of the landing page and the header.
 - **Design tokens only.** Colors/radius/type/shadow are tokens in `src/app/globals.css` (TS hex mirror for Ant Design/SVG/OG: `src/styles/tokens.ts`, keep in sync). Use `bg-canvas|surface|surface-muted|surface-sunken`, `text-fg|fg-muted|fg-subtle|fg-faint`, `border-line`, `bg-accent`/`text-on-accent`, `success|danger|warning(-soft)`, dark exam `stage-*`, `rounded-xs|control|card|panel`, `shadow-card|raised|overlay`. Never raw Tailwind palette (`slate-*`, `white`, `rose-*`), hex, or `text-[15px]`-style arbitrary values. Change the brand by editing the `--brand-*` ramp.
 - Exam size/pass/mistakes: `getExamRules(categoryId)` in `@/CONSTS/categories` — not hardcoded 30/3.
 - `/leaderboard`, `/createleaderboard`, `/exam/history` **redirect** (stubs). History is on `/profile`.
@@ -21,7 +23,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 ## Module sitemap (`src/app/[locale]/`)
 
 ```
-/                      landing
+/                      landing (hero demo ticket 13, plan steps, features, exam rules table, route, FAQ; `src/components/landingSections/`, class recipes in `CONSTS/landing.ts`)
 /tickets → /tickets/1  tickets index redirect
 /tickets/[category]    practice tickets (?page&subjects&questionId)
 /subjectpicker         pick subjects → /exam?category=&subjects=

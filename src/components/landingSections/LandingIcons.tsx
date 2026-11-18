@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 export type LandingIconName =
   | "check"
   | "arrow"
+  | "chevron"
   | "calendar"
   | "ticket"
   | "timer"
@@ -16,6 +17,7 @@ export type LandingIconName =
 const PATHS: Record<LandingIconName, ReactNode> = {
   check: <path d="M5 12.5l4.2 4.2L19 7" />,
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
+  chevron: <path d="M6 9l6 6 6-6" />,
   calendar: (
     <>
       <rect x="3.5" y="5" width="17" height="15" rx="2.5" />

@@ -171,6 +171,9 @@
   --tracking-display: -0.03em;
   --tracking-eyebrow: 0.22em;
 
+  /* Aspect ratios */
+  --aspect-ticket: 1000 / 410; /* ticket photos (QUESTION_IMAGE) */
+
   /* ---- Elevation (ink-tinted, never pure black) ---- */
   --shadow-card: 0 1px 2px rgb(26 31 39 / 0.05), 0 1px 3px rgb(26 31 39 / 0.04);
   --shadow-raised:
@@ -248,12 +251,6 @@
   }
 }
 
-@keyframes fadeSlideIn {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
 @keyframes slideInNext {
   from {
     transform: translateX(28px);
@@ -327,42 +324,6 @@
 
 .landing-road {
   filter: drop-shadow(0 22px 34px rgb(26 31 39 / 0.1));
-}
-
-/* How-it-works connectors: keep the grey line, slide the 03 border color along it */
-.how-steps-connector {
-  position: relative;
-  overflow: hidden;
-  background: rgb(255 255 255 / 0.15);
-}
-
-.how-steps-connector::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 40%;
-  border-radius: inherit;
-  background: var(--color-accent);
-  box-shadow: var(--shadow-glow);
-  animation: howStepsRunner 2.4s ease-in-out infinite alternate;
-}
-
-@keyframes howStepsRunner {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(150%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .how-steps-connector::after {
-    animation: none;
-    left: 30%;
-  }
 }
 
 /* Burger menu animations */

@@ -6,6 +6,7 @@ import { getLandingDemoQuestion } from "@/api/landingDemo";
 import { LandingHeroRoad } from "./LandingHeroRoad";
 import LandingDemoTicket from "./LandingDemoTicket";
 import { LandingIcon } from "./LandingIcons";
+import { DEMO_LABEL_KEYS } from "./landingLabels";
 
 const TRUST_KEYS = ["heroTrust1", "heroTrust2", "heroTrust3"] as const;
 
@@ -24,8 +25,8 @@ export default async function LandingHero() {
         className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-accent-soft via-canvas to-canvas"
       />
       <div className="section">
-        <div className="grid items-start gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16 lg:py-20">
-          <div className="flex flex-col lg:pt-10">
+        <div className="grid items-start gap-12 py-12 md:py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
+          <div className="flex min-w-0 flex-col lg:pt-10">
             <p className="inline-flex w-fit items-center gap-2 rounded-full border border-accent-muted bg-surface px-3 py-1 text-xs font-semibold text-accent shadow-card">
               <span className="h-1.5 w-1.5 rounded-full bg-success" aria-hidden />
               {t("heroRulesBadge", {
@@ -55,7 +56,7 @@ export default async function LandingHero() {
             </div>
             <Link
               href={`/tickets/${DEFAULT_CATEGORY_ID}`}
-              className="mt-2 inline-flex min-h-11 w-fit items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
+              className={`mt-2 ${LANDING.textLink}`}
             >
               {t("heroTicketsLink")}
               <LandingIcon name="arrow" className="h-4 w-4" />
@@ -73,8 +74,17 @@ export default async function LandingHero() {
             </ul>
           </div>
 
-          <div className="flex justify-center lg:justify-end">
-            {demo ? <LandingDemoTicket question={demo} /> : <LandingHeroRoad />}
+          <div className="flex min-w-0 justify-center lg:justify-end">
+            {demo ? (
+              <LandingDemoTicket
+                question={demo}
+                labels={Object.fromEntries(
+                  DEMO_LABEL_KEYS.map((k) => [k, t.raw(k) as string]),
+                )}
+              />
+            ) : (
+              <LandingHeroRoad />
+            )}
           </div>
         </div>
       </div>

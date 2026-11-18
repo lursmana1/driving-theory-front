@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { LANDING, LANDING_FEATURES } from "@/CONSTS/landing";
 import { LandingIcon } from "./LandingIcons";
+import { LandingSectionHeader } from "./LandingSectionHeader";
 
 /** Feature grid: every tile is a real link into the module (internal linking for SEO). */
 export default async function LandingWhy() {
@@ -10,15 +11,16 @@ export default async function LandingWhy() {
   return (
     <section
       id="features"
-      className="border-t border-line py-16 md:py-24"
+      className={LANDING.section}
       aria-labelledby="why-title"
     >
       <div className="section">
-        <p className={LANDING.eyebrow}>{t("whySectionLabel")}</p>
-        <h2 id="why-title" className={`mt-4 max-w-2xl ${LANDING.headingSection}`}>
-          {t("whyTitle")}
-        </h2>
-        <p className={`mt-4 max-w-xl ${LANDING.body}`}>{t("whySubtitle")}</p>
+        <LandingSectionHeader
+          id="why-title"
+          eyebrow={t("whySectionLabel")}
+          title={t("whyTitle")}
+          subtitle={t("whySubtitle")}
+        />
 
         <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {LANDING_FEATURES.map((f) => (

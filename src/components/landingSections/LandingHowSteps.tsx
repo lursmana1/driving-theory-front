@@ -6,6 +6,7 @@ import {
   STUDY_PLAN_RECOMMENDED_DAYS,
 } from "@/CONSTS/studyPlan";
 import { LandingIcon } from "./LandingIcons";
+import { LandingSectionHeader } from "./LandingSectionHeader";
 
 type MockKey =
   | "mockDays"
@@ -36,22 +37,21 @@ export async function LandingHowSteps() {
       aria-labelledby="how-title"
     >
       <div className="section">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className={LANDING.eyebrow}>{t("howSectionLabel")}</p>
-            <h2 id="how-title" className={`mt-4 max-w-2xl ${LANDING.headingSection}`}>
-              {t("howTitle")}
-            </h2>
-            <p className={`mt-4 max-w-xl ${LANDING.body}`}>{t("howSubtitle")}</p>
-          </div>
-          <Link
-            href="/plan"
-            className={`h-12 shrink-0 self-start md:self-auto ${LANDING.gradientCta}`}
-          >
-            {t("howCta")}
-            <LandingIcon name="arrow" className="h-5 w-5" />
-          </Link>
-        </div>
+        <LandingSectionHeader
+          id="how-title"
+          eyebrow={t("howSectionLabel")}
+          title={t("howTitle")}
+          subtitle={t("howSubtitle")}
+          action={
+            <Link
+              href="/plan"
+              className={`h-12 shrink-0 self-start md:self-auto ${LANDING.ctaPrimary}`}
+            >
+              {t("howCta")}
+              <LandingIcon name="arrow" className="h-5 w-5" />
+            </Link>
+          }
+        />
 
         <ol className="mt-12 grid gap-5 lg:grid-cols-3">
           {steps.map((step) => (

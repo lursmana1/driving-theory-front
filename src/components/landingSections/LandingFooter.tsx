@@ -83,10 +83,10 @@ export default async function LandingFooter() {
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-fg-faint">
+          <p className="text-xs text-fg-subtle">
             {t("footerCopyright", { year })}
           </p>
-          <p className="text-xs tracking-wide text-fg-faint">
+          <p className="text-xs tracking-wide text-fg-subtle">
             {t("heroBrandMark")}
           </p>
         </div>

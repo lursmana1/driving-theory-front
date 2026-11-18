@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { LANDING } from "@/CONSTS/landing";
 import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 import { LandingIcon } from "./LandingIcons";
+import { LandingSectionHeader } from "./LandingSectionHeader";
 
 const STAGES = [
   { n: 1, key: "route1", href: `/tickets/${DEFAULT_CATEGORY_ID}` },
@@ -17,15 +18,16 @@ export default async function LandingRoute() {
   return (
     <section
       id="route"
-      className="border-t border-line py-16 md:py-24"
+      className={LANDING.section}
       aria-labelledby="route-title"
     >
       <div className="section">
-        <p className={LANDING.eyebrow}>{t("routeEyebrow")}</p>
-        <h2 id="route-title" className={`mt-4 max-w-2xl ${LANDING.headingSection}`}>
-          {t("routeTitle")}
-        </h2>
-        <p className={`mt-4 max-w-2xl ${LANDING.body}`}>{t("routeSubtitle")}</p>
+        <LandingSectionHeader
+          id="route-title"
+          eyebrow={t("routeEyebrow")}
+          title={t("routeTitle")}
+          subtitle={t("routeSubtitle")}
+        />
 
         <ol className="relative mt-12 grid gap-4 lg:grid-cols-3 lg:gap-0">
           {STAGES.map((s, i) => (
@@ -54,8 +56,8 @@ export default async function LandingRoute() {
                 >
                   {s.n}
                 </span>
-                <div className="min-w-0 flex-1 rounded-panel border border-line bg-surface p-5">
-                  <p className="text-2xs font-semibold uppercase tracking-eyebrow text-fg-faint">
+                <div className={`min-w-0 flex-1 p-5 ${LANDING.card}`}>
+                  <p className={LANDING.label}>
                     {t("routeStep", { n: s.n })}
                   </p>
                   <h3 className={`mt-2 ${LANDING.headingCard}`}>
@@ -64,7 +66,7 @@ export default async function LandingRoute() {
                   <p className={`mt-2 ${LANDING.body}`}>{t(`${s.key}Text` as const)}</p>
                   <Link
                     href={s.href}
-                    className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
+                    className={`mt-2 ${LANDING.textLink}`}
                   >
                     {t(`${s.key}Link` as const)}
                     <LandingIcon name="arrow" className="h-4 w-4" />

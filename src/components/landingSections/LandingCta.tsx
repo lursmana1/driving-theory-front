@@ -28,7 +28,7 @@ export default async function LandingCta() {
               </p>
             </div>
             <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-center">
-              <Link href="/plan" className={`min-h-13 py-3 text-center ${LANDING.gradientCta}`}>
+              <Link href="/plan" className={`min-h-13 py-3 text-center ${LANDING.ctaPrimary}`}>
                 {t("ctaBtn")}
                 <LandingIcon name="arrow" className="h-5 w-5" />
               </Link>

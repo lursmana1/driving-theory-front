@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { LandingDemoQuestion } from "@/api/landingDemo";
 import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
@@ -11,13 +10,15 @@ import {
   getQuestionImageSrc,
   QUESTION_IMAGE,
 } from "@/utills/helpers/getQuestionImageSrc";
+import { LANDING } from "@/CONSTS/landing";
 import { LandingIcon } from "./LandingIcons";
+import { labelFormatter, type LandingLabels } from "./landingLabels";
 
-type Props = { question: LandingDemoQuestion };
+type Props = { question: LandingDemoQuestion; labels: LandingLabels };
 
 /** A real, playable ticket in the hero. SSR'd, so the question text is in the HTML. */
-export default function LandingDemoTicket({ question }: Props) {
-  const t = useTranslations("Home");
+export default function LandingDemoTicket({ question, labels }: Props) {
+  const t = labelFormatter(labels);
   const [picked, setPicked] = useState<number | null>(null);
   const correct = Number(question.correct_answer);
   const answered = picked != null;
@@ -42,12 +43,12 @@ export default function LandingDemoTicket({ question }: Props) {
             </span>
             {t("demoLabel")}
           </span>
-          <span className="text-xs font-medium tabular-nums text-fg-faint">
+          <span className="text-xs font-medium tabular-nums text-fg-subtle">
             {t("demoTicket", { id: question.id })}
           </span>
         </header>
 
-        <div className="relative aspect-[1000/410] bg-surface-sunken">
+        <div className="relative aspect-ticket bg-surface-sunken">
           <Image
             src={getQuestionImageSrc(question.img)}
             alt={t("demoImageAlt", { id: question.id })}
@@ -55,7 +56,6 @@ export default function LandingDemoTicket({ question }: Props) {
             height={QUESTION_IMAGE.height}
             sizes="(max-width: 1024px) 100vw, 560px"
             className="h-full w-full object-cover"
-            priority
           />
         </div>
 
@@ -103,7 +103,7 @@ export default function LandingDemoTicket({ question }: Props) {
 
           <div aria-live="polite">
             {!answered ? (
-              <p className="mt-4 text-sm text-fg-faint">{t("demoPick")}</p>
+              <p className="mt-4 text-sm text-fg-subtle">{t("demoPick")}</p>
             ) : (
               <div className="mt-4 space-y-3">
                 <p
@@ -137,7 +137,7 @@ export default function LandingDemoTicket({ question }: Props) {
                 <div className="flex flex-wrap items-center gap-x-5">
                   <Link
                     href={getQuestionTicketPath(question.id, question)}
-                    className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-accent transition hover:text-accent-strong"
+                    className={LANDING.textLink}
                   >
                     {t("demoMore")}
                     <LandingIcon name="arrow" className="h-4 w-4" />

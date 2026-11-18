@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import LandingFaq from "./LandingFaq";
+import { LandingSectionHeader } from "./LandingSectionHeader";
 import { LANDING, LANDING_FAQ } from "@/CONSTS/landing";
 import { DEFAULT_CATEGORY_ID, getExamRules } from "@/CONSTS/categories";
 import { JsonLd } from "@/components/JsonLd";
@@ -27,7 +28,7 @@ export default async function LandingFaqSection() {
   return (
     <section
       id="faq"
-      className="border-t border-line py-16 md:py-24"
+      className={LANDING.section}
       aria-labelledby="faq-title"
     >
       <JsonLd
@@ -40,10 +41,11 @@ export default async function LandingFaqSection() {
         )}
       />
       <div className="section">
-        <p className={LANDING.eyebrow}>{t("faqEyebrow")}</p>
-        <h2 id="faq-title" className={`mt-4 max-w-2xl ${LANDING.headingSection}`}>
-          {t("faqSectionTitle")}
-        </h2>
+        <LandingSectionHeader
+          id="faq-title"
+          eyebrow={t("faqEyebrow")}
+          title={t("faqSectionTitle")}
+        />
         <div className="mt-12 max-w-3xl">
           <LandingFaq items={items} />
         </div>
