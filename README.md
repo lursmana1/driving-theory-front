@@ -87,6 +87,7 @@ npm run build      # production build
 npm run start      # serve build
 npm run lint       # eslint
 npm run typecheck  # tsc --noEmit
+npm test           # vitest: study plan saving / sync logic (src/**/*.test.ts)
 ```
 
 ## Deploy (Coolify / Hetzner)

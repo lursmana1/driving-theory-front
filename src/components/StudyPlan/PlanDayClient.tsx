@@ -49,6 +49,8 @@ import {
   PlanLoadError,
 } from "./PlanPrimitives";
 import { addPlanDays } from "./planDates";
+import { PlanSaveAlert } from "./PlanSaveNotice";
+import { trackPlanEvent } from "@/utills/helpers/planAnalytics";
 import { useLessonTitle } from "./planLabels";
 import { STEP_ICON, STEP_LABEL } from "./planSteps";
 
@@ -68,8 +70,17 @@ export default function PlanDayClient({ index }: PlanDayClientProps) {
   const t = useTranslations("StudyPlan");
   const locale = useLocale();
   const { user } = useAuth();
-  const { plan, ready, markStepDone, recordTest, addMistakes, fixMistake } =
-    useStudyPlan();
+  const {
+    plan,
+    ready,
+    mode,
+    unreachable,
+    retry,
+    markStepDone,
+    recordTest,
+    addMistakes,
+    fixMistake,
+  } = useStudyPlan();
   const today = useStudyDay();
   const lessonTitle = useLessonTitle();
   const { active, open: openStep, close: closeStep } = usePlanStepParam();
@@ -206,7 +217,30 @@ export default function PlanDayClient({ index }: PlanDayClientProps) {
     [index, fixMistake],
   );
 
+  // Anonymous funnel event, once per day turning done in this page.
+  const eventDay = request.data?.[1].days[index];
+  const dayNowDone = plan && eventDay ? isDayDone(plan, eventDay) : null;
+  const wasDayDone = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (dayNowDone == null) return;
+    if (wasDayDone.current === false && dayNowDone) {
+      trackPlanEvent("plan_day_done", {
+        day: index + 1,
+        days: dayCount ?? 0,
+        mode,
+      });
+    }
+    wasDayDone.current = dayNowDone;
+  }, [dayNowDone, index, dayCount, mode]);
+
   if (!ready) return <ProfileSectionSpinner label={t("loading")} />;
+  if (unreachable) {
+    return (
+      <Shell>
+        <PlanLoadError onRetry={retry} />
+      </Shell>
+    );
+  }
   if (!plan || !inPlan) {
     return (
       <Shell>
@@ -545,7 +579,10 @@ function Page({
 }) {
   return (
     <main className="section py-6 font-georgian sm:py-8">
-      <div className={`mx-auto max-w-3xl ${className}`}>{children}</div>
+      <div className={`mx-auto max-w-3xl ${className}`}>
+        <PlanSaveAlert />
+        {children}
+      </div>
     </main>
   );
 }

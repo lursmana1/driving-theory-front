@@ -5,6 +5,7 @@ import { useStudyPlan } from "@/utills/helpers/hooks/useStudyPlan";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
 import { PlanPicker } from "./PlanPicker";
 import { PlanHome } from "./PlanHome";
+import { PlanLoadError } from "./PlanPrimitives";
 
 type StudyPlanPageClientProps = {
   initialCategoryId: number;
@@ -15,8 +16,17 @@ export default function StudyPlanPageClient({
   initialCategoryId,
 }: StudyPlanPageClientProps) {
   const t = useTranslations("StudyPlan");
-  const { plan, ready, mode, offline, saveFailed, start, reset } =
-    useStudyPlan();
+  const {
+    plan,
+    ready,
+    mode,
+    offline,
+    unreachable,
+    saveFailed,
+    retry,
+    start,
+    reset,
+  } = useStudyPlan();
   const save = { mode, offline, saveFailed };
 
   return (
@@ -27,6 +37,10 @@ export default function StudyPlanPageClient({
       </header>
       {!ready ? (
         <ProfileSectionSpinner label={t("loading")} />
+      ) : unreachable ? (
+        // No copy in this browser: the picker here could replace a plan the
+        // account already has.
+        <PlanLoadError onRetry={retry} className="py-10" />
       ) : plan ? (
         <PlanHome plan={plan} onReset={reset} save={save} />
       ) : (

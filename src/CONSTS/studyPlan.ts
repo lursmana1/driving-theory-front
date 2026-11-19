@@ -12,6 +12,7 @@ export const STUDY_PLAN_MAX_DAYS = 60;
 export const STUDY_PLAN_MAX_STEPS_PER_DAY = 40;
 export const STUDY_PLAN_DAY_MISTAKES_MAX = 300;
 export const STUDY_PLAN_MISTAKES_TOTAL_MAX = 1000;
+export const STUDY_PLAN_TEST_MAX_QUESTIONS = 40;
 
 /** Sign subjects (`src/data/subjects.json`) → sign group on `/signs`. */
 export const SUBJECT_SIGN_GROUP: Record<number, number> = {
