@@ -117,10 +117,12 @@ export default function SignsExplorer({ groups, activeGroup: group, items }: Sig
 
       <div className="sticky top-12 z-40 border-b border-line bg-canvas/95 backdrop-blur-md sm:top-14 lg:mt-4">
         <div className="section flex flex-col gap-2 py-3 md:flex-row md:items-center">
+          {/* Fixed-height box: antd's styles load lazily, and the unstyled Select is taller (CLS). */}
+          <div className="h-12 w-full overflow-hidden md:w-80 md:shrink-0 lg:hidden">
           <Select
             size="large"
             aria-label={t("groupLabel")}
-            className="h-12! w-full md:w-80 md:shrink-0 lg:hidden!"
+            className="h-12! w-full"
             popupMatchSelectWidth
             listHeight={420}
             value={group}
@@ -140,6 +142,7 @@ export default function SignsExplorer({ groups, activeGroup: group, items }: Sig
               ),
             }))}
           />
+          </div>
           <label className="relative min-w-0 flex-1">
             <span className="sr-only">{t("searchLabel")}</span>
             <Icon

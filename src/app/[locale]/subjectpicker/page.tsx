@@ -6,7 +6,10 @@ import CategoryPickerBar from "@/components/categoryComponents/CategoryPickerBar
 import StatsRefreshListener from "@/components/SubjectPicker/StatsRefreshListener";
 import SubjectPickerContent from "@/components/SubjectPicker/SubjectPickerContent";
 import SubjectPickerSkeleton from "@/components/SubjectPicker/SubjectPickerSkeleton";
-import { searchParamsToRecord, type SearchParamsRecord } from "@/lib/searchParams";
+import {
+  searchParamsToRecord,
+  type SearchParamsRecord,
+} from "@/lib/searchParams";
 import { pageMeta } from "@/lib/pageMeta";
 import GuestAuthBanner from "@/components/GuestAuth/GuestAuthBanner";
 
@@ -51,7 +54,6 @@ export default async function SubjectPickerPage({
 
   return (
     <div className="section flex flex-col gap-5 bg-surface-muted py-6 sm:gap-6 sm:py-8">
-      <GuestAuthBanner />
       <StatsRefreshListener />
       <CategoryPickerBar
         categories={categories}
@@ -62,6 +64,8 @@ export default async function SubjectPickerPage({
       <Suspense key={categoryId} fallback={<SubjectPickerSkeleton />}>
         <SubjectPickerContent categoryId={categoryId} locale={locale} />
       </Suspense>
+      {/* Last on the page: it appears only after /auth/me answers, so at the top it pushed the page down (CLS). */}
+      <GuestAuthBanner />
     </div>
   );
 }

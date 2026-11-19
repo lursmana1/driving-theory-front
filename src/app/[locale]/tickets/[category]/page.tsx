@@ -88,8 +88,7 @@ export default async function TicketsCategoryPage({
 
   const t = await getTranslations("Tickets");
   const tMeta = await getTranslations("Meta");
-  const categoryLabel =
-    getCategoryById(categoryId)?.name ?? String(categoryId);
+  const categoryLabel = getCategoryById(categoryId)?.name ?? String(categoryId);
   const listing = ticketsListingState(category, sp, locale);
 
   let questions: ExamQuestion[] = [];
@@ -133,7 +132,6 @@ export default async function TicketsCategoryPage({
 
   return (
     <div className="section space-y-6 py-8">
-      <GuestAuthBanner />
       <JsonLd
         data={ticketsJsonLd({
           locale,
@@ -190,7 +188,8 @@ export default async function TicketsCategoryPage({
             <p className="text-sm text-fg-subtle">{t("audioHint")}</p>
           )}
 
-          <TicketsQuizList questions={questions} />
+          {/* Sign-up banner below the first tickets: it appears only after /auth/me answers, so at the top it pushed the page down (CLS). */}
+          <TicketsQuizList questions={questions} insert={<GuestAuthBanner />} />
 
           <div className="flex flex-wrap justify-end gap-4">
             <Pagination

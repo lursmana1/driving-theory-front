@@ -34,7 +34,9 @@ export default function SubjectSelectMobile({
     if (sp.size) params.set("size", sp.size);
     if (value && value !== ALL) params.set("subjects", value);
     const query = params.toString();
-    router.push(query ? `/tickets/${category}?${query}` : `/tickets/${category}`);
+    router.push(
+      query ? `/tickets/${category}?${query}` : `/tickets/${category}`,
+    );
   };
 
   return (
@@ -45,23 +47,26 @@ export default function SubjectSelectMobile({
       >
         {label}
       </label>
-      <Select
-        id="tickets-subject-select"
-        size="large"
-        className="w-full min-w-0 [&_.ant-select-selector]:h-12! [&_.ant-select-selector]:bg-surface! [&_.ant-select-selection-item]:leading-12!"
-        classNames={{ popup: { root: "bg-surface!" } }}
-        popupMatchSelectWidth
-        listHeight={240}
-        value={selected}
-        onChange={handleChange}
-        options={[
-          { value: ALL, label: allSubjectsLabel },
-          ...subjects.map((s) => ({
-            value: String(s.id),
-            label: s.name,
-          })),
-        ]}
-      />
+      {/* Fixed-height box: antd's styles load lazily, and the unstyled Select is taller, which shifted the ticket list (CLS). */}
+      <div className="h-12 overflow-hidden">
+        <Select
+          id="tickets-subject-select"
+          size="large"
+          className="h-12! w-full min-w-0 [&_.ant-select-selector]:h-12! [&_.ant-select-selector]:bg-surface! [&_.ant-select-selection-item]:leading-12!"
+          classNames={{ popup: { root: "bg-surface!" } }}
+          popupMatchSelectWidth
+          listHeight={240}
+          value={selected}
+          onChange={handleChange}
+          options={[
+            { value: ALL, label: allSubjectsLabel },
+            ...subjects.map((s) => ({
+              value: String(s.id),
+              label: s.name,
+            })),
+          ]}
+        />
+      </div>
     </div>
   );
 }
