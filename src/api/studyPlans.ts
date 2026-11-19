@@ -50,29 +50,86 @@ export async function getPlanDay(
   return res.data;
 }
 
-/** Signed-in user's saved plan; null when they have none (404). */
-export async function getMyPlan(): Promise<SavedStudyPlan | null> {
+type SavedPlanResponse = Omit<SavedStudyPlan, "version"> & {
+  /** Missing from APIs before revisions. */
+  revision?: number;
+};
+
+function fromResponse(res: SavedPlanResponse): SavedStudyPlan {
+  const plan: SavedStudyPlan & { revision?: number } = { version: 1, ...res };
+  delete plan.revision;
+  return plan;
+}
+
+/**
+ * The account plan and its revision. `revision` null: the API predates
+ * revisions (saves then go out without `baseRevision`, last write wins).
+ * No plan (404): `plan` null, revision 0 ("create only").
+ */
+export type AccountPlan = {
+  plan: SavedStudyPlan | null;
+  revision: number | null;
+};
+
+/** 409 on save: someone saved first; `current` is the plan now on the server. */
+export class PlanConflictError extends Error {
+  constructor(readonly current: AccountPlan) {
+    super("Study plan changed");
+  }
+}
+
+export async function getMyPlan(): Promise<AccountPlan> {
   try {
-    const res =
-      await BaseApi.get<Omit<SavedStudyPlan, "version">>("/study-plans/me");
-    return { version: 1, ...res.data };
+    const res = await BaseApi.get<SavedPlanResponse>("/study-plans/me");
+    return { plan: fromResponse(res.data), revision: res.data.revision ?? null };
   } catch (err) {
-    if (axios.isAxiosError(err) && err.response?.status === 404) return null;
+    if (axios.isAxiosError(err) && err.response?.status === 404) {
+      return { plan: null, revision: 0 };
+    }
     throw err;
   }
 }
 
-/** Create or replace the signed-in user's plan (choice + progress). */
-export async function saveMyPlan(plan: SavedStudyPlan): Promise<void> {
-  await BaseApi.put("/study-plans/me", {
-    categoryId: plan.categoryId,
-    dayCount: plan.dayCount,
-    startDay: plan.startDay,
-    examDay: plan.examDay,
-    done: plan.done,
-    tests: plan.tests,
-    mistakes: plan.mistakes ?? {},
-  });
+/**
+ * Create or replace the signed-in user's plan (choice + progress). With
+ * `baseRevision` the server writes only over that revision, else throws
+ * `PlanConflictError`. Returns the new revision (null from an older API).
+ */
+export async function saveMyPlan(
+  plan: SavedStudyPlan,
+  baseRevision: number | null,
+): Promise<number | null> {
+  try {
+    const res = await BaseApi.put<SavedPlanResponse>("/study-plans/me", {
+      categoryId: plan.categoryId,
+      dayCount: plan.dayCount,
+      startDay: plan.startDay,
+      examDay: plan.examDay,
+      done: plan.done,
+      tests: plan.tests,
+      mistakes: plan.mistakes ?? {},
+      ...(baseRevision != null ? { baseRevision } : {}),
+    });
+    return res.data?.revision ?? null;
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response?.status === 409) {
+      const current = (
+        err.response.data as { plan?: SavedPlanResponse | null } | undefined
+      )?.plan;
+      throw new PlanConflictError(
+        current
+          ? { plan: fromResponse(current), revision: current.revision ?? null }
+          : { plan: null, revision: 0 },
+      );
+    }
+    throw err;
+  }
+}
+
+/** 400 and other 4xx (not 408 / 429): sending the same body again won't help. */
+export function isPermanentSaveError(err: unknown): boolean {
+  const status = axios.isAxiosError(err) ? err.response?.status : undefined;
+  return status != null && status >= 400 && status < 500 && status !== 408 && status !== 429;
 }
 
 export async function deleteMyPlan(): Promise<void> {
