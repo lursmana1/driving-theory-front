@@ -4,43 +4,43 @@ import { absoluteUrl } from "@/lib/seo";
 import { routing } from "@/i18n/routing";
 import { submitToIndexNow } from "@/lib/indexNow";
 
-/** Paths an admin may push to IndexNow after publishing (blog posts and the blog list). */
-const ALLOWED_PATH = /^\/blogs(\/\d+)?$/;
+const POST_PATH = /^\/blogs\/(\d+)$/;
+const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
-async function isAdmin(request: NextRequest): Promise<boolean> {
+/**
+ * The login cookie belongs to api.prava.ge, so this route can't see who is signed in.
+ * Instead it only accepts a post that really exists and was created in the last 24 h:
+ * the worst a stranger can do is announce a real, new prava.ge post again.
+ */
+async function isNewPost(id: string): Promise<boolean> {
   const base = getApiBaseUrl();
-  const cookie = request.headers.get("cookie");
-  if (!base || !cookie) return false;
+  if (!base) return false;
   try {
-    const res = await fetch(`${base}/auth/me`, {
-      headers: { Cookie: cookie, Accept: "application/json" },
+    const res = await fetch(`${base}/blogs/${id}`, {
+      headers: { Accept: "application/json" },
       cache: "no-store",
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return false;
-    const me = (await res.json()) as { type?: string } | null;
-    return me?.type === "admin";
+    const blog = (await res.json()) as { createdAt?: string } | null;
+    const created = blog?.createdAt ? Date.parse(blog.createdAt) : NaN;
+    return Number.isFinite(created) && Date.now() - created < MAX_AGE_MS;
   } catch {
     return false;
   }
 }
 
-/** POST { paths: ["/blogs/24", "/blogs"] } — called by /createblog after a post is created. */
+/** POST { id: 24 } — called by /createblog right after a post is created. */
 export async function POST(request: NextRequest) {
-  if (!(await isAdmin(request))) {
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
-
-  const body = (await request.json().catch(() => null)) as { paths?: unknown } | null;
-  const paths = Array.isArray(body?.paths)
-    ? body.paths.filter((p): p is string => typeof p === "string" && ALLOWED_PATH.test(p))
-    : [];
-  if (paths.length === 0) {
-    return NextResponse.json({ error: "no valid paths" }, { status: 400 });
+  const body = (await request.json().catch(() => null)) as { id?: unknown } | null;
+  const id = String(body?.id ?? "");
+  const path = `/blogs/${id}`;
+  if (!POST_PATH.test(path) || !(await isNewPost(id))) {
+    return NextResponse.json({ error: "not a new post" }, { status: 400 });
   }
 
   // Blog posts are Georgian only, so only the default-locale URLs are submitted.
-  const urls = paths.map((p) => absoluteUrl(p, routing.defaultLocale));
+  const urls = [path, "/blogs"].map((p) => absoluteUrl(p, routing.defaultLocale));
   try {
     const status = await submitToIndexNow(urls);
     return NextResponse.json({ status, urls }, { status: status < 400 ? 200 : 502 });

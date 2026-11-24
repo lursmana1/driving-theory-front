@@ -57,12 +57,11 @@ function toFormData(values: FormValues): FormData {
 
 /** Tells Bing & co. (IndexNow) about the new post. Best effort: a failure never blocks publishing. */
 function notifySearchEngines(id?: number) {
-  // Without an id (unexpected API response) the blog list still links to the new post.
-  const paths = id != null ? [`/blogs/${id}`, "/blogs"] : ["/blogs"];
+  if (id == null) return;
   void fetch("/api/indexnow", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ paths }),
+    body: JSON.stringify({ id }),
   }).catch(() => undefined);
 }
 
