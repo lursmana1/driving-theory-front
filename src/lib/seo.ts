@@ -63,8 +63,12 @@ type MetadataInput = {
   image?: { url: string; width?: number; height?: number; alt?: string };
 };
 
+/** Drops a trailing "| prava.ge" an editor typed into a title; the site suffix is added once below. */
+const stripSiteSuffix = (value?: string) =>
+  value?.replace(/\s*[|·—–-]\s*prava\.ge\s*$/i, "").trim() || undefined;
+
 export const buildMetadata = ({
-  title,
+  title: rawTitle,
   description,
   keywords = siteMetadata.keywords,
   path = "/",
@@ -74,6 +78,7 @@ export const buildMetadata = ({
   openGraph,
   image,
 }: MetadataInput = {}): Metadata => {
+  const title = stripSiteSuffix(rawTitle);
   const loc = asLocale(locale);
   const canonical = absoluteUrl(path, loc);
   const shareImage = image?.url ?? shareImageUrl();

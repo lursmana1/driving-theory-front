@@ -3,7 +3,7 @@ import { routing } from "@/i18n/routing";
 import { licenseCategories } from "@/CONSTS/categories";
 import { getSubjectIds } from "@/CONSTS/subjects";
 import { getApiBaseUrl } from "@/lib/apiBaseUrl";
-import { BLOGS_PAGE_SIZE, TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
+import { BLOGS_PAGE_SIZE } from "@/CONSTS/pagination";
 import { absoluteUrl, languageAlternates } from "@/lib/seo";
 import { DEFAULT_SIGN_GROUP_ID, SIGN_GROUP_SLUGS, signGroupHref } from "@/CONSTS/signGroups";
 
@@ -62,8 +62,6 @@ export function sitemapEntry(
   };
 }
 
-const MAX_TICKET_SITEMAP_PAGES = 200;
-
 async function fetchCategoryIds(): Promise<number[]> {
   const fallback = licenseCategories.map((c) => c.id);
   const base = getApiBaseUrl();
@@ -86,60 +84,17 @@ async function fetchCategoryIds(): Promise<number[]> {
   }
 }
 
-async function fetchCategoryQuestionTotal(
-  categoryId: number,
-): Promise<number> {
-  const base = getApiBaseUrl();
-  if (!base) return 0;
-
-  try {
-    const res = await fetch(
-      `${base}/questions?category=${categoryId}&page=1&size=1`,
-      {
-        next: { revalidate: 3600 },
-        headers: { Accept: "application/json" },
-      },
-    );
-    if (!res.ok) return 0;
-    const payload = (await res.json()) as { total?: number };
-    const total = Number(payload?.total);
-    return Number.isFinite(total) && total > 0 ? total : 0;
-  } catch {
-    return 0;
-  }
-}
-
-async function fetchTicketListingPaths(
-  categoryIds: number[],
-): Promise<SitemapPath[]> {
-  const totals = await Promise.all(
-    categoryIds.map(async (id) => ({
-      id,
-      total: await fetchCategoryQuestionTotal(id),
-    })),
-  );
-
-  return totals.flatMap(({ id, total }) => {
-    const pages = Math.min(
-      MAX_TICKET_SITEMAP_PAGES,
-      Math.max(1, Math.ceil(total / TICKETS_PAGE_SIZE)),
-    );
-    const listings: SitemapPath[] = [
-      {
-        href: `/tickets/${id}`,
-        changeFrequency: "weekly",
-        priority: 0.9,
-      },
-    ];
-    for (let page = 2; page <= pages; page += 1) {
-      listings.push({
-        href: `/tickets/${id}?page=${page}`,
-        changeFrequency: "weekly",
-        priority: 0.55,
-      });
-    }
-    return listings;
-  });
+/**
+ * One entry per category. Pages 2+ (`?page=N`) are left out on purpose: they repeat page 1's
+ * template, so search engines treated them as near-duplicates and skipped most of the site.
+ * Crawlers still reach them through the pagination links.
+ */
+function ticketCategoryPaths(categoryIds: number[]): SitemapPath[] {
+  return categoryIds.map((id) => ({
+    href: `/tickets/${id}`,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  }));
 }
 
 type BlogListPayload = {
@@ -205,7 +160,7 @@ export async function buildSitemapEntries(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const subjectIds = getSubjectIds();
-  const ticketPaths = await fetchTicketListingPaths(categoryIds);
+  const ticketPaths = ticketCategoryPaths(categoryIds);
   const subjectPaths: SitemapPath[] = categoryIds.flatMap((categoryId) =>
     subjectIds.map((subjectId) => ({
       href: `/tickets/${categoryId}?subjects=${subjectId}`,
