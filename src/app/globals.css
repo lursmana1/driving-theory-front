@@ -172,7 +172,7 @@
   --tracking-eyebrow: 0.22em;
 
   /* Aspect ratios */
-  --aspect-ticket: 1000 / 410; /* ticket photos (QUESTION_IMAGE) */
+  --aspect-ticket: 1000 / 410; /* landing demo crop (object-cover); real photos are 1006×542 (QUESTION_IMAGE) */
 
   /* ---- Elevation (ink-tinted, never pure black) ---- */
   --shadow-card: 0 1px 2px rgb(26 31 39 / 0.05), 0 1px 3px rgb(26 31 39 / 0.04);

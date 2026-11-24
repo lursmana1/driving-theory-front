@@ -1,6 +1,11 @@
+/**
+ * Intrinsic size of the ticket photos (all are 1006×542). Must match the real
+ * files: the browser reserves this aspect ratio before the image loads, and a
+ * wrong ratio grows the box on load (mobile CLS, Search Console 2026-11).
+ */
 export const QUESTION_IMAGE = {
-  width: 1000,
-  height: 410,
+  width: 1006,
+  height: 542,
   sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1000px",
 } as const;
 
