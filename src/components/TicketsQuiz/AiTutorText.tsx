@@ -80,15 +80,16 @@ export function AiTutorText({
 
       {open && (
         <div className="px-3 pb-3">
-          <p className="font-georgian text-sm leading-relaxed">
+          <p className="relative font-georgian text-sm leading-relaxed">
             {/* sign numbers become links once the text has finished typing */}
-            {done ? (
-              <SignLinkedText text={text} tone="stage" />
-            ) : (
-              text.slice(0, chars)
-            )}
+            <span className={done ? undefined : "invisible"} aria-hidden={!done}>
+              {done ? <SignLinkedText text={text} tone="stage" /> : text}
+            </span>
             {!done && (
-              <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-accent align-middle" />
+              <span className="absolute inset-0">
+                {text.slice(0, chars)}
+                <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-accent align-middle" />
+              </span>
             )}
           </p>
         </div>

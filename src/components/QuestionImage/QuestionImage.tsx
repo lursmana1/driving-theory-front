@@ -44,6 +44,9 @@ function QuestionImageView({
   priority?: boolean;
 }) {
   const [loaded, setLoaded] = useState(false);
+  // The priority image is the page's LCP: no fade-in, or it stays invisible
+  // (opacity 0) until hydration + onLoad, which delays LCP by seconds.
+  const fade = !priority;
 
   return (
     <Image
@@ -53,9 +56,12 @@ function QuestionImageView({
       height={QUESTION_IMAGE.height}
       sizes={QUESTION_IMAGE.sizes}
       priority={priority}
-      onLoad={() => setLoaded(true)}
-      className={`mx-auto w-full object-contain transition-opacity duration-300 ease-out ${
-        loaded ? "opacity-100" : "opacity-0"
+      fetchPriority={priority ? "high" : undefined}
+      onLoad={fade ? () => setLoaded(true) : undefined}
+      className={`mx-auto w-full object-contain ${
+        fade
+          ? `transition-opacity duration-300 ease-out ${loaded ? "opacity-100" : "opacity-0"}`
+          : ""
       } ${className}`}
       style={{ width: "100%", height: "auto" }}
     />

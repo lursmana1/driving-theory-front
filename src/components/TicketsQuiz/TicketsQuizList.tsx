@@ -38,9 +38,11 @@ export default function TicketsQuizList({
               onSelect={(key) => handleSelect(id, key)}
               priority={index === 0}
             />
-            {insert && index + 1 === Math.min(insertAfter, questions.length)
-              ? insert
-              : null}
+            {/* Keyed wrapper: `insert` is a server-rendered element, and React 19
+                warns about a missing key when it lands in this list. */}
+            {insert && index + 1 === Math.min(insertAfter, questions.length) ? (
+              <Fragment key="insert">{insert}</Fragment>
+            ) : null}
           </Fragment>
         );
       })}
