@@ -41,6 +41,8 @@ export async function generateMetadata({ params }: Props) {
       keywords: [blog.name, ...siteMetadata.keywords],
       path: `/blogs/${id}`,
       locale,
+      // Posts are written in Georgian only; /en and /ru copies point to the Georgian URL.
+      defaultLocaleOnly: true,
       image: blog.imageUrl ? { url: blog.imageUrl, alt: blog.name } : undefined,
       openGraph: {
         type: "article",

@@ -61,6 +61,11 @@ type MetadataInput = {
   openGraph?: Metadata["openGraph"];
   /** Page-specific share image (e.g. a blog cover). Falls back to the site image. */
   image?: { url: string; width?: number; height?: number; alt?: string };
+  /**
+   * Content that exists in Georgian only (blog posts): the canonical is the Georgian URL on every
+   * locale and no en/ru alternates are announced, so /en and /ru copies don't count as duplicates.
+   */
+  defaultLocaleOnly?: boolean;
 };
 
 /** Drops a trailing "| prava.ge" an editor typed into a title; the site suffix is added once below. */
@@ -77,10 +82,11 @@ export const buildMetadata = ({
   index = true,
   openGraph,
   image,
+  defaultLocaleOnly = false,
 }: MetadataInput = {}): Metadata => {
   const title = stripSiteSuffix(rawTitle);
   const loc = asLocale(locale);
-  const canonical = absoluteUrl(path, loc);
+  const canonical = absoluteUrl(path, defaultLocaleOnly ? routing.defaultLocale : loc);
   const shareImage = image?.url ?? shareImageUrl();
   const resolvedDescription = description ?? siteMetadata.description;
   const fullTitle = title
@@ -119,7 +125,7 @@ export const buildMetadata = ({
       : { index: false, follow: false },
     alternates: {
       canonical,
-      languages: languageAlternates(path),
+      ...(defaultLocaleOnly ? {} : { languages: languageAlternates(path) }),
     },
     openGraph: {
       type: "website",

@@ -52,13 +52,15 @@ export const ROBOTS_DISALLOW = [
 export function sitemapEntry(
   href: string,
   extra: Pick<MetadataRoute.Sitemap[number], "changeFrequency" | "priority" | "lastModified">,
+  /** False for Georgian-only content (blog posts): no en/ru alternates. */
+  withLanguages = true,
 ): MetadataRoute.Sitemap[number] {
   return {
     url: absoluteUrl(href, routing.defaultLocale),
     lastModified: extra.lastModified ?? new Date(),
     changeFrequency: extra.changeFrequency,
     priority: extra.priority,
-    alternates: { languages: languageAlternates(href) },
+    ...(withLanguages ? { alternates: { languages: languageAlternates(href) } } : {}),
   };
 }
 
@@ -189,11 +191,11 @@ export async function buildSitemapEntries(): Promise<MetadataRoute.Sitemap> {
     ...subjectPaths.map((item) => sitemapEntry(item.href, item)),
     ...blogListPaths.map((item) => sitemapEntry(item.href, item)),
     ...blogSitemap.posts.map((item) => ({
-      ...sitemapEntry(item.href, {
-        changeFrequency: "monthly",
-        priority: 0.6,
-        lastModified: item.lastModified,
-      }),
+      ...sitemapEntry(
+        item.href,
+        { changeFrequency: "monthly", priority: 0.6, lastModified: item.lastModified },
+        false,
+      ),
       ...(item.image ? { images: [item.image] } : {}),
     })),
   ];

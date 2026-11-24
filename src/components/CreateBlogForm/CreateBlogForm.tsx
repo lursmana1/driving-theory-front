@@ -55,6 +55,17 @@ function toFormData(values: FormValues): FormData {
   return fd;
 }
 
+/** Tells Bing & co. (IndexNow) about the new post. Best effort: a failure never blocks publishing. */
+function notifySearchEngines(id?: number) {
+  // Without an id (unexpected API response) the blog list still links to the new post.
+  const paths = id != null ? [`/blogs/${id}`, "/blogs"] : ["/blogs"];
+  void fetch("/api/indexnow", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ paths }),
+  }).catch(() => undefined);
+}
+
 export default function CreateBlogForm() {
   const [message, messageHolder] = antdMessage.useMessage();
   const [form] = Form.useForm<FormValues>();
@@ -68,9 +79,10 @@ export default function CreateBlogForm() {
 
     setLoading(true);
     try {
-      await BaseApi.post("/blogs", toFormData(values));
+      const res = await BaseApi.post<{ id?: number }>("/blogs", toFormData(values));
       form.resetFields();
       message.success("Blog created");
+      notifySearchEngines(res.data?.id);
     } catch (error) {
       message.error(showApiError(error, form));
     } finally {
