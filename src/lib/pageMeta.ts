@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo";
+import { TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
 
 export type MetaPage =
   | "home"
@@ -87,12 +88,22 @@ export async function pageMeta(
     listingPage > 1
       ? t("ticketsTitlePage", { title: baseTitle, page: listingPage })
       : baseTitle;
-  const description =
+  const baseDescription =
     page === "tickets" && category && subject
       ? t("ticketsDescriptionCategorySubject", { category, subject })
       : page === "tickets" && category
         ? t("ticketsDescriptionCategory", { category })
         : t(`${page}Description`);
+  // Pages 2+ get their own description (ticket range first), or search engines flag them as duplicates.
+  const description =
+    listingPage > 1
+      ? t("ticketsDescriptionPage", {
+          description: baseDescription,
+          page: listingPage,
+          from: (listingPage - 1) * TICKETS_PAGE_SIZE + 1,
+          to: listingPage * TICKETS_PAGE_SIZE,
+        })
+      : baseDescription;
 
   return buildMetadata({
     title,
