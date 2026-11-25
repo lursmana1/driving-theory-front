@@ -5,16 +5,22 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getPlanPreview } from "@/api/studyPlans";
 import { getCategoryById } from "@/CONSTS/categories";
-import { PLAN_HERO_TOPICS } from "@/CONSTS/studyPlan";
+import {
+  PLAN_HERO_TOPICS,
+  STUDY_PLAN_SHIFT_MAX_DAYS,
+} from "@/CONSTS/studyPlan";
 import type { PlanDay, SavedStudyPlan } from "@/lib/types/studyPlan";
 import {
   currentDayIndex,
   dayStatus,
+  daysBehind,
   dayMistakes,
   extraRoundDone,
   isDayDone,
   extraTicketsDone,
   planCoverage,
+  daysToMove,
+  shownDay,
 } from "@/utills/helpers/studyPlanProgress";
 import {
   examCtaPillBase,
@@ -23,6 +29,7 @@ import {
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
 import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
+import { usePlanSync } from "@/utills/helpers/hooks/usePlanSync";
 import { LineIcon } from "@/components/Icon/LineIcon";
 import { PlanDayList } from "./PlanDayList";
 import { PlanRing } from "./PlanRing";
@@ -31,20 +38,24 @@ import {
   PlanLoadError,
   PlanProgressBar,
   PlanStickyBar,
+  PlanUpdatedNotice,
 } from "./PlanPrimitives";
 import { PlanSaveNotice, type PlanSaveState } from "./PlanSaveNotice";
 import { PlanReadiness, useMockStreak } from "./PlanReadiness";
-import { addPlanDays, daysBetween, formatPlanDayLong } from "./planDates";
+import { daysBetween, formatPlanDayLong } from "./planDates";
+import { PlanBehindNotice } from "./PlanBehindNotice";
 import { useDayTopics } from "./planLabels";
 
 type PlanHomeProps = {
   plan: SavedStudyPlan;
   onReset: () => void;
+  /** Move the remaining days later by this many days (behind the plan). */
+  onMove: (behind: number) => void;
   save: PlanSaveState;
 };
 
 /** Plan home: today's day as a hero, the day timeline, a mock-exam card. */
-export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
+export function PlanHome({ plan, onReset, onMove, save }: PlanHomeProps) {
   const t = useTranslations("StudyPlan");
   const locale = useLocale();
   const today = useStudyDay();
@@ -55,6 +66,7 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
     getPlanPreview(plan.categoryId, { days: plan.dayCount }),
   );
   const preview = request.data;
+  const updatedDays = usePlanSync(plan, preview?.days);
 
   if (request.error) {
     return <PlanLoadError onRetry={request.retry} className="py-10" />;
@@ -65,7 +77,9 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
   const current = currentDayIndex(plan, days);
   const currentDay = current != null ? days[current] : null;
   const doneCount = days.filter((d) => isDayDone(plan, d)).length;
-  const dateOf = (day: PlanDay) => addPlanDays(plan.startDay, day.index);
+  const dateOf = (day: PlanDay) => shownDay(plan, day);
+  const behind = daysBehind(plan, days, today);
+  const moveBy = daysToMove(plan, days, today);
   const currentOpen =
     current != null && dayStatus(plan, days, current, today) === "open";
   const categoryName = getCategoryById(plan.categoryId)?.name ?? "";
@@ -159,7 +173,10 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
           />
           {remaining > 0 && (
             <p className="text-xs text-on-accent/80">
-              {pace > 0 && `${t("coveragePace", { count: pace })} `}
+              {/* Behind: the banner below says where the plan stands. */}
+              {pace > 0 &&
+                behind === 0 &&
+                `${t("coveragePace", { count: pace })} `}
               {t("coverageHint")}
             </p>
           )}
@@ -199,6 +216,19 @@ export function PlanHome({ plan, onReset, save }: PlanHomeProps) {
           )}
         </div>
       </section>
+
+      <PlanUpdatedNotice days={updatedDays} />
+
+      {behind > 0 && (
+        <PlanBehindNotice
+          plan={plan}
+          dayCount={days.length}
+          behind={behind}
+          moveBy={moveBy}
+          canMove={(plan.shift ?? 0) + moveBy <= STUDY_PLAN_SHIFT_MAX_DAYS}
+          onMove={() => onMove(moveBy)}
+        />
+      )}
 
       {/* Phones: the readiness light sits right under the hero, not after 14 days of list. */}
       <PlanReadiness

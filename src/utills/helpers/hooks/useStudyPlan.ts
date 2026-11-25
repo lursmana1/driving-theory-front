@@ -13,6 +13,7 @@ import {
   clearAccount,
   getAccount,
   getServerAccount,
+  hasUnsaved,
   loadAccount,
   queueAction,
   replacePlan,
@@ -21,6 +22,8 @@ import {
   type GuestHandoff,
 } from "@/utills/helpers/studyPlanAccount";
 import { trackPlanEvent } from "@/utills/helpers/planAnalytics";
+import type { PlanSync } from "@/utills/helpers/studyPlanSync";
+import { pushLocalHistory } from "@/utills/helpers/studyPlanHistory";
 
 /**
  * Two modes, one API:
@@ -142,10 +145,17 @@ export function useStudyPlan() {
     [mode, userId],
   );
 
+  // Signed in, the server keeps the left plan in its history; a guest's
+  // goes to this browser's history.
   const replace = useCallback(
     (next: SavedStudyPlan | null) => {
-      if (mode === "account" && userId != null) replacePlan(userId, next);
-      else writeLocal(next);
+      if (mode === "account" && userId != null) {
+        replacePlan(userId, next);
+        return;
+      }
+      const current = parse(readRaw());
+      if (current) pushLocalHistory(current, new Date().toISOString());
+      writeLocal(next);
     },
     [mode, userId],
   );
@@ -223,6 +233,31 @@ export function useStudyPlan() {
     [act],
   );
 
+  /**
+   * Behind the plan's dates: move the remaining days `by` days later
+   * (`daysToMove`; the end date moves with them), so the user is on time.
+   */
+  const movePlan = useCallback(
+    (by: number) => {
+      const current = plan?.shift ?? 0;
+      if (by <= 0) return;
+      const changed = act({ op: "shift", days: current + by });
+      if (changed) trackPlanEvent("plan_moved", { days: by, mode });
+    },
+    [act, mode, plan?.shift],
+  );
+
+  /** Records the schedule's day hashes and finished days (`planSync`). */
+  const syncDays = useCallback(
+    ({ hashes, completed, resetDays }: PlanSync) => {
+      const changed = act({ op: "sync", hashes, completed });
+      if (changed && resetDays.length > 0) {
+        trackPlanEvent("plan_day_reset", { days: resetDays.length, mode });
+      }
+    },
+    [act, mode],
+  );
+
   /** Removes a fixed question (answered right in the mistakes round). */
   const fixMistake = useCallback(
     (dayIndex: number, questionId: number) => {
@@ -240,6 +275,8 @@ export function useStudyPlan() {
     /** Offline with no copy of the plan in this browser: nothing to show. */
     unreachable: offline && !accountForUser?.known,
     saveFailed: accountForUser?.saveFailed ?? false,
+    /** Signed in with changes not on the server yet (e.g. a reset being sent). */
+    unsaved: accountForUser ? hasUnsaved(accountForUser) : false,
     /** Try the server again now (after `offline` / `saveFailed`). */
     retry: retryAccountNow,
     start,
@@ -248,5 +285,7 @@ export function useStudyPlan() {
     recordTest,
     addMistakes,
     fixMistake,
+    movePlan,
+    syncDays,
   };
 }

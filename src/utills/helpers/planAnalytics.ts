@@ -18,7 +18,11 @@ export type PlanEvent =
   | "plan_day_test"
   | "plan_day_done"
   | "plan_guest_moved"
-  | "plan_progress_recovered";
+  | "plan_progress_recovered"
+  /** Behind the plan's dates, the user moved the remaining days later. */
+  | "plan_moved"
+  /** Unfinished days that started fresh because their content changed. */
+  | "plan_day_reset";
 
 export function trackPlanEvent(event: PlanEvent, data?: UmamiData) {
   try {

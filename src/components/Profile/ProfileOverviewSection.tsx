@@ -9,6 +9,8 @@ import { useProfileOverview } from "@/utills/helpers/hooks/useProfileOverview";
 import { ProfileReadinessCard } from "@/components/Profile/ProfileReadinessCard";
 import { ProfileWeakCharts } from "@/components/Profile/ProfileWeakCharts";
 import { ProfileTrainerCard } from "@/components/Profile/ProfileTrainerCard";
+import { ProfileStudyPlanCard } from "@/components/Profile/ProfileStudyPlanCard";
+import { PlanHistoryList } from "@/components/StudyPlan/PlanHistoryList";
 
 type ProfileOverviewSectionProps = {
   defaultCategoryId?: number;
@@ -56,6 +58,7 @@ export default function ProfileOverviewSection({
 
   return (
     <div className="space-y-4 sm:space-y-6">
+      <ProfileStudyPlanCard />
       <ProfileReadinessCard
         categories={categories}
         categoryId={categoryId}
@@ -77,6 +80,7 @@ export default function ProfileOverviewSection({
         subjectNames={overview.subjectNames}
         showChartsSection={overview.showChartsSection}
       />
+      <PlanHistoryList mode="account" />
     </div>
   );
 }

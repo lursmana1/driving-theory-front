@@ -3,7 +3,13 @@ import {
   STUDY_PLAN_MAX_STEPS_PER_DAY,
   STUDY_PLAN_TEST_MAX_QUESTIONS,
 } from "@/CONSTS/studyPlan";
-import { withMistakes, withTest } from "./studyPlanActions";
+import {
+  planIdentity,
+  withMistakes,
+  withShift,
+  withSync,
+  withTest,
+} from "./studyPlanActions";
 
 /**
  * Two copies of the same plan in one browser: the account plan and a plan
@@ -15,11 +21,7 @@ const STUDY_DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 /** Same plan choice: progress of one can be merged into the other. */
 export function isSamePlan(a: SavedStudyPlan, b: SavedStudyPlan): boolean {
-  return (
-    a.categoryId === b.categoryId &&
-    a.dayCount === b.dayCount &&
-    a.startDay === b.startDay
-  );
+  return planIdentity(a) === planIdentity(b);
 }
 
 /**
@@ -28,8 +30,9 @@ export function isSamePlan(a: SavedStudyPlan, b: SavedStudyPlan): boolean {
  * mistakes of both. Used once to recover progress the old frontend kept
  * only in this browser while the account couldn't be reached. The other
  * copy comes from browser storage, so anything out of shape is skipped and
- * the result always passes the server's checks. Returns `prev` itself when
- * nothing is added.
+ * the result always passes the server's checks. A day whose content hash in
+ * the other copy differs from this one's is skipped: its ticks belong to
+ * the day's old steps. Returns `prev` itself when nothing is added.
  */
 export function mergeProgress(
   prev: SavedStudyPlan,
@@ -37,10 +40,17 @@ export function mergeProgress(
 ): SavedStudyPlan {
   const inPlan = (key: string, max: number) =>
     /^(0|[1-9]\d{0,2})$/.test(key) && Number(key) < max;
+  const sameContent = (day: string) => {
+    const theirs = other.dayHashes?.[day];
+    const mine = prev.dayHashes?.[day];
+    return !theirs || !mine || theirs === mine;
+  };
+  const usable = (day: string) =>
+    inPlan(day, prev.dayCount) && sameContent(day);
   let next = prev;
 
   for (const [day, steps] of Object.entries(other.done ?? {})) {
-    if (!inPlan(day, prev.dayCount) || !steps || typeof steps !== "object") {
+    if (!usable(day) || !steps || typeof steps !== "object") {
       continue;
     }
     for (const [step, on] of Object.entries(steps)) {
@@ -56,7 +66,7 @@ export function mergeProgress(
   }
 
   for (const [day, test] of Object.entries(other.tests ?? {})) {
-    if (!inPlan(day, prev.dayCount) || !test || typeof test !== "object") {
+    if (!usable(day) || !test || typeof test !== "object") {
       continue;
     }
     const { correct, total, passed } = test;
@@ -74,13 +84,32 @@ export function mergeProgress(
   }
 
   for (const [day, ids] of Object.entries(other.mistakes ?? {})) {
-    if (!inPlan(day, prev.dayCount) || !Array.isArray(ids)) continue;
+    if (!usable(day) || !Array.isArray(ids)) continue;
     const valid = ids.filter(
       (id): id is number => Number.isInteger(id) && id > 0,
     );
     if (valid.length) next = withMistakes(next, Number(day), valid);
   }
-  return next;
+  if (Number.isInteger(other.shift)) next = withShift(next, other.shift!);
+  // Hashes this copy doesn't know yet, and finished days (first date wins
+  // per day). Out-of-shape entries are skipped like above.
+  const strings = (map: unknown) =>
+    Object.fromEntries(
+      Object.entries(map && typeof map === "object" ? map : {}).filter(
+        ([, v]) => typeof v === "string",
+      ),
+    ) as Record<string, string>;
+  const otherCompleted = Object.fromEntries(
+    Object.entries(strings(other.completed)).filter(([, on]) =>
+      STUDY_DAY.test(on),
+    ),
+  );
+  const unknownHashes = Object.fromEntries(
+    Object.entries(strings(other.dayHashes)).filter(
+      ([day]) => !next.dayHashes?.[day],
+    ),
+  );
+  return withSync(next, unknownHashes, otherCompleted);
 }
 
 /**

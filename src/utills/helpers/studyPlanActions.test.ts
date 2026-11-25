@@ -3,7 +3,12 @@ import {
   STUDY_PLAN_DAY_MISTAKES_MAX,
   STUDY_PLAN_MISTAKES_TOTAL_MAX,
 } from "@/CONSTS/studyPlan";
-import { applyAction, replayActions, type PlanAction } from "./studyPlanActions";
+import {
+  applyAction,
+  planIdentity,
+  replayActions,
+  type PlanAction,
+} from "./studyPlanActions";
 import { testPlan as plan } from "./studyPlanTestUtils";
 
 describe("applyAction", () => {
@@ -98,5 +103,20 @@ describe("replayActions", () => {
       { op: "step", day: 0, step: 99, on: "2026-11-19" },
     ]);
     expect(out).toBe(short);
+  });
+});
+
+describe("replayActions and plan identity", () => {
+  it("skips actions made on another plan, keeps the rest", () => {
+    const a = plan();
+    const b = plan({ startDay: "2026-11-24" });
+    const actions: PlanAction[] = [
+      { op: "shift", days: 5, plan: planIdentity(a) },
+      { op: "step", day: 0, step: 0, on: "2026-11-24", plan: planIdentity(b) },
+      { op: "step", day: 0, step: 1, on: "2026-11-24" },
+    ];
+    const replayed = replayActions(b, actions)!;
+    expect(replayed.shift).toBeUndefined();
+    expect(replayed.done["0"]).toEqual({ 0: "2026-11-24", 1: "2026-11-24" });
   });
 });

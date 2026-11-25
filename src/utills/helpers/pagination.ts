@@ -1,4 +1,5 @@
 import {
+  PAGE_PARAM,
   VISIBLE_PAGES_THRESHOLD,
   START_EDGE_COUNT,
   END_EDGE_OFFSET,
@@ -6,6 +7,28 @@ import {
 } from "@/CONSTS/pagination";
 
 export type PageItem = number | "ellipsis";
+
+/**
+ * Link to page `page` of a listing: keeps the other query params, drops
+ * empty ones, and leaves `page` out for page 1 (one URL per page). `hash`
+ * (an element id) makes the new page open scrolled to that element.
+ */
+export function pageHref(
+  pathname: string,
+  params: Record<string, string | undefined>,
+  page: number,
+  hash?: string,
+): string {
+  const sp = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (key === PAGE_PARAM || value == null || value === "") continue;
+    sp.set(key, value);
+  }
+  if (page > 1) sp.set(PAGE_PARAM, String(page));
+  const query = sp.toString();
+  const anchor = hash ? `#${hash}` : "";
+  return `${query ? `${pathname}?${query}` : pathname}${anchor}`;
+}
 
 export function getPageNumbers(
   current: number,

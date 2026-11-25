@@ -3,6 +3,7 @@ import {
   STUDY_PLAN_DAY_MISTAKES_MAX,
   STUDY_PLAN_MAX_STEPS_PER_DAY,
   STUDY_PLAN_MISTAKES_TOTAL_MAX,
+  STUDY_PLAN_SHIFT_MAX_DAYS,
 } from "@/CONSTS/studyPlan";
 
 /**
@@ -11,7 +12,7 @@ import {
  * plan: after a 409 (another tab / device saved first) or after being
  * offline. Every action is idempotent, so sending one twice is harmless.
  */
-export type PlanAction =
+export type PlanAction = (
   | { op: "step"; day: number; step: number; on: string }
   | {
       op: "test";
@@ -22,7 +23,33 @@ export type PlanAction =
       on: string;
     }
   | { op: "mistakes"; day: number; ids: number[] }
-  | { op: "fix"; day: number; questionId: number };
+  | { op: "fix"; day: number; questionId: number }
+  /** Move the plan's dates: `shift` becomes at least `days`. */
+  | { op: "shift"; days: number }
+  /**
+   * Record day content hashes and finished days (`withSync`): a day whose
+   * known hash differs and that isn't finished starts fresh.
+   */
+  | {
+      op: "sync";
+      hashes: Record<string, string>;
+      completed: Record<string, string>;
+    }
+) & {
+  /**
+   * `planIdentity` of the plan the action was made on. A queued action
+   * replayed onto another plan (picked on another device meanwhile) is
+   * skipped. Missing on actions queued before it existed.
+   */
+  plan?: string;
+};
+
+/** Which plan a saved plan is: category, length and start day. */
+export function planIdentity(
+  plan: Pick<SavedStudyPlan, "categoryId" | "dayCount" | "startDay">,
+): string {
+  return `${plan.categoryId}|${plan.dayCount}|${plan.startDay}`;
+}
 
 /** Returns `prev` itself when the action changes nothing. */
 export function applyAction(
@@ -48,6 +75,10 @@ export function applyAction(
       return withMistakes(prev, action.day, action.ids);
     case "fix":
       return withoutMistake(prev, action.day, action.questionId);
+    case "shift":
+      return withShift(prev, action.days);
+    case "sync":
+      return withSync(prev, action.hashes, action.completed);
   }
 }
 
@@ -70,6 +101,9 @@ export function replayActions(
  * the save is never rejected.
  */
 function isActionInPlan(plan: SavedStudyPlan, action: PlanAction): boolean {
+  if (action.plan != null && action.plan !== planIdentity(plan)) return false;
+  // Plan-wide ops; `withSync` drops days outside the plan itself.
+  if (action.op === "shift" || action.op === "sync") return true;
   if (action.day < 0 || action.day >= plan.dayCount) return false;
   return (
     !("step" in action) ||
@@ -89,6 +123,71 @@ export function withStepDone(
   return {
     ...prev,
     done: { ...prev.done, [day]: { ...prev.done[day], [step]: today } },
+  };
+}
+
+/**
+ * Sets how many days the plan was moved forward. Never lowers it, so two
+ * devices moving the same plan (or a replayed action) agree; clamped to the
+ * server's bound.
+ */
+export function withShift(prev: SavedStudyPlan, days: number): SavedStudyPlan {
+  const next = Math.min(
+    Math.max(0, Math.floor(days)),
+    STUDY_PLAN_SHIFT_MAX_DAYS,
+  );
+  if (next <= (prev.shift ?? 0)) return prev;
+  return { ...prev, shift: next };
+}
+
+const DAY_KEY = /^(0|[1-9]\d{0,2})$/;
+
+/**
+ * Day content hashes and finished days, decided against the plan as it is
+ * now, so replaying it (after a 409 or offline) is safe:
+ * - `completed`: set for days that have none (the first date stays);
+ * - `hashes`: a day with no known hash just records it; a day whose known
+ *   hash differs records the new one and, unless finished, starts fresh
+ *   (its ticks, test and mistakes go: they pointed at the old steps).
+ * Days outside the plan are skipped. Returns `prev` when nothing changes.
+ */
+export function withSync(
+  prev: SavedStudyPlan,
+  hashes: Record<string, string>,
+  completed: Record<string, string>,
+): SavedStudyPlan {
+  const inPlan = (day: string) =>
+    DAY_KEY.test(day) && Number(day) < prev.dayCount;
+  const nextCompleted = { ...prev.completed };
+  for (const [day, on] of Object.entries(completed)) {
+    if (inPlan(day) && !nextCompleted[day]) nextCompleted[day] = on;
+  }
+  const nextHashes = { ...prev.dayHashes };
+  const done = { ...prev.done };
+  const tests = { ...prev.tests };
+  const mistakes = { ...prev.mistakes };
+  let changed =
+    Object.keys(nextCompleted).length !==
+    Object.keys(prev.completed ?? {}).length;
+  for (const [day, hash] of Object.entries(hashes)) {
+    const known = nextHashes[day];
+    if (!inPlan(day) || known === hash) continue;
+    if (known && !nextCompleted[day]) {
+      delete done[day];
+      delete tests[day];
+      delete mistakes[day];
+    }
+    nextHashes[day] = hash;
+    changed = true;
+  }
+  if (!changed) return prev;
+  return {
+    ...prev,
+    done,
+    tests,
+    mistakes,
+    dayHashes: nextHashes,
+    completed: nextCompleted,
   };
 }
 

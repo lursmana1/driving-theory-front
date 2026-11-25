@@ -80,3 +80,16 @@ describe("adoptBrowserPlan", () => {
     expect(adoptBrowserPlan(plan({ categoryId: 0 }), guest, false)).toBeNull();
   });
 });
+
+describe("mergeProgress and day hashes", () => {
+  it("skips a day whose content changed between the copies", () => {
+    const server = plan({ dayHashes: { "0": "new" } });
+    const browser = plan({
+      dayHashes: { "0": "old" },
+      done: { "0": { "0": "2026-11-19" }, "1": { "0": "2026-11-20" } },
+    });
+    const merged = mergeProgress(server, browser);
+    expect(merged.done["0"]).toBeUndefined();
+    expect(merged.done["1"]).toEqual({ "0": "2026-11-20" });
+  });
+});

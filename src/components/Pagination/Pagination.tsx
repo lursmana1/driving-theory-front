@@ -3,12 +3,13 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import {
-  PAGE_PARAM,
   DEFAULT_PAGE_SIZE,
+  VISIBLE_PAGES_THRESHOLD,
   PAGINATION_STYLES,
   EXAM_HISTORY_PAGINATION_COL_SPAN,
 } from "@/CONSTS/pagination";
-import { getPageNumbers } from "@/utills/helpers/pagination";
+import { getPageNumbers, pageHref } from "@/utills/helpers/pagination";
+import { PageJump } from "./PageJump";
 import { Icon } from "@/components/Icon/Icon";
 
 type PaginationProps = {
@@ -20,22 +21,11 @@ type PaginationProps = {
   params?: Record<string, string | undefined>;
   /** Participates in parent grid — range in col 1, controls span cols 2–4 */
   layout?: "default" | "table";
+  /** A "go to page" box when there are many pages (the links stay for crawlers). */
+  jump?: boolean;
+  /** Element id the new page opens scrolled to (e.g. the list, not the page top). */
+  hash?: string;
 };
-
-function hrefFor(
-  pathname: string,
-  params: Record<string, string | undefined>,
-  nextPage: number,
-): string {
-  const sp = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    if (key === PAGE_PARAM || value == null || value === "") continue;
-    sp.set(key, value);
-  }
-  if (nextPage > 1) sp.set(PAGE_PARAM, String(nextPage));
-  const query = sp.toString();
-  return query ? `${pathname}?${query}` : pathname;
-}
 
 export default function Pagination({
   page,
@@ -44,6 +34,8 @@ export default function Pagination({
   pageSize = DEFAULT_PAGE_SIZE,
   params = {},
   layout = "default",
+  jump = false,
+  hash,
 }: PaginationProps) {
   const t = useTranslations("Profile");
 
@@ -77,7 +69,7 @@ export default function Pagination({
         </span>
       ) : (
         <Link
-          href={hrefFor(pathname, params, currentPage - 1)}
+          href={pageHref(pathname, params, currentPage - 1, hash)}
           aria-label="Previous page"
           className={navClass}
         >
@@ -94,7 +86,7 @@ export default function Pagination({
           ) : (
             <Link
               key={p}
-              href={hrefFor(pathname, params, p)}
+              href={pageHref(pathname, params, p, hash)}
               aria-current={p === currentPage ? "page" : undefined}
               className={`${PAGINATION_STYLES.pageButtonBase} inline-flex items-center justify-center ${
                 p === currentPage
@@ -118,7 +110,7 @@ export default function Pagination({
         </span>
       ) : (
         <Link
-          href={hrefFor(pathname, params, currentPage + 1)}
+          href={pageHref(pathname, params, currentPage + 1, hash)}
           aria-label="Next page"
           className={navClass}
         >
@@ -147,7 +139,15 @@ export default function Pagination({
       aria-label="Pagination"
     >
       <div className="text-center sm:text-left">{rangeLabel}</div>
-      {controls}
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
+        {controls}
+        {jump && totalPages > VISIBLE_PAGES_THRESHOLD && (
+          <PageJump
+            totalPages={totalPages}
+            hrefOf={(p) => pageHref(pathname, params, p, hash)}
+          />
+        )}
+      </div>
     </nav>
   );
 }

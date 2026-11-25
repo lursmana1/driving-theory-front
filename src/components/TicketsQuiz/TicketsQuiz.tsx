@@ -17,6 +17,7 @@ import QuestionExplanation from "../QuestionExplanation/QuestionExplanation";
 import { getAnswers } from "@/utills/helpers/getAnswers";
 import { AiTutorText } from "./AiTutorText";
 import { QuestionAudioButton } from "@/components/QuestionAudio/QuestionAudioButton";
+import { ShareTicketButton } from "./ShareTicketButton";
 function questionNumericId(question: ExamQuestion): number {
   const n =
     typeof question.id === "number"
@@ -50,6 +51,8 @@ type TicketQuizProps = {
    * it open under the answers.
    */
   revealExplanation?: boolean;
+  /** Tickets page: a share / copy-link button for this ticket's category. */
+  shareCategoryId?: number;
 };
 
 export default function TicketQuiz({
@@ -66,6 +69,7 @@ export default function TicketQuiz({
   belowQuestion,
   imageClassName = "max-h-110",
   revealExplanation = false,
+  shareCategoryId,
 }: TicketQuizProps) {
   const t = useTranslations("Tickets");
   const { recordAnswer } = usePracticeAnswers();
@@ -103,13 +107,21 @@ export default function TicketQuiz({
             questionIndex={questionIndex}
             explanation={question.question_explained}
             actions={
-              questionAudioUrl ? (
-                <QuestionAudioButton
-                  id={`question-audio-${qId}`}
-                  src={questionAudioUrl}
-                  size="labeled"
-                />
-              ) : null
+              <>
+                {shareCategoryId != null && (
+                  <ShareTicketButton
+                    categoryId={shareCategoryId}
+                    questionId={question.id}
+                  />
+                )}
+                {questionAudioUrl && (
+                  <QuestionAudioButton
+                    id={`question-audio-${qId}`}
+                    src={questionAudioUrl}
+                    size="labeled"
+                  />
+                )}
+              </>
             }
           />
 
