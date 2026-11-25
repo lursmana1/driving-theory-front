@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useStudyPlan } from "@/utills/helpers/hooks/useStudyPlan";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
+import { PlanHistoryList } from "./PlanHistoryList";
 import { PlanPicker } from "./PlanPicker";
 import { PlanHome } from "./PlanHome";
 import { PlanLoadError } from "./PlanPrimitives";
@@ -26,6 +27,7 @@ export default function StudyPlanPageClient({
     retry,
     start,
     reset,
+    movePlan,
   } = useStudyPlan();
   const save = { mode, offline, saveFailed };
 
@@ -42,20 +44,23 @@ export default function StudyPlanPageClient({
         // account already has.
         <PlanLoadError onRetry={retry} className="py-10" />
       ) : plan ? (
-        <PlanHome plan={plan} onReset={reset} save={save} />
+        <PlanHome plan={plan} onReset={reset} onMove={movePlan} save={save} />
       ) : (
-        <PlanPicker
-          initialCategoryId={initialCategoryId}
-          save={save}
-          onStart={(preview) =>
-            start({
-              categoryId: preview.categoryId,
-              dayCount: preview.dayCount,
-              startDay: preview.startDay,
-              examDay: preview.examDay,
-            })
-          }
-        />
+        <>
+          <PlanPicker
+            initialCategoryId={initialCategoryId}
+            save={save}
+            onStart={(preview) =>
+              start({
+                categoryId: preview.categoryId,
+                dayCount: preview.dayCount,
+                startDay: preview.startDay,
+                examDay: preview.examDay,
+              })
+            }
+          />
+          <PlanHistoryList mode={mode} />
+        </>
       )}
     </main>
   );

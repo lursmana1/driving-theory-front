@@ -61,7 +61,7 @@ type Phase = "intro" | "running" | "result" | "review";
  * (dots, back/next, change an answer), no explanations until the end. The
  * answers are saved and graded when the test is finished; unanswered
  * questions count as mistakes. Allowed mistakes: the category's exam ratio
- * made stricter (dayTestAllowedMistakes). Only a passed try closes the day;
+ * (dayTestAllowedMistakes). Only a passed try closes the day;
  * a failed one sends the user to the day's mistakes, and every try comes
  * in a new order.
  */

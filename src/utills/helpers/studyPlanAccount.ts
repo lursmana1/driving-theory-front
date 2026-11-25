@@ -8,6 +8,7 @@ import {
 import type { SavedStudyPlan } from "@/lib/types/studyPlan";
 import {
   applyAction,
+  planIdentity,
   replayActions,
   type PlanAction,
 } from "./studyPlanActions";
@@ -173,7 +174,13 @@ export function queueAction(userId: number, action: PlanAction): boolean {
   setAccount(
     cur.pending.length >= MAX_PENDING
       ? { ...cur, replace: { plan: next }, pending: [] }
-      : { ...cur, pending: [...cur.pending, { ...action, id: newActionId() }] },
+      : {
+          ...cur,
+          pending: [
+            ...cur.pending,
+            { ...action, plan: planIdentity(shown), id: newActionId() },
+          ],
+        },
   );
   void flush(userId);
   return true;

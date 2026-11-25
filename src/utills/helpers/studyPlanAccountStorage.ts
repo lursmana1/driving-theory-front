@@ -65,10 +65,20 @@ function asPlan(value: unknown): SavedStudyPlan | null {
 
 const isInt = (v: unknown): v is number => Number.isInteger(v);
 
+const isStringMap = (v: unknown): v is Record<string, string> =>
+  !!v &&
+  typeof v === "object" &&
+  !Array.isArray(v) &&
+  Object.values(v).every((x) => typeof x === "string");
+
 export function isQueuedAction(value: unknown): value is QueuedAction {
   if (!value || typeof value !== "object") return false;
   const a = value as Record<string, unknown>;
-  if (typeof a.id !== "string" || !isInt(a.day)) return false;
+  if (typeof a.id !== "string") return false;
+  if (a.plan !== undefined && typeof a.plan !== "string") return false;
+  if (a.op === "shift") return isInt(a.days);
+  if (a.op === "sync") return isStringMap(a.hashes) && isStringMap(a.completed);
+  if (!isInt(a.day)) return false;
   switch (a.op) {
     case "step":
       return isInt(a.step) && typeof a.on === "string";

@@ -4,7 +4,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/contexts/UserContext";
-import { getPlanDay, getPlanPreview } from "@/api/studyPlans";
+import {
+  forgetPlanPreview,
+  getPlanDay,
+  getPlanPreview,
+} from "@/api/studyPlans";
 import type {
   DayTestResult,
   LessonCard,
@@ -13,6 +17,7 @@ import type {
 } from "@/lib/types/studyPlan";
 import type { ExamQuestion } from "@/lib/types/exam";
 import { useStudyPlan } from "@/utills/helpers/hooks/useStudyPlan";
+import { usePlanSync } from "@/utills/helpers/hooks/usePlanSync";
 import { usePlanRequest } from "@/utills/helpers/hooks/usePlanRequest";
 import { useStudyDay } from "@/utills/helpers/hooks/useStudyDay";
 import {
@@ -28,6 +33,9 @@ import {
   isStepComplete,
   isStepRequired,
   openExtraStep,
+  opensByCatchUp,
+  plannedDay,
+  shownDay,
 } from "@/utills/helpers/studyPlanProgress";
 import { signGroupHref } from "@/CONSTS/signGroups";
 import { SUBJECT_SIGN_GROUP } from "@/CONSTS/studyPlan";
@@ -47,8 +55,8 @@ import {
   PlanBackButton,
   PlanConfirmSheet,
   PlanLoadError,
+  PlanUpdatedNotice,
 } from "./PlanPrimitives";
-import { addPlanDays } from "./planDates";
 import { PlanSaveAlert } from "./PlanSaveNotice";
 import { trackPlanEvent } from "@/utills/helpers/planAnalytics";
 import { useLessonTitle } from "./planLabels";
@@ -164,6 +172,25 @@ export default function PlanDayClient({ index }: PlanDayClientProps) {
   );
   const session = request.data?.[0] ?? null;
   const preview = request.data?.[1] ?? null;
+  // The preview is cached for the study day, the day itself is fetched
+  // fresh: if the server's schedule changed in between, their hashes differ.
+  // Refetch both once, and record nothing while they disagree.
+  const sessionHash = session?.hash;
+  const previewHash = preview?.days[index]?.hash;
+  const previewStale =
+    !!sessionHash && !!previewHash && sessionHash !== previewHash;
+  const refreshedStale = useRef(false);
+  const { retry: retryRequest } = request;
+  useEffect(() => {
+    if (!previewStale || refreshedStale.current) return;
+    refreshedStale.current = true;
+    forgetPlanPreview(categoryId!, dayCount!);
+    retryRequest();
+  }, [previewStale, categoryId, dayCount, retryRequest]);
+  const updatedDays = usePlanSync(
+    plan,
+    previewStale ? undefined : preview?.days,
+  );
 
   const questionsById = useMemo(
     () =>
@@ -275,13 +302,19 @@ export default function PlanDayClient({ index }: PlanDayClientProps) {
     return q ? [q] : [];
   });
   const header = (
-    <PlanDayHeader
-      index={index}
-      dayCount={plan.dayCount}
-      date={addPlanDays(plan.startDay, index)}
-      requiredDone={requiredDone}
-      requiredTotal={required.length}
-    />
+    <>
+      <PlanDayHeader
+        index={index}
+        dayCount={plan.dayCount}
+        date={planDay ? shownDay(plan, planDay) : plannedDay(plan, index)}
+        requiredDone={requiredDone}
+        requiredTotal={required.length}
+      />
+      <PlanUpdatedNotice
+        days={updatedDays.filter((d) => d === index)}
+        className="mt-4"
+      />
+    </>
   );
 
   if (status === "locked") {
@@ -489,6 +522,9 @@ export default function PlanDayClient({ index }: PlanDayClientProps) {
                 {t("stepStart")}
               </button>
             </div>
+          )}
+          {opensByCatchUp(plan, days, index + 1, today) && (
+            <p className="text-sm text-fg-muted">{t("catchUpNextDay")}</p>
           )}
           {nextStatus === "open" ? (
             <Link

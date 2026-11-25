@@ -9,6 +9,7 @@ import { examCtaPillBase } from "@/layoutComponents/Header/headerStyles";
 import { PLAN_IMAGE_CLASS } from "@/CONSTS/studyPlan";
 import { LineIcon } from "@/components/Icon/LineIcon";
 import { PlanProgressBar } from "./PlanPrimitives";
+import { useScrollIntoViewOnChange } from "@/utills/helpers/hooks/useScrollIntoViewOnChange";
 
 type PlanQuizRunnerProps = {
   questions: ExamQuestion[];
@@ -45,6 +46,8 @@ export function PlanQuizRunner({
     [questions.length],
   );
   useArrowNavigation(prev, next);
+  // Next ticket: back up to its picture, not left mid-page.
+  const ticketRef = useScrollIntoViewOnChange<HTMLDivElement>(index);
 
   if (!question) return null;
   const id = String(question.id);
@@ -88,7 +91,10 @@ export function PlanQuizRunner({
           {t("questionOf", { n: index + 1, total: questions.length })}
         </span>
       </div>
-      <div className="overflow-hidden rounded-card bg-stage pb-2 shadow-card">
+      <div
+        ref={ticketRef}
+        className="overflow-hidden rounded-card bg-stage pb-2 shadow-card scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20"
+      >
         <TicketQuiz
           key={id}
           question={question}

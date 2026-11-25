@@ -7,6 +7,7 @@ import { TICKETS_PAGE_SIZE } from "@/CONSTS/pagination";
 import Pagination from "@/components/Pagination/Pagination";
 import CategoryCardsGrid from "@/components/categoryComponents/CategoryCardsGrid/CategoryCardsGrid";
 import TicketsQuizList from "@/components/TicketsQuiz/TicketsQuizList";
+import { pageHref } from "@/utills/helpers/pagination";
 import QuestionIdSearch from "@/components/QuestionIdSearch/QuestionIdSearch";
 import type { ExamQuestion } from "@/lib/types/exam";
 import SubjectAsideMenu from "@/components/SubjectAsideMenu/SubjectAsideMenu";
@@ -14,6 +15,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { pageMeta } from "@/lib/pageMeta";
 import { ticketsJsonLd } from "@/lib/seo";
 import GuestAuthBanner from "@/components/GuestAuth/GuestAuthBanner";
+
+/** Anchor of the ticket list: page links open the new page scrolled to it. */
+const TICKETS_LIST_ID = "tickets";
 
 type PageProps = {
   params: Promise<{ locale: string; category: string }>;
@@ -123,6 +127,15 @@ export default async function TicketsCategoryPage({
           page: listing.page,
         })
       : listingHeading;
+  const nextPageHref =
+    pagination.page * TICKETS_PAGE_SIZE < pagination.total
+      ? pageHref(
+          `/tickets/${category}`,
+          { subjects: sp.subjects, size: sp.size },
+          pagination.page + 1,
+          TICKETS_LIST_ID,
+        )
+      : null;
   const listingIntro = listing.subjectName
     ? tMeta("ticketsDescriptionCategorySubject", {
         category: categoryLabel,
@@ -181,6 +194,8 @@ export default async function TicketsCategoryPage({
               pathname={`/tickets/${category}`}
               pageSize={TICKETS_PAGE_SIZE}
               params={{ subjects: sp.subjects, size: sp.size }}
+              hash={TICKETS_LIST_ID}
+              jump
             />
           </div>
 
@@ -188,8 +203,20 @@ export default async function TicketsCategoryPage({
             <p className="text-sm text-fg-subtle">{t("audioHint")}</p>
           )}
 
-          {/* Sign-up banner below the first tickets: it appears only after /auth/me answers, so at the top it pushed the page down (CLS). */}
-          <TicketsQuizList questions={questions} insert={<GuestAuthBanner />} />
+          {/* Page links open the next page scrolled to the list (below the sticky header), not at the top. */}
+          <div
+            id={TICKETS_LIST_ID}
+            className="scroll-mt-14 sm:scroll-mt-16 lg:scroll-mt-20"
+          >
+            {/* Sign-up banner below the first tickets: it appears only after /auth/me answers, so at the top it pushed the page down (CLS). */}
+            <TicketsQuizList
+              questions={questions}
+              insert={<GuestAuthBanner />}
+              categoryId={categoryId}
+              showScore={!questionId}
+              nextPageHref={nextPageHref}
+            />
+          </div>
 
           <div className="flex flex-wrap justify-end gap-4">
             <Pagination
@@ -198,6 +225,7 @@ export default async function TicketsCategoryPage({
               pathname={`/tickets/${category}`}
               pageSize={TICKETS_PAGE_SIZE}
               params={{ subjects: sp.subjects, size: sp.size }}
+              hash={TICKETS_LIST_ID}
             />
           </div>
         </main>

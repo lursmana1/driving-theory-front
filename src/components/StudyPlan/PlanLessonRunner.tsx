@@ -8,6 +8,7 @@ import type { LessonCard as LessonCardData } from "@/lib/types/studyPlan";
 import { examCtaPillBase } from "@/layoutComponents/Header/headerStyles";
 import { PLAN_IMAGE_CLASS } from "@/CONSTS/studyPlan";
 import { LineIcon } from "@/components/Icon/LineIcon";
+import { useScrollIntoViewOnChange } from "@/utills/helpers/hooks/useScrollIntoViewOnChange";
 import { LessonCard } from "./LessonCard";
 import { PlanProgressBar } from "./PlanPrimitives";
 
@@ -67,6 +68,8 @@ export function PlanLessonRunner({
   const [position, setPosition] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
+  // Next card / ticket: back up to its sign, not left mid-page.
+  const itemRef = useScrollIntoViewOnChange<HTMLDivElement>(position);
   const isLast = position >= items.length - 1;
   const next = () => {
     if (isLast) onFinish();
@@ -85,45 +88,52 @@ export function PlanLessonRunner({
         label={t("progressLesson", { n: position + 1, total: items.length })}
       />
 
-      {item.kind === "card" && (
-        <LessonCard
-          key={item.card.id}
-          card={item.card}
-          signsHref={signsHref}
-          onContinue={next}
-          continueLabel={isLast ? t("finishStep") : undefined}
-        />
-      )}
+      <div
+        ref={itemRef}
+        className="space-y-4 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20"
+      >
+        {item.kind === "card" && (
+          <LessonCard
+            key={item.card.id}
+            card={item.card}
+            signsHref={signsHref}
+            onContinue={next}
+            continueLabel={isLast ? t("finishStep") : undefined}
+          />
+        )}
 
-      {item.kind === "withoutCard" && (
-        <div className="rounded-card border border-line bg-surface p-5 shadow-card">
-          <h2 className="text-lg font-bold text-fg">{t("withoutCardTitle")}</h2>
-          <button
-            type="button"
-            onClick={next}
-            className={`mt-4 inline-flex h-11 items-center gap-2 px-5 text-sm ${examCtaPillBase}`}
-          >
-            {t("cardToTickets")}
-            <LineIcon name="arrowRight" className="h-4 w-4" />
-          </button>
-        </div>
-      )}
+        {item.kind === "withoutCard" && (
+          <div className="rounded-card border border-line bg-surface p-5 shadow-card">
+            <h2 className="text-lg font-bold text-fg">
+              {t("withoutCardTitle")}
+            </h2>
+            <button
+              type="button"
+              onClick={next}
+              className={`mt-4 inline-flex h-11 items-center gap-2 px-5 text-sm ${examCtaPillBase}`}
+            >
+              {t("cardToTickets")}
+              <LineIcon name="arrowRight" className="h-4 w-4" />
+            </button>
+          </div>
+        )}
 
-      {item.kind === "question" && (
-        <QuestionStep
-          question={item.question}
-          selected={answers[String(item.question.id)] ?? null}
-          onSelect={(key) => {
-            setAnswers((a) => ({ ...a, [String(item.question.id)]: key }));
-            onAnswered?.(
-              Number(item.question.id),
-              key === item.question.correct_answer,
-            );
-          }}
-          onNext={next}
-          nextLabel={isLast ? t("finishStep") : t("nextQuestion")}
-        />
-      )}
+        {item.kind === "question" && (
+          <QuestionStep
+            question={item.question}
+            selected={answers[String(item.question.id)] ?? null}
+            onSelect={(key) => {
+              setAnswers((a) => ({ ...a, [String(item.question.id)]: key }));
+              onAnswered?.(
+                Number(item.question.id),
+                key === item.question.correct_answer,
+              );
+            }}
+            onNext={next}
+            nextLabel={isLast ? t("finishStep") : t("nextQuestion")}
+          />
+        )}
+      </div>
     </div>
   );
 }

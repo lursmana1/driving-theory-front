@@ -228,3 +228,30 @@ export function PlanLoadError({
     </div>
   );
 }
+
+/**
+ * Days that started fresh because their tickets changed (`usePlanSync`).
+ * Shown once, while the page is open.
+ */
+export function PlanUpdatedNotice({
+  days,
+  className = "",
+}: {
+  /** 0-based day indexes. */
+  days: readonly number[];
+  className?: string;
+}) {
+  const t = useTranslations("StudyPlan");
+  if (days.length === 0) return null;
+  return (
+    <p
+      role="status"
+      className={`rounded-card border border-line bg-surface-muted px-4 py-3 text-sm text-fg-muted ${className}`}
+    >
+      {t("daysUpdated", {
+        count: days.length,
+        days: days.map((d) => d + 1).join(", "),
+      })}
+    </p>
+  );
+}

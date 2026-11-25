@@ -2,6 +2,7 @@ import axios from "axios";
 import BaseApi from "./BaseApi";
 import type {
   PlanDaySession,
+  PlanHistoryItem,
   SavedStudyPlan,
   StudyPlanPreview,
 } from "@/lib/types/studyPlan";
@@ -34,6 +35,19 @@ export function getPlanPreview(
   }
   previewCache.set(key, request);
   return request;
+}
+
+/**
+ * Drops this tab's cached previews of a plan, so the next `getPlanPreview`
+ * reads the server again (its schedule changed since it was cached).
+ */
+export function forgetPlanPreview(categoryId: number, days: number) {
+  for (const key of [...previewCache.keys()]) {
+    const [, cat, len] = key.split("|");
+    if (cat === String(categoryId) && len === String(days)) {
+      previewCache.delete(key);
+    }
+  }
 }
 
 /** Public. One day with the question ids of each step and the questions. */
@@ -108,6 +122,9 @@ export async function saveMyPlan(
       done: plan.done,
       tests: plan.tests,
       mistakes: plan.mistakes ?? {},
+      shift: plan.shift ?? 0,
+      dayHashes: plan.dayHashes ?? {},
+      completed: plan.completed ?? {},
       ...(baseRevision != null ? { baseRevision } : {}),
     });
     return res.data?.revision ?? null;
@@ -130,6 +147,12 @@ export async function saveMyPlan(
 export function isPermanentSaveError(err: unknown): boolean {
   const status = axios.isAxiosError(err) ? err.response?.status : undefined;
   return status != null && status >= 400 && status < 500 && status !== 408 && status !== 429;
+}
+
+/** Plans the signed-in user left, newest first. */
+export async function getMyPlanHistory(): Promise<PlanHistoryItem[]> {
+  const res = await BaseApi.get<PlanHistoryItem[]>("/study-plans/history");
+  return res.data;
 }
 
 export async function deleteMyPlan(): Promise<void> {

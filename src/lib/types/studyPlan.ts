@@ -39,6 +39,11 @@ export type PlanDay = {
   newQuestions: number;
   steps: PlanStep[];
   minutes: number;
+  /**
+   * Content hash: changes when the day's tickets or steps do (bank, card or
+   * builder changes). Missing from APIs before it existed.
+   */
+  hash?: string;
 };
 
 export type StudyPlanPreview = {
@@ -100,6 +105,35 @@ export type SavedStudyPlan = {
    * Missing in plans saved before it existed.
    */
   mistakes?: Record<string, number[]>;
+  /**
+   * Days the plan's dates were moved forward after missed days: day i is
+   * planned on `startDay + shift + i`. Missing = 0.
+   */
+  shift?: number;
+  /**
+   * dayIndex → `PlanDay.hash` the day had when the user worked on it, so a
+   * day whose content changed later is detected (`studyPlanSync.ts`).
+   */
+  dayHashes?: Record<string, string>;
+  /**
+   * dayIndex → study day its required steps were all done. A finished day
+   * stays finished even if its content changes later.
+   */
+  completed?: Record<string, string>;
+};
+
+/** A plan the user left (`GET /study-plans/history`, or this browser for guests). */
+export type PlanHistoryItem = {
+  categoryId: number;
+  dayCount: number;
+  startDay: string;
+  examDay: string | null;
+  /** ISO time it was replaced or reset. */
+  endedAt: string;
+  /** Days with at least one done step. */
+  daysActive: number;
+  /** Days recorded as finished (plans from before that existed: 0). */
+  daysCompleted: number;
 };
 
 /** One card of a plan day's card lesson (`GET /study-plans/preview/days/:i`). */

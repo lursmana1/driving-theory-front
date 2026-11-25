@@ -8,6 +8,8 @@ import { DEFAULT_CATEGORY_ID, getCategoryById } from "@/CONSTS/categories";
 import { Icon } from "@/components/Icon/Icon";
 import type { User } from "@/lib/auth";
 import { TRAINER_BATCH_SIZE } from "@/CONSTS/trainer";
+import { usePlanToday } from "@/utills/helpers/hooks/usePlanToday";
+import type { PlanToday } from "@/utills/helpers/studyPlanProgress";
 import { headerMenuItem, headerMenuPanel, headerStreak } from "./headerStyles";
 
 /**
@@ -23,8 +25,57 @@ type HeaderNotification = {
   href: string;
 };
 
+/** The study plan's row (guests too): today's day, behind, or done for today. */
+function planRow(
+  plan: PlanToday | null,
+  t: ReturnType<typeof useTranslations<"Notifications">>,
+): HeaderNotification | null {
+  if (!plan || plan.dayIndex == null) return null;
+  const n = plan.dayIndex + 1;
+  if (plan.status === "doneToday") {
+    return {
+      key: "plan",
+      tone: "done",
+      title: t("planDoneTitle"),
+      body: t("planDoneBody", { n }),
+      cta: t("planCta"),
+      href: "/plan",
+    };
+  }
+  if (plan.behind > 0) {
+    return {
+      key: "plan",
+      tone: "todo",
+      title: t("planBehindTitle", { count: plan.behind }),
+      body: t("planBehindBody"),
+      cta: t("planCta"),
+      href: "/plan",
+    };
+  }
+  return {
+    key: "plan",
+    tone: "todo",
+    title: t("planTodayTitle", { n, total: plan.dayCount }),
+    body:
+      plan.stepsTotal > 0
+        ? t("planTodayBody", { done: plan.stepsDone, total: plan.stepsTotal })
+        : t("planReviewBody"),
+    cta: plan.stepsDone > 0 ? t("planContinue") : t("planStart"),
+    href: `/plan/day/${plan.dayIndex}`,
+  };
+}
+
 function useNotifications(user: User | null): HeaderNotification[] {
   const t = useTranslations("Notifications");
+  const plan = planRow(usePlanToday(), t);
+  const rows = trainerRows(user, t);
+  return plan ? [plan, ...rows] : rows;
+}
+
+function trainerRows(
+  user: User | null,
+  t: ReturnType<typeof useTranslations<"Notifications">>,
+): HeaderNotification[] {
   const trainer = user?.trainer;
   if (!trainer) return [];
   // One row per category with due mistakes (the API sends most due first).

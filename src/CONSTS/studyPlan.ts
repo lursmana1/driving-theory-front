@@ -13,6 +13,14 @@ export const STUDY_PLAN_MAX_STEPS_PER_DAY = 40;
 export const STUDY_PLAN_DAY_MISTAKES_MAX = 300;
 export const STUDY_PLAN_MISTAKES_TOTAL_MAX = 1000;
 export const STUDY_PLAN_TEST_MAX_QUESTIONS = 40;
+/** Largest saved `shift` (days the plan was moved forward). */
+export const STUDY_PLAN_SHIFT_MAX_DAYS = 365;
+
+/**
+ * Behind the plan's dates, a user may catch up: up to this many plan days
+ * open on one study day (normally one). The end date stays where it was.
+ */
+export const PLAN_CATCH_UP_DAYS_PER_STUDY_DAY = 2;
 
 /** Sign subjects (`src/data/subjects.json`) → sign group on `/signs`. */
 export const SUBJECT_SIGN_GROUP: Record<number, number> = {
@@ -43,10 +51,12 @@ export const PLAN_COUNTDOWN_TICK_MS = 30_000;
 
 /**
  * The mixed day exam (today's tickets, yesterday's extras, a few older ones)
- * is graded stricter than the real exam: this share of the exam's mistake
- * ratio (getExamRules). B allows 5 of 30 (17%), so 15–29 questions allow 1.
+ * is graded with this share of the exam's mistake ratio (getExamRules).
+ * 1 = the real exam's ratio: B allows 5 of 30, so 15 questions allow 2 and
+ * 23 allow 3. Was 0.5 until 2026-11-25: about half of all tries failed with
+ * an average score of 87% (Umami), so the owner set it to the real ratio.
  */
-export const PLAN_TEST_STRICTNESS = 0.5;
+export const PLAN_TEST_STRICTNESS = 1;
 
 /** A failed test with more than this share wrong suggests redoing the lessons. */
 export const PLAN_TEST_REPEAT_LESSONS_SHARE = 0.5;
