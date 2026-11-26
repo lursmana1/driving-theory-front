@@ -13,7 +13,9 @@
     "moreInfoCityExam": "ქალაქის გამოცდის 20 კითხვა",
     "moreInfoYardExam": "მოედნის ქულების სისტემა",
     "navSigns": "ნიშნები",
-    "navPlan": "გეგმა"
+    "navPlan": "გეგმა",
+    "themeDark": "მუქი თემა",
+    "themeLight": "ღია თემა"
   },
   "Home": {
     "heroRulesBadge": "2026 წლის წესებით · B კატეგორია: {pass}/{total}",

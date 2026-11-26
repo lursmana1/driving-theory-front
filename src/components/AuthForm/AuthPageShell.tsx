@@ -11,7 +11,7 @@ export default function AuthPageShell({ children }: { children: ReactNode }) {
           className="inline-flex items-center gap-2 text-lg font-bold text-fg"
         >
           <span
-            className="flex h-9 w-9 items-center justify-center rounded-control bg-linear-to-br from-accent to-accent-strong text-sm font-bold text-fg-inverse"
+            className="flex h-9 w-9 items-center justify-center rounded-control bg-linear-to-br from-accent to-accent-strong text-sm font-bold text-on-accent"
             aria-hidden
           >
             P

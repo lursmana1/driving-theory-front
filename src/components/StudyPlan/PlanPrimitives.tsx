@@ -147,7 +147,7 @@ export function PlanNote({ children }: { children: React.ReactNode }) {
 type PlanProgressBarProps = {
   value: number;
   max: number;
-  /** `light`: white-on-accent, for the plan hero. */
+  /** `light`: light bar on the plan hero (`hero` fill). */
   tone?: "accent" | "success" | "light";
   className?: string;
   /** Accessible name. Without it the bar is decorative (a text next to it says the same). */
@@ -176,7 +176,7 @@ export function PlanProgressBar({
     <div
       {...a11y}
       className={`overflow-hidden rounded-full ${
-        tone === "light" ? "bg-on-accent/20" : "bg-surface-sunken"
+        tone === "light" ? "bg-on-hero/20" : "bg-surface-sunken"
       } ${className}`}
     >
       <div
@@ -184,7 +184,7 @@ export function PlanProgressBar({
           tone === "success"
             ? "bg-success"
             : tone === "light"
-              ? "bg-on-accent"
+              ? "bg-on-hero"
               : "bg-accent"
         }`}
         style={{ width: `${share * 100}%` }}

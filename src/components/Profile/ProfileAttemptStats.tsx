@@ -32,12 +32,12 @@ export function ProfileAttemptStats({
       tone: "text-fg",
     },
     { label: t("statTotal"), value: historyTotal, tone: "text-fg" },
-    { label: t("statPassed"), value: stats.passed, tone: "text-success" },
+    { label: t("statPassed"), value: stats.passed, tone: "text-success-strong" },
     { label: t("statFailed"), value: stats.failed, tone: "text-danger" },
     {
       label: t("statUnfinished"),
       value: stats.incomplete,
-      tone: "text-warning",
+      tone: "text-warning-strong",
     },
     {
       label: t("statPassRate"),

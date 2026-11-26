@@ -99,10 +99,10 @@ export function PlanHome({ plan, onReset, onMove, save }: PlanHomeProps) {
 
   return (
     <div className="space-y-6">
-      <section className="relative overflow-hidden rounded-panel bg-linear-to-br from-accent to-accent-strong p-5 text-on-accent shadow-raised sm:p-7">
+      <section className="relative overflow-hidden rounded-panel bg-linear-to-br from-hero to-hero-strong p-5 text-on-hero shadow-raised sm:p-7">
         <div className="flex items-start justify-between gap-5">
           <div className="min-w-0 space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-wider text-on-accent/75">
+            <p className="text-xs font-semibold uppercase tracking-wider text-on-hero/75">
               {categoryName && `${categoryName} · `}
               {current != null
                 ? t("dayOfTotal", { n: current + 1, total: days.length })
@@ -125,18 +125,18 @@ export function PlanHome({ plan, onReset, onMove, save }: PlanHomeProps) {
                 {topics.slice(0, PLAN_HERO_TOPICS).map((topic) => (
                   <li
                     key={topic}
-                    className="rounded-full bg-on-accent/15 px-2.5 py-1 text-xs font-medium"
+                    className="rounded-full bg-on-hero/15 px-2.5 py-1 text-xs font-medium"
                   >
                     {topic}
                   </li>
                 ))}
                 {topics.length > PLAN_HERO_TOPICS && (
-                  <li className="rounded-full bg-on-accent/15 px-2.5 py-1 text-xs font-medium">
+                  <li className="rounded-full bg-on-hero/15 px-2.5 py-1 text-xs font-medium">
                     +{topics.length - PLAN_HERO_TOPICS}
                   </li>
                 )}
                 {currentDay.newQuestions > 0 && (
-                  <li className="px-1 py-1 text-xs text-on-accent/80">
+                  <li className="px-1 py-1 text-xs text-on-hero/80">
                     {t("stepQuestions", { count: currentDay.newQuestions })}
                   </li>
                 )}
@@ -158,7 +158,7 @@ export function PlanHome({ plan, onReset, onMove, save }: PlanHomeProps) {
         <div className="mt-5 space-y-1.5">
           <div className="flex items-baseline justify-between gap-3 text-sm">
             <span className="font-semibold">{t("coverageLabel")}</span>
-            <span className="tabular-nums text-on-accent/85">
+            <span className="tabular-nums text-on-hero/85">
               {pastHalf
                 ? t("coverageRemaining", { count: remaining })
                 : t("coverageOf", { seen, total })}
@@ -172,7 +172,7 @@ export function PlanHome({ plan, onReset, onMove, save }: PlanHomeProps) {
             label={t("coverageOf", { seen, total })}
           />
           {remaining > 0 && (
-            <p className="text-xs text-on-accent/80">
+            <p className="text-xs text-on-hero/80">
               {/* Behind: the banner below says where the plan stands. */}
               {pace > 0 &&
                 behind === 0 &&
@@ -207,7 +207,7 @@ export function PlanHome({ plan, onReset, onMove, save }: PlanHomeProps) {
             />
           )}
           {plan.examDay && toExam != null && toExam >= 0 && (
-            <p className="text-sm text-on-accent/85">
+            <p className="text-sm text-on-hero/85">
               {t("examCountdown", {
                 days: toExam,
                 date: formatPlanDayLong(plan.examDay, locale),

@@ -57,7 +57,7 @@ const ExamSuccessModal = ({
         </span>
         <h2
           className={`text-lg font-bold leading-snug sm:text-xl ${
-            passed ? "text-success" : "text-danger"
+            passed ? "text-success-strong" : "text-danger"
           }`}
         >
           {passed ? t("examPassed") : t("examFailed")}

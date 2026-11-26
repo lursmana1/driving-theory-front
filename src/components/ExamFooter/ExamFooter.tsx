@@ -7,8 +7,9 @@ type ExamFooterProps = {
   showNext?: () => void;
 };
 
+/** Light plate with a black arrow. Hover dims it (a surface colour would go dark in dark mode). */
 const arrowClass =
-  "flex shrink-0 cursor-pointer items-center justify-center rounded-xs bg-stage-fg p-1.5 transition hover:bg-surface-strong sm:p-2";
+  "flex shrink-0 cursor-pointer items-center justify-center rounded-xs bg-stage-fg p-1.5 transition hover:opacity-80 sm:p-2";
 
 /**
  * Previous / next under a question. Answers are picked by tapping the answer

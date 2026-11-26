@@ -5,7 +5,8 @@ import { preconnect } from "react-dom";
 import { getLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { getMetadataBaseUrl, siteMetadata } from "@/lib/site-metadata";
-import { color } from "@/styles/tokens";
+import { color, darkColor } from "@/styles/tokens";
+import { THEME_INIT_SCRIPT } from "@/utills/helpers/theme";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -47,7 +48,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: color.canvas,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: color.canvas },
+    { media: "(prefers-color-scheme: dark)", color: darkColor.canvas },
+  ],
 };
 
 export default async function RootLayout({
@@ -64,6 +68,14 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* Before the first paint: the saved theme, else the system one (no
+            white flash). next/script, not <script>: React doesn't run plain
+            script tags on pages it renders on the client (e.g. not-found). */}
+        <Script id="theme-init" strategy="beforeInteractive">
+          {THEME_INIT_SCRIPT}
+        </Script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansGeorgian.variable} antialiased`}
         suppressHydrationWarning

@@ -47,7 +47,7 @@ export const color = {
   fg: palette.neutral900,
   fgMuted: palette.neutral700,
   fgSubtle: palette.neutral600,
-  fgFaint: palette.neutral500,
+  fgFaint: "#6a7381",
   fgInverse: palette.neutral50,
   line: palette.neutral300,
   lineSubtle: palette.neutral200,
@@ -60,6 +60,30 @@ export const color = {
   danger: palette.red500,
   warning: palette.amber500,
   stage: palette.stage900,
+} as const;
+
+/**
+ * Dark theme values for the few places that can't read CSS variables (Ant
+ * Design's algorithm input, `<meta name="theme-color">`). Same as
+ * `:root[data-theme="dark"]` in globals.css. OG images and the manifest
+ * stay light on purpose.
+ */
+export const darkColor = {
+  canvas: "#0d1116",
+  surface: "#131820",
+  surfaceMuted: "#181e27",
+  surfaceSunken: "#1e2530",
+  fg: "#e6eaf0",
+  fgMuted: "#b9c2cd",
+  fgSubtle: "#96a1ae",
+  fgFaint: "#8590a0",
+  line: "#323c49",
+  lineSubtle: "#27303c",
+  accent: "#6ea0d2",
+  accentStrong: "#8cb5de",
+  success: "#5fb46b",
+  danger: "#e8737b",
+  warning: "#e0a93a",
 } as const;
 
 export const radius = {

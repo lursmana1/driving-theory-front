@@ -6,6 +6,8 @@ import { navLinks } from "@/CONSTS/navLinks";
 import { moreInfoLinks } from "@/CONSTS/moreInfoLinks";
 import { useUser } from "@/contexts/UserContext";
 import { InstallAppItem } from "@/components/Pwa/InstallAppItem";
+import Image from "next/image";
+import FireImage from "../../../public/images/jpg/fire.webp";
 import { useInstallPrompt } from "@/utills/helpers/hooks/useInstallPrompt";
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -154,6 +156,23 @@ export default function BurgerMenu() {
                       className={burgerAccountLink}
                     >
                       {tAuth("login")}
+                    </Link>
+                  )}
+                  {/* Phones: the streak lives here (the header keeps the theme button). */}
+                  {user?.streak && user.streak.current > 0 && (
+                    <Link
+                      href="/profile"
+                      onClick={closeMenu}
+                      title={tAuth("streakDayHint")}
+                      className={`${burgerAccountLink} w-full gap-2 sm:hidden`}
+                    >
+                      <Image
+                        src={FireImage}
+                        alt=""
+                        aria-hidden
+                        className="h-4 w-auto"
+                      />
+                      {tAuth("streakLabel", { count: user.streak.current })}
                     </Link>
                   )}
                   <div>

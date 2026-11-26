@@ -50,6 +50,8 @@ export default function ExamResultModal({
       width={480}
       onCancel={handleRestart}
       styles={{
+        // Our card is the whole modal: antd's own panel (padding, background) showed as a second frame.
+        container: { padding: 0, background: "transparent", boxShadow: "none" },
         body: {
           padding: 0,
           borderRadius: "var(--radius-card)",
@@ -79,7 +81,7 @@ export default function ExamResultModal({
             type="button"
             autoFocus={!canReview}
             onClick={handleRestart}
-            className="w-full rounded-control bg-fg py-3 text-sm font-semibold text-fg-inverse shadow-raised transition hover:brightness-125"
+            className="w-full rounded-control bg-inverse py-3 text-sm font-semibold text-fg-inverse shadow-raised transition hover:bg-inverse-hover"
           >
             {t("restart")}
           </button>

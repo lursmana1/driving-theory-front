@@ -58,7 +58,7 @@ export default function Pagination({
   const disabledNavClass = `${navClass} pointer-events-none opacity-50`;
 
   const controls = (
-    <div className="flex items-center justify-center gap-1 sm:justify-end">
+    <div className="flex items-center justify-center gap-0.5 sm:justify-end sm:gap-1">
       {currentPage <= 1 ? (
         <span
           aria-disabled="true"
@@ -80,7 +80,7 @@ export default function Pagination({
       <div className="flex items-center gap-0.5">
         {pageNumbers.map((p, i) =>
           p === "ellipsis" ? (
-            <span key={`ellipsis-${i}`} className="px-2 text-fg-faint">
+            <span key={`ellipsis-${i}`} className="px-1 text-fg-faint sm:px-2">
               …
             </span>
           ) : (
