@@ -16,7 +16,7 @@ type PlanNextDayProps = {
   categoryId: number;
   /** The finished day whose open mistakes the "fix" button opens. */
   mistakes?: { dayIndex: number; count: number };
-  /** "light" sits on the accent hero, "plain" on a normal card. */
+  /** "light" sits on the plan hero, "plain" on a normal card. */
   tone?: "light" | "plain";
 };
 
@@ -45,14 +45,14 @@ export function PlanNextDay({
   }, []);
 
   const light = tone === "light";
-  const muted = light ? "text-on-accent/80" : "text-fg-subtle";
+  const muted = light ? "text-on-hero/80" : "text-fg-subtle";
   const topics = nextDay
     ? nextDay.kind === "review"
       ? [t("reviewDay")]
       : topicsOf(nextDay)
     : [];
   const pill = light
-    ? "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-on-accent/15 px-4 text-sm font-semibold transition hover:bg-on-accent/25"
+    ? "inline-flex h-11 items-center justify-center gap-2 rounded-full bg-on-hero/15 px-4 text-sm font-semibold transition hover:bg-on-hero/25"
     : `h-11 gap-2 px-4 ${outlinePillBase}`;
 
   return (

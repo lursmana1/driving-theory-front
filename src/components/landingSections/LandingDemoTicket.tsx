@@ -48,14 +48,16 @@ export default function LandingDemoTicket({ question, labels }: Props) {
           </span>
         </header>
 
-        <div className="relative aspect-ticket bg-surface-sunken">
+        {/* The photo file has a thin white frame; scale it past the clip so it
+            doesn't show as a bright outline on the dark card. */}
+        <div className="relative aspect-ticket overflow-hidden bg-surface-sunken">
           <Image
             src={getQuestionImageSrc(question.img)}
             alt={t("demoImageAlt", { id: question.id })}
             width={QUESTION_IMAGE.width}
             height={QUESTION_IMAGE.height}
             sizes="(max-width: 1024px) 100vw, 560px"
-            className="h-full w-full object-cover"
+            className="h-full w-full scale-102 object-cover"
           />
         </div>
 

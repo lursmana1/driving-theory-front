@@ -33,10 +33,10 @@ export function ExamHistoryRow({
         : labels.unfinished;
   const resultClass =
     attempt.passed === true
-      ? "text-success"
+      ? "text-success-strong"
       : attempt.passed === false
         ? "text-danger"
-        : "text-warning";
+        : "text-warning-strong";
 
   return (
     <li className="border-b border-line-subtle last:border-b-0">

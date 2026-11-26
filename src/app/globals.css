@@ -5,8 +5,12 @@
    --------------------------------------------------------------------------
    1. Primitives (:root) — raw ramps. NOT exposed as utilities on purpose:
       components must never reach for a raw color.
-   2. Semantic tokens (@theme inline) — the only colors/sizes components use:
+   2. Semantic tokens (@theme) — the only colors/sizes components use:
       bg-canvas, bg-surface, text-fg, text-fg-muted, border-line, bg-accent…
+      Not `inline`: classes read the CSS variables at runtime, so the dark
+      theme (3) only swaps the variables.
+   3. Dark theme (:root[data-theme="dark"]) — the same semantic names with
+      night values. Set before paint by the script in app/layout.tsx.
    Raw hex mirror for Ant Design / SVG / OG images: src/styles/tokens.ts
    (keep both in sync).
    ========================================================================== */
@@ -79,9 +83,18 @@
 
   /* Illustration-only */
   --sign-blue: #3f6c86;
+
+  /* Night — dark theme surfaces (blue-black, never pure black) */
+  --night-950: #0d1116;
+  --night-900: #131820;
+  --night-850: #181e27;
+  --night-800: #1e2530;
+  --night-700: #27303c;
+  --night-600: #323c49;
+  --night-500: #435060;
 }
 
-@theme inline {
+@theme {
   /* ---- Surfaces ---- */
   --color-canvas: var(--neutral-0); /* page background */
   --color-surface: var(--neutral-0); /* cards, inputs, popovers */
@@ -90,12 +103,17 @@
   --color-surface-strong: var(--neutral-200); /* pressed fill, track */
   --color-inverse: var(--neutral-900); /* dark band / dark button */
   --color-inverse-hover: var(--neutral-800);
+  /* Behind small sign icons with no background of their own: none on light,
+     a light plate on dark (dark outlines / white markings stay visible). */
+  --color-plate: transparent;
 
   /* ---- Text ---- */
   --color-fg: var(--neutral-900);
   --color-fg-muted: var(--neutral-700);
   --color-fg-subtle: var(--neutral-600);
-  --color-fg-faint: var(--neutral-500);
+  /* Darker than neutral-500 so small text still passes WCAG AA (4.7:1 on
+     white, 4.55:1 on surface-muted). */
+  --color-fg-faint: #6a7381;
   --color-fg-inverse: var(--neutral-50);
 
   /* ---- Lines ---- */
@@ -109,6 +127,11 @@
   --color-accent-soft: var(--brand-50);
   --color-accent-muted: var(--brand-100);
   --color-on-accent: var(--neutral-0);
+  /* Large brand areas (plan hero, profile banner): the accent on light, a
+     deep road-sign blue with light text on dark (a light-blue panel glares). */
+  --color-hero: var(--brand-500);
+  --color-hero-strong: var(--brand-600);
+  --color-on-hero: var(--neutral-0);
   --color-secondary: var(--neutral-800);
   --color-secondary-strong: var(--neutral-900);
   --color-secondary-soft: var(--neutral-100);
@@ -138,11 +161,77 @@
   --color-stage-highlight: var(--amber-300);
   --color-stage-success: var(--green-400);
   --color-stage-danger: var(--red-400);
+}
 
-  /* ---- Fonts ---- */
+@theme inline {
+  /* ---- Fonts (next/font variables live on <body>, so these stay inline) ---- */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-georgian: var(--font-georgian);
+}
+
+/* ---- Dark theme: same semantic names, night values ----
+   Text contrast on --color-surface: fg 14:1, fg-muted 9:1, fg-subtle 6.8:1,
+   fg-faint 5.6:1 (4.9:1 on surface-sunken), accent 6.4:1: every text token
+   passes WCAG AA on every surface. Accent fills are light blue with dark
+   text (on-accent). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-canvas: var(--night-950);
+  --color-surface: var(--night-900);
+  --color-surface-muted: var(--night-850);
+  --color-surface-sunken: var(--night-800);
+  --color-surface-strong: var(--night-700);
+  /* Inverse = the strong contrasting element (CTA band, sign-number badges,
+     active chips). On dark a light box glares, so it is a raised slate with
+     light text instead (fg-inverse on inverse: 11:1). */
+  --color-inverse: #2b3542;
+  --color-inverse-hover: #364252;
+  --color-plate: var(--neutral-200);
+
+  --color-fg: #e6eaf0;
+  --color-fg-muted: #b9c2cd;
+  --color-fg-subtle: #96a1ae;
+  --color-fg-faint: #8590a0;
+  --color-fg-inverse: #e6eaf0;
+
+  --color-line: var(--night-600);
+  --color-line-subtle: var(--night-700);
+  --color-line-strong: var(--night-500);
+
+  --color-accent: #6ea0d2;
+  --color-accent-strong: #8cb5de;
+  --color-accent-soft: #15263a;
+  --color-accent-muted: #1e3550;
+  --color-on-accent: #0b1118;
+  --color-hero: var(--brand-700);
+  --color-hero-strong: var(--brand-800);
+  --color-on-hero: #e6eaf0;
+  --color-secondary: var(--night-700);
+  --color-secondary-strong: var(--night-600);
+  --color-secondary-soft: var(--night-800);
+  --color-secondary-muted: var(--night-700);
+
+  --color-success: #5fb46b;
+  --color-success-strong: #93d39b;
+  --color-success-soft: #13251a;
+  --color-success-muted: #1c3a25;
+  --color-danger: #e8737b;
+  --color-danger-strong: #f3a6ab;
+  --color-danger-soft: #2b1518;
+  --color-danger-muted: #4a2228;
+  --color-warning: #e0a93a;
+  --color-warning-strong: #f0c75e;
+  --color-warning-soft: #2a2010;
+  --color-warning-muted: #44341a;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 1px 3px rgb(0 0 0 / 0.3);
+  --shadow-raised:
+    0 4px 12px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-overlay:
+    0 24px 48px -12px rgb(0 0 0 / 0.6), 0 8px 16px -8px rgb(0 0 0 / 0.4);
+  --shadow-glow: 0 0 8px rgb(110 160 210 / 0.5);
 }
 
 @theme {
@@ -200,8 +289,8 @@
   }
 
   ::selection {
-    background-color: var(--brand-100);
-    color: var(--neutral-900);
+    background-color: var(--color-accent-muted);
+    color: var(--color-fg);
   }
 
   :focus-visible {
@@ -293,12 +382,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--neutral-400);
+  background: var(--color-line-strong);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--neutral-500);
+  background: var(--color-fg-faint);
 }
 
 /* FAQ accordion animations */
@@ -315,6 +404,38 @@
 
 .landing-faq__item[open] .landing-faq__content {
   animation: faqContentIn 0.25s ease-out;
+}
+
+/* Black line-art icons (category vehicles): ink on the page, light on dark.
+   `-on-accent`: on an accent fill (white on light, dark on the light-blue
+   dark-theme accent). Plain CSS: Tailwind v4 drops these from @layer utilities. */
+.icon-ink {
+  opacity: 0.8;
+}
+.icon-ink-on-accent {
+  filter: brightness(0) invert(1);
+}
+:root[data-theme="dark"] .icon-ink {
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+:root[data-theme="dark"] .icon-ink-on-accent {
+  filter: brightness(0);
+}
+
+/* White-drawn icon files (speaker, stop) on a surface: dark on light, kept white on dark. */
+.icon-white-on-surface {
+  filter: invert(1);
+}
+:root[data-theme="dark"] .icon-white-on-surface {
+  filter: none;
+}
+
+/* Ticket photos have a ~3 px white frame baked into the file (1006×542); it
+   shows as a bright outline on dark surfaces. Clip it off (0.7% ≈ 7 px wide,
+   4 px high). The <img> box must equal the photo (no object-contain letterbox). */
+.ticket-photo {
+  clip-path: inset(0.7%);
 }
 
 /* Landing page background */

@@ -122,7 +122,7 @@ export function PlanDayList({
                           className={`shrink-0 text-xs ${
                             current
                               ? "font-semibold text-accent"
-                              : "font-medium text-success"
+                              : "font-medium text-success-strong"
                           }`}
                         >
                           {current ? t("statusToday") : t("statusDone")}
@@ -166,7 +166,7 @@ export function PlanDayList({
                             <span
                               className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-2xs ${
                                 extraDone
-                                  ? "bg-success-soft text-success"
+                                  ? "bg-success-soft text-success-strong"
                                   : "border border-dashed border-line text-fg-subtle"
                               }`}
                             >

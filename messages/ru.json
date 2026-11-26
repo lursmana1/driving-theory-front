@@ -13,7 +13,9 @@
     "moreInfoCityExam": "Городской экзамен — 20 вопросов",
     "moreInfoYardExam": "Система баллов на автодроме",
     "navSigns": "Знаки",
-    "navPlan": "План"
+    "navPlan": "План",
+    "themeDark": "Тёмная тема",
+    "themeLight": "Светлая тема"
   },
   "Home": {
     "heroRulesBadge": "Правила 2026 года · категория B: {pass}/{total}",

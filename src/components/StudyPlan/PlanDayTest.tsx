@@ -267,7 +267,9 @@ export function PlanDayTest({
         <span
           aria-hidden
           className={`mx-auto flex h-14 w-14 items-center justify-center rounded-full ${
-            passed ? "bg-success-soft text-success" : "bg-danger-soft text-danger"
+            passed
+              ? "bg-success-soft text-success-strong"
+              : "bg-danger-soft text-danger"
           }`}
         >
           <LineIcon
@@ -281,7 +283,7 @@ export function PlanDayTest({
           <span className="text-lg font-medium text-fg-subtle">/{total}</span>
         </p>
         <p
-          className={`text-sm font-semibold ${passed ? "text-success" : "text-danger"}`}
+          className={`text-sm font-semibold ${passed ? "text-success-strong" : "text-danger"}`}
         >
           {passed ? t("testPassed") : t("testFailed")}
           {" · "}

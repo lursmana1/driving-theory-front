@@ -13,7 +13,9 @@
     "moreInfoCityExam": "City exam — 20 questions",
     "moreInfoYardExam": "Yard exam penalty points",
     "navSigns": "Signs",
-    "navPlan": "Study plan"
+    "navPlan": "Study plan",
+    "themeDark": "Dark theme",
+    "themeLight": "Light theme"
   },
   "Home": {
     "heroRulesBadge": "2026 rules · Category B: {pass}/{total}",

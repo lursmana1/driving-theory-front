@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Header from "@/layoutComponents/Header/Header";
 import { ServiceWorkerRegister } from "@/components/Pwa/ServiceWorkerRegister";
 import { usePathname } from "@/i18n/navigation";
+import { ensureTheme } from "@/utills/helpers/theme";
 
 /** antd theme provider in its own chunk: pages without antd never download antd's runtime. */
 const AntdTheme = dynamic(() => import("./AntdTheme"));
@@ -29,6 +30,8 @@ export function AppShell({
   useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
+
+  useEffect(ensureTheme, []);
 
   return (
     <>

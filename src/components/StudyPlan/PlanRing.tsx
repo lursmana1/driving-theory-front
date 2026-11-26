@@ -5,7 +5,7 @@ type PlanRingProps = {
   label: string;
 };
 
-/** Days-done ring for the accent hero (light strokes on the accent fill). */
+/** Days-done ring for the plan hero (light strokes on the `hero` fill). */
 export function PlanRing({ done, total, label }: PlanRingProps) {
   const share = total > 0 ? Math.min(1, done / total) : 0;
   const radius = 42;
@@ -27,7 +27,7 @@ export function PlanRing({ done, total, label }: PlanRingProps) {
           cy="50"
           r={radius}
           fill="none"
-          className="stroke-on-accent/20"
+          className="stroke-on-hero/20"
           strokeWidth="9"
         />
         <circle
@@ -35,7 +35,7 @@ export function PlanRing({ done, total, label }: PlanRingProps) {
           cy="50"
           r={radius}
           fill="none"
-          className="stroke-on-accent transition-all duration-700 motion-reduce:transition-none"
+          className="stroke-on-hero transition-all duration-700 motion-reduce:transition-none"
           strokeWidth="9"
           strokeLinecap="round"
           strokeDasharray={circumference}
@@ -49,7 +49,7 @@ export function PlanRing({ done, total, label }: PlanRingProps) {
         <span className="text-xl font-bold tabular-nums sm:text-2xl">
           {done}
         </span>
-        <span className="mt-0.5 text-2xs text-on-accent/75">/ {total}</span>
+        <span className="mt-0.5 text-2xs text-on-hero/75">/ {total}</span>
       </div>
     </div>
   );

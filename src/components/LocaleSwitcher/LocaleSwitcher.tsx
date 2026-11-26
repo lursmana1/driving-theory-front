@@ -52,7 +52,7 @@ export default function LocaleSwitcher({
           height={16}
           className="h-4 w-4 shrink-0 rounded-xs object-cover"
         />
-        <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline">
+        <span className="hidden text-xs font-semibold uppercase tracking-wide sm:inline lg:hidden xl:inline">
           {locale}
         </span>
         <Icon

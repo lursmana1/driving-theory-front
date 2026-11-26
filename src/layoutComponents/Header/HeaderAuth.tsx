@@ -7,6 +7,7 @@ import LocaleSwitcher from "@/components/LocaleSwitcher/LocaleSwitcher";
 import { useUser } from "@/contexts/UserContext";
 import FireImage from "../../../public/images/jpg/fire.webp";
 import HeaderNotifications from "./HeaderNotifications";
+import { ThemeToggle } from "@/components/ThemeToggle/ThemeToggle";
 import {
   headerAuthLink,
   headerAuthLogin,
@@ -20,17 +21,19 @@ export default function HeaderAuth() {
   return (
     <>
       <HeaderNotifications />
+      {/* Phones: the streak is a row in the menu (BurgerMenu), the theme button stays here. */}
       {user?.streak && user.streak.current > 0 && (
         <Link
           href="/profile"
           aria-label={t("streakLabel", { count: user.streak.current })}
           title={t("streakDayHint")}
-          className={headerStreak}
+          className={`${headerStreak} max-sm:hidden`}
         >
           <Image src={FireImage} alt="" aria-hidden className="h-4 w-auto" />
           {user.streak.current}
         </Link>
       )}
+      <ThemeToggle />
       <div className="flex shrink-0 items-center">
         <LocaleSwitcher />
       </div>

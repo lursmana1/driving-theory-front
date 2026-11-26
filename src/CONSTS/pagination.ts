@@ -32,12 +32,12 @@ export const END_EDGE_OFFSET = 3;
 /** Pages on each side of current in middle */
 export const PAGES_AROUND_CURRENT = 1;
 
-/** Pagination button styles (shared) */
+/** Pagination button styles (shared). 32 px on phones so 1–5 … 120 fits at 320 px. */
 export const PAGINATION_STYLES = {
   navButton:
-    "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-control border border-line bg-surface text-fg-muted transition hover:bg-surface-muted hover:text-fg disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex h-8 w-8 sm:h-9 sm:w-9 cursor-pointer items-center justify-center rounded-control border border-line bg-surface text-fg-muted transition hover:bg-surface-muted hover:text-fg disabled:pointer-events-none disabled:opacity-50",
   pageButtonBase:
-    "h-9 min-w-9 rounded-control px-2 text-sm font-medium transition cursor-pointer",
+    "h-8 min-w-8 px-1.5 sm:h-9 sm:min-w-9 sm:px-2 rounded-control text-sm font-medium transition cursor-pointer",
   pageButtonActive: "bg-accent text-on-accent",
   pageButtonInactive:
     "border border-line bg-surface text-fg-muted hover:bg-surface-muted hover:text-fg",

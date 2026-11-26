@@ -53,7 +53,8 @@ export default function CategoryPickerBar({
     if (id === activeCategoryId) return;
     const query = buildCategoryPickerQuery(searchParams, id);
     startTransition(() => {
-      router.replace(`${pathname}?${query}`);
+      // Same page, new category: stay where the bar is (profile cards sit below it).
+      router.replace(`${pathname}?${query}`, { scroll: false });
     });
   };
 

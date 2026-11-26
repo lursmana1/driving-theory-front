@@ -67,7 +67,7 @@ export function PlanQuizRunner({
       {index === 0 && intro}
       <div className="flex items-center gap-3">
         <span className="flex shrink-0 gap-2 text-xs font-semibold tabular-nums">
-          <span className="inline-flex items-center gap-0.5 text-success">
+          <span className="inline-flex items-center gap-0.5 text-success-strong">
             <LineIcon name="check" className="h-3.5 w-3.5" strokeWidth={3} />
             <span className="sr-only">{t("quizRight")}: </span>
             {right}

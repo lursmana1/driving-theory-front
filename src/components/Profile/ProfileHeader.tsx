@@ -19,7 +19,7 @@ export function ProfileHeader() {
 
   return (
     <section className="overflow-hidden rounded-card border border-line bg-surface shadow-card sm:rounded-panel">
-      <div className="h-20 bg-linear-to-r from-accent to-secondary sm:h-24" />
+      <div className="h-20 bg-linear-to-r from-hero to-secondary sm:h-24" />
       <div className="flex flex-col gap-4 px-4 pb-5 sm:px-6 sm:pb-6 md:flex-row md:items-end md:justify-between">
         <div className="flex items-end gap-3 sm:gap-4">
           <div className="-mt-8 flex h-16 w-16 shrink-0 items-center justify-center rounded-control border-4 border-surface bg-inverse text-xl font-bold text-fg-inverse shadow-raised sm:-mt-10 sm:h-20 sm:w-20 sm:rounded-card sm:text-2xl">

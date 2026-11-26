@@ -122,7 +122,7 @@ export function ProfileReadinessCard({
                 )}
               </dl>
               {headlineKey === "readinessLabelNone" && (
-                <p className="text-sm text-warning">
+                <p className="text-sm text-warning-strong">
                   {t("readinessNoneHint")}
                 </p>
               )}

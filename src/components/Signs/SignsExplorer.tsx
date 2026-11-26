@@ -104,7 +104,7 @@ export default function SignsExplorer({ groups, activeGroup: group, items }: Sig
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element -- static SVG icon */}
-                <img src={g.icon} alt="" width={18} height={18} className="h-4.5 w-4.5 object-contain" />
+                <img src={g.icon} alt="" width={18} height={18} className="h-4.5 w-4.5 rounded-xs bg-plate object-contain" />
                 {t(`groups.${g.id}`)}
                 <span className={`font-mono text-2xs ${g.id === group ? "text-fg-inverse/70" : "text-fg-faint"}`}>
                   {g.count}
@@ -135,7 +135,7 @@ export default function SignsExplorer({ groups, activeGroup: group, items }: Sig
               label: (
                 <span className="flex items-center gap-2">
                   {/* eslint-disable-next-line @next/next/no-img-element -- static SVG icon */}
-                  <img src={g.icon} alt="" width={20} height={20} className="h-5 w-5 shrink-0 object-contain" />
+                  <img src={g.icon} alt="" width={20} height={20} className="h-5 w-5 shrink-0 rounded-xs bg-plate object-contain" />
                   <span className="min-w-0 truncate">{t(`groups.${g.id}`)}</span>
                   <span className="ml-auto pl-2 font-mono text-2xs text-fg-faint">{g.count}</span>
                 </span>
@@ -184,7 +184,7 @@ export default function SignsExplorer({ groups, activeGroup: group, items }: Sig
               <section key={g.id}>
                 <header className="mb-4 flex items-center gap-3 border-b border-line pb-3">
                   {/* eslint-disable-next-line @next/next/no-img-element -- static SVG icon */}
-                  <img src={g.icon} alt="" width={32} height={32} className="h-8 w-8 shrink-0 object-contain" />
+                  <img src={g.icon} alt="" width={32} height={32} className="h-8 w-8 shrink-0 rounded-xs bg-plate object-contain" />
                   <h3 className="text-base font-bold text-fg">{t(`groups.${g.id}`)}</h3>
                   <span className="ml-auto font-mono text-sm text-fg-faint">{hits.length}</span>
                 </header>
