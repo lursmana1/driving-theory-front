@@ -31,7 +31,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /exam                  timed exam (no site header)
 /profile               readiness, weak topics, attempt history (auth)
 /practice              mistake trainer (auth, noindex) ?category&subjects — due mistakes one at a time
-/blogs, /blogs/[id]    articles
+/blogs, /blogs/[id]    articles; the body is server-rendered by `BlogContent` (`@tiptap/html/server` generateJSON + `@tiptap/static-renderer` with the editor's `tiptapExtensions`), never the editor component, so the text is in the HTML (AI crawlers don't run JS) and unknown/unsafe markup is dropped. Keep all `@tiptap/*` on one version
 /city-exam             practical technical Q&A (category switcher)
 /city-exam/[city]      official exam route maps for the 10 exam cities (`EXAM_CITIES` in `CONSTS/cityRoutes.ts`, data `src/data/cityRoutes/official.json` from sa.gov.ge order №598, built by `scripts/city-routes/publish-official.mjs`); antd Select for city/category (not sticky on phones), routes by category, breadcrumb + CollectionPage JSON-LD, map images in the sitemap. Re-check sa.gov.ge every 1–2 months
 /yard-exam             yard elements + penalty points (GIFs) + narrated walkthrough video (`YardExamVideo`, 9:16, S3, no preload, VideoObject JSON-LD; pinned right column on desktop)
