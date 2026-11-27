@@ -1,5 +1,4 @@
 import { getBlog } from "@/api/blogs";
-import Tiptap from "@/components/Tiptap/Tiptap";
 import type { Blog } from "@/lib/types/blog";
 import { formatDate } from "@/utills/helpers/formatDate";
 import { getReadTime } from "@/utills/helpers/getReadTime";
@@ -14,6 +13,7 @@ import { plainTextExcerpt } from "@/utills/helpers/plainTextExcerpt";
 import { Icon } from "@/components/Icon/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import BlogViewTracker from "@/components/Blogs/BlogViewTracker";
+import BlogContent from "@/components/Blogs/BlogContent";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -142,12 +142,10 @@ export default async function BlogPage({ params }: Props) {
           )}
 
           {/* Body content - white card with soft shadow */}
-          <div
-            data-nosnippet=""
-            className="rounded-card border border-line-subtle bg-surface px-6 py-8 shadow-card sm:px-10 sm:py-12"
-          >
+          {/* No data-nosnippet here: Google may quote the article text in results (the meta row above keeps it). */}
+          <div className="rounded-card border border-line-subtle bg-surface px-6 py-8 shadow-card sm:px-10 sm:py-12">
             <div className="blog-content max-w-none">
-              <Tiptap value={blog.content ?? ""} readonly bare />
+              <BlogContent html={blog.content ?? ""} />
             </div>
           </div>
         </div>
