@@ -16,8 +16,6 @@ import { formatRouteDate, getOfficialRoutes } from "@/data/cityRoutes/official";
 import { cityRouteGroups, routeGroupKeys, routeUpdates, routesByCategory } from "@/lib/cityRoutes";
 import CityRoutesViewer from "@/components/CityRoutes/CityRoutesViewer";
 import CityRoutesInfo from "@/components/CityRoutes/CityRoutesInfo";
-import ExamCityLinks from "@/components/CityRoutes/ExamCityLinks";
-import { infoCardClass } from "@/components/CityRoutes/classes";
 import type { ViewerLabels, ViewerRoute } from "@/components/CityRoutes/types";
 
 type Props = { params: Promise<{ locale: string; city: string }> };
@@ -152,11 +150,6 @@ export default async function CityRoutesPage({ params }: Props) {
         />
 
         <CityRoutesInfo byCategory={routesByCategory(routes)} />
-
-        <nav aria-label={t("otherCities")} className={infoCardClass}>
-          <h2 className="text-lg font-bold text-fg">{t("otherCities")}</h2>
-          <ExamCityLinks locale={locale} exclude={city} className="mt-3" />
-        </nav>
 
         <p className="text-xs leading-5 text-fg-subtle">
           {t("source")}{" "}

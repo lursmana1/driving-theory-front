@@ -2,18 +2,16 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { infoCardClass } from "./classes";
 
-const CHECK_KEYS = ["check1", "check2", "check3", "check4", "check5"] as const;
-
 type Props = {
   /** "B, BE: №1–№4" rows, from `routesByCategory` */
   byCategory: { label: string; numbers: string }[];
 };
 
-/** Text under the map: routes by category, what the examiner checks (art. 32), where to prepare. Server component. */
+/** Text under the map: routes by category and where to prepare. Server component. */
 export default async function CityRoutesInfo({ byCategory }: Props) {
   const t = await getTranslations("CityRoutes");
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2">
       <div className={infoCardClass}>
         <h2 className="text-lg font-bold text-fg">{t("byCategoryTitle")}</h2>
         <dl className="mt-3 flex flex-col gap-2 text-sm leading-6">
@@ -24,16 +22,6 @@ export default async function CityRoutesInfo({ byCategory }: Props) {
             </div>
           ))}
         </dl>
-      </div>
-
-      <div className={infoCardClass}>
-        <h2 className="text-lg font-bold text-fg">{t("checksTitle")}</h2>
-        <p className="mt-2 text-sm leading-6 text-fg-muted">{t("checksText")}</p>
-        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm leading-6 text-fg">
-          {CHECK_KEYS.map((key) => (
-            <li key={key}>{t(key)}</li>
-          ))}
-        </ul>
       </div>
 
       <div className={`${infoCardClass} flex flex-col gap-3`}>

@@ -24,7 +24,7 @@ type Props = {
   registerTab: (no: number, el: HTMLButtonElement | null) => void;
 };
 
-/** Controls: a compact sticky bar on phones, a sticky side panel on desktop. */
+/** Controls: a plain block above the map on phones (scrolls away), a sticky side panel on desktop. */
 export default function RouteSidePanel({
   city,
   cities,
@@ -40,7 +40,7 @@ export default function RouteSidePanel({
   registerTab,
 }: Props) {
   return (
-    <aside className="sticky top-12 z-40 -mx-4 flex flex-col gap-2.5 border-b border-line bg-canvas/95 px-4 py-2.5 backdrop-blur-md sm:top-14 sm:-mx-6 sm:px-6 lg:top-20 lg:mx-0 lg:w-80 lg:shrink-0 lg:gap-5 lg:rounded-card lg:border lg:bg-surface lg:p-5 lg:shadow-card lg:backdrop-blur-none">
+    <aside className="flex flex-col gap-2.5 lg:sticky lg:top-20 lg:z-30 lg:w-80 lg:shrink-0 lg:gap-5 lg:rounded-card lg:border lg:border-line lg:bg-surface lg:p-5 lg:shadow-card">
       <div className="flex gap-2 lg:flex-col lg:gap-5">
         <div className="flex min-w-0 flex-1 flex-col gap-1.5">
           <span className={panelLabelClass}>{labels.pickCity}</span>

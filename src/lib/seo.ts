@@ -223,6 +223,20 @@ function siteOrganization() {
   };
 }
 
+/** AboutPage for `/about`: the site and the organization behind it. */
+export function aboutPageJsonLd(input: { locale: string; path: string; title: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: input.title,
+    description: input.description,
+    url: absoluteUrl(input.path, input.locale),
+    inLanguage: input.locale,
+    isPartOf: { "@type": "WebSite", name: siteMetadata.name, url: siteMetadata.url },
+    about: siteOrganization(),
+  };
+}
+
 export function blogPostingJsonLd(locale: string, post: BlogJsonLdPost) {
   const url = absoluteUrl(`/blogs/${post.id}`, locale);
   const published = isoDate(post.createdAt);

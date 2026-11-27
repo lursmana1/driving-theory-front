@@ -40,11 +40,12 @@ export default function RouteZoomDialog({ route, mode, canSwitch, labels, onMode
 
   return (
     <div role="dialog" aria-modal="true" aria-label={route.title} className="fixed inset-0 z-50 flex flex-col bg-canvas">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-4 py-2">
-        <p className="font-georgian font-bold text-fg">
+      {/* One row on every width: the title truncates, phones get icon-only buttons. */}
+      <div className="flex items-center gap-2 border-b border-line px-3 py-2 sm:px-4">
+        <p className="min-w-0 flex-1 truncate font-georgian font-bold text-fg">
           {route.title} <span className="text-sm font-normal text-fg-muted">{route.categories}</span>
         </p>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           {canSwitch ? (
             <>
               <button type="button" onClick={onPrev} className={navButtonClass} aria-label={labels.prev}>
@@ -55,19 +56,28 @@ export default function RouteZoomDialog({ route, mode, canSwitch, labels, onMode
               </button>
             </>
           ) : null}
-          <button type="button" onClick={toggle} className={navButtonClass}>
-            {mode === "fit" ? labels.realSize : labels.fitScreen}
+          <button
+            type="button"
+            onClick={toggle}
+            className={navButtonClass}
+            aria-label={mode === "fit" ? labels.realSize : labels.fitScreen}
+          >
+            <span aria-hidden className="sm:hidden">
+              {mode === "fit" ? "⤢" : "⤡"}
+            </span>
+            <span className="hidden sm:inline">{mode === "fit" ? labels.realSize : labels.fitScreen}</span>
           </button>
-          <a href={route.image} target="_blank" rel="noopener" className={`${navButtonClass} hidden sm:inline-flex`}>
+          <a href={route.image} target="_blank" rel="noopener" className={`${navButtonClass} max-sm:hidden`}>
             {labels.openFile}
           </a>
           <button
             type="button"
             onClick={onClose}
             className="rounded-control bg-accent px-3 py-1.5 text-sm font-semibold text-on-accent"
+            aria-label={labels.close}
             autoFocus
           >
-            ✕ {labels.close}
+            ✕<span className="hidden sm:inline"> {labels.close}</span>
           </button>
         </div>
       </div>

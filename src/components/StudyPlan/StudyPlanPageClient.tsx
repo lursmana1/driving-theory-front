@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useStudyPlan } from "@/utills/helpers/hooks/useStudyPlan";
 import { ProfileSectionSpinner } from "@/components/Profile/ProfileSectionSpinner";
@@ -10,11 +11,14 @@ import { PlanLoadError } from "./PlanPrimitives";
 
 type StudyPlanPageClientProps = {
   initialCategoryId: number;
+  /** Server-rendered content shown under the picker / plan home (`PlanAbout`). */
+  children?: ReactNode;
 };
 
 /** `/plan`: the picker until a plan is started, then the plan home. */
 export default function StudyPlanPageClient({
   initialCategoryId,
+  children,
 }: StudyPlanPageClientProps) {
   const t = useTranslations("StudyPlan");
   const {
@@ -62,6 +66,7 @@ export default function StudyPlanPageClient({
           <PlanHistoryList mode={mode} />
         </>
       )}
+      {children}
     </main>
   );
 }

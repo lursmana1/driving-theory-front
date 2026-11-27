@@ -1,5 +1,6 @@
 import { resolveCategoryId } from "@/CONSTS/categories";
 import StudyPlanPageClient from "@/components/StudyPlan/StudyPlanPageClient";
+import { PlanAbout } from "@/components/StudyPlan/PlanAbout";
 import { pageMeta } from "@/lib/pageMeta";
 
 type PlanPageProps = {
@@ -17,5 +18,9 @@ export default async function PlanPage({ searchParams }: PlanPageProps) {
   const categoryId = resolveCategoryId(
     sp?.category ? Number(sp.category) : undefined,
   );
-  return <StudyPlanPageClient initialCategoryId={categoryId} />;
+  return (
+    <StudyPlanPageClient initialCategoryId={categoryId}>
+      <PlanAbout />
+    </StudyPlanPageClient>
+  );
 }
