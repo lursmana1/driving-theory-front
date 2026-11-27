@@ -4,6 +4,7 @@
  */
 export const moreInfoLinks = [
   { href: "/city-exam", labelKey: "moreInfoCityExam" },
+  { href: "/city-exam/rustavi", labelKey: "moreInfoCityRoutes" },
   { href: "/yard-exam", labelKey: "moreInfoYardExam" },
   { href: "/blogs", labelKey: "navBlog" },
 ] as const;

@@ -1,0 +1,847 @@
+{
+ "rustavi": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-1.webp",
+   "width": 1400,
+   "height": 911,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-2.webp",
+   "width": 1400,
+   "height": 849,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-3.webp",
+   "width": 1400,
+   "height": 989,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 4,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-4.webp",
+   "width": 1400,
+   "height": 989,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 5,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-5.webp",
+   "width": 1400,
+   "height": 909,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 6,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-6.webp",
+   "width": 1400,
+   "height": 870,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 7,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-7.webp",
+   "width": 1400,
+   "height": 881,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 8,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/rustavi/route-8.webp",
+   "width": 1400,
+   "height": 989,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 9,
+   "categories": [
+    "C",
+    "C1",
+    "D1",
+    "D"
+   ],
+   "image": "/images/city-routes/rustavi/route-9.webp",
+   "width": 1375,
+   "height": 736,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  },
+  {
+   "no": 10,
+   "categories": [
+    "C",
+    "C1",
+    "D1",
+    "D",
+    "CE",
+    "DE",
+    "C1E",
+    "D1E"
+   ],
+   "image": "/images/city-routes/rustavi/route-10.webp",
+   "width": 1380,
+   "height": 898,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  }
+ ],
+ "telavi": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/telavi/route-1.webp",
+   "width": 1400,
+   "height": 671,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/telavi/route-2.webp",
+   "width": 1400,
+   "height": 795,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/telavi/route-3.webp",
+   "width": 656,
+   "height": 466,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 4,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/telavi/route-4.webp",
+   "width": 964,
+   "height": 684,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 5,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/telavi/route-5.webp",
+   "width": 1400,
+   "height": 776,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 6,
+   "categories": [
+    "C",
+    "C1",
+    "D1"
+   ],
+   "image": "/images/city-routes/telavi/route-6.webp",
+   "width": 1400,
+   "height": 615,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  },
+  {
+   "no": 7,
+   "categories": [
+    "C",
+    "C1",
+    "D1"
+   ],
+   "image": "/images/city-routes/telavi/route-7.webp",
+   "width": 1400,
+   "height": 630,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  }
+ ],
+ "gori": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/gori/route-1.webp",
+   "width": 1400,
+   "height": 989,
+   "source": {
+    "date": "2026-10-27",
+    "doc": "gori-2026-10",
+    "inForce": "2026-11-02"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/gori/route-2.webp",
+   "width": 1400,
+   "height": 989,
+   "source": {
+    "date": "2026-10-27",
+    "doc": "gori-2026-10",
+    "inForce": "2026-11-02"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/gori/route-3.webp",
+   "width": 1380,
+   "height": 971,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 4,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/gori/route-4.webp",
+   "width": 1385,
+   "height": 979,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  }
+ ],
+ "akhaltsikhe": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/akhaltsikhe/route-1.webp",
+   "width": 1280,
+   "height": 907,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/akhaltsikhe/route-2.webp",
+   "width": 1284,
+   "height": 895,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/akhaltsikhe/route-3.webp",
+   "width": 1285,
+   "height": 904,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 4,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/akhaltsikhe/route-4.webp",
+   "width": 1275,
+   "height": 901,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 5,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/akhaltsikhe/route-5.webp",
+   "width": 1275,
+   "height": 901,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 6,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/akhaltsikhe/route-6.webp",
+   "width": 1280,
+   "height": 905,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  }
+ ],
+ "sachkhere": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/sachkhere/route-1.webp",
+   "width": 1306,
+   "height": 687,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/sachkhere/route-2.webp",
+   "width": 1302,
+   "height": 728,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/sachkhere/route-3.webp",
+   "width": 1304,
+   "height": 703,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 4,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/sachkhere/route-4.webp",
+   "width": 1306,
+   "height": 704,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  }
+ ],
+ "kutaisi": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/kutaisi/route-1.webp",
+   "width": 1236,
+   "height": 874,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/kutaisi/route-2.webp",
+   "width": 1243,
+   "height": 881,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/kutaisi/route-3.webp",
+   "width": 1200,
+   "height": 848,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 4,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/kutaisi/route-4.webp",
+   "width": 1200,
+   "height": 848,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 5,
+   "categories": [
+    "C",
+    "C1",
+    "D1",
+    "D",
+    "CE",
+    "DE",
+    "C1E",
+    "D1E"
+   ],
+   "image": "/images/city-routes/kutaisi/route-5.webp",
+   "width": 1398,
+   "height": 597,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  },
+  {
+   "no": 6,
+   "categories": [
+    "C",
+    "C1",
+    "D1",
+    "D",
+    "CE",
+    "DE",
+    "C1E",
+    "D1E"
+   ],
+   "image": "/images/city-routes/kutaisi/route-6.webp",
+   "width": 1400,
+   "height": 736,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  }
+ ],
+ "ozurgeti": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/ozurgeti/route-1.webp",
+   "width": 1280,
+   "height": 905,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/ozurgeti/route-2.webp",
+   "width": 1280,
+   "height": 905,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/ozurgeti/route-3.webp",
+   "width": 1239,
+   "height": 879,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  }
+ ],
+ "poti": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-1.webp",
+   "width": 967,
+   "height": 683,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-2.webp",
+   "width": 966,
+   "height": 684,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-3.webp",
+   "width": 966,
+   "height": 684,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 4,
+   "categories": [
+    "C",
+    "C1",
+    "D1"
+   ],
+   "image": "/images/city-routes/poti/route-4.webp",
+   "width": 1328,
+   "height": 645,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  },
+  {
+   "no": 5,
+   "categories": [
+    "C",
+    "C1",
+    "D1"
+   ],
+   "image": "/images/city-routes/poti/route-5.webp",
+   "width": 969,
+   "height": 684,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  },
+  {
+   "no": 6,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-6.webp",
+   "width": 1380,
+   "height": 630,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 7,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-7.webp",
+   "width": 1249,
+   "height": 746,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 8,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-8.webp",
+   "width": 1385,
+   "height": 889,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 9,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-9.webp",
+   "width": 1381,
+   "height": 983,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 10,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/poti/route-10.webp",
+   "width": 1382,
+   "height": 933,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 11,
+   "categories": [
+    "C",
+    "C1",
+    "D1"
+   ],
+   "image": "/images/city-routes/poti/route-11.webp",
+   "width": 1385,
+   "height": 983,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "c-d"
+   }
+  }
+ ],
+ "batumi": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/batumi/route-1.webp",
+   "width": 1372,
+   "height": 873,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/batumi/route-2.webp",
+   "width": 1400,
+   "height": 989,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/batumi/route-3.webp",
+   "width": 1385,
+   "height": 694,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  }
+ ],
+ "zugdidi": [
+  {
+   "no": 1,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/zugdidi/route-1.webp",
+   "width": 960,
+   "height": 683,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 2,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/zugdidi/route-2.webp",
+   "width": 964,
+   "height": 684,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  },
+  {
+   "no": 3,
+   "categories": [
+    "B",
+    "BE"
+   ],
+   "image": "/images/city-routes/zugdidi/route-3.webp",
+   "width": 624,
+   "height": 440,
+   "source": {
+    "date": "2026-07-21",
+    "doc": "b-be"
+   }
+  }
+ ]
+}

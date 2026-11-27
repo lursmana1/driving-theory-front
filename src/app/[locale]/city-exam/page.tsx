@@ -9,6 +9,7 @@ import { routing } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo";
 import type { SearchParamsRecord } from "@/lib/searchParams";
 import { searchParamsToRecord } from "@/lib/searchParams";
+import ExamCityLinks from "@/components/CityRoutes/ExamCityLinks";
 
 type CityExamPageProps = {
   params: Promise<{ locale: string }>;
@@ -76,6 +77,16 @@ export default async function CityExamPage({
             {t("subtitle")}
           </p>
         </header>
+
+        <div className="rounded-card border border-line bg-surface px-4 py-5 sm:px-6 sm:py-6">
+          <h2 className="font-georgian text-lg font-bold text-fg sm:text-xl">
+            {t("routesTitle")}
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-fg-muted">
+            {t("routesText")}
+          </p>
+          <ExamCityLinks locale={locale} className="mt-4" />
+        </div>
 
         <CityExamCategorySwitcher activeKey={activeKey} labels={labels} />
 
