@@ -55,3 +55,6 @@ scripts/tiktok/
 
 # Product roadmap (local only)
 .claude/rules/product-roadmap.md
+
+# city-routes cache (agency PDFs, raw map images)
+scripts/city-routes/.cache/

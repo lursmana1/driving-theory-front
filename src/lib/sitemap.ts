@@ -5,6 +5,9 @@ import { getSubjectIds } from "@/CONSTS/subjects";
 import { getApiBaseUrl } from "@/lib/apiBaseUrl";
 import { BLOGS_PAGE_SIZE } from "@/CONSTS/pagination";
 import { absoluteUrl, languageAlternates } from "@/lib/seo";
+import { siteMetadata } from "@/lib/site-metadata";
+import { EXAM_CITIES, cityRouteHref } from "@/CONSTS/cityRoutes";
+import { getOfficialRoutes } from "@/data/cityRoutes/official";
 import { DEFAULT_SIGN_GROUP_ID, SIGN_GROUP_SLUGS, signGroupHref } from "@/CONSTS/signGroups";
 
 type SitemapPath = {
@@ -186,6 +189,7 @@ export async function buildSitemapEntries(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...STATIC_SITEMAP_PATHS.map((item) => sitemapEntry(item.href, item)),
+    ...cityRouteSitemap(),
     ...signGroupPaths.map((item) => sitemapEntry(item.href, item)),
     ...ticketPaths.map((item) => sitemapEntry(item.href, item)),
     ...subjectPaths.map((item) => sitemapEntry(item.href, item)),
@@ -199,4 +203,24 @@ export async function buildSitemapEntries(): Promise<MetadataRoute.Sitemap> {
       ...(item.image ? { images: [item.image] } : {}),
     })),
   ];
+}
+
+/** One entry per exam city: lastModified = newest agency map date, the route maps as sitemap images. */
+function cityRouteSitemap(): MetadataRoute.Sitemap {
+  const base = siteMetadata.url.replace(/\/$/, "");
+  return EXAM_CITIES.flatMap(({ slug }) => {
+    const routes = getOfficialRoutes(slug);
+    if (!routes) return [];
+    const newest = routes.map((r) => r.source.date).sort().at(-1);
+    return [
+      {
+        ...sitemapEntry(cityRouteHref(slug), {
+          changeFrequency: "monthly",
+          priority: 0.75,
+          lastModified: newest ? new Date(newest) : undefined,
+        }),
+        images: routes.map((r) => `${base}${r.image}`),
+      },
+    ];
+  });
 }

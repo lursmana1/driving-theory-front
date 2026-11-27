@@ -8,6 +8,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 
 ## Agent rules (save tokens)
 
+- **Token budget (owner, 2026-11-26): ~600K tokens per task, hard cap.** Before any bulk job (reading many images, many files, subagents, workflows), write the estimate in chat first: items × tokens per item × how many times the context is re-sent (every agent step re-sends its whole context, so cost grows with each image already read). If the estimate is over the cap, split the job and do the smallest piece first (e.g. a 3-route town, not 10 routes). Never fan out parallel agents on image work. Give each agent a hard limit in its prompt ("at most N images, 2–3 per step"). Once a job is running, don't kill it on a whim: plan the cost before launching, not after. Mistake to never repeat: 5 parallel agents × 7 zoomed images × 59 maps burned ~21M cached tokens in minutes and wrote nothing.
 - **Never create Artifacts or Claude Docs** (nothing published to the Claude app, not even via `edits`). Plans and notes are `.md` files in the repo; edit files with Edit/Write.
 - Reuse existing hooks / utils / API helpers. Do not duplicate or re-map the repo.
 - Client HTTP: `src/api/BaseApi.ts` (Axios, `withCredentials`; no token in JS). Server HTTP: `getServerBaseApi()`.
@@ -32,6 +33,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /practice              mistake trainer (auth, noindex) ?category&subjects — due mistakes one at a time
 /blogs, /blogs/[id]    articles
 /city-exam             practical technical Q&A (category switcher)
+/city-exam/[city]      official exam route maps for the 10 exam cities (`EXAM_CITIES` in `CONSTS/cityRoutes.ts`, data `src/data/cityRoutes/official.json` from sa.gov.ge order №598, built by `scripts/city-routes/publish-official.mjs`); antd Select for city/category, routes by category, links to the other cities, breadcrumb + CollectionPage JSON-LD, map images in the sitemap. Re-check sa.gov.ge every 1–2 months
 /yard-exam             yard elements + penalty points (GIFs) + narrated walkthrough video (`YardExamVideo`, 9:16, S3, no preload, VideoObject JSON-LD; pinned right column on desktop)
 /signs                 road-sign atlas, opens on warning signs (grid 2/3/4 per row, click → explanation panel under the row; name search across groups)
 /signs/category/[group] one page per sign group (own title/h1/ItemList JSON-LD); warning → redirects to /signs
@@ -40,7 +42,7 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /createblog            admin only
 ```
 
-SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectpicker, city-exam, yard-exam, signs + sign group pages, blogs). Categories 0–9 (AM, B, A, C, D, …).
+SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectpicker, city-exam + the 10 city route pages, yard-exam, signs + sign group pages, blogs). Categories 0–9 (AM, B, A, C, D, …).
 
 ## Where code lives
 
@@ -53,6 +55,7 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 | Auth UI | `src/components/AuthForm/` (`LoginForm`, `ForgotPasswordForm`, `ResetPasswordForm`, `AuthPageShell`), `src/contexts/UserContext.tsx` |
 | Header | `src/layoutComponents/Header/` (`HeaderNotifications` = bell panel; items come from `GET /auth/me` → `trainer: { categoryId, dueNow }[]`, one row per studied category. New sources such as the study plan add an item kind there, not a new badge) |
 | Signs | `src/components/Signs/` (`SignsIndexView`, `SignsExplorer`, `SignGrid`, `SignMarkingsList`, `SignTile`, `SignLinkedText`), data `src/data/signs/` + `public/images/signs/`, helpers `src/lib/signs.ts` (server only) + `src/utills/helpers/signLinks.ts` |
+| City routes | `src/components/CityRoutes/` (client: `CityRoutesViewer` → `RouteSidePanel`, `RoutePanel`, `MapFrame`, lazy `RouteZoomDialog`; server: `CityRoutesInfo`, `ExamCityLinks`; recipes `classes.ts`), hook `useCityRouteSelection`, server logic `src/lib/cityRoutes.ts` (groups, route numbers, updates; tested), data `src/data/cityRoutes/official.{json,ts}` |
 | i18n / proxy | `src/i18n/`, `src/proxy.ts` |
 | Types | `src/lib/types/` (`exam.ts` has `getAiTutorText`, `getQuestionAudioUrl`) |
 
