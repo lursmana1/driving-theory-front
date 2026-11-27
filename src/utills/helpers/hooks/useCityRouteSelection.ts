@@ -49,8 +49,12 @@ export function useCityRouteSelection(routes: ViewerRoute[], groups: ViewerGroup
       const next = visible[(i + visible.length) % visible.length];
       setActiveNo(next.no);
       const tab = tabRefs.current.get(next.no);
-      if (focus) tab?.focus();
-      tab?.scrollIntoView({ block: "nearest", inline: "nearest" });
+      if (focus) tab?.focus({ preventScroll: true });
+      // Scroll only the chip row sideways: the page itself must not jump to the chips.
+      const row = tab?.parentElement;
+      if (tab && row && row.scrollWidth > row.clientWidth) {
+        row.scrollTo({ left: tab.offsetLeft - (row.clientWidth - tab.offsetWidth) / 2, behavior: "smooth" });
+      }
     },
     [visible],
   );

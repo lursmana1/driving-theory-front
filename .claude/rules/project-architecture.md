@@ -33,16 +33,17 @@ Georgian driving-license **theory** exam prep. This repo is the **Next.js fronte
 /practice              mistake trainer (auth, noindex) ?category&subjects — due mistakes one at a time
 /blogs, /blogs/[id]    articles
 /city-exam             practical technical Q&A (category switcher)
-/city-exam/[city]      official exam route maps for the 10 exam cities (`EXAM_CITIES` in `CONSTS/cityRoutes.ts`, data `src/data/cityRoutes/official.json` from sa.gov.ge order №598, built by `scripts/city-routes/publish-official.mjs`); antd Select for city/category, routes by category, links to the other cities, breadcrumb + CollectionPage JSON-LD, map images in the sitemap. Re-check sa.gov.ge every 1–2 months
+/city-exam/[city]      official exam route maps for the 10 exam cities (`EXAM_CITIES` in `CONSTS/cityRoutes.ts`, data `src/data/cityRoutes/official.json` from sa.gov.ge order №598, built by `scripts/city-routes/publish-official.mjs`); antd Select for city/category (not sticky on phones), routes by category, breadcrumb + CollectionPage JSON-LD, map images in the sitemap. Re-check sa.gov.ge every 1–2 months
 /yard-exam             yard elements + penalty points (GIFs) + narrated walkthrough video (`YardExamVideo`, 9:16, S3, no preload, VideoObject JSON-LD; pinned right column on desktop)
 /signs                 road-sign atlas, opens on warning signs (grid 2/3/4 per row, click → explanation panel under the row; name search across groups)
 /signs/category/[group] one page per sign group (own title/h1/ItemList JSON-LD); warning → redirects to /signs
                        Road markings: one column, picture + explanation always shown. No page per sign: a sign is `<group page>#<slug>`
 /auth, /auth/logout    login/register; /auth/forgot-password, /auth/reset-password (noindex). Forgot-password link + page hidden while `PASSWORD_RESET_ENABLED` (`src/CONSTS/features.ts`) is `false`; the page then redirects to /auth
+/privacy               short privacy policy (server only; texts `Privacy` in messages, date + phone in `CONSTS/contact.ts`, bump `PRIVACY_UPDATED` on every text change); footer link
 /createblog            admin only
 ```
 
-SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectpicker, city-exam + the 10 city route pages, yard-exam, signs + sign group pages, blogs). Categories 0–9 (AM, B, A, C, D, …).
+SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectpicker, plan (picker; `PlanAbout` = server-rendered "how it works"; day pages stay noindex), city-exam + the 10 city route pages, yard-exam, signs + sign group pages, blogs, privacy). Categories 0–9 (AM, B, A, C, D, …).
 
 ## Where code lives
 
@@ -55,7 +56,7 @@ SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (public: home, tickets, subjectp
 | Auth UI | `src/components/AuthForm/` (`LoginForm`, `ForgotPasswordForm`, `ResetPasswordForm`, `AuthPageShell`), `src/contexts/UserContext.tsx` |
 | Header | `src/layoutComponents/Header/` (`HeaderNotifications` = bell panel; items come from `GET /auth/me` → `trainer: { categoryId, dueNow }[]`, one row per studied category. New sources such as the study plan add an item kind there, not a new badge) |
 | Signs | `src/components/Signs/` (`SignsIndexView`, `SignsExplorer`, `SignGrid`, `SignMarkingsList`, `SignTile`, `SignLinkedText`), data `src/data/signs/` + `public/images/signs/`, helpers `src/lib/signs.ts` (server only) + `src/utills/helpers/signLinks.ts` |
-| City routes | `src/components/CityRoutes/` (client: `CityRoutesViewer` → `RouteSidePanel`, `RoutePanel`, `MapFrame`, lazy `RouteZoomDialog`; server: `CityRoutesInfo`, `ExamCityLinks`; recipes `classes.ts`), hook `useCityRouteSelection`, server logic `src/lib/cityRoutes.ts` (groups, route numbers, updates; tested), data `src/data/cityRoutes/official.{json,ts}` |
+| City routes | `src/components/CityRoutes/` (client: `CityRoutesViewer` → `RouteSidePanel`, `RoutePanel`, `MapFrame`, lazy `RouteZoomDialog`; server: `CityRoutesInfo`, `ExamCityLinks` (city chips on `/city-exam`); recipes `classes.ts`), hook `useCityRouteSelection`, server logic `src/lib/cityRoutes.ts` (groups, route numbers, updates; tested), data `src/data/cityRoutes/official.{json,ts}` |
 | i18n / proxy | `src/i18n/`, `src/proxy.ts` |
 | Types | `src/lib/types/` (`exam.ts` has `getAiTutorText`, `getQuestionAudioUrl`) |
 

@@ -76,6 +76,7 @@ export const LANDING_FAQ = [
   "faqNew3",
   "faqSchool",
   "faqAfter",
+  "faqRoutes",
   "faqNew2",
   "faqNew4",
 ] as const;

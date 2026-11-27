@@ -78,7 +78,7 @@ export default async function CityExamPage({
           </p>
         </header>
 
-        <div className="rounded-card border border-line bg-surface px-4 py-5 sm:px-6 sm:py-6">
+        <div id="routes" className="scroll-mt-20 rounded-card border border-line bg-surface px-4 py-5 sm:px-6 sm:py-6">
           <h2 className="font-georgian text-lg font-bold text-fg sm:text-xl">
             {t("routesTitle")}
           </h2>

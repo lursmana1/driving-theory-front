@@ -8,7 +8,7 @@ import { LandingSectionHeader } from "./LandingSectionHeader";
 const STAGES = [
   { n: 1, key: "route1", href: `/tickets/${DEFAULT_CATEGORY_ID}` },
   { n: 2, key: "route2", href: "/yard-exam" },
-  { n: 3, key: "route3", href: "/city-exam" },
+  { n: 3, key: "route3", href: "/city-exam", extra: { key: "route3RoutesLink", href: "/city-exam#routes" } },
 ] as const;
 
 /** Theory → yard → city: shows the whole route and links the practical modules. */
@@ -47,6 +47,21 @@ export default async function LandingRoute() {
                   <span className="h-0.5 flex-1 bg-line" />
                 </div>
               ) : null}
+              {/* connector to the next stage (phones: vertical, under the circle) */}
+              {i < STAGES.length - 1 ? (
+                <div
+                  aria-hidden
+                  className="absolute -bottom-4 left-7 top-14 flex -translate-x-1/2 flex-col items-center lg:hidden"
+                >
+                  <span className="w-0.5 flex-1 bg-line" />
+                  {i === 0 ? (
+                    <span className="my-1 whitespace-nowrap rounded-full border border-warning-muted bg-warning-soft px-2 py-0.5 text-2xs font-semibold text-warning-strong">
+                      {t("route30Days")}
+                    </span>
+                  ) : null}
+                  <span className="w-0.5 flex-1 bg-line" />
+                </div>
+              ) : null}
 
               <div className="relative flex w-full gap-4 lg:flex-col">
                 <span
@@ -56,7 +71,7 @@ export default async function LandingRoute() {
                 >
                   {s.n}
                 </span>
-                <div className={`min-w-0 flex-1 p-5 ${LANDING.card}`}>
+                <div className={`flex min-w-0 flex-1 flex-col p-5 ${LANDING.card}`}>
                   <p className={LANDING.label}>
                     {t("routeStep", { n: s.n })}
                   </p>
@@ -64,13 +79,19 @@ export default async function LandingRoute() {
                     {t(`${s.key}Title` as const)}
                   </h3>
                   <p className={`mt-2 ${LANDING.body}`}>{t(`${s.key}Text` as const)}</p>
-                  <Link
-                    href={s.href}
-                    className={`mt-2 ${LANDING.textLink}`}
-                  >
-                    {t(`${s.key}Link` as const)}
-                    <LandingIcon name="arrow" className="h-4 w-4" />
-                  </Link>
+                  {/* pinned to the bottom so every card's links line up */}
+                  <div className="mt-auto flex flex-wrap gap-x-5 gap-y-1 pt-3">
+                    <Link href={s.href} className={LANDING.textLink}>
+                      {t(`${s.key}Link` as const)}
+                      <LandingIcon name="arrow" className="h-4 w-4" />
+                    </Link>
+                    {"extra" in s ? (
+                      <Link href={s.extra.href} className={LANDING.textLink}>
+                        {t(s.extra.key)}
+                        <LandingIcon name="arrow" className="h-4 w-4" />
+                      </Link>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </li>

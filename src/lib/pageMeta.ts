@@ -41,8 +41,6 @@ const PAGE_PATH: Record<MetaPage, string> = {
 const NOINDEX: ReadonlySet<MetaPage> = new Set([
   "exam",
   "practice",
-  // MVP: progress is client-only. Index once the public preview is server-rendered.
-  "plan",
   "profile",
   "auth",
   "forgotPassword",

@@ -4,7 +4,7 @@ import { LANDING } from "@/CONSTS/landing";
 import { DEFAULT_CATEGORY_ID } from "@/CONSTS/categories";
 
 const footerLink =
-  "inline-flex min-h-10 items-center text-fg-subtle transition-colors hover:text-accent sm:min-h-0";
+  "inline-flex min-h-10 items-center py-1.5 leading-snug text-fg-subtle transition-colors hover:text-accent sm:min-h-0 sm:py-0";
 
 export default async function LandingFooter() {
   const t = await getTranslations("Home");
@@ -68,6 +68,11 @@ export default async function LandingFooter() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/city-exam#routes" className={footerLink}>
+                    {t("footerCityRoutes")}
+                  </Link>
+                </li>
+                <li>
                   <Link href="/blogs" className={footerLink}>
                     {t("footerBlogs")}
                   </Link>
@@ -83,8 +88,14 @@ export default async function LandingFooter() {
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-fg-subtle">
-            {t("footerCopyright", { year })}
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-subtle">
+            <span>{t("footerCopyright", { year })}</span>
+            <Link href="/about" className="underline-offset-2 hover:text-fg hover:underline">
+              {t("footerAbout")}
+            </Link>
+            <Link href="/privacy" className="underline-offset-2 hover:text-fg hover:underline">
+              {t("footerPrivacy")}
+            </Link>
           </p>
           <p className="text-xs tracking-wide text-fg-subtle">
             {t("heroBrandMark")}
